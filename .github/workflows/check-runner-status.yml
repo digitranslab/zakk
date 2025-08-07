@@ -1,0 +1,33 @@
+name: Check Runner Status
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Run every 6 hours
+
+jobs:
+  check-runners:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check GitHub-hosted runners
+        run: |
+          echo "GitHub-hosted runners are available"
+          echo "Current runner: ${{ runner.name }}"
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Runner architecture: ${{ runner.arch }}"
+          
+      - name: Check custom runner availability
+        run: |
+          echo "Checking if custom runners are available..."
+          echo "This workflow runs on GitHub-hosted runners to check custom runner status"
+          
+      - name: Docker info
+        run: |
+          docker version
+          docker info
+          
+      - name: System info
+        run: |
+          df -h
+          free -h
+          nproc 

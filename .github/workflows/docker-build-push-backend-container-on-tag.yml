@@ -5,6 +5,10 @@ on:
     tags:
       - "*"
 
+concurrency:
+  group: backend-build-${{ github.ref_name }}
+  cancel-in-progress: false
+
 env:
   REGISTRY_IMAGE: ${{ contains(github.ref_name, 'cloud') && 'digitranslab/zakk-backend-cloud' || 'digitranslab/zakk-backend' }}
   DEPLOYMENT: ${{ contains(github.ref_name, 'cloud') && 'cloud' || 'standalone' }}
@@ -16,11 +20,14 @@ jobs:
   build-and-push:
     # TODO: investigate a matrix build like the web container
     # See https://runs-on.com/runners/linux/
-    runs-on:
-      - runs-on
-      - runner=${{ matrix.platform == 'linux/amd64' && '8cpu-linux-x64' || '8cpu-linux-arm64' }}
-      - run-id=${{ github.run_id }}
-      - tag=platform-${{ matrix.platform }}
+    runs-on: ${{ matrix.platform == 'linux/amd64' && 'ubuntu-latest' || 'ubuntu-latest' }}
+    # Fallback to GitHub-hosted runners if custom runners are unavailable
+    # runs-on:
+    #   - runs-on
+    #   - runner=${{ matrix.platform == 'linux/amd64' && '8cpu-linux-x64' || '8cpu-linux-arm64' }}
+    #   - run-id=${{ github.run_id }}
+    #   - tag=platform-${{ matrix.platform }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:

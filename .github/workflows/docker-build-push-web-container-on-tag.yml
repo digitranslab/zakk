@@ -12,7 +12,9 @@ env:
 
 jobs:
   precheck:
-    runs-on: [runs-on, runner=2cpu-linux-x64, "run-id=${{ github.run_id }}"]
+    runs-on: ubuntu-latest
+    # Fallback to GitHub-hosted runners if custom runners are unavailable
+    # runs-on: [runs-on, runner=2cpu-linux-x64, "run-id=${{ github.run_id }}"]
     outputs:
       should-run: ${{ steps.set-output.outputs.should-run }}
     steps:
@@ -27,11 +29,13 @@ jobs:
   build:
     needs: precheck
     if: needs.precheck.outputs.should-run == 'true'
-    runs-on:
-      - runs-on
-      - runner=${{ matrix.platform == 'linux/amd64' && '8cpu-linux-x64' || '8cpu-linux-arm64' }}
-      - run-id=${{ github.run_id }}
-      - tag=platform-${{ matrix.platform }}
+    runs-on: ${{ matrix.platform == 'linux/amd64' && 'ubuntu-latest' || 'ubuntu-latest' }}
+    # Fallback to GitHub-hosted runners if custom runners are unavailable
+    # runs-on:
+    #   - runs-on
+    #   - runner=${{ matrix.platform == 'linux/amd64' && '8cpu-linux-x64' || '8cpu-linux-arm64' }}
+    #   - run-id=${{ github.run_id }}
+    #   - tag=platform-${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
