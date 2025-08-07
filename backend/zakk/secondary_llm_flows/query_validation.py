@@ -2,19 +2,19 @@
 import re
 from collections.abc import Iterator
 
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import StreamingError
-from onyx.llm.exceptions import GenAIDisabledException
-from onyx.llm.factory import get_default_llms
-from onyx.llm.utils import dict_based_prompt_to_langchain_prompt
-from onyx.llm.utils import message_generator_to_string_generator
-from onyx.llm.utils import message_to_string
-from onyx.prompts.constants import ANSWERABLE_PAT
-from onyx.prompts.constants import THOUGHT_PAT
-from onyx.prompts.query_validation import ANSWERABLE_PROMPT
-from onyx.server.query_and_chat.models import QueryValidationResponse
-from onyx.server.utils import get_json_line
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import StreamingError
+from zakk.llm.exceptions import GenAIDisabledException
+from zakk.llm.factory import get_default_llms
+from zakk.llm.utils import dict_based_prompt_to_langchain_prompt
+from zakk.llm.utils import message_generator_to_string_generator
+from zakk.llm.utils import message_to_string
+from zakk.prompts.constants import ANSWERABLE_PAT
+from zakk.prompts.constants import THOUGHT_PAT
+from zakk.prompts.query_validation import ANSWERABLE_PROMPT
+from zakk.server.query_and_chat.models import QueryValidationResponse
+from zakk.server.utils import get_json_line
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -107,7 +107,7 @@ def stream_query_answerability(
                 remaining = model_output[reason_ind + len(THOUGHT_PAT.upper()) :]
                 if remaining:
                     yield get_json_line(
-                        OnyxAnswerPiece(answer_piece=remaining).model_dump()
+                        ZakkAnswerPiece(answer_piece=remaining).model_dump()
                     )
                 continue
 
@@ -116,7 +116,7 @@ def stream_query_answerability(
                 if hold_answerable == ANSWERABLE_PAT.upper()[: len(hold_answerable)]:
                     continue
                 yield get_json_line(
-                    OnyxAnswerPiece(answer_piece=hold_answerable).model_dump()
+                    ZakkAnswerPiece(answer_piece=hold_answerable).model_dump()
                 )
                 hold_answerable = ""
 

@@ -25,78 +25,78 @@ from slack_sdk.socket_mode.request import SocketModeRequest
 from slack_sdk.socket_mode.response import SocketModeResponse
 from sqlalchemy.orm import Session
 
-from onyx.chat.models import ThreadMessage
-from onyx.configs.app_configs import DEV_MODE
-from onyx.configs.app_configs import POD_NAME
-from onyx.configs.app_configs import POD_NAMESPACE
-from onyx.configs.constants import MessageType
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.configs.zakkbot_configs import DANSWER_BOT_REPHRASE_MESSAGE
-from onyx.configs.zakkbot_configs import DANSWER_BOT_RESPOND_EVERY_CHANNEL
-from onyx.configs.zakkbot_configs import NOTIFY_SLACKBOT_NO_ANSWER
-from onyx.connectors.slack.utils import expert_info_from_slack_id
-from onyx.context.search.retrieval.search_runner import (
+from zakk.chat.models import ThreadMessage
+from zakk.configs.app_configs import DEV_MODE
+from zakk.configs.app_configs import POD_NAME
+from zakk.configs.app_configs import POD_NAMESPACE
+from zakk.configs.constants import MessageType
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.configs.zakkbot_configs import DANSWER_BOT_REPHRASE_MESSAGE
+from zakk.configs.zakkbot_configs import DANSWER_BOT_RESPOND_EVERY_CHANNEL
+from zakk.configs.zakkbot_configs import NOTIFY_SLACKBOT_NO_ANSWER
+from zakk.connectors.slack.utils import expert_info_from_slack_id
+from zakk.context.search.retrieval.search_runner import (
     download_nltk_data,
 )
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.db.engine.tenant_utils import get_all_tenant_ids
-from onyx.db.models import SlackBot
-from onyx.db.search_settings import get_current_search_settings
-from onyx.db.slack_bot import fetch_slack_bot
-from onyx.db.slack_bot import fetch_slack_bots
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.natural_language_processing.search_nlp_models import EmbeddingModel
-from onyx.natural_language_processing.search_nlp_models import warm_up_bi_encoder
-from onyx.zakkbot.slack.config import get_slack_channel_config_for_bot_and_channel
-from onyx.zakkbot.slack.config import MAX_TENANTS_PER_POD
-from onyx.zakkbot.slack.config import TENANT_ACQUISITION_INTERVAL
-from onyx.zakkbot.slack.config import TENANT_HEARTBEAT_EXPIRATION
-from onyx.zakkbot.slack.config import TENANT_HEARTBEAT_INTERVAL
-from onyx.zakkbot.slack.config import TENANT_LOCK_EXPIRATION
-from onyx.zakkbot.slack.constants import DISLIKE_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import FEEDBACK_DOC_BUTTON_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import FOLLOWUP_BUTTON_ACTION_ID
-from onyx.zakkbot.slack.constants import FOLLOWUP_BUTTON_RESOLVED_ACTION_ID
-from onyx.zakkbot.slack.constants import GENERATE_ANSWER_BUTTON_ACTION_ID
-from onyx.zakkbot.slack.constants import IMMEDIATE_RESOLVED_BUTTON_ACTION_ID
-from onyx.zakkbot.slack.constants import KEEP_TO_YOURSELF_ACTION_ID
-from onyx.zakkbot.slack.constants import LIKE_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import SHOW_EVERYONE_ACTION_ID
-from onyx.zakkbot.slack.constants import VIEW_DOC_FEEDBACK_ID
-from onyx.zakkbot.slack.handlers.handle_buttons import handle_doc_feedback_button
-from onyx.zakkbot.slack.handlers.handle_buttons import handle_followup_button
-from onyx.zakkbot.slack.handlers.handle_buttons import (
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.db.engine.tenant_utils import get_all_tenant_ids
+from zakk.db.models import SlackBot
+from zakk.db.search_settings import get_current_search_settings
+from zakk.db.slack_bot import fetch_slack_bot
+from zakk.db.slack_bot import fetch_slack_bots
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.natural_language_processing.search_nlp_models import EmbeddingModel
+from zakk.natural_language_processing.search_nlp_models import warm_up_bi_encoder
+from zakk.zakkbot.slack.config import get_slack_channel_config_for_bot_and_channel
+from zakk.zakkbot.slack.config import MAX_TENANTS_PER_POD
+from zakk.zakkbot.slack.config import TENANT_ACQUISITION_INTERVAL
+from zakk.zakkbot.slack.config import TENANT_HEARTBEAT_EXPIRATION
+from zakk.zakkbot.slack.config import TENANT_HEARTBEAT_INTERVAL
+from zakk.zakkbot.slack.config import TENANT_LOCK_EXPIRATION
+from zakk.zakkbot.slack.constants import DISLIKE_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import FEEDBACK_DOC_BUTTON_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import FOLLOWUP_BUTTON_ACTION_ID
+from zakk.zakkbot.slack.constants import FOLLOWUP_BUTTON_RESOLVED_ACTION_ID
+from zakk.zakkbot.slack.constants import GENERATE_ANSWER_BUTTON_ACTION_ID
+from zakk.zakkbot.slack.constants import IMMEDIATE_RESOLVED_BUTTON_ACTION_ID
+from zakk.zakkbot.slack.constants import KEEP_TO_YOURSELF_ACTION_ID
+from zakk.zakkbot.slack.constants import LIKE_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import SHOW_EVERYONE_ACTION_ID
+from zakk.zakkbot.slack.constants import VIEW_DOC_FEEDBACK_ID
+from zakk.zakkbot.slack.handlers.handle_buttons import handle_doc_feedback_button
+from zakk.zakkbot.slack.handlers.handle_buttons import handle_followup_button
+from zakk.zakkbot.slack.handlers.handle_buttons import (
     handle_followup_resolved_button,
 )
-from onyx.zakkbot.slack.handlers.handle_buttons import (
+from zakk.zakkbot.slack.handlers.handle_buttons import (
     handle_generate_answer_button,
 )
-from onyx.zakkbot.slack.handlers.handle_buttons import (
+from zakk.zakkbot.slack.handlers.handle_buttons import (
     handle_publish_ephemeral_message_button,
 )
-from onyx.zakkbot.slack.handlers.handle_buttons import handle_slack_feedback
-from onyx.zakkbot.slack.handlers.handle_message import handle_message
-from onyx.zakkbot.slack.handlers.handle_message import (
+from zakk.zakkbot.slack.handlers.handle_buttons import handle_slack_feedback
+from zakk.zakkbot.slack.handlers.handle_message import handle_message
+from zakk.zakkbot.slack.handlers.handle_message import (
     remove_scheduled_feedback_reminder,
 )
-from onyx.zakkbot.slack.handlers.handle_message import schedule_feedback_reminder
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.zakkbot.slack.utils import check_message_limit
-from onyx.zakkbot.slack.utils import decompose_action_id
-from onyx.zakkbot.slack.utils import get_channel_name_from_id
-from onyx.zakkbot.slack.utils import get_zakk_bot_auth_ids
-from onyx.zakkbot.slack.utils import read_slack_thread
-from onyx.zakkbot.slack.utils import remove_zakk_bot_tag
-from onyx.zakkbot.slack.utils import rephrase_slack_message
-from onyx.zakkbot.slack.utils import respond_in_thread_or_channel
-from onyx.zakkbot.slack.utils import TenantSocketModeClient
-from onyx.redis.redis_pool import get_redis_client
-from onyx.server.manage.models import SlackBotTokens
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
-from onyx.utils.variable_functionality import set_is_ee_based_on_env_variable
+from zakk.zakkbot.slack.handlers.handle_message import schedule_feedback_reminder
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.zakkbot.slack.utils import check_message_limit
+from zakk.zakkbot.slack.utils import decompose_action_id
+from zakk.zakkbot.slack.utils import get_channel_name_from_id
+from zakk.zakkbot.slack.utils import get_zakk_bot_auth_ids
+from zakk.zakkbot.slack.utils import read_slack_thread
+from zakk.zakkbot.slack.utils import remove_zakk_bot_tag
+from zakk.zakkbot.slack.utils import rephrase_slack_message
+from zakk.zakkbot.slack.utils import respond_in_thread_or_channel
+from zakk.zakkbot.slack.utils import TenantSocketModeClient
+from zakk.redis.redis_pool import get_redis_client
+from zakk.server.manage.models import SlackBotTokens
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.utils.variable_functionality import set_is_ee_based_on_env_variable
 from shared_configs.configs import DISALLOWED_SLACK_BOT_TENANT_LIST
 from shared_configs.configs import MODEL_SERVER_HOST
 from shared_configs.configs import MODEL_SERVER_PORT
@@ -284,7 +284,7 @@ class SlackbotHandler:
         # tenants that are disabled (e.g. their trial is over and haven't subscribed)
         # for non-cloud, this will return an empty set
         gated_tenants = fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.product_gating",
+            "zakk.server.tenants.product_gating",
             "get_gated_tenants",
             set(),
         )()
@@ -319,7 +319,7 @@ class SlackbotHandler:
             # thread_local=False because the shutdown event is handled
             # on an arbitrary thread
             rlock: RedisLock = redis_client.lock(
-                OnyxRedisLocks.SLACK_BOT_LOCK,
+                ZakkRedisLocks.SLACK_BOT_LOCK,
                 timeout=TENANT_LOCK_EXPIRATION,
                 thread_local=False,
             )
@@ -453,7 +453,7 @@ class SlackbotHandler:
         logger.debug(f"Sending heartbeats for {len(tenant_ids)} active tenants")
         for tenant_id in tenant_ids:
             redis_client = get_redis_client(tenant_id=tenant_id)
-            heartbeat_key = f"{OnyxRedisLocks.SLACK_BOT_HEARTBEAT_PREFIX}:{pod_id}"
+            heartbeat_key = f"{ZakkRedisLocks.SLACK_BOT_HEARTBEAT_PREFIX}:{pod_id}"
             redis_client.set(
                 heartbeat_key, current_time, ex=TENANT_HEARTBEAT_EXPIRATION
             )
@@ -724,7 +724,7 @@ def prefilter_requests(req: SocketModeRequest, client: TenantSocketModeClient) -
         message_ts = event.get("ts")
         thread_ts = event.get("thread_ts")
         # Pick the root of the thread (if a thread exists)
-        # Can respond in thread if it's an "im" directly to Onyx or @ZakkBot is tagged
+        # Can respond in thread if it's an "im" directly to Zakk or @ZakkBot is tagged
         if (
             thread_ts
             and message_ts != thread_ts

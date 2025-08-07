@@ -3,8 +3,8 @@ import os
 import pytest
 import redis
 
-from onyx.redis.redis_pool import RedisPool
-from onyx.utils.logger import setup_logger
+from zakk.redis.redis_pool import RedisPool
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

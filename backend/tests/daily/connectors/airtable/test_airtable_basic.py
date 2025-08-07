@@ -5,11 +5,11 @@ from unittest.mock import MagicMock
 import pytest
 from pydantic import BaseModel
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.airtable.airtable_connector import AirtableConnector
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.airtable.airtable_connector import AirtableConnector
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
 
 BASE_VIEW_ID = "viwVUEJjWPd8XYjh8"
 

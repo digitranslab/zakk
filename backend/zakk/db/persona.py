@@ -14,36 +14,36 @@ from sqlalchemy.orm import aliased
 from sqlalchemy.orm import selectinload
 from sqlalchemy.orm import Session
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.app_configs import DISABLE_AUTH
-from onyx.configs.chat_configs import BING_API_KEY
-from onyx.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
-from onyx.configs.chat_configs import CONTEXT_CHUNKS_BELOW
-from onyx.configs.chat_configs import EXA_API_KEY
-from onyx.configs.constants import NotificationType
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.constants import SLACK_BOT_PERSONA_PREFIX
-from onyx.db.models import DocumentSet
-from onyx.db.models import Persona
-from onyx.db.models import Persona__User
-from onyx.db.models import Persona__UserGroup
-from onyx.db.models import PersonaLabel
-from onyx.db.models import Prompt
-from onyx.db.models import StarterMessage
-from onyx.db.models import Tool
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.db.models import UserFile
-from onyx.db.models import UserFolder
-from onyx.db.models import UserGroup
-from onyx.db.notification import create_notification
-from onyx.server.features.persona.models import FullPersonaSnapshot
-from onyx.server.features.persona.models import MinimalPersonaSnapshot
-from onyx.server.features.persona.models import PersonaSharedNotificationData
-from onyx.server.features.persona.models import PersonaSnapshot
-from onyx.server.features.persona.models import PersonaUpsertRequest
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_versioned_implementation
+from zakk.auth.schemas import UserRole
+from zakk.configs.app_configs import DISABLE_AUTH
+from zakk.configs.chat_configs import BING_API_KEY
+from zakk.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
+from zakk.configs.chat_configs import CONTEXT_CHUNKS_BELOW
+from zakk.configs.chat_configs import EXA_API_KEY
+from zakk.configs.constants import NotificationType
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.constants import SLACK_BOT_PERSONA_PREFIX
+from zakk.db.models import DocumentSet
+from zakk.db.models import Persona
+from zakk.db.models import Persona__User
+from zakk.db.models import Persona__UserGroup
+from zakk.db.models import PersonaLabel
+from zakk.db.models import Prompt
+from zakk.db.models import StarterMessage
+from zakk.db.models import Tool
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.db.models import UserFile
+from zakk.db.models import UserFolder
+from zakk.db.models import UserGroup
+from zakk.db.notification import create_notification
+from zakk.server.features.persona.models import FullPersonaSnapshot
+from zakk.server.features.persona.models import MinimalPersonaSnapshot
+from zakk.server.features.persona.models import PersonaSharedNotificationData
+from zakk.server.features.persona.models import PersonaSnapshot
+from zakk.server.features.persona.models import PersonaUpsertRequest
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_versioned_implementation
 
 logger = setup_logger()
 
@@ -202,7 +202,7 @@ def make_persona_private(
 
     # May cause error if someone switches down to MIT from EE
     if group_ids:
-        raise NotImplementedError("Onyx MIT does not support private Personas")
+        raise NotImplementedError("Zakk MIT does not support private Personas")
 
 
 def create_update_persona(
@@ -265,7 +265,7 @@ def create_update_persona(
         )
 
         versioned_make_persona_private = fetch_versioned_implementation(
-            "onyx.db.persona", "make_persona_private"
+            "zakk.db.persona", "make_persona_private"
         )
 
         # Privatize Persona
@@ -301,7 +301,7 @@ def update_persona_shared_users(
         raise HTTPException(status_code=400, detail="Cannot share public persona")
 
     versioned_make_persona_private = fetch_versioned_implementation(
-        "onyx.db.persona", "make_persona_private"
+        "zakk.db.persona", "make_persona_private"
     )
 
     # Privatize Persona
@@ -753,7 +753,7 @@ def validate_persona_tools(tools: list[Tool]) -> None:
     for tool in tools:
         if tool.name == "InternetSearchTool" and not (BING_API_KEY or EXA_API_KEY):
             raise ValueError(
-                "Internet Search API key not found, please contact your Onyx admin to get it added!"
+                "Internet Search API key not found, please contact your Zakk admin to get it added!"
             )
 
 

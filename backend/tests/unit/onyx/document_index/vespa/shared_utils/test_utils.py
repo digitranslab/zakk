@@ -1,4 +1,4 @@
-from onyx.document_index.vespa.shared_utils.utils import remove_invalid_unicode_chars
+from zakk.document_index.vespa.shared_utils.utils import remove_invalid_unicode_chars
 
 
 def test_remove_invalid_unicode_chars() -> None:

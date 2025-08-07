@@ -12,24 +12,24 @@ from typing import cast
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.connectors.salesforce.doc_conversion import _extract_section
-from onyx.connectors.salesforce.doc_conversion import ID_PREFIX
-from onyx.connectors.salesforce.zakk_salesforce import ZakkSalesforce
-from onyx.connectors.salesforce.salesforce_calls import _bulk_retrieve_from_salesforce
-from onyx.connectors.salesforce.salesforce_calls import _make_time_filter_for_sf_type
-from onyx.connectors.salesforce.salesforce_calls import _make_time_filtered_query
-from onyx.connectors.salesforce.salesforce_calls import get_object_by_id_query
-from onyx.connectors.salesforce.sqlite_functions import ZakkSalesforceSQLite
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.connectors.salesforce.doc_conversion import _extract_section
+from zakk.connectors.salesforce.doc_conversion import ID_PREFIX
+from zakk.connectors.salesforce.zakk_salesforce import ZakkSalesforce
+from zakk.connectors.salesforce.salesforce_calls import _bulk_retrieve_from_salesforce
+from zakk.connectors.salesforce.salesforce_calls import _make_time_filter_for_sf_type
+from zakk.connectors.salesforce.salesforce_calls import _make_time_filtered_query
+from zakk.connectors.salesforce.salesforce_calls import get_object_by_id_query
+from zakk.connectors.salesforce.sqlite_functions import ZakkSalesforceSQLite
+from zakk.utils.logger import setup_logger
 
-# from onyx.connectors.salesforce.zakk_salesforce_type import ZakkSalesforceType
-# from onyx.connectors.salesforce.salesforce_calls import get_children_of_sf_type
+# from zakk.connectors.salesforce.zakk_salesforce_type import ZakkSalesforceType
+# from zakk.connectors.salesforce.salesforce_calls import get_children_of_sf_type
 
 logger = setup_logger()
 

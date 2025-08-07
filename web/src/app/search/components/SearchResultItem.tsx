@@ -1,12 +1,12 @@
 import React from "react";
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import { ResultIcon } from "@/components/chat/sources/SourceCard";
 import { getTimeAgoString } from "@/lib/dateUtils";
 import { FiThumbsUp, FiClock } from "react-icons/fi";
 
 interface SearchResultItemProps {
-  document: OnyxDocument;
-  onClick: (document: OnyxDocument) => void;
+  document: ZakkDocument;
+  onClick: (document: ZakkDocument) => void;
 }
 
 export function SearchResultItem({ document, onClick }: SearchResultItemProps) {

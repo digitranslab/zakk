@@ -3,15 +3,15 @@ from typing import cast
 
 from sqlalchemy.orm import Session
 
-from onyx.access.models import DocumentAccess
-from onyx.access.utils import prefix_user_email
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import PUBLIC_DOC_PAT
-from onyx.db.document import get_access_info_for_document
-from onyx.db.document import get_access_info_for_documents
-from onyx.db.models import User
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
-from onyx.utils.variable_functionality import fetch_versioned_implementation
+from zakk.access.models import DocumentAccess
+from zakk.access.utils import prefix_user_email
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import PUBLIC_DOC_PAT
+from zakk.db.document import get_access_info_for_document
+from zakk.db.document import get_access_info_for_documents
+from zakk.db.models import User
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.utils.variable_functionality import fetch_versioned_implementation
 
 
 def _get_access_for_document(
@@ -39,7 +39,7 @@ def get_access_for_document(
     db_session: Session,
 ) -> DocumentAccess:
     versioned_get_access_for_document_fn = fetch_versioned_implementation(
-        "onyx.access.access", "_get_access_for_document"
+        "zakk.access.access", "_get_access_for_document"
     )
     return versioned_get_access_for_document_fn(document_id, db_session)  # type: ignore
 
@@ -89,7 +89,7 @@ def get_access_for_documents(
 ) -> dict[str, DocumentAccess]:
     """Fetches all access information for the given documents."""
     versioned_get_access_for_documents_fn = fetch_versioned_implementation(
-        "onyx.access.access", "_get_access_for_documents"
+        "zakk.access.access", "_get_access_for_documents"
     )
     return versioned_get_access_for_documents_fn(
         document_ids, db_session
@@ -109,7 +109,7 @@ def _get_acl_for_user(user: User | None, db_session: Session) -> set[str]:
 
 def get_acl_for_user(user: User | None, db_session: Session | None = None) -> set[str]:
     versioned_acl_for_user_fn = fetch_versioned_implementation(
-        "onyx.access.access", "_get_acl_for_user"
+        "zakk.access.access", "_get_acl_for_user"
     )
     return versioned_acl_for_user_fn(user, db_session)  # type: ignore
 
@@ -118,7 +118,7 @@ def source_should_fetch_permissions_during_indexing(source: DocumentSource) -> b
     _source_should_fetch_permissions_during_indexing_func = cast(
         Callable[[DocumentSource], bool],
         fetch_ee_implementation_or_noop(
-            "onyx.external_permissions.sync_params",
+            "zakk.external_permissions.sync_params",
             "source_should_fetch_permissions_during_indexing",
             False,
         ),

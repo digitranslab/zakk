@@ -9,9 +9,9 @@ from litellm.types.utils import ChatCompletionDeltaToolCall
 from litellm.types.utils import Delta
 from litellm.types.utils import Function as LiteLLMFunction
 
-from onyx.configs.app_configs import MOCK_LLM_RESPONSE
-from onyx.llm.chat_llm import DefaultMultiLLM
-from onyx.llm.utils import get_max_input_tokens
+from zakk.configs.app_configs import MOCK_LLM_RESPONSE
+from zakk.llm.chat_llm import DefaultMultiLLM
+from zakk.llm.utils import get_max_input_tokens
 
 
 def _create_delta(
@@ -45,7 +45,7 @@ def default_multi_llm() -> DefaultMultiLLM:
 
 def test_multiple_tool_calls(default_multi_llm: DefaultMultiLLM) -> None:
     # Mock the litellm.completion function
-    with patch("onyx.llm.chat_llm.litellm.completion") as mock_completion:
+    with patch("zakk.llm.chat_llm.litellm.completion") as mock_completion:
         # Create a mock response with multiple tool calls using litellm objects
         mock_response = litellm.ModelResponse(
             id="chatcmpl-123",
@@ -159,7 +159,7 @@ def test_multiple_tool_calls(default_multi_llm: DefaultMultiLLM) -> None:
 
 def test_multiple_tool_calls_streaming(default_multi_llm: DefaultMultiLLM) -> None:
     # Mock the litellm.completion function
-    with patch("onyx.llm.chat_llm.litellm.completion") as mock_completion:
+    with patch("zakk.llm.chat_llm.litellm.completion") as mock_completion:
         # Create a mock response with multiple tool calls using litellm objects
         mock_response = [
             litellm.ModelResponse(

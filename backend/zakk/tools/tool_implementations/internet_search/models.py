@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel
 from pydantic import field_validator
 
-from onyx.context.search.models import InferenceSection
+from zakk.context.search.models import InferenceSection
 
 MAX_CONTENT_LENGTH = 1_048_576
 

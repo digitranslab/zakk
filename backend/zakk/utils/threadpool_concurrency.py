@@ -22,7 +22,7 @@ from typing import TypeVar
 from pydantic import GetCoreSchemaHandler
 from pydantic_core import core_schema
 
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

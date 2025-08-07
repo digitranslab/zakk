@@ -3,20 +3,20 @@ from typing import cast
 
 from langchain_core.runnables import RunnableConfig
 
-from onyx.agents.agent_search.deep_search.main.states import (
+from zakk.agents.agent_search.deep_search.main.states import (
     ExploratorySearchUpdate,
 )
-from onyx.agents.agent_search.deep_search.main.states import MainState
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
+from zakk.agents.agent_search.deep_search.main.states import MainState
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
     build_history_prompt,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import retrieve_search_docs
-from onyx.configs.agent_configs import AGENT_EXPLORATORY_SEARCH_RESULTS
-from onyx.context.search.models import InferenceSection
+from zakk.agents.agent_search.shared_graph_utils.utils import retrieve_search_docs
+from zakk.configs.agent_configs import AGENT_EXPLORATORY_SEARCH_RESULTS
+from zakk.context.search.models import InferenceSection
 
 
 def start_agent_search(

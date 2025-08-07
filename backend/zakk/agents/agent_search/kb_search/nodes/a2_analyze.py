@@ -5,36 +5,36 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import (
     create_minimal_connected_query_graph,
 )
-from onyx.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
-from onyx.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
-from onyx.agents.agent_search.kb_search.graph_utils import stream_write_step_activities
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
+from zakk.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
+from zakk.agents.agent_search.kb_search.graph_utils import stream_write_step_activities
+from zakk.agents.agent_search.kb_search.graph_utils import (
     stream_write_step_answer_explicit,
 )
-from onyx.agents.agent_search.kb_search.models import KGAnswerApproach
-from onyx.agents.agent_search.kb_search.states import AnalysisUpdate
-from onyx.agents.agent_search.kb_search.states import KGAnswerFormat
-from onyx.agents.agent_search.kb_search.states import KGAnswerStrategy
-from onyx.agents.agent_search.kb_search.states import KGRelationshipDetection
-from onyx.agents.agent_search.kb_search.states import KGSearchType
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.kb_search.states import YesNoEnum
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.kb_search.models import KGAnswerApproach
+from zakk.agents.agent_search.kb_search.states import AnalysisUpdate
+from zakk.agents.agent_search.kb_search.states import KGAnswerFormat
+from zakk.agents.agent_search.kb_search.states import KGAnswerStrategy
+from zakk.agents.agent_search.kb_search.states import KGRelationshipDetection
+from zakk.agents.agent_search.kb_search.states import KGSearchType
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.kb_search.states import YesNoEnum
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.configs.kg_configs import KG_STRATEGY_GENERATION_TIMEOUT
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.entities import get_document_id_for_entity
-from onyx.kg.clustering.normalizations import normalize_entities
-from onyx.kg.clustering.normalizations import normalize_relationships
-from onyx.kg.utils.formatting_utils import split_relationship_id
-from onyx.prompts.kg_prompts import STRATEGY_GENERATION_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.configs.kg_configs import KG_STRATEGY_GENERATION_TIMEOUT
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.entities import get_document_id_for_entity
+from zakk.kg.clustering.normalizations import normalize_entities
+from zakk.kg.clustering.normalizations import normalize_relationships
+from zakk.kg.utils.formatting_utils import split_relationship_id
+from zakk.prompts.kg_prompts import STRATEGY_GENERATION_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

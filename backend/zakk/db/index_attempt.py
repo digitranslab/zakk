@@ -15,26 +15,26 @@ from sqlalchemy.orm import contains_eager
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import Session
 
-from onyx.connectors.models import ConnectorFailure
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import IndexingStatus
-from onyx.db.enums import IndexModelStatus
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexAttemptError
-from onyx.db.models import SearchSettings
-from onyx.server.documents.models import ConnectorCredentialPairIdentifier
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
+from zakk.connectors.models import ConnectorFailure
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import IndexingStatus
+from zakk.db.enums import IndexModelStatus
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexAttemptError
+from zakk.db.models import SearchSettings
+from zakk.server.documents.models import ConnectorCredentialPairIdentifier
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
 
 # from sqlalchemy.sql.selectable import Select
 
 # Comment out unused imports that cause mypy errors
-# from onyx.auth.models import UserRole
-# from onyx.configs.constants import MAX_LAST_VALID_CHECKPOINT_AGE_SECONDS
-# from onyx.db.connector_credential_pair import ConnectorCredentialPairIdentifier
-# from onyx.db.engine import async_query_for_dms
+# from zakk.auth.models import UserRole
+# from zakk.configs.constants import MAX_LAST_VALID_CHECKPOINT_AGE_SECONDS
+# from zakk.db.connector_credential_pair import ConnectorCredentialPairIdentifier
+# from zakk.db.engine import async_query_for_dms
 
 logger = setup_logger()
 

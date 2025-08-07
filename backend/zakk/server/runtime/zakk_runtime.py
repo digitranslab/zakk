@@ -3,19 +3,19 @@ from typing import cast
 
 from PIL import Image
 
-from onyx.background.celery.tasks.beat_schedule import CLOUD_BEAT_MULTIPLIER_DEFAULT
-from onyx.background.celery.tasks.beat_schedule import (
+from zakk.background.celery.tasks.beat_schedule import CLOUD_BEAT_MULTIPLIER_DEFAULT
+from zakk.background.celery.tasks.beat_schedule import (
     CLOUD_DOC_PERMISSION_SYNC_MULTIPLIER_DEFAULT,
 )
-from onyx.configs.constants import CLOUD_BUILD_FENCE_LOOKUP_TABLE_INTERVAL_DEFAULT
-from onyx.configs.constants import ONYX_CLOUD_REDIS_RUNTIME
-from onyx.configs.constants import ONYX_CLOUD_TENANT_ID
-from onyx.configs.constants import ONYX_EMAILABLE_LOGO_MAX_DIM
-from onyx.file_store.file_store import get_default_file_store
-from onyx.redis.redis_pool import get_redis_replica_client
-from onyx.utils.file import FileWithMimeType
-from onyx.utils.file import OnyxStaticFileManager
-from onyx.utils.variable_functionality import (
+from zakk.configs.constants import CLOUD_BUILD_FENCE_LOOKUP_TABLE_INTERVAL_DEFAULT
+from zakk.configs.constants import ZAKK_CLOUD_REDIS_RUNTIME
+from zakk.configs.constants import ZAKK_CLOUD_TENANT_ID
+from zakk.configs.constants import ZAKK_EMAILABLE_LOGO_MAX_DIM
+from zakk.file_store.file_store import get_default_file_store
+from zakk.redis.redis_pool import get_redis_replica_client
+from zakk.utils.file import FileWithMimeType
+from zakk.utils.file import ZakkStaticFileManager
+from zakk.utils.variable_functionality import (
     fetch_ee_implementation_or_noop,
 )
 
@@ -43,7 +43,7 @@ class ZakkRuntime:
             zakk_file = file_store.get_file_with_mime_type(db_filename)
 
         if not zakk_file:
-            zakk_file = OnyxStaticFileManager.get_static(static_filename)
+            zakk_file = ZakkStaticFileManager.get_static(static_filename)
 
         if not zakk_file:
             raise RuntimeError(
@@ -57,7 +57,7 @@ class ZakkRuntime:
         STATIC_FILENAME = "static/images/logo.png"
 
         db_filename: str | None = fetch_ee_implementation_or_noop(
-            "onyx.server.enterprise_settings.store", "get_logo_filename", None
+            "zakk.server.enterprise_settings.store", "get_logo_filename", None
         )
 
         return ZakkRuntime._get_with_static_fallback(db_filename, STATIC_FILENAME)
@@ -69,12 +69,12 @@ class ZakkRuntime:
         # check dimensions and resize downwards if necessary or if not PNG
         image = Image.open(io.BytesIO(zakk_file.data))
         if (
-            image.size[0] > ONYX_EMAILABLE_LOGO_MAX_DIM
-            or image.size[1] > ONYX_EMAILABLE_LOGO_MAX_DIM
+            image.size[0] > ZAKK_EMAILABLE_LOGO_MAX_DIM
+            or image.size[1] > ZAKK_EMAILABLE_LOGO_MAX_DIM
             or image.format != "PNG"
         ):
             image.thumbnail(
-                (ONYX_EMAILABLE_LOGO_MAX_DIM, ONYX_EMAILABLE_LOGO_MAX_DIM),
+                (ZAKK_EMAILABLE_LOGO_MAX_DIM, ZAKK_EMAILABLE_LOGO_MAX_DIM),
                 Image.LANCZOS,
             )  # maintains aspect ratio
             output_buffer = io.BytesIO()
@@ -90,7 +90,7 @@ class ZakkRuntime:
         STATIC_FILENAME = "static/images/logotype.png"
 
         db_filename: str | None = fetch_ee_implementation_or_noop(
-            "onyx.server.enterprise_settings.store", "get_logotype_filename", None
+            "zakk.server.enterprise_settings.store", "get_logotype_filename", None
         )
 
         return ZakkRuntime._get_with_static_fallback(db_filename, STATIC_FILENAME)
@@ -103,9 +103,9 @@ class ZakkRuntime:
 
         beat_multiplier: float = CLOUD_BEAT_MULTIPLIER_DEFAULT
 
-        r = get_redis_replica_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+        r = get_redis_replica_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
 
-        beat_multiplier_raw = r.get(f"{ONYX_CLOUD_REDIS_RUNTIME}:beat_multiplier")
+        beat_multiplier_raw = r.get(f"{ZAKK_CLOUD_REDIS_RUNTIME}:beat_multiplier")
         if beat_multiplier_raw is not None:
             try:
                 beat_multiplier_bytes = cast(bytes, beat_multiplier_raw)
@@ -124,9 +124,9 @@ class ZakkRuntime:
 
         value: float = CLOUD_DOC_PERMISSION_SYNC_MULTIPLIER_DEFAULT
 
-        r = get_redis_replica_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+        r = get_redis_replica_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
 
-        value_raw = r.get(f"{ONYX_CLOUD_REDIS_RUNTIME}:doc_permission_sync_multiplier")
+        value_raw = r.get(f"{ZAKK_CLOUD_REDIS_RUNTIME}:doc_permission_sync_multiplier")
         if value_raw is not None:
             try:
                 value_bytes = cast(bytes, value_raw)
@@ -147,10 +147,10 @@ class ZakkRuntime:
 
         interval: int = CLOUD_BUILD_FENCE_LOOKUP_TABLE_INTERVAL_DEFAULT
 
-        r = get_redis_replica_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+        r = get_redis_replica_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
 
         interval_raw = r.get(
-            f"{ONYX_CLOUD_REDIS_RUNTIME}:build_fence_lookup_table_interval"
+            f"{ZAKK_CLOUD_REDIS_RUNTIME}:build_fence_lookup_table_interval"
         )
         if interval_raw is not None:
             try:

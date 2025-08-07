@@ -9,20 +9,20 @@ from uuid import UUID
 from pydantic import BaseModel
 from pydantic import Field
 
-from onyx.configs.app_configs import MASK_CREDENTIAL_PREFIX
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import InputType
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.models import Connector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Credential
-from onyx.db.models import Document as DbDocument
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexingStatus
-from onyx.db.models import TaskStatus
-from onyx.server.utils import mask_credential_dict
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.configs.app_configs import MASK_CREDENTIAL_PREFIX
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import InputType
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.models import Connector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Credential
+from zakk.db.models import Document as DbDocument
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexingStatus
+from zakk.db.models import TaskStatus
+from zakk.server.utils import mask_credential_dict
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 
 
 class DocumentSyncStatus(BaseModel):
@@ -233,12 +233,12 @@ class CCPairFullInfo(BaseModel):
         cls, cc_pair_model: ConnectorCredentialPair
     ) -> datetime | None:
         check_if_source_requires_external_group_sync = fetch_ee_implementation_or_noop(
-            "onyx.external_permissions.sync_params",
+            "zakk.external_permissions.sync_params",
             "source_requires_external_group_sync",
             noop_return_value=False,
         )
         check_if_source_requires_doc_sync = fetch_ee_implementation_or_noop(
-            "onyx.external_permissions.sync_params",
+            "zakk.external_permissions.sync_params",
             "source_requires_doc_sync",
             noop_return_value=False,
         )

@@ -4,10 +4,10 @@ from datetime import timezone
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.access.models import ExternalAccess
-from onyx.access.utils import build_ext_group_name_for_onyx
-from onyx.configs.constants import DocumentSource
-from onyx.db.models import Document as DbDocument
+from zakk.access.models import ExternalAccess
+from zakk.access.utils import build_ext_group_name_for_zakk
+from zakk.configs.constants import DocumentSource
+from zakk.db.models import Document as DbDocument
 
 
 def upsert_document_external_perms__no_commit(
@@ -25,7 +25,7 @@ def upsert_document_external_perms__no_commit(
     ).first()
 
     prefixed_external_groups = [
-        build_ext_group_name_for_onyx(
+        build_ext_group_name_for_zakk(
             ext_group_name=group_id,
             source=source_type,
         )
@@ -66,7 +66,7 @@ def upsert_document_external_perms(
     ).first()
 
     prefixed_external_groups: set[str] = {
-        build_ext_group_name_for_onyx(
+        build_ext_group_name_for_zakk(
             ext_group_name=group_id,
             source=source_type,
         )

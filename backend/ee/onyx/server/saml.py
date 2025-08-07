@@ -15,23 +15,23 @@ from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 
-from ee.onyx.configs.app_configs import SAML_CONF_DIR
-from ee.onyx.db.saml import expire_saml_account
-from ee.onyx.db.saml import get_saml_account
-from ee.onyx.db.saml import upsert_saml_account
-from ee.onyx.utils.secrets import encrypt_string
-from ee.onyx.utils.secrets import extract_hashed_cookie
-from onyx.auth.schemas import UserCreate
-from onyx.auth.schemas import UserRole
-from onyx.auth.users import get_user_manager
-from onyx.configs.app_configs import SESSION_EXPIRE_TIME_SECONDS
-from onyx.db.auth import get_user_count
-from onyx.db.auth import get_user_db
-from onyx.db.engine.async_sql_engine import get_async_session
-from onyx.db.engine.async_sql_engine import get_async_session_context_manager
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.utils.logger import setup_logger
+from ee.zakk.configs.app_configs import SAML_CONF_DIR
+from ee.zakk.db.saml import expire_saml_account
+from ee.zakk.db.saml import get_saml_account
+from ee.zakk.db.saml import upsert_saml_account
+from ee.zakk.utils.secrets import encrypt_string
+from ee.zakk.utils.secrets import extract_hashed_cookie
+from zakk.auth.schemas import UserCreate
+from zakk.auth.schemas import UserRole
+from zakk.auth.users import get_user_manager
+from zakk.configs.app_configs import SESSION_EXPIRE_TIME_SECONDS
+from zakk.db.auth import get_user_count
+from zakk.db.auth import get_user_db
+from zakk.db.engine.async_sql_engine import get_async_session
+from zakk.db.engine.async_sql_engine import get_async_session_context_manager
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -194,7 +194,7 @@ async def saml_login_callback(
 
     upsert_saml_account(user_id=user.id, cookie=saved_cookie, db_session=db_session)
 
-    # Redirect to main Onyx search page
+    # Redirect to main Zakk search page
     response = Response(status_code=status.HTTP_204_NO_CONTENT)
 
     response.set_cookie(

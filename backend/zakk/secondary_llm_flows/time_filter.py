@@ -5,12 +5,12 @@ from datetime import timezone
 
 from dateutil.parser import parse
 
-from onyx.llm.interfaces import LLM
-from onyx.llm.utils import dict_based_prompt_to_langchain_prompt
-from onyx.llm.utils import message_to_string
-from onyx.prompts.filter_extration import TIME_FILTER_PROMPT
-from onyx.prompts.prompt_utils import get_current_llm_day_time
-from onyx.utils.logger import setup_logger
+from zakk.llm.interfaces import LLM
+from zakk.llm.utils import dict_based_prompt_to_langchain_prompt
+from zakk.llm.utils import message_to_string
+from zakk.prompts.filter_extration import TIME_FILTER_PROMPT
+from zakk.prompts.prompt_utils import get_current_llm_day_time
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -156,7 +156,7 @@ def extract_time_filter(query: str, llm: LLM) -> tuple[datetime | None, bool]:
 
 if __name__ == "__main__":
     # Just for testing purposes, too tedious to unit test as it relies on an LLM
-    from onyx.llm.factory import get_default_llms, get_main_llm_from_tuple
+    from zakk.llm.factory import get_default_llms, get_main_llm_from_tuple
 
     while True:
         user_input = input("Query to Extract Time: ")

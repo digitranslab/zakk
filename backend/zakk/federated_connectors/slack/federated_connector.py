@@ -8,17 +8,17 @@ import requests
 from pydantic import ValidationError
 from typing_extensions import override
 
-from onyx.context.search.federated.slack_search import slack_retrieval
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import SearchQuery
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.federated_connectors.interfaces import FederatedConnector
-from onyx.federated_connectors.models import CredentialField
-from onyx.federated_connectors.models import EntityField
-from onyx.federated_connectors.models import OAuthResult
-from onyx.federated_connectors.slack.models import SlackCredentials
-from onyx.federated_connectors.slack.models import SlackEntities
-from onyx.utils.logger import setup_logger
+from zakk.context.search.federated.slack_search import slack_retrieval
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import SearchQuery
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.federated_connectors.interfaces import FederatedConnector
+from zakk.federated_connectors.models import CredentialField
+from zakk.federated_connectors.models import EntityField
+from zakk.federated_connectors.models import OAuthResult
+from zakk.federated_connectors.slack.models import SlackCredentials
+from zakk.federated_connectors.slack.models import SlackEntities
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

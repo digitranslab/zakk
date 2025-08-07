@@ -8,37 +8,37 @@ from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 from tenacity import RetryError
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.tasks.shared.RetryDocumentIndex import RetryDocumentIndex
-from onyx.background.celery.tasks.shared.tasks import LIGHT_SOFT_TIME_LIMIT
-from onyx.background.celery.tasks.shared.tasks import LIGHT_TIME_LIMIT
-from onyx.background.celery.tasks.shared.tasks import OnyxCeleryTaskCompletionStatus
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.constants import CELERY_USER_FILE_FOLDER_SYNC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.connector_credential_pair import (
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.tasks.shared.RetryDocumentIndex import RetryDocumentIndex
+from zakk.background.celery.tasks.shared.tasks import LIGHT_SOFT_TIME_LIMIT
+from zakk.background.celery.tasks.shared.tasks import LIGHT_TIME_LIMIT
+from zakk.background.celery.tasks.shared.tasks import ZakkCeleryTaskCompletionStatus
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.constants import CELERY_USER_FILE_FOLDER_SYNC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.connector_credential_pair import (
     get_connector_credential_pairs_with_user_files,
 )
-from onyx.db.document import get_document
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Document
-from onyx.db.models import DocumentByConnectorCredentialPair
-from onyx.db.search_settings import get_active_search_settings
-from onyx.db.user_documents import fetch_user_files_for_documents
-from onyx.db.user_documents import fetch_user_folders_for_documents
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.interfaces import VespaDocumentUserFields
-from onyx.httpx.httpx_pool import HttpxPool
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
+from zakk.db.document import get_document
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Document
+from zakk.db.models import DocumentByConnectorCredentialPair
+from zakk.db.search_settings import get_active_search_settings
+from zakk.db.user_documents import fetch_user_files_for_documents
+from zakk.db.user_documents import fetch_user_folders_for_documents
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.interfaces import VespaDocumentUserFields
+from zakk.httpx.httpx_pool import HttpxPool
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_USER_FILE_FOLDER_SYNC,
+    name=ZakkCeleryTask.CHECK_FOR_USER_FILE_FOLDER_SYNC,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     trail=False,
@@ -55,7 +55,7 @@ def check_for_user_file_folder_sync(self: Task, *, tenant_id: str) -> bool | Non
     r = get_redis_client()
 
     lock_beat: RedisLock = r.lock(
-        OnyxRedisLocks.CHECK_USER_FILE_FOLDER_SYNC_BEAT_LOCK,
+        ZakkRedisLocks.CHECK_USER_FILE_FOLDER_SYNC_BEAT_LOCK,
         timeout=CELERY_USER_FILE_FOLDER_SYNC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -154,7 +154,7 @@ def get_documents_for_cc_pairs(
 
 
 @shared_task(
-    name=OnyxCeleryTask.UPDATE_USER_FILE_FOLDER_METADATA,
+    name=ZakkCeleryTask.UPDATE_USER_FILE_FOLDER_METADATA,
     bind=True,
     soft_time_limit=LIGHT_SOFT_TIME_LIMIT,
     time_limit=LIGHT_TIME_LIMIT,
@@ -170,7 +170,7 @@ def update_user_file_folder_metadata(
 ) -> bool:
     """Updates the user file and folder metadata for a document in Vespa."""
     start = time.monotonic()
-    completion_status = OnyxCeleryTaskCompletionStatus.UNDEFINED
+    completion_status = ZakkCeleryTaskCompletionStatus.UNDEFINED
 
     try:
         with get_session_with_current_tenant() as db_session:
@@ -191,7 +191,7 @@ def update_user_file_folder_metadata(
                     f"action=no_operation "
                     f"elapsed={elapsed:.2f}"
                 )
-                completion_status = OnyxCeleryTaskCompletionStatus.SKIPPED
+                completion_status = ZakkCeleryTaskCompletionStatus.SKIPPED
                 return False
 
             # Create user fields object with file and folder IDs
@@ -220,12 +220,12 @@ def update_user_file_folder_metadata(
                 f"chunks={chunks_affected} "
                 f"elapsed={elapsed:.2f}"
             )
-            completion_status = OnyxCeleryTaskCompletionStatus.SUCCEEDED
+            completion_status = ZakkCeleryTaskCompletionStatus.SUCCEEDED
             return True
 
     except SoftTimeLimitExceeded:
         task_logger.info(f"SoftTimeLimitExceeded exception. doc={document_id}")
-        completion_status = OnyxCeleryTaskCompletionStatus.SOFT_TIME_LIMIT
+        completion_status = ZakkCeleryTaskCompletionStatus.SOFT_TIME_LIMIT
     except Exception as ex:
         e: Exception | None = None
         while True:
@@ -245,13 +245,13 @@ def update_user_file_folder_metadata(
                 f"update_user_file_folder_metadata exceptioned: doc={document_id}"
             )
 
-            completion_status = OnyxCeleryTaskCompletionStatus.RETRYABLE_EXCEPTION
+            completion_status = ZakkCeleryTaskCompletionStatus.RETRYABLE_EXCEPTION
             if (
                 self.max_retries is not None
                 and self.request.retries >= self.max_retries
             ):
                 completion_status = (
-                    OnyxCeleryTaskCompletionStatus.NON_RETRYABLE_EXCEPTION
+                    ZakkCeleryTaskCompletionStatus.NON_RETRYABLE_EXCEPTION
                 )
 
             # Exponential backoff from 2^4 to 2^6 ... i.e. 16, 32, 64

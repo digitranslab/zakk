@@ -1,16 +1,16 @@
-<!-- ONYX_METADATA={"link": "https://github.com/digitranslab/onyx/blob/main/deployment/docker_compose/README.md"} -->
+<!-- ZAKK_METADATA={"link": "https://github.com/digitranslab/zakk/blob/main/deployment/docker_compose/README.md"} -->
 
-# Deploying Onyx using Docker Compose
+# Deploying Zakk using Docker Compose
 
-For general information, please read the instructions in this [README](https://github.com/digitranslab/onyx/blob/main/deployment/README.md).
+For general information, please read the instructions in this [README](https://github.com/digitranslab/zakk/blob/main/deployment/README.md).
 
 ## Deploy in a system without GPU support
 
-This part is elaborated precisely in this [README](https://github.com/digitranslab/onyx/blob/main/deployment/README.md) in section _Docker Compose_. If you have any questions, please feel free to open an issue or get in touch in slack for support.
+This part is elaborated precisely in this [README](https://github.com/digitranslab/zakk/blob/main/deployment/README.md) in section _Docker Compose_. If you have any questions, please feel free to open an issue or get in touch in slack for support.
 
 ## Deploy in a system with GPU support
 
-Running Model servers with GPU support while indexing and querying can result in significant improvements in performance. This is highly recommended if you have access to resources. Currently, Onyx offloads embedding model and tokenizers to the GPU VRAM and the size needed depends on chosen embedding model. For example, the embedding model `nomic-ai/nomic-embed-text-v1` takes up about 1GB of VRAM. That means running this model for inference and embedding pipeline would require roughly 2GB of VRAM.
+Running Model servers with GPU support while indexing and querying can result in significant improvements in performance. This is highly recommended if you have access to resources. Currently, Zakk offloads embedding model and tokenizers to the GPU VRAM and the size needed depends on chosen embedding model. For example, the embedding model `nomic-ai/nomic-embed-text-v1` takes up about 1GB of VRAM. That means running this model for inference and embedding pipeline would require roughly 2GB of VRAM.
 
 ### Setup
 
@@ -33,12 +33,12 @@ For GPUs to be accessible to containers, you will need the container toolkit. Pl
 
 ### Launching with GPU
 
-1. To run Onyx with GPU, navigate to `docker_compose` directory and run the following:
+1. To run Zakk with GPU, navigate to `docker_compose` directory and run the following:
 
-   - `docker compose -f docker-compose.gpu-dev.yml -p onyx-stack up -d --pull always --force-recreate` - or run: `docker compose -f docker-compose.gpu-dev.yml -p onyx-stack up -d --build --force-recreate`
+   - `docker compose -f docker-compose.gpu-dev.yml -p zakk-stack up -d --pull always --force-recreate` - or run: `docker compose -f docker-compose.gpu-dev.yml -p zakk-stack up -d --build --force-recreate`
      to build from source
    - Downloading images or packages/requirements may take 15+ minutes depending on your internet connection.
 
 2. To shut down the deployment, run:
-   - To stop the containers: `docker compose -f docker-compose.gpu-dev.yml -p onyx-stack stop`
-   - To delete the containers: `docker compose -f docker-compose.gpu-dev.yml -p onyx-stack down`
+   - To stop the containers: `docker compose -f docker-compose.gpu-dev.yml -p zakk-stack stop`
+   - To delete the containers: `docker compose -f docker-compose.gpu-dev.yml -p zakk-stack down`

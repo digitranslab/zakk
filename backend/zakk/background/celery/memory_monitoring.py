@@ -1,12 +1,12 @@
-# backend/onyx/background/celery/memory_monitoring.py
+# backend/zakk/background/celery/memory_monitoring.py
 import logging
 import os
 from logging.handlers import RotatingFileHandler
 
 import psutil
 
-from onyx.utils.logger import is_running_in_container
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import is_running_in_container
+from zakk.utils.logger import setup_logger
 
 # Regular application logger
 logger = setup_logger()

@@ -8,26 +8,26 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.highspot.client import HighspotClient
-from onyx.connectors.highspot.client import HighspotClientError
-from onyx.connectors.highspot.utils import scrape_url_content
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import ACCEPTED_DOCUMENT_FILE_EXTENSIONS
-from onyx.file_processing.extract_file_text import ACCEPTED_PLAIN_TEXT_FILE_EXTENSIONS
-from onyx.file_processing.extract_file_text import extract_file_text
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.highspot.client import HighspotClient
+from zakk.connectors.highspot.client import HighspotClientError
+from zakk.connectors.highspot.utils import scrape_url_content
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import ACCEPTED_DOCUMENT_FILE_EXTENSIONS
+from zakk.file_processing.extract_file_text import ACCEPTED_PLAIN_TEXT_FILE_EXTENSIONS
+from zakk.file_processing.extract_file_text import extract_file_text
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 _SLIM_BATCH_SIZE = 1000

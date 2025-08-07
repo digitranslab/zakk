@@ -1,6 +1,6 @@
 import pytest
 
-from onyx.background.celery.tasks.llm_model_update.tasks import (
+from zakk.background.celery.tasks.llm_model_update.tasks import (
     _process_model_list_response,
 )
 

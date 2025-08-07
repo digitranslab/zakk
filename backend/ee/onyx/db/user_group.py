@@ -10,27 +10,27 @@ from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
-from ee.onyx.server.user_group.models import SetCuratorRequest
-from ee.onyx.server.user_group.models import UserGroupCreate
-from ee.onyx.server.user_group.models import UserGroupUpdate
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Credential__UserGroup
-from onyx.db.models import Document
-from onyx.db.models import DocumentByConnectorCredentialPair
-from onyx.db.models import DocumentSet__UserGroup
-from onyx.db.models import LLMProvider__UserGroup
-from onyx.db.models import Persona__UserGroup
-from onyx.db.models import TokenRateLimit__UserGroup
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.db.models import UserGroup
-from onyx.db.models import UserGroup__ConnectorCredentialPair
-from onyx.db.models import UserRole
-from onyx.db.users import fetch_user_by_id
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.user_group.models import SetCuratorRequest
+from ee.zakk.server.user_group.models import UserGroupCreate
+from ee.zakk.server.user_group.models import UserGroupUpdate
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Credential__UserGroup
+from zakk.db.models import Document
+from zakk.db.models import DocumentByConnectorCredentialPair
+from zakk.db.models import DocumentSet__UserGroup
+from zakk.db.models import LLMProvider__UserGroup
+from zakk.db.models import Persona__UserGroup
+from zakk.db.models import TokenRateLimit__UserGroup
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.db.models import UserGroup
+from zakk.db.models import UserGroup__ConnectorCredentialPair
+from zakk.db.models import UserRole
+from zakk.db.users import fetch_user_by_id
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

@@ -6,29 +6,29 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_user
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.tools import create_tool
-from onyx.db.tools import delete_tool
-from onyx.db.tools import get_tool_by_id
-from onyx.db.tools import get_tools
-from onyx.db.tools import update_tool
-from onyx.server.features.tool.models import CustomToolCreate
-from onyx.server.features.tool.models import CustomToolUpdate
-from onyx.server.features.tool.models import ToolSnapshot
-from onyx.tools.tool_implementations.custom.openapi_parsing import MethodSpec
-from onyx.tools.tool_implementations.custom.openapi_parsing import (
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_user
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.tools import create_tool
+from zakk.db.tools import delete_tool
+from zakk.db.tools import get_tool_by_id
+from zakk.db.tools import get_tools
+from zakk.db.tools import update_tool
+from zakk.server.features.tool.models import CustomToolCreate
+from zakk.server.features.tool.models import CustomToolUpdate
+from zakk.server.features.tool.models import ToolSnapshot
+from zakk.tools.tool_implementations.custom.openapi_parsing import MethodSpec
+from zakk.tools.tool_implementations.custom.openapi_parsing import (
     openapi_to_method_specs,
 )
-from onyx.tools.tool_implementations.custom.openapi_parsing import (
+from zakk.tools.tool_implementations.custom.openapi_parsing import (
     validate_openapi_schema,
 )
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     ImageGenerationTool,
 )
-from onyx.tools.utils import is_image_generation_available
+from zakk.tools.utils import is_image_generation_available
 
 router = APIRouter(prefix="/tool")
 admin_router = APIRouter(prefix="/admin/tool")

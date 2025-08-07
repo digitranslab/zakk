@@ -1,12 +1,12 @@
 import redis
 
-from onyx.redis.redis_connector_delete import RedisConnectorDelete
-from onyx.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
-from onyx.redis.redis_connector_ext_group_sync import RedisConnectorExternalGroupSync
-from onyx.redis.redis_connector_index import RedisConnectorIndex
-from onyx.redis.redis_connector_prune import RedisConnectorPrune
-from onyx.redis.redis_connector_stop import RedisConnectorStop
-from onyx.redis.redis_pool import get_redis_client
+from zakk.redis.redis_connector_delete import RedisConnectorDelete
+from zakk.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
+from zakk.redis.redis_connector_ext_group_sync import RedisConnectorExternalGroupSync
+from zakk.redis.redis_connector_index import RedisConnectorIndex
+from zakk.redis.redis_connector_prune import RedisConnectorPrune
+from zakk.redis.redis_connector_stop import RedisConnectorStop
+from zakk.redis.redis_pool import get_redis_client
 
 
 # TODO: reduce dependence on redis

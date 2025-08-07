@@ -9,14 +9,14 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.usage_export import get_all_usage_reports
-from ee.onyx.db.usage_export import get_usage_report_data
-from ee.onyx.db.usage_export import UsageReportMetadata
-from ee.onyx.server.reporting.usage_export_generation import create_new_usage_report
-from onyx.auth.users import current_admin_user
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.file_store.constants import STANDARD_CHUNK_SIZE
+from ee.zakk.db.usage_export import get_all_usage_reports
+from ee.zakk.db.usage_export import get_usage_report_data
+from ee.zakk.db.usage_export import UsageReportMetadata
+from ee.zakk.server.reporting.usage_export_generation import create_new_usage_report
+from zakk.auth.users import current_admin_user
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.file_store.constants import STANDARD_CHUNK_SIZE
 
 router = APIRouter()
 

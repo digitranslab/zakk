@@ -1,20 +1,20 @@
 from collections.abc import Callable
 
-from onyx.chat.chat_utils import combine_message_chain
-from onyx.configs.chat_configs import DISABLE_LLM_QUERY_REPHRASE
-from onyx.configs.model_configs import GEN_AI_HISTORY_CUTOFF
-from onyx.db.models import ChatMessage
-from onyx.llm.exceptions import GenAIDisabledException
-from onyx.llm.factory import get_default_llms
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.llm.utils import dict_based_prompt_to_langchain_prompt
-from onyx.llm.utils import message_to_string
-from onyx.prompts.chat_prompts import HISTORY_QUERY_REPHRASE
-from onyx.prompts.miscellaneous_prompts import LANGUAGE_REPHRASE_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.text_processing import count_punctuation
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.chat.chat_utils import combine_message_chain
+from zakk.configs.chat_configs import DISABLE_LLM_QUERY_REPHRASE
+from zakk.configs.model_configs import GEN_AI_HISTORY_CUTOFF
+from zakk.db.models import ChatMessage
+from zakk.llm.exceptions import GenAIDisabledException
+from zakk.llm.factory import get_default_llms
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.llm.utils import dict_based_prompt_to_langchain_prompt
+from zakk.llm.utils import message_to_string
+from zakk.prompts.chat_prompts import HISTORY_QUERY_REPHRASE
+from zakk.prompts.miscellaneous_prompts import LANGUAGE_REPHRASE_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.text_processing import count_punctuation
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
 
 logger = setup_logger()
 

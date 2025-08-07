@@ -2,14 +2,14 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from onyx.db.models import UserGroup as UserGroupModel
-from onyx.server.documents.models import ConnectorCredentialPairDescriptor
-from onyx.server.documents.models import ConnectorSnapshot
-from onyx.server.documents.models import CredentialSnapshot
-from onyx.server.features.document_set.models import DocumentSet
-from onyx.server.features.persona.models import PersonaSnapshot
-from onyx.server.manage.models import UserInfo
-from onyx.server.manage.models import UserPreferences
+from zakk.db.models import UserGroup as UserGroupModel
+from zakk.server.documents.models import ConnectorCredentialPairDescriptor
+from zakk.server.documents.models import ConnectorSnapshot
+from zakk.server.documents.models import CredentialSnapshot
+from zakk.server.features.document_set.models import DocumentSet
+from zakk.server.features.persona.models import PersonaSnapshot
+from zakk.server.manage.models import UserInfo
+from zakk.server.manage.models import UserPreferences
 
 
 class UserGroup(BaseModel):

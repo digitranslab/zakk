@@ -6,12 +6,12 @@ import pytest
 import requests
 from requests import HTTPError
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
-from onyx.server.documents.models import PaginatedReturn
-from onyx.server.manage.models import UserInfo
-from onyx.server.models import FullUserSnapshot
-from onyx.server.models import InvitedUserSnapshot
+from zakk.auth.schemas import UserRole
+from zakk.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
+from zakk.server.documents.models import PaginatedReturn
+from zakk.server.manage.models import UserInfo
+from zakk.server.models import FullUserSnapshot
+from zakk.server.models import InvitedUserSnapshot
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.constants import GENERAL_HEADERS
 from tests.integration.common_utils.test_models import DATestUser

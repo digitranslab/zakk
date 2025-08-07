@@ -2,34 +2,34 @@ from langgraph.graph import END
 from langgraph.graph import START
 from langgraph.graph import StateGraph
 
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.check_sub_answer import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.check_sub_answer import (
     check_sub_answer,
 )
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.format_sub_answer import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.format_sub_answer import (
     format_sub_answer,
 )
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.generate_sub_answer import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.generate_sub_answer import (
     generate_sub_answer,
 )
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.ingest_retrieved_documents import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.nodes.ingest_retrieved_documents import (
     ingest_retrieved_documents,
 )
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
     AnswerQuestionOutput,
 )
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
     AnswerQuestionState,
 )
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
     SubQuestionAnsweringInput,
 )
-from onyx.agents.agent_search.deep_search.refinement.consolidate_sub_answers.edges import (
+from zakk.agents.agent_search.deep_search.refinement.consolidate_sub_answers.edges import (
     send_to_expanded_refined_retrieval,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.graph_builder import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.graph_builder import (
     expanded_retrieval_graph_builder,
 )
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -109,19 +109,19 @@ def answer_refined_query_graph_builder() -> StateGraph:
 
 
 if __name__ == "__main__":
-    from onyx.db.engine.sql_engine import get_session_with_current_tenant
-    from onyx.llm.factory import get_default_llms
-    from onyx.context.search.models import SearchRequest
+    from zakk.db.engine.sql_engine import get_session_with_current_tenant
+    from zakk.llm.factory import get_default_llms
+    from zakk.context.search.models import SearchRequest
 
     graph = answer_refined_query_graph_builder()
     compiled_graph = graph.compile()
     primary_llm, fast_llm = get_default_llms()
     search_request = SearchRequest(
-        query="what can you do with onyx or danswer?",
+        query="what can you do with zakk or danswer?",
     )
     with get_session_with_current_tenant() as db_session:
         inputs = SubQuestionAnsweringInput(
-            question="what can you do with onyx?",
+            question="what can you do with zakk?",
             question_id="0_0",
             log_messages=[],
         )

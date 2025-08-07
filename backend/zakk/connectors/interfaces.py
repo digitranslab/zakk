@@ -9,13 +9,13 @@ from typing import TypeVar
 
 from pydantic import BaseModel
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
-from onyx.connectors.models import SlimDocument
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
+from zakk.connectors.models import SlimDocument
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 
 SecondsSinceUnixEpoch = float
 
@@ -66,7 +66,7 @@ class BaseConnector(abc.ABC, Generic[CT]):
         to do permission sync validation
         """
         validate_connector_settings_fn = fetch_ee_implementation_or_noop(
-            "onyx.connectors.perm_sync_valid",
+            "zakk.connectors.perm_sync_valid",
             "validate_perm_sync",
             noop_return_value=None,
         )

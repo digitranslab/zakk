@@ -10,17 +10,17 @@ from celery.signals import worker_init
 from celery.signals import worker_ready
 from celery.signals import worker_shutdown
 
-import onyx.background.celery.apps.app_base as app_base
-from onyx.configs.constants import POSTGRES_CELERY_WORKER_DOCFETCHING_APP_NAME
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.utils.logger import setup_logger
+import zakk.background.celery.apps.app_base as app_base
+from zakk.configs.constants import POSTGRES_CELERY_WORKER_DOCFETCHING_APP_NAME
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 
 
 logger = setup_logger()
 
 celery_app = Celery(__name__)
-celery_app.config_from_object("onyx.background.celery.configs.docfetching")
+celery_app.config_from_object("zakk.background.celery.configs.docfetching")
 celery_app.Task = app_base.TenantAwareTask  # type: ignore [misc]
 
 
@@ -97,6 +97,6 @@ for bootstep in base_bootsteps:
 
 celery_app.autodiscover_tasks(
     [
-        "onyx.background.celery.tasks.docfetching",
+        "zakk.background.celery.tasks.docfetching",
     ]
 )

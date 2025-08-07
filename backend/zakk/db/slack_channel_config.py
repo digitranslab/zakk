@@ -4,21 +4,21 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.constants import DEFAULT_PERSONA_SLACK_CHANNEL_NAME
-from onyx.db.constants import SLACK_BOT_PERSONA_PREFIX
-from onyx.db.models import ChannelConfig
-from onyx.db.models import Persona
-from onyx.db.models import Persona__DocumentSet
-from onyx.db.models import SlackChannelConfig
-from onyx.db.models import User
-from onyx.db.persona import mark_persona_as_deleted
-from onyx.db.persona import upsert_persona
-from onyx.db.prompts import get_default_prompt
-from onyx.tools.built_in_tools import get_search_tool
-from onyx.utils.errors import EERequiredError
-from onyx.utils.variable_functionality import (
+from zakk.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.constants import DEFAULT_PERSONA_SLACK_CHANNEL_NAME
+from zakk.db.constants import SLACK_BOT_PERSONA_PREFIX
+from zakk.db.models import ChannelConfig
+from zakk.db.models import Persona
+from zakk.db.models import Persona__DocumentSet
+from zakk.db.models import SlackChannelConfig
+from zakk.db.models import User
+from zakk.db.persona import mark_persona_as_deleted
+from zakk.db.persona import upsert_persona
+from zakk.db.prompts import get_default_prompt
+from zakk.tools.built_in_tools import get_search_tool
+from zakk.utils.errors import EERequiredError
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
 
@@ -95,7 +95,7 @@ def insert_slack_channel_config(
 ) -> SlackChannelConfig:
     versioned_fetch_standard_answer_categories_by_ids = (
         fetch_versioned_implementation_with_fallback(
-            "onyx.db.standard_answer",
+            "zakk.db.standard_answer",
             "fetch_standard_answer_categories_by_ids",
             _no_ee_standard_answer_categories,
         )
@@ -165,7 +165,7 @@ def update_slack_channel_config(
 
     versioned_fetch_standard_answer_categories_by_ids = (
         fetch_versioned_implementation_with_fallback(
-            "onyx.db.standard_answer",
+            "zakk.db.standard_answer",
             "fetch_standard_answer_categories_by_ids",
             _no_ee_standard_answer_categories,
         )

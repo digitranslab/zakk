@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 
-from onyx.chat.prompt_builder.answer_prompt_builder import PromptSnapshot
-from onyx.tools.message import ToolCallSummary
-from onyx.tools.models import SearchToolOverrideKwargs
-from onyx.tools.models import ToolCallFinalResult
-from onyx.tools.models import ToolCallKickoff
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool import Tool
+from zakk.chat.prompt_builder.answer_prompt_builder import PromptSnapshot
+from zakk.tools.message import ToolCallSummary
+from zakk.tools.models import SearchToolOverrideKwargs
+from zakk.tools.models import ToolCallFinalResult
+from zakk.tools.models import ToolCallKickoff
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool import Tool
 
 
 # TODO: adapt the tool choice/tool call to allow for parallel tool calls by

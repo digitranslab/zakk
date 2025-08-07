@@ -1,6 +1,6 @@
-from onyx.chat.models import LlmDoc
-from onyx.context.search.models import InferenceSection
-from onyx.prompts.prompt_utils import clean_up_source
+from zakk.chat.models import LlmDoc
+from zakk.context.search.models import InferenceSection
+from zakk.prompts.prompt_utils import clean_up_source
 
 
 def llm_doc_to_dict(llm_doc: LlmDoc, doc_num: int) -> dict:

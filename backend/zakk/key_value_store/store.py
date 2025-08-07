@@ -3,13 +3,13 @@ from typing import cast
 
 from redis.client import Redis
 
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import KVStore
-from onyx.key_value_store.interface import KeyValueStore
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
-from onyx.utils.special_types import JSON_ro
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import KVStore
+from zakk.key_value_store.interface import KeyValueStore
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
+from zakk.utils.special_types import JSON_ro
 
 
 logger = setup_logger()

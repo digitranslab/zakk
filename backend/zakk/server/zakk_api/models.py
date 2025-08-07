@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from onyx.connectors.models import DocumentBase
+from zakk.connectors.models import DocumentBase
 
 
 class IngestionDocument(BaseModel):

@@ -13,17 +13,17 @@ from jira import JIRA
 from jira import JIRAError
 from jira.resources import Issue
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.jira.connector import JiraConnector
-from onyx.connectors.jira.connector import JiraConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
-from onyx.connectors.models import SlimDocument
-from onyx.utils.logger import setup_logger
-from tests.unit.onyx.connectors.utils import load_everything_from_checkpoint_connector
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.jira.connector import JiraConnector
+from zakk.connectors.jira.connector import JiraConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
+from zakk.connectors.models import SlimDocument
+from zakk.utils.logger import setup_logger
+from tests.unit.zakk.connectors.utils import load_everything_from_checkpoint_connector
 
 logger = setup_logger()
 PAGE_SIZE = 2
@@ -41,7 +41,7 @@ def jira_connector(
     )
     connector._jira_client = mock_jira_client
     connector._jira_client.client_info.return_value = jira_base_url
-    with patch("onyx.connectors.jira.connector._JIRA_FULL_PAGE_SIZE", 2):
+    with patch("zakk.connectors.jira.connector._JIRA_FULL_PAGE_SIZE", 2):
         yield connector
 
 
@@ -93,7 +93,7 @@ def create_mock_issue() -> Callable[..., MagicMock]:
 
 def test_load_credentials(jira_connector: JiraConnector) -> None:
     """Test loading credentials"""
-    with patch("onyx.connectors.jira.connector.build_jira_client") as mock_build_client:
+    with patch("zakk.connectors.jira.connector.build_jira_client") as mock_build_client:
         mock_build_client.return_value = jira_connector._jira_client
         credentials = {
             "jira_user_email": "user@example.com",
@@ -234,7 +234,7 @@ def test_load_from_checkpoint_with_issue_processing_error(
         else:
             raise Exception(f"Processing error for {issue.key}")
 
-    with patch("onyx.connectors.jira.connector.process_jira_issue") as mock_process:
+    with patch("zakk.connectors.jira.connector.process_jira_issue") as mock_process:
         mock_process.side_effect = mock_process_side_effect
 
         # Call load_from_checkpoint
@@ -322,12 +322,12 @@ def test_retrieve_all_slim_documents(
 
     # Mock best_effort_get_field_from_issue to return the keys
     with patch(
-        "onyx.connectors.jira.connector.best_effort_get_field_from_issue"
+        "zakk.connectors.jira.connector.best_effort_get_field_from_issue"
     ) as mock_field:
         mock_field.side_effect = ["TEST-1", "TEST-2"]
 
         # Mock build_jira_url to return URLs
-        with patch("onyx.connectors.jira.connector.build_jira_url") as mock_url:
+        with patch("zakk.connectors.jira.connector.build_jira_url") as mock_url:
             mock_url.side_effect = [
                 "https://jira.example.com/browse/TEST-1",
                 "https://jira.example.com/browse/TEST-2",

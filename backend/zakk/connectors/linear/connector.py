@@ -6,25 +6,25 @@ from typing import cast
 
 import requests
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.app_configs import LINEAR_CLIENT_ID
-from onyx.configs.app_configs import LINEAR_CLIENT_SECRET
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.app_configs import LINEAR_CLIENT_ID
+from zakk.configs.app_configs import LINEAR_CLIENT_SECRET
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     get_oauth_callback_uri,
 )
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import OAuthConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import request_with_retries
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import OAuthConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import request_with_retries
 
 
 logger = setup_logger()

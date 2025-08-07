@@ -2,11 +2,11 @@ from langchain.schema.messages import AIMessage
 from langchain.schema.messages import BaseMessage
 from langchain.schema.messages import HumanMessage
 
-from onyx.configs.constants import MessageType
-from onyx.db.models import ChatMessage
-from onyx.file_store.models import InMemoryChatFile
-from onyx.llm.models import PreviousMessage
-from onyx.llm.utils import build_content_with_imgs
+from zakk.configs.constants import MessageType
+from zakk.db.models import ChatMessage
+from zakk.file_store.models import InMemoryChatFile
+from zakk.llm.models import PreviousMessage
+from zakk.llm.utils import build_content_with_imgs
 
 
 def translate_zakk_msg_to_langchain(

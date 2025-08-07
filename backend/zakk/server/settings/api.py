@@ -5,25 +5,25 @@ from fastapi import Depends
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_user
-from onyx.auth.users import is_user_admin
-from onyx.configs.constants import KV_REINDEX_KEY
-from onyx.configs.constants import NotificationType
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.notification import create_notification
-from onyx.db.notification import dismiss_all_notifications
-from onyx.db.notification import get_notifications
-from onyx.db.notification import update_notification_last_shown
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.server.settings.models import Notification
-from onyx.server.settings.models import Settings
-from onyx.server.settings.models import UserSettings
-from onyx.server.settings.store import load_settings
-from onyx.server.settings.store import store_settings
-from onyx.utils.logger import setup_logger
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_user
+from zakk.auth.users import is_user_admin
+from zakk.configs.constants import KV_REINDEX_KEY
+from zakk.configs.constants import NotificationType
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.notification import create_notification
+from zakk.db.notification import dismiss_all_notifications
+from zakk.db.notification import get_notifications
+from zakk.db.notification import update_notification_last_shown
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.server.settings.models import Notification
+from zakk.server.settings.models import Settings
+from zakk.server.settings.models import UserSettings
+from zakk.server.settings.store import load_settings
+from zakk.server.settings.store import store_settings
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

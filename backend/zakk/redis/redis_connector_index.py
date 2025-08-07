@@ -4,7 +4,7 @@ from typing import cast
 import redis
 from pydantic import BaseModel
 
-from onyx.configs.constants import CELERY_INDEXING_WATCHDOG_CONNECTOR_TIMEOUT
+from zakk.configs.constants import CELERY_INDEXING_WATCHDOG_CONNECTOR_TIMEOUT
 
 
 class RedisConnectorIndexPayload(BaseModel):

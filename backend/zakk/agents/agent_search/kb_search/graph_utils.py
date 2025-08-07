@@ -3,29 +3,29 @@ from time import sleep
 
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.kb_search.models import KGEntityDocInfo
-from onyx.agents.agent_search.kb_search.models import KGExpandedGraphObjects
-from onyx.agents.agent_search.kb_search.states import SubQuestionAnswerResults
-from onyx.agents.agent_search.kb_search.step_definitions import STEP_DESCRIPTIONS
-from onyx.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import AgentAnswerPiece
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.models import StreamType
-from onyx.chat.models import SubQueryPiece
-from onyx.chat.models import SubQuestionPiece
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceSection
-from onyx.db.document import get_kg_doc_info_for_entity_name
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.entities import get_document_id_for_entity
-from onyx.db.entities import get_entity_name
-from onyx.db.entity_type import get_entity_types
-from onyx.kg.utils.formatting_utils import make_entity_id
-from onyx.kg.utils.formatting_utils import split_relationship_id
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.kb_search.models import KGEntityDocInfo
+from zakk.agents.agent_search.kb_search.models import KGExpandedGraphObjects
+from zakk.agents.agent_search.kb_search.states import SubQuestionAnswerResults
+from zakk.agents.agent_search.kb_search.step_definitions import STEP_DESCRIPTIONS
+from zakk.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import AgentAnswerPiece
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.models import StreamType
+from zakk.chat.models import SubQueryPiece
+from zakk.chat.models import SubQuestionPiece
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceSection
+from zakk.db.document import get_kg_doc_info_for_entity_name
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.entities import get_document_id_for_entity
+from zakk.db.entities import get_entity_name
+from zakk.db.entity_type import get_entity_types
+from zakk.kg.utils.formatting_utils import make_entity_id
+from zakk.kg.utils.formatting_utils import split_relationship_id
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

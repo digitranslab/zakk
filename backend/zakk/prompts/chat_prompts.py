@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from onyx.prompts.constants import GENERAL_SEP_PAT
-from onyx.prompts.constants import QUESTION_PAT
+from zakk.prompts.constants import GENERAL_SEP_PAT
+from zakk.prompts.constants import QUESTION_PAT
 
 REQUIRE_CITATION_STATEMENT = """
 Cite relevant statements INLINE using the format [1], [2], [3], etc. to reference the document number. \

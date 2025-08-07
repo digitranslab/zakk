@@ -8,11 +8,11 @@ from typing import TypeVar
 
 from dateutil.parser import parse
 
-from onyx.configs.app_configs import CONNECTOR_LOCALHOST_OVERRIDE
-from onyx.configs.constants import IGNORE_FOR_QA
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import OnyxMetadata
-from onyx.utils.text_processing import is_valid_email
+from zakk.configs.app_configs import CONNECTOR_LOCALHOST_OVERRIDE
+from zakk.configs.constants import IGNORE_FOR_QA
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import ZakkMetadata
+from zakk.utils.text_processing import is_valid_email
 
 
 T = TypeVar("T")
@@ -85,9 +85,9 @@ def get_metadata_keys_to_ignore() -> list[str]:
 
 def process_zakk_metadata(
     metadata: dict[str, Any],
-) -> tuple[OnyxMetadata, dict[str, Any]]:
+) -> tuple[ZakkMetadata, dict[str, Any]]:
     """
-    Users may set Onyx metadata and custom tags in text files. https://docs.digi-trans.org/connectors/file
+    Users may set Zakk metadata and custom tags in text files. https://docs.digi-trans.org/connectors/file
     Any unrecognized fields are treated as custom tags.
     """
     p_owner_names = metadata.get("primary_owners")
@@ -108,7 +108,7 @@ def process_zakk_metadata(
     doc_updated_at = time_str_to_utc(dt_str) if dt_str else None
 
     return (
-        OnyxMetadata(
+        ZakkMetadata(
             source_type=metadata.get("connector_type"),
             link=metadata.get("link"),
             file_display_name=metadata.get("file_display_name"),

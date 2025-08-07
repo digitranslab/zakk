@@ -3,14 +3,14 @@ from typing import Any
 import requests
 from pydantic import BaseModel
 
-from onyx.configs.chat_configs import BING_API_KEY
-from onyx.configs.chat_configs import EXA_API_KEY
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
-from onyx.tools.tool_implementations.internet_search.models import InternetSearchResult
-from onyx.tools.tool_implementations.internet_search.models import ProviderConfig
-from onyx.tools.tool_implementations.internet_search.models import ProviderType
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import retry_builder
+from zakk.configs.chat_configs import BING_API_KEY
+from zakk.configs.chat_configs import EXA_API_KEY
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
+from zakk.tools.tool_implementations.internet_search.models import InternetSearchResult
+from zakk.tools.tool_implementations.internet_search.models import ProviderConfig
+from zakk.tools.tool_implementations.internet_search.models import ProviderType
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import retry_builder
 
 logger = setup_logger()
 

@@ -7,16 +7,16 @@ from typing import IO
 from fastapi import HTTPException
 from fastapi import UploadFile
 
-from ee.onyx.server.enterprise_settings.models import AnalyticsScriptUpload
-from ee.onyx.server.enterprise_settings.models import EnterpriseSettings
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import KV_CUSTOM_ANALYTICS_SCRIPT_KEY
-from onyx.configs.constants import KV_ENTERPRISE_SETTINGS_KEY
-from onyx.configs.constants import ZAKK_DEFAULT_APPLICATION_NAME
-from onyx.file_store.file_store import get_default_file_store
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.enterprise_settings.models import AnalyticsScriptUpload
+from ee.zakk.server.enterprise_settings.models import EnterpriseSettings
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import KV_CUSTOM_ANALYTICS_SCRIPT_KEY
+from zakk.configs.constants import KV_ENTERPRISE_SETTINGS_KEY
+from zakk.configs.constants import ZAKK_DEFAULT_APPLICATION_NAME
+from zakk.file_store.file_store import get_default_file_store
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

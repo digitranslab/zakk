@@ -24,7 +24,7 @@ export const SUBMIT_MESSAGE_TYPES = {
 };
 
 export const LocalStorageKeys = {
-  THEME: "onyxTheme",
+  THEME: "zakkTheme",
   LIGHT_BG_URL: "lightBgUrl",
   DARK_BG_URL: "darkBgUrl",
   SHORTCUTS: "shortCuts",

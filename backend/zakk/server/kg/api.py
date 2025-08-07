@@ -2,39 +2,39 @@ from fastapi import APIRouter
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.entities import get_entity_stats_by_grounded_source_name
-from onyx.db.entity_type import get_configured_entity_types
-from onyx.db.entity_type import update_entity_types_and_related_connectors__commit
-from onyx.db.kg_config import disable_kg
-from onyx.db.kg_config import enable_kg
-from onyx.db.kg_config import get_kg_config_settings
-from onyx.db.kg_config import set_kg_config_settings
-from onyx.db.models import User
-from onyx.db.persona import create_update_persona
-from onyx.db.persona import get_persona_by_id
-from onyx.db.persona import mark_persona_as_deleted
-from onyx.db.persona import mark_persona_as_not_deleted
-from onyx.kg.resets.reset_index import reset_full_kg_index__commit
-from onyx.kg.setup.kg_default_entity_definitions import (
+from zakk.auth.users import current_admin_user
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.entities import get_entity_stats_by_grounded_source_name
+from zakk.db.entity_type import get_configured_entity_types
+from zakk.db.entity_type import update_entity_types_and_related_connectors__commit
+from zakk.db.kg_config import disable_kg
+from zakk.db.kg_config import enable_kg
+from zakk.db.kg_config import get_kg_config_settings
+from zakk.db.kg_config import set_kg_config_settings
+from zakk.db.models import User
+from zakk.db.persona import create_update_persona
+from zakk.db.persona import get_persona_by_id
+from zakk.db.persona import mark_persona_as_deleted
+from zakk.db.persona import mark_persona_as_not_deleted
+from zakk.kg.resets.reset_index import reset_full_kg_index__commit
+from zakk.kg.setup.kg_default_entity_definitions import (
     populate_missing_default_entity_types__commit,
 )
-from onyx.prompts.kg_prompts import KG_BETA_ASSISTANT_SYSTEM_PROMPT
-from onyx.prompts.kg_prompts import KG_BETA_ASSISTANT_TASK_PROMPT
-from onyx.server.features.persona.models import PersonaUpsertRequest
-from onyx.server.kg.models import DisableKGConfigRequest
-from onyx.server.kg.models import EnableKGConfigRequest
-from onyx.server.kg.models import EntityType
-from onyx.server.kg.models import KGConfig
-from onyx.server.kg.models import KGConfig as KGConfigAPIModel
-from onyx.server.kg.models import SourceAndEntityTypeView
-from onyx.server.kg.models import SourceStatistics
-from onyx.tools.built_in_tools import get_search_tool
+from zakk.prompts.kg_prompts import KG_BETA_ASSISTANT_SYSTEM_PROMPT
+from zakk.prompts.kg_prompts import KG_BETA_ASSISTANT_TASK_PROMPT
+from zakk.server.features.persona.models import PersonaUpsertRequest
+from zakk.server.kg.models import DisableKGConfigRequest
+from zakk.server.kg.models import EnableKGConfigRequest
+from zakk.server.kg.models import EntityType
+from zakk.server.kg.models import KGConfig
+from zakk.server.kg.models import KGConfig as KGConfigAPIModel
+from zakk.server.kg.models import SourceAndEntityTypeView
+from zakk.server.kg.models import SourceStatistics
+from zakk.tools.built_in_tools import get_search_tool
 
 
-_KG_BETA_ASSISTANT_DESCRIPTION = "The KG Beta assistant uses the Onyx Knowledge Graph (beta) structure \
+_KG_BETA_ASSISTANT_DESCRIPTION = "The KG Beta assistant uses the Zakk Knowledge Graph (beta) structure \
 to answer questions"
 
 admin_router = APIRouter(prefix="/admin/kg")

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { FiSearch } from "react-icons/fi";
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import { BaseQuestionIdentifier, SubQuestionDetail } from "../interfaces";
 import { SourceChip2 } from "../input/ChatInputBar";
 import { ResultIcon } from "@/components/chat/sources/SourceCard";
@@ -71,9 +71,9 @@ interface SubQuestionsDisplayProps {
   finishedGenerating: boolean;
   currentlyOpenQuestion?: BaseQuestionIdentifier | null;
   subQuestions: SubQuestionDetail[];
-  documents?: OnyxDocument[];
+  documents?: ZakkDocument[];
   toggleDocumentSelection: () => void;
-  setPresentingDocument: (document: OnyxDocument) => void;
+  setPresentingDocument: (document: ZakkDocument) => void;
   unToggle: boolean;
   allowStreaming: () => void;
   secondLevelQuestions?: SubQuestionDetail[];
@@ -92,11 +92,11 @@ const SubQuestionDisplay: React.FC<{
   currentlyOpen: boolean;
   currentlyClosed: boolean;
   subQuestion: SubQuestionDetail | null;
-  documents?: OnyxDocument[];
+  documents?: ZakkDocument[];
   isLast: boolean;
   unToggle: boolean;
   isFirst: boolean;
-  setPresentingDocument: (document: OnyxDocument) => void;
+  setPresentingDocument: (document: ZakkDocument) => void;
   temporaryDisplay?: TemporaryDisplay;
   completed?: boolean;
   initialStatus: ToggleState;

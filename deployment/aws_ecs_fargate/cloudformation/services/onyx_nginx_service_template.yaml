@@ -18,16 +18,16 @@ Parameters:
     Type: String
   ServiceName:
     Type: String
-    Default: onyx-nginx
-  OnyxNamespace:
+    Default: zakk-nginx
+  ZakkNamespace:
     Type: String
-    Default: onyx
-  OnyxBackendApiServiceName:
+    Default: zakk
+  ZakkBackendApiServiceName:
     Type: String
-    Default: onyx-backend-api-server-service
-  OnyxWebServerServiceName:
+    Default: zakk-backend-api-server-service
+  ZakkWebServerServiceName:
     Type: String
-    Default: onyx-web-server-service
+    Default: zakk-web-server-service
   TaskCpu:
     Type: String
     Default: "512"
@@ -39,11 +39,11 @@ Parameters:
     Default: 1
   GitHubConfigUrl:
     Type: String
-    Default: "https://raw.githubusercontent.com/digitranslab/onyx/main/deployment/data/nginx/app.conf.template.dev"
+    Default: "https://raw.githubusercontent.com/digitranslab/zakk/main/deployment/data/nginx/app.conf.template.dev"
     Description: "URL to the nginx configuration file on GitHub"
   GitHubRunScriptUrl:
     Type: String
-    Default: "https://raw.githubusercontent.com/digitranslab/onyx/main/deployment/data/nginx/run-nginx.sh"
+    Default: "https://raw.githubusercontent.com/digitranslab/zakk/main/deployment/data/nginx/run-nginx.sh"
     Description: "URL to the nginx run script on GitHub"
 
 Conditions:
@@ -59,7 +59,7 @@ Resources:
     Properties:
       Cluster:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-ECSClusterName"
+          Fn::Sub: "${Environment}-zakk-cluster-ECSClusterName"
       CapacityProviderStrategy:
         - CapacityProvider: "FARGATE"
           Base: 0
@@ -92,7 +92,7 @@ Resources:
             - "Arn"
       Tags:
         - Key: app
-          Value: onyx
+          Value: zakk
         - Key: service
           Value: !Ref ServiceName
         - Key: env
@@ -127,9 +127,9 @@ Resources:
             - Name: DOMAIN
               Value: !Ref DomainName
             - Name: ZAKK_BACKEND_API_HOST
-              Value: !Sub ${Environment}-${OnyxBackendApiServiceName}.${OnyxNamespace}
+              Value: !Sub ${Environment}-${ZakkBackendApiServiceName}.${ZakkNamespace}
             - Name: ZAKK_WEB_SERVER_HOST
-              Value: !Sub ${Environment}-${OnyxWebServerServiceName}.${OnyxNamespace}
+              Value: !Sub ${Environment}-${ZakkWebServerServiceName}.${ZakkNamespace}
           MountPoints:
             - SourceVolume: efs-volume
               ContainerPath: /etc/nginx/conf.d
@@ -140,7 +140,7 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: !Sub /ecs/${Environment}-OnyxNginxTaskDefinition
+              awslogs-group: !Sub /ecs/${Environment}-ZakkNginxTaskDefinition
               mode: non-blocking
               awslogs-create-group: "true"
               max-buffer-size: 25m
@@ -178,17 +178,17 @@ Resources:
           SystemControls: []
       TaskRoleArn:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-ECSTaskRole"
+          Fn::Sub: "${Environment}-zakk-cluster-ECSTaskRole"
       ExecutionRoleArn:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-ECSTaskExecutionRole" 
+          Fn::Sub: "${Environment}-zakk-cluster-ECSTaskExecutionRole"
       NetworkMode: awsvpc
       Volumes:
         - Name: efs-volume
           EFSVolumeConfiguration:
             FilesystemId:
               Fn::ImportValue:
-                Fn::Sub: "${Environment}-onyx-efs-OnyxEfsId"
+                Fn::Sub: "${Environment}-zakk-efs-ZakkEfsId"
             RootDirectory: /
       PlacementConstraints: []
       RequiresCompatibilities:
@@ -223,7 +223,7 @@ Resources:
             TTL: 15
       NamespaceId:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-OnyxNamespace"
+          Fn::Sub: "${Environment}-zakk-cluster-ZakkNamespace"
       HealthCheckCustomConfig:
         FailureThreshold: 1
 
@@ -281,8 +281,8 @@ Outputs:
     Value: !Ref "ECSService"
   ServiceDiscoveryService:
     Value: !Ref "ServiceDiscoveryService"
-  OutputOnyxLoadBalancerDNSName:
+  OutputZakkLoadBalancerDNSName:
     Description: LoadBalancer DNSName
     Value: !GetAtt LoadBalancer.DNSName
     Export:
-      Name: !Sub ${AWS::StackName}-OnyxLoadBalancerDNSName
+      Name: !Sub ${AWS::StackName}-ZakkLoadBalancerDNSName

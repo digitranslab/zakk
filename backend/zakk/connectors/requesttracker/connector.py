@@ -6,15 +6,15 @@
 # from typing import Optional
 # from rt.rest1 import ALL_QUEUES
 # from rt.rest1 import Rt
-# from onyx.configs.app_configs import INDEX_BATCH_SIZE
-# from onyx.configs.constants import DocumentSource
-# from onyx.connectors.interfaces import GenerateDocumentsOutput
-# from onyx.connectors.interfaces import PollConnector
-# from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-# from onyx.connectors.models import ConnectorMissingCredentialError
-# from onyx.connectors.models import Document
-# from onyx.connectors.models import Section
-# from onyx.utils.logger import setup_logger
+# from zakk.configs.app_configs import INDEX_BATCH_SIZE
+# from zakk.configs.constants import DocumentSource
+# from zakk.connectors.interfaces import GenerateDocumentsOutput
+# from zakk.connectors.interfaces import PollConnector
+# from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+# from zakk.connectors.models import ConnectorMissingCredentialError
+# from zakk.connectors.models import Document
+# from zakk.connectors.models import Section
+# from zakk.utils.logger import setup_logger
 # logger = setup_logger()
 # class RequestTrackerError(Exception):
 #     pass

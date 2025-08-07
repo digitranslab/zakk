@@ -2,7 +2,7 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from onyx.chat.models import ThreadMessage
+from zakk.chat.models import ThreadMessage
 
 
 class SlackMessageInfo(BaseModel):

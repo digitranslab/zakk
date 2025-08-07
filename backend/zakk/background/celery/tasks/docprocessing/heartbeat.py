@@ -2,9 +2,9 @@ import threading
 
 from sqlalchemy import update
 
-from onyx.configs.constants import INDEXING_WORKER_HEARTBEAT_INTERVAL
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import IndexAttempt
+from zakk.configs.constants import INDEXING_WORKER_HEARTBEAT_INTERVAL
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import IndexAttempt
 
 
 def start_heartbeat(index_attempt_id: int) -> tuple[threading.Thread, threading.Event]:

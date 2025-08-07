@@ -4,11 +4,11 @@ from jira import JIRA
 from jira.resources import PermissionScheme
 from pydantic import ValidationError
 
-from ee.onyx.external_permissions.jira.models import Holder
-from ee.onyx.external_permissions.jira.models import Permission
-from ee.onyx.external_permissions.jira.models import User
-from onyx.access.models import ExternalAccess
-from onyx.utils.logger import setup_logger
+from ee.zakk.external_permissions.jira.models import Holder
+from ee.zakk.external_permissions.jira.models import Permission
+from ee.zakk.external_permissions.jira.models import User
+from zakk.access.models import ExternalAccess
+from zakk.utils.logger import setup_logger
 
 HolderMap = dict[str, list[Holder]]
 

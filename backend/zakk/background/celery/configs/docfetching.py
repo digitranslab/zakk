@@ -1,5 +1,5 @@
-import onyx.background.celery.configs.base as shared_config
-from onyx.configs.app_configs import CELERY_WORKER_DOCFETCHING_CONCURRENCY
+import zakk.background.celery.configs.base as shared_config
+from zakk.configs.app_configs import CELERY_WORKER_DOCFETCHING_CONCURRENCY
 
 broker_url = shared_config.broker_url
 broker_connection_retry_on_startup = shared_config.broker_connection_retry_on_startup

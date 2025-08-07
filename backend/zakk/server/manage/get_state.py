@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 
-from onyx import __version__
-from onyx.auth.users import anonymous_user_enabled
-from onyx.auth.users import user_needs_to_be_verified
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.server.manage.models import AuthTypeResponse
-from onyx.server.manage.models import VersionResponse
-from onyx.server.models import StatusResponse
+from zakk import __version__
+from zakk.auth.users import anonymous_user_enabled
+from zakk.auth.users import user_needs_to_be_verified
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.server.manage.models import AuthTypeResponse
+from zakk.server.manage.models import VersionResponse
+from zakk.server.models import StatusResponse
 
 router = APIRouter()
 

@@ -4,39 +4,39 @@ from typing import TYPE_CHECKING
 
 from pydantic import BaseModel
 
-from ee.onyx.configs.app_configs import CONFLUENCE_PERMISSION_DOC_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import CONFLUENCE_PERMISSION_GROUP_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import DEFAULT_PERMISSION_DOC_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import GITHUB_PERMISSION_DOC_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import GITHUB_PERMISSION_GROUP_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import GOOGLE_DRIVE_PERMISSION_GROUP_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import JIRA_PERMISSION_DOC_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import SLACK_PERMISSION_DOC_SYNC_FREQUENCY
-from ee.onyx.configs.app_configs import TEAMS_PERMISSION_DOC_SYNC_FREQUENCY
-from ee.onyx.external_permissions.confluence.doc_sync import confluence_doc_sync
-from ee.onyx.external_permissions.confluence.group_sync import confluence_group_sync
-from ee.onyx.external_permissions.github.doc_sync import github_doc_sync
-from ee.onyx.external_permissions.github.group_sync import github_group_sync
-from ee.onyx.external_permissions.gmail.doc_sync import gmail_doc_sync
-from ee.onyx.external_permissions.google_drive.doc_sync import gdrive_doc_sync
-from ee.onyx.external_permissions.google_drive.group_sync import gdrive_group_sync
-from ee.onyx.external_permissions.jira.doc_sync import jira_doc_sync
-from ee.onyx.external_permissions.perm_sync_types import CensoringFuncType
-from ee.onyx.external_permissions.perm_sync_types import DocSyncFuncType
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsFunction
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
-from ee.onyx.external_permissions.perm_sync_types import GroupSyncFuncType
-from ee.onyx.external_permissions.salesforce.postprocessing import (
+from ee.zakk.configs.app_configs import CONFLUENCE_PERMISSION_DOC_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import CONFLUENCE_PERMISSION_GROUP_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import DEFAULT_PERMISSION_DOC_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import GITHUB_PERMISSION_DOC_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import GITHUB_PERMISSION_GROUP_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import GOOGLE_DRIVE_PERMISSION_GROUP_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import JIRA_PERMISSION_DOC_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import SLACK_PERMISSION_DOC_SYNC_FREQUENCY
+from ee.zakk.configs.app_configs import TEAMS_PERMISSION_DOC_SYNC_FREQUENCY
+from ee.zakk.external_permissions.confluence.doc_sync import confluence_doc_sync
+from ee.zakk.external_permissions.confluence.group_sync import confluence_group_sync
+from ee.zakk.external_permissions.github.doc_sync import github_doc_sync
+from ee.zakk.external_permissions.github.group_sync import github_group_sync
+from ee.zakk.external_permissions.gmail.doc_sync import gmail_doc_sync
+from ee.zakk.external_permissions.google_drive.doc_sync import gdrive_doc_sync
+from ee.zakk.external_permissions.google_drive.group_sync import gdrive_group_sync
+from ee.zakk.external_permissions.jira.doc_sync import jira_doc_sync
+from ee.zakk.external_permissions.perm_sync_types import CensoringFuncType
+from ee.zakk.external_permissions.perm_sync_types import DocSyncFuncType
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsFunction
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
+from ee.zakk.external_permissions.perm_sync_types import GroupSyncFuncType
+from ee.zakk.external_permissions.salesforce.postprocessing import (
     censor_salesforce_chunks,
 )
-from ee.onyx.external_permissions.slack.doc_sync import slack_doc_sync
-from ee.onyx.external_permissions.teams.doc_sync import teams_doc_sync
-from onyx.configs.constants import DocumentSource
+from ee.zakk.external_permissions.slack.doc_sync import slack_doc_sync
+from ee.zakk.external_permissions.teams.doc_sync import teams_doc_sync
+from zakk.configs.constants import DocumentSource
 
 if TYPE_CHECKING:
-    from onyx.access.models import DocExternalAccess  # noqa
-    from onyx.db.models import ConnectorCredentialPair  # noqa
-    from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface  # noqa
+    from zakk.access.models import DocExternalAccess  # noqa
+    from zakk.db.models import ConnectorCredentialPair  # noqa
+    from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface  # noqa
 
 
 class DocSyncConfig(BaseModel):

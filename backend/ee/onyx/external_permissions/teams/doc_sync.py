@@ -1,14 +1,14 @@
 from collections.abc import Generator
 
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsFunction
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
-from ee.onyx.external_permissions.utils import generic_doc_sync
-from onyx.access.models import DocExternalAccess
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.teams.connector import TeamsConnector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsFunction
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
+from ee.zakk.external_permissions.utils import generic_doc_sync
+from zakk.access.models import DocExternalAccess
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.teams.connector import TeamsConnector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

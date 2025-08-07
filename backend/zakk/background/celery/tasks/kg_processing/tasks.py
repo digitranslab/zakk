@@ -5,32 +5,32 @@ from celery import Task
 from celery.exceptions import SoftTimeLimitExceeded
 from redis.lock import Lock as RedisLock
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.tasks.kg_processing.utils import (
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.tasks.kg_processing.utils import (
     is_kg_clustering_only_requirements_met,
 )
-from onyx.background.celery.tasks.kg_processing.utils import (
+from zakk.background.celery.tasks.kg_processing.utils import (
     is_kg_processing_requirements_met,
 )
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.search_settings import get_current_search_settings
-from onyx.kg.clustering.clustering import kg_clustering
-from onyx.kg.extractions.extraction_processing import kg_extraction
-from onyx.kg.resets.reset_source import reset_source_kg_index
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import redis_lock_dump
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.search_settings import get_current_search_settings
+from zakk.kg.clustering.clustering import kg_clustering
+from zakk.kg.extractions.extraction_processing import kg_extraction
+from zakk.kg.resets.reset_source import reset_source_kg_index
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import redis_lock_dump
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_KG_PROCESSING,
+    name=ZakkCeleryTask.CHECK_KG_PROCESSING,
     soft_time_limit=300,
     bind=True,
 )
@@ -48,12 +48,12 @@ def check_for_kg_processing(self: Task, *, tenant_id: str) -> None:
         )
 
         self.app.send_task(
-            OnyxCeleryTask.KG_PROCESSING,
+            ZakkCeleryTask.KG_PROCESSING,
             kwargs={
                 "tenant_id": tenant_id,
             },
-            queue=OnyxCeleryQueues.KG_PROCESSING,
-            priority=OnyxCeleryPriority.MEDIUM,
+            queue=ZakkCeleryQueues.KG_PROCESSING,
+            priority=ZakkCeleryPriority.MEDIUM,
         )
 
     except SoftTimeLimitExceeded:
@@ -68,7 +68,7 @@ def check_for_kg_processing(self: Task, *, tenant_id: str) -> None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_KG_PROCESSING_CLUSTERING_ONLY,
+    name=ZakkCeleryTask.CHECK_KG_PROCESSING_CLUSTERING_ONLY,
     soft_time_limit=300,
     bind=True,
 )
@@ -87,12 +87,12 @@ def check_for_kg_processing_clustering_only(self: Task, *, tenant_id: str) -> No
         )
 
         self.app.send_task(
-            OnyxCeleryTask.KG_CLUSTERING_ONLY,
+            ZakkCeleryTask.KG_CLUSTERING_ONLY,
             kwargs={
                 "tenant_id": tenant_id,
             },
-            queue=OnyxCeleryQueues.KG_PROCESSING,
-            priority=OnyxCeleryPriority.MEDIUM,
+            queue=ZakkCeleryQueues.KG_PROCESSING,
+            priority=ZakkCeleryPriority.MEDIUM,
         )
 
     except SoftTimeLimitExceeded:
@@ -109,7 +109,7 @@ def check_for_kg_processing_clustering_only(self: Task, *, tenant_id: str) -> No
 
 
 @shared_task(
-    name=OnyxCeleryTask.KG_PROCESSING,
+    name=ZakkCeleryTask.KG_PROCESSING,
     bind=True,
 )
 def kg_processing(self: Task, *, tenant_id: str) -> None:
@@ -119,7 +119,7 @@ def kg_processing(self: Task, *, tenant_id: str) -> None:
 
     redis_client = get_redis_client()
     lock_beat: RedisLock = redis_client.lock(
-        OnyxRedisLocks.KG_PROCESSING_LOCK,
+        ZakkRedisLocks.KG_PROCESSING_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -162,7 +162,7 @@ def kg_processing(self: Task, *, tenant_id: str) -> None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.KG_CLUSTERING_ONLY,
+    name=ZakkCeleryTask.KG_CLUSTERING_ONLY,
     bind=True,
 )
 def kg_clustering_only(self: Task, *, tenant_id: str) -> None:
@@ -172,7 +172,7 @@ def kg_clustering_only(self: Task, *, tenant_id: str) -> None:
 
     redis_client = get_redis_client()
     lock_beat: RedisLock = redis_client.lock(
-        OnyxRedisLocks.KG_PROCESSING_LOCK,
+        ZakkRedisLocks.KG_PROCESSING_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -211,7 +211,7 @@ def kg_clustering_only(self: Task, *, tenant_id: str) -> None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.KG_RESET_SOURCE_INDEX,
+    name=ZakkCeleryTask.KG_RESET_SOURCE_INDEX,
     bind=True,
 )
 def kg_reset_source_index(
@@ -223,7 +223,7 @@ def kg_reset_source_index(
 
     redis_client = get_redis_client()
     lock_beat: RedisLock = redis_client.lock(
-        OnyxRedisLocks.KG_PROCESSING_LOCK,
+        ZakkRedisLocks.KG_PROCESSING_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 

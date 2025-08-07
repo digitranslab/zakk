@@ -1,14 +1,14 @@
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import DocumentSource
-from onyx.db.connector_credential_pair import get_connector_credential_pair
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.models import Connector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import UserGroup__ConnectorCredentialPair
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.db.connector_credential_pair import get_connector_credential_pair
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.models import Connector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import UserGroup__ConnectorCredentialPair
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

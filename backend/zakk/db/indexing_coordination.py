@@ -5,13 +5,13 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from onyx.db.engine.time_utils import get_db_current_time
-from onyx.db.enums import IndexingStatus
-from onyx.db.index_attempt import count_error_rows_for_index_attempt
-from onyx.db.index_attempt import create_index_attempt
-from onyx.db.index_attempt import get_index_attempt
-from onyx.db.models import IndexAttempt
-from onyx.utils.logger import setup_logger
+from zakk.db.engine.time_utils import get_db_current_time
+from zakk.db.enums import IndexingStatus
+from zakk.db.index_attempt import count_error_rows_for_index_attempt
+from zakk.db.index_attempt import create_index_attempt
+from zakk.db.index_attempt import get_index_attempt
+from zakk.db.models import IndexAttempt
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

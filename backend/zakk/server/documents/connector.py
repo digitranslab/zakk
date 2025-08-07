@@ -17,117 +17,117 @@ from google.oauth2.credentials import Credentials  # type: ignore
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_chat_accessible_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_user
-from onyx.background.celery.versioned_apps.client import app as client_app
-from onyx.configs.app_configs import ENABLED_CONNECTOR_TYPES
-from onyx.configs.app_configs import MOCK_CONNECTOR_FILE_PATH
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import MilestoneRecordType
-from onyx.configs.constants import ZAKK_METADATA_FILENAME
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.factory import validate_ccpair_for_user
-from onyx.connectors.google_utils.google_auth import (
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_chat_accessible_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_user
+from zakk.background.celery.versioned_apps.client import app as client_app
+from zakk.configs.app_configs import ENABLED_CONNECTOR_TYPES
+from zakk.configs.app_configs import MOCK_CONNECTOR_FILE_PATH
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import MilestoneRecordType
+from zakk.configs.constants import ZAKK_METADATA_FILENAME
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.factory import validate_ccpair_for_user
+from zakk.connectors.google_utils.google_auth import (
     get_google_oauth_creds,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     build_service_account_creds,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     delete_google_app_cred,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     delete_service_account_key,
 )
-from onyx.connectors.google_utils.google_kv import get_auth_url
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import get_auth_url
+from zakk.connectors.google_utils.google_kv import (
     get_google_app_cred,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     get_service_account_key,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     update_credential_access_tokens,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     upsert_google_app_cred,
 )
-from onyx.connectors.google_utils.google_kv import (
+from zakk.connectors.google_utils.google_kv import (
     upsert_service_account_key,
 )
-from onyx.connectors.google_utils.google_kv import verify_csrf
-from onyx.connectors.google_utils.shared_constants import DB_CREDENTIALS_DICT_TOKEN_KEY
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.google_kv import verify_csrf
+from zakk.connectors.google_utils.shared_constants import DB_CREDENTIALS_DICT_TOKEN_KEY
+from zakk.connectors.google_utils.shared_constants import (
     GoogleOAuthAuthenticationMethod,
 )
-from onyx.db.connector import create_connector
-from onyx.db.connector import delete_connector
-from onyx.db.connector import fetch_connector_by_id
-from onyx.db.connector import fetch_connectors
-from onyx.db.connector import get_connector_credential_ids
-from onyx.db.connector import mark_ccpair_with_indexing_trigger
-from onyx.db.connector import update_connector
-from onyx.db.connector_credential_pair import add_credential_to_connector
-from onyx.db.connector_credential_pair import (
+from zakk.db.connector import create_connector
+from zakk.db.connector import delete_connector
+from zakk.db.connector import fetch_connector_by_id
+from zakk.db.connector import fetch_connectors
+from zakk.db.connector import get_connector_credential_ids
+from zakk.db.connector import mark_ccpair_with_indexing_trigger
+from zakk.db.connector import update_connector
+from zakk.db.connector_credential_pair import add_credential_to_connector
+from zakk.db.connector_credential_pair import (
     fetch_connector_credential_pair_for_connector,
 )
-from onyx.db.connector_credential_pair import get_cc_pair_groups_for_ids
-from onyx.db.connector_credential_pair import get_cc_pair_groups_for_ids_parallel
-from onyx.db.connector_credential_pair import get_connector_credential_pair
-from onyx.db.connector_credential_pair import get_connector_credential_pairs_for_user
-from onyx.db.connector_credential_pair import (
+from zakk.db.connector_credential_pair import get_cc_pair_groups_for_ids
+from zakk.db.connector_credential_pair import get_cc_pair_groups_for_ids_parallel
+from zakk.db.connector_credential_pair import get_connector_credential_pair
+from zakk.db.connector_credential_pair import get_connector_credential_pairs_for_user
+from zakk.db.connector_credential_pair import (
     get_connector_credential_pairs_for_user_parallel,
 )
-from onyx.db.credentials import cleanup_gmail_credentials
-from onyx.db.credentials import cleanup_google_drive_credentials
-from onyx.db.credentials import create_credential
-from onyx.db.credentials import delete_service_account_credentials
-from onyx.db.credentials import fetch_credential_by_id_for_user
-from onyx.db.deletion_attempt import check_deletion_attempt_is_allowed
-from onyx.db.document import get_document_counts_for_cc_pairs_parallel
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.enums import AccessType
-from onyx.db.enums import IndexingMode
-from onyx.db.index_attempt import get_index_attempts_for_cc_pair
-from onyx.db.index_attempt import get_latest_index_attempts_by_status
-from onyx.db.index_attempt import get_latest_index_attempts_parallel
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexingStatus
-from onyx.db.models import User
-from onyx.db.models import UserGroup__ConnectorCredentialPair
-from onyx.file_processing.extract_file_text import convert_docx_to_txt
-from onyx.file_store.file_store import get_default_file_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.server.documents.models import AuthStatus
-from onyx.server.documents.models import AuthUrl
-from onyx.server.documents.models import ConnectorCredentialPairIdentifier
-from onyx.server.documents.models import ConnectorIndexingStatus
-from onyx.server.documents.models import ConnectorSnapshot
-from onyx.server.documents.models import ConnectorStatus
-from onyx.server.documents.models import ConnectorUpdateRequest
-from onyx.server.documents.models import CredentialBase
-from onyx.server.documents.models import CredentialSnapshot
-from onyx.server.documents.models import FailedConnectorIndexingStatus
-from onyx.server.documents.models import FileUploadResponse
-from onyx.server.documents.models import GDriveCallback
-from onyx.server.documents.models import GmailCallback
-from onyx.server.documents.models import GoogleAppCredentials
-from onyx.server.documents.models import GoogleServiceAccountCredentialRequest
-from onyx.server.documents.models import GoogleServiceAccountKey
-from onyx.server.documents.models import IndexAttemptSnapshot
-from onyx.server.documents.models import ObjectCreationIdResponse
-from onyx.server.documents.models import RunConnectorRequest
-from onyx.server.models import StatusResponse
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import create_milestone_and_report
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.db.credentials import cleanup_gmail_credentials
+from zakk.db.credentials import cleanup_google_drive_credentials
+from zakk.db.credentials import create_credential
+from zakk.db.credentials import delete_service_account_credentials
+from zakk.db.credentials import fetch_credential_by_id_for_user
+from zakk.db.deletion_attempt import check_deletion_attempt_is_allowed
+from zakk.db.document import get_document_counts_for_cc_pairs_parallel
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.enums import AccessType
+from zakk.db.enums import IndexingMode
+from zakk.db.index_attempt import get_index_attempts_for_cc_pair
+from zakk.db.index_attempt import get_latest_index_attempts_by_status
+from zakk.db.index_attempt import get_latest_index_attempts_parallel
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexingStatus
+from zakk.db.models import User
+from zakk.db.models import UserGroup__ConnectorCredentialPair
+from zakk.file_processing.extract_file_text import convert_docx_to_txt
+from zakk.file_store.file_store import get_default_file_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.server.documents.models import AuthStatus
+from zakk.server.documents.models import AuthUrl
+from zakk.server.documents.models import ConnectorCredentialPairIdentifier
+from zakk.server.documents.models import ConnectorIndexingStatus
+from zakk.server.documents.models import ConnectorSnapshot
+from zakk.server.documents.models import ConnectorStatus
+from zakk.server.documents.models import ConnectorUpdateRequest
+from zakk.server.documents.models import CredentialBase
+from zakk.server.documents.models import CredentialSnapshot
+from zakk.server.documents.models import FailedConnectorIndexingStatus
+from zakk.server.documents.models import FileUploadResponse
+from zakk.server.documents.models import GDriveCallback
+from zakk.server.documents.models import GmailCallback
+from zakk.server.documents.models import GoogleAppCredentials
+from zakk.server.documents.models import GoogleServiceAccountCredentialRequest
+from zakk.server.documents.models import GoogleServiceAccountKey
+from zakk.server.documents.models import IndexAttemptSnapshot
+from zakk.server.documents.models import ObjectCreationIdResponse
+from zakk.server.documents.models import RunConnectorRequest
+from zakk.server.models import StatusResponse
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import create_milestone_and_report
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()
@@ -907,7 +907,7 @@ def create_connector_from_model(
         _validate_connector_allowed(connector_data.source)
 
         fetch_ee_implementation_or_noop(
-            "onyx.db.user_group", "validate_object_creation_for_user", None
+            "zakk.db.user_group", "validate_object_creation_for_user", None
         )(
             db_session=db_session,
             user=user,
@@ -945,7 +945,7 @@ def create_connector_with_mock_credential(
     tenant_id = get_current_tenant_id()
 
     fetch_ee_implementation_or_noop(
-        "onyx.db.user_group", "validate_object_creation_for_user", None
+        "zakk.db.user_group", "validate_object_creation_for_user", None
     )(
         db_session=db_session,
         user=user,
@@ -993,8 +993,8 @@ def create_connector_with_mock_credential(
 
         # trigger indexing immediately
         client_app.send_task(
-            OnyxCeleryTask.CHECK_FOR_INDEXING,
-            priority=OnyxCeleryPriority.HIGH,
+            ZakkCeleryTask.CHECK_FOR_INDEXING,
+            priority=ZakkCeleryPriority.HIGH,
             kwargs={"tenant_id": tenant_id},
         )
 
@@ -1031,7 +1031,7 @@ def update_connector_from_model(
     try:
         _validate_connector_allowed(connector_data.source)
         fetch_ee_implementation_or_noop(
-            "onyx.db.user_group", "validate_object_creation_for_user", None
+            "zakk.db.user_group", "validate_object_creation_for_user", None
         )(
             db_session=db_session,
             user=user,
@@ -1378,10 +1378,10 @@ def trigger_indexing_for_cc_pair(
             )
 
     # run the beat task to pick up the triggers immediately
-    priority = OnyxCeleryPriority.HIGHEST if is_user_file else OnyxCeleryPriority.HIGH
+    priority = ZakkCeleryPriority.HIGHEST if is_user_file else ZakkCeleryPriority.HIGH
     logger.info(f"Sending indexing check task with priority {priority}")
     client_app.send_task(
-        OnyxCeleryTask.CHECK_FOR_INDEXING,
+        ZakkCeleryTask.CHECK_FOR_INDEXING,
         priority=priority,
         kwargs={"tenant_id": tenant_id},
     )

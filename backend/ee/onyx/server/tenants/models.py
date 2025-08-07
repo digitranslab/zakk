@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from onyx.server.settings.models import ApplicationStatus
+from zakk.server.settings.models import ApplicationStatus
 
 
 class CheckoutSessionCreationRequest(BaseModel):

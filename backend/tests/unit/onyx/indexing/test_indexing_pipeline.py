@@ -6,21 +6,21 @@ from unittest.mock import patch
 
 import pytest
 
-from onyx.configs.app_configs import MAX_DOCUMENT_CHARS
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentSource
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.indexing.chunker import Chunker
-from onyx.indexing.embedder import DefaultIndexingEmbedder
-from onyx.indexing.indexing_pipeline import _get_aggregated_chunk_boost_factor
-from onyx.indexing.indexing_pipeline import add_contextual_summaries
-from onyx.indexing.indexing_pipeline import filter_documents
-from onyx.indexing.indexing_pipeline import process_image_sections
-from onyx.indexing.models import ChunkEmbedding
-from onyx.indexing.models import IndexChunk
-from onyx.llm.utils import get_max_input_tokens
-from onyx.natural_language_processing.search_nlp_models import (
+from zakk.configs.app_configs import MAX_DOCUMENT_CHARS
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentSource
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.indexing.chunker import Chunker
+from zakk.indexing.embedder import DefaultIndexingEmbedder
+from zakk.indexing.indexing_pipeline import _get_aggregated_chunk_boost_factor
+from zakk.indexing.indexing_pipeline import add_contextual_summaries
+from zakk.indexing.indexing_pipeline import filter_documents
+from zakk.indexing.indexing_pipeline import process_image_sections
+from zakk.indexing.models import ChunkEmbedding
+from zakk.indexing.models import IndexChunk
+from zakk.llm.utils import get_max_input_tokens
+from zakk.natural_language_processing.search_nlp_models import (
     ContentClassificationPrediction,
 )
 from shared_configs.configs import (
@@ -261,7 +261,7 @@ def test_get_aggregated_boost_factor_individual_failure() -> None:
     assert "Failed to predict content classification for chunk" in str(exc_info.value)
 
 
-@patch("onyx.llm.utils.GEN_AI_MAX_TOKENS", 4096)
+@patch("zakk.llm.utils.GEN_AI_MAX_TOKENS", 4096)
 @pytest.mark.parametrize("enable_contextual_rag", [True, False])
 def test_contextual_rag(
     embedder: DefaultIndexingEmbedder, enable_contextual_rag: bool

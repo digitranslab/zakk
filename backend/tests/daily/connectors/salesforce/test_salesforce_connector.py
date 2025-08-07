@@ -8,9 +8,9 @@ from typing import cast
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import Document
-from onyx.connectors.salesforce.connector import SalesforceConnector
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import Document
+from zakk.connectors.salesforce.connector import SalesforceConnector
 
 
 def extract_key_value_pairs_to_set(

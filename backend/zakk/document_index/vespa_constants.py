@@ -1,9 +1,9 @@
-from onyx.configs.app_configs import VESPA_CLOUD_URL
-from onyx.configs.app_configs import VESPA_CONFIG_SERVER_HOST
-from onyx.configs.app_configs import VESPA_HOST
-from onyx.configs.app_configs import VESPA_PORT
-from onyx.configs.app_configs import VESPA_TENANT_PORT
-from onyx.configs.constants import SOURCE_TYPE
+from zakk.configs.app_configs import VESPA_CLOUD_URL
+from zakk.configs.app_configs import VESPA_CONFIG_SERVER_HOST
+from zakk.configs.app_configs import VESPA_HOST
+from zakk.configs.app_configs import VESPA_PORT
+from zakk.configs.app_configs import VESPA_TENANT_PORT
+from zakk.configs.constants import SOURCE_TYPE
 
 # config server
 

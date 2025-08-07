@@ -9,7 +9,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { MinimalOnyxDocument } from "@/lib/search/interfaces";
+import { MinimalZakkDocument } from "@/lib/search/interfaces";
 import * as documentsService from "@/services/documentsService";
 import { ChatFileType, FileDescriptor } from "../interfaces";
 
@@ -57,7 +57,7 @@ export interface DocumentsContextType {
   folders: FolderResponse[];
   files: FileResponse[];
   currentFolder: number | null;
-  presentingDocument: MinimalOnyxDocument | null;
+  presentingDocument: MinimalZakkDocument | null;
   searchQuery: string;
   page: number;
   isLoading: boolean;
@@ -86,7 +86,7 @@ export interface DocumentsContextType {
     folderId: number | null
   ) => Promise<FileResponse[]>;
   setCurrentFolder: (folderId: number | null) => void;
-  setPresentingDocument: (document: MinimalOnyxDocument | null) => void;
+  setPresentingDocument: (document: MinimalZakkDocument | null) => void;
   setSearchQuery: (query: string) => void;
   setPage: (page: number) => void;
   getFilesIndexingStatus: (
@@ -133,7 +133,7 @@ export const DocumentsProvider: React.FC<DocumentsProviderProps> = ({
   const [folders, setFolders] = useState<FolderResponse[]>([]);
   const [currentFolder, setCurrentFolder] = useState<number | null>(null);
   const [presentingDocument, setPresentingDocument] =
-    useState<MinimalOnyxDocument | null>(null);
+    useState<MinimalZakkDocument | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [selectedFiles, setSelectedFiles] = useState<FileResponse[]>([]);

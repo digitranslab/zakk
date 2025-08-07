@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { X, FolderIcon, Loader2 } from "lucide-react";
 import { FolderResponse, FileResponse } from "../DocumentsContext";
 import { getFileIconFromFileNameAndLink } from "@/lib/assistantIconUtils";
-import { MinimalOnyxDocument } from "@/lib/search/interfaces";
+import { MinimalZakkDocument } from "@/lib/search/interfaces";
 import { UploadingFile } from "./FilePicker";
 import { CircularProgress } from "../[id]/components/upload/CircularProgress";
 
@@ -14,7 +14,7 @@ interface SelectedItemsListProps {
   uploadingFiles: UploadingFile[];
   onRemoveFile: (file: FileResponse) => void;
   onRemoveFolder: (folder: FolderResponse) => void;
-  setPresentingDocument: (onyxDocument: MinimalOnyxDocument) => void;
+  setPresentingDocument: (zakkDocument: MinimalZakkDocument) => void;
 }
 
 export const SelectedItemsList: React.FC<SelectedItemsListProps> = ({

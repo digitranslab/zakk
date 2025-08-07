@@ -4,25 +4,25 @@ from fastapi import HTTPException
 from fastapi import Path
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_user
-from onyx.db.chat import get_chat_session_by_id
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.folder import add_chat_to_folder
-from onyx.db.folder import create_folder
-from onyx.db.folder import delete_folder
-from onyx.db.folder import get_user_folders
-from onyx.db.folder import remove_chat_from_folder
-from onyx.db.folder import rename_folder
-from onyx.db.folder import update_folder_display_priority
-from onyx.db.models import User
-from onyx.server.features.folder.models import DeleteFolderOptions
-from onyx.server.features.folder.models import FolderChatSessionRequest
-from onyx.server.features.folder.models import FolderCreationRequest
-from onyx.server.features.folder.models import FolderUpdateRequest
-from onyx.server.features.folder.models import GetUserFoldersResponse
-from onyx.server.features.folder.models import UserFolderSnapshot
-from onyx.server.models import DisplayPriorityRequest
-from onyx.server.query_and_chat.models import ChatSessionDetails
+from zakk.auth.users import current_user
+from zakk.db.chat import get_chat_session_by_id
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.folder import add_chat_to_folder
+from zakk.db.folder import create_folder
+from zakk.db.folder import delete_folder
+from zakk.db.folder import get_user_folders
+from zakk.db.folder import remove_chat_from_folder
+from zakk.db.folder import rename_folder
+from zakk.db.folder import update_folder_display_priority
+from zakk.db.models import User
+from zakk.server.features.folder.models import DeleteFolderOptions
+from zakk.server.features.folder.models import FolderChatSessionRequest
+from zakk.server.features.folder.models import FolderCreationRequest
+from zakk.server.features.folder.models import FolderUpdateRequest
+from zakk.server.features.folder.models import GetUserFoldersResponse
+from zakk.server.features.folder.models import UserFolderSnapshot
+from zakk.server.models import DisplayPriorityRequest
+from zakk.server.query_and_chat.models import ChatSessionDetails
 
 router = APIRouter(prefix="/folder")
 

@@ -2,20 +2,20 @@ import time
 
 from redis.lock import Lock as RedisLock
 
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.document import check_for_documents_needing_kg_processing
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.kg_config import get_kg_config_settings
-from onyx.db.kg_config import is_kg_config_settings_enabled_valid
-from onyx.db.models import KGEntityExtractionStaging
-from onyx.db.models import KGRelationshipExtractionStaging
-from onyx.redis.redis_pool import get_redis_client
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.document import check_for_documents_needing_kg_processing
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.kg_config import get_kg_config_settings
+from zakk.db.kg_config import is_kg_config_settings_enabled_valid
+from zakk.db.models import KGEntityExtractionStaging
+from zakk.db.models import KGRelationshipExtractionStaging
+from zakk.redis.redis_pool import get_redis_client
 
 
 def is_kg_processing_blocked() -> bool:
     """Checks if there are any KG tasks in progress."""
     redis_client = get_redis_client()
-    lock_beat: RedisLock = redis_client.lock(OnyxRedisLocks.KG_PROCESSING_LOCK)
+    lock_beat: RedisLock = redis_client.lock(ZakkRedisLocks.KG_PROCESSING_LOCK)
     return lock_beat.locked()
 
 

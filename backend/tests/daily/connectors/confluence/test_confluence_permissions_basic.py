@@ -5,13 +5,13 @@ from unittest.mock import patch
 
 import pytest
 
-from ee.onyx.external_permissions.confluence.doc_sync import confluence_doc_sync
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.confluence.connector import ConfluenceConnector
-from onyx.connectors.credentials_provider import OnyxStaticCredentialsProvider
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.utils import DocumentRow
-from onyx.db.utils import SortOrder
+from ee.zakk.external_permissions.confluence.doc_sync import confluence_doc_sync
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.confluence.connector import ConfluenceConnector
+from zakk.connectors.credentials_provider import ZakkStaticCredentialsProvider
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.utils import DocumentRow
+from zakk.db.utils import SortOrder
 from tests.daily.connectors.utils import load_all_docs_from_checkpoint_connector
 
 
@@ -22,7 +22,7 @@ def confluence_connector() -> ConfluenceConnector:
         is_cloud=True,
     )
 
-    credentials_provider = OnyxStaticCredentialsProvider(
+    credentials_provider = ZakkStaticCredentialsProvider(
         None,
         DocumentSource.CONFLUENCE,
         {
@@ -37,7 +37,7 @@ def confluence_connector() -> ConfluenceConnector:
 # This should never fail because even if the docs in the cloud change,
 # the full doc ids retrieved should always be a subset of the slim doc ids
 @patch(
-    "onyx.file_processing.extract_file_text.get_unstructured_api_key",
+    "zakk.file_processing.extract_file_text.get_unstructured_api_key",
     return_value=None,
 )
 def test_confluence_connector_permissions(
@@ -66,9 +66,9 @@ def test_confluence_connector_permissions(
     ), f"Full doc IDs are not a subset of slim doc IDs. Found {len(difference)} IDs in full docs but not in slim docs."
 
 
-@patch("ee.onyx.external_permissions.confluence.doc_sync.OnyxDBCredentialsProvider")
+@patch("ee.zakk.external_permissions.confluence.doc_sync.ZakkDBCredentialsProvider")
 @patch(
-    "onyx.file_processing.extract_file_text.get_unstructured_api_key",
+    "zakk.file_processing.extract_file_text.get_unstructured_api_key",
     return_value=None,
 )
 def test_confluence_connector_restriction_handling(

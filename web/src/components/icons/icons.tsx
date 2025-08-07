@@ -2941,7 +2941,7 @@ export const PinnedIcon = ({
     </svg>
   );
 };
-export const OnyxLogoTypeIcon = ({
+export const ZakkLogoTypeIcon = ({
   size = 16,
   className = defaultTailwindCSS,
 }: IconProps) => {
@@ -2997,7 +2997,7 @@ export const OnyxLogoTypeIcon = ({
   );
 };
 
-export const OnyxIcon = ({
+export const ZakkIcon = ({
   size = 16,
   className = defaultTailwindCSS,
 }: IconProps) => {

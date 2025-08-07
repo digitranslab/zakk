@@ -57,9 +57,9 @@ export default function OpenEmbeddingPage({
         </a>
         .
         <br />
-        <b>NOTE:</b> not all models listed will work with Onyx, since some have
+        <b>NOTE:</b> not all models listed will work with Zakk, since some have
         unique interfaces or special requirements. If in doubt, reach out to the
-        Onyx team.
+        Zakk team.
       </Text>
       {!configureModel && (
         <Button

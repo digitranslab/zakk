@@ -8,9 +8,9 @@ from uuid import UUID
 
 import requests
 
-from ee.onyx.server.query_history.api import ChatSessionSnapshot
-from onyx.server.manage.models import AllUsersResponse
-from onyx.server.query_and_chat.models import ChatSessionsResponse
+from ee.zakk.server.query_history.api import ChatSessionSnapshot
+from zakk.server.manage.models import AllUsersResponse
+from zakk.server.query_and_chat.models import ChatSessionsResponse
 
 # Configure the logger
 logging.basicConfig(
@@ -220,15 +220,15 @@ if __name__ == "__main__":
         "--url",
         type=str,
         default="http://localhost:8080",
-        help="Onyx URL, should point to Onyx nginx.",
+        help="Zakk URL, should point to Zakk nginx.",
     )
 
     # Not needed if Auth is disabled?
-    # Or for Onyx MIT Edition API key must be replaced with session cookie
+    # Or for Zakk MIT Edition API key must be replaced with session cookie
     parser.add_argument(
         "--api-key",
         type=str,
-        help="Onyx Admin Level API key",
+        help="Zakk Admin Level API key",
     )
 
     args = parser.parse_args()

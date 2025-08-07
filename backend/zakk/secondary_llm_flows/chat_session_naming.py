@@ -1,13 +1,13 @@
-from onyx.chat.chat_utils import combine_message_chain
-from onyx.configs.chat_configs import LANGUAGE_CHAT_NAMING_HINT
-from onyx.configs.model_configs import GEN_AI_HISTORY_CUTOFF
-from onyx.db.models import ChatMessage
-from onyx.db.search_settings import get_multilingual_expansion
-from onyx.llm.interfaces import LLM
-from onyx.llm.utils import dict_based_prompt_to_langchain_prompt
-from onyx.llm.utils import message_to_string
-from onyx.prompts.chat_prompts import CHAT_NAMING
-from onyx.utils.logger import setup_logger
+from zakk.chat.chat_utils import combine_message_chain
+from zakk.configs.chat_configs import LANGUAGE_CHAT_NAMING_HINT
+from zakk.configs.model_configs import GEN_AI_HISTORY_CUTOFF
+from zakk.db.models import ChatMessage
+from zakk.db.search_settings import get_multilingual_expansion
+from zakk.llm.interfaces import LLM
+from zakk.llm.utils import dict_based_prompt_to_langchain_prompt
+from zakk.llm.utils import message_to_string
+from zakk.prompts.chat_prompts import CHAT_NAMING
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

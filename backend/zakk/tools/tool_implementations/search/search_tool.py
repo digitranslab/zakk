@@ -8,51 +8,51 @@ from typing import TypeVar
 
 from sqlalchemy.orm import Session
 
-from onyx.chat.chat_utils import llm_doc_from_inference_section
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import ContextualPruningConfig
-from onyx.chat.models import DocumentPruningConfig
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import PromptConfig
-from onyx.chat.models import SectionRelevancePiece
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.chat.prompt_builder.citations_prompt import compute_max_llm_input_tokens
-from onyx.chat.prune_and_merge import prune_and_merge_sections
-from onyx.chat.prune_and_merge import prune_sections
-from onyx.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
-from onyx.configs.chat_configs import CONTEXT_CHUNKS_BELOW
-from onyx.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
-from onyx.context.search.enums import LLMEvaluationType
-from onyx.context.search.enums import QueryFlow
-from onyx.context.search.models import BaseFilters
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import RerankingDetails
-from onyx.context.search.models import RetrievalDetails
-from onyx.context.search.models import SearchRequest
-from onyx.context.search.models import UserFileFilters
-from onyx.context.search.pipeline import SearchPipeline
-from onyx.context.search.pipeline import section_relevance_list_impl
-from onyx.db.models import Persona
-from onyx.db.models import User
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.secondary_llm_flows.choose_search import check_if_need_search
-from onyx.secondary_llm_flows.query_expansion import history_based_query_rephrase
-from onyx.tools.message import ToolCallSummary
-from onyx.tools.models import SearchQueryInfo
-from onyx.tools.models import SearchToolOverrideKwargs
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool import Tool
-from onyx.tools.tool_implementations.search.search_utils import llm_doc_to_dict
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.chat.chat_utils import llm_doc_from_inference_section
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import ContextualPruningConfig
+from zakk.chat.models import DocumentPruningConfig
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import PromptConfig
+from zakk.chat.models import SectionRelevancePiece
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.chat.prompt_builder.citations_prompt import compute_max_llm_input_tokens
+from zakk.chat.prune_and_merge import prune_and_merge_sections
+from zakk.chat.prune_and_merge import prune_sections
+from zakk.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
+from zakk.configs.chat_configs import CONTEXT_CHUNKS_BELOW
+from zakk.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
+from zakk.context.search.enums import LLMEvaluationType
+from zakk.context.search.enums import QueryFlow
+from zakk.context.search.models import BaseFilters
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import RerankingDetails
+from zakk.context.search.models import RetrievalDetails
+from zakk.context.search.models import SearchRequest
+from zakk.context.search.models import UserFileFilters
+from zakk.context.search.pipeline import SearchPipeline
+from zakk.context.search.pipeline import section_relevance_list_impl
+from zakk.db.models import Persona
+from zakk.db.models import User
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.secondary_llm_flows.choose_search import check_if_need_search
+from zakk.secondary_llm_flows.query_expansion import history_based_query_rephrase
+from zakk.tools.message import ToolCallSummary
+from zakk.tools.models import SearchQueryInfo
+from zakk.tools.models import SearchToolOverrideKwargs
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool import Tool
+from zakk.tools.tool_implementations.search.search_utils import llm_doc_to_dict
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     build_next_prompt_for_search_like_tool,
 )
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     FINAL_CONTEXT_DOCUMENTS_ID,
 )
-from onyx.utils.logger import setup_logger
-from onyx.utils.special_types import JSON_ro
+from zakk.utils.logger import setup_logger
+from zakk.utils.special_types import JSON_ro
 
 logger = setup_logger()
 

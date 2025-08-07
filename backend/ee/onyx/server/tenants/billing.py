@@ -3,13 +3,13 @@ from typing import cast
 import requests
 import stripe
 
-from ee.onyx.configs.app_configs import STRIPE_PRICE_ID
-from ee.onyx.configs.app_configs import STRIPE_SECRET_KEY
-from ee.onyx.server.tenants.access import generate_data_plane_token
-from ee.onyx.server.tenants.models import BillingInformation
-from ee.onyx.server.tenants.models import SubscriptionStatusResponse
-from onyx.configs.app_configs import CONTROL_PLANE_API_BASE_URL
-from onyx.utils.logger import setup_logger
+from ee.zakk.configs.app_configs import STRIPE_PRICE_ID
+from ee.zakk.configs.app_configs import STRIPE_SECRET_KEY
+from ee.zakk.server.tenants.access import generate_data_plane_token
+from ee.zakk.server.tenants.models import BillingInformation
+from ee.zakk.server.tenants.models import SubscriptionStatusResponse
+from zakk.configs.app_configs import CONTROL_PLANE_API_BASE_URL
+from zakk.utils.logger import setup_logger
 
 stripe.api_key = STRIPE_SECRET_KEY
 

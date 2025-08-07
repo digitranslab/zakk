@@ -6,54 +6,54 @@ from httpx_oauth.clients.google import GoogleOAuth2
 from httpx_oauth.clients.openid import BASE_SCOPES
 from httpx_oauth.clients.openid import OpenID
 
-from ee.onyx.configs.app_configs import OIDC_SCOPE_OVERRIDE
-from ee.onyx.configs.app_configs import OPENID_CONFIG_URL
-from ee.onyx.server.analytics.api import router as analytics_router
-from ee.onyx.server.auth_check import check_ee_router_auth
-from ee.onyx.server.documents.cc_pair import router as ee_document_cc_pair_router
-from ee.onyx.server.enterprise_settings.api import (
+from ee.zakk.configs.app_configs import OIDC_SCOPE_OVERRIDE
+from ee.zakk.configs.app_configs import OPENID_CONFIG_URL
+from ee.zakk.server.analytics.api import router as analytics_router
+from ee.zakk.server.auth_check import check_ee_router_auth
+from ee.zakk.server.documents.cc_pair import router as ee_document_cc_pair_router
+from ee.zakk.server.enterprise_settings.api import (
     admin_router as enterprise_settings_admin_router,
 )
-from ee.onyx.server.enterprise_settings.api import (
+from ee.zakk.server.enterprise_settings.api import (
     basic_router as enterprise_settings_router,
 )
-from ee.onyx.server.manage.standard_answer import router as standard_answer_router
-from ee.onyx.server.middleware.tenant_tracking import (
+from ee.zakk.server.manage.standard_answer import router as standard_answer_router
+from ee.zakk.server.middleware.tenant_tracking import (
     add_api_server_tenant_id_middleware,
 )
-from ee.onyx.server.oauth.api import router as ee_oauth_router
-from ee.onyx.server.query_and_chat.chat_backend import (
+from ee.zakk.server.oauth.api import router as ee_oauth_router
+from ee.zakk.server.query_and_chat.chat_backend import (
     router as chat_router,
 )
-from ee.onyx.server.query_and_chat.query_backend import (
+from ee.zakk.server.query_and_chat.query_backend import (
     basic_router as query_router,
 )
-from ee.onyx.server.query_history.api import router as query_history_router
-from ee.onyx.server.reporting.usage_export_api import router as usage_export_router
-from ee.onyx.server.saml import router as saml_router
-from ee.onyx.server.seeding import seed_db
-from ee.onyx.server.tenants.api import router as tenants_router
-from ee.onyx.server.token_rate_limits.api import (
+from ee.zakk.server.query_history.api import router as query_history_router
+from ee.zakk.server.reporting.usage_export_api import router as usage_export_router
+from ee.zakk.server.saml import router as saml_router
+from ee.zakk.server.seeding import seed_db
+from ee.zakk.server.tenants.api import router as tenants_router
+from ee.zakk.server.token_rate_limits.api import (
     router as token_rate_limit_settings_router,
 )
-from ee.onyx.server.user_group.api import router as user_group_router
-from ee.onyx.utils.encryption import test_encryption
-from onyx.auth.users import auth_backend
-from onyx.auth.users import create_zakk_oauth_router
-from onyx.auth.users import fastapi_users
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.app_configs import OAUTH_CLIENT_ID
-from onyx.configs.app_configs import OAUTH_CLIENT_SECRET
-from onyx.configs.app_configs import USER_AUTH_SECRET
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import AuthType
-from onyx.main import get_application as get_application_base
-from onyx.main import include_auth_router_with_prefix
-from onyx.main import include_router_with_global_prefix_prepended
-from onyx.main import lifespan as lifespan_base
-from onyx.main import use_route_function_names_as_operation_ids
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import global_version
+from ee.zakk.server.user_group.api import router as user_group_router
+from ee.zakk.utils.encryption import test_encryption
+from zakk.auth.users import auth_backend
+from zakk.auth.users import create_zakk_oauth_router
+from zakk.auth.users import fastapi_users
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.app_configs import OAUTH_CLIENT_ID
+from zakk.configs.app_configs import OAUTH_CLIENT_SECRET
+from zakk.configs.app_configs import USER_AUTH_SECRET
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import AuthType
+from zakk.main import get_application as get_application_base
+from zakk.main import include_auth_router_with_prefix
+from zakk.main import include_router_with_global_prefix_prepended
+from zakk.main import lifespan as lifespan_base
+from zakk.main import use_route_function_names_as_operation_ids
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import global_version
 from shared_configs.configs import MULTI_TENANT
 
 logger = setup_logger()
@@ -66,7 +66,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     steps after."""
 
     async with lifespan_base(app):
-        # seed the Onyx environment with LLMs, Assistants, etc. based on an optional
+        # seed the Zakk environment with LLMs, Assistants, etc. based on an optional
         # environment variable. Used to automate deployment for multiple environments.
         seed_db()
 

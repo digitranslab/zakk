@@ -47,7 +47,7 @@ const Page = () => {
           {NEXT_PUBLIC_CLOUD_ENABLED && (
             <span className="block mt-1 text-blue-600">
               If you continue to experience problems please reach out to the
-              Onyx team at{" "}
+              Zakk team at{" "}
               <a href="mailto:support@digi-trans.org" className="text-blue-600">
                 support@digi-trans.org
               </a>

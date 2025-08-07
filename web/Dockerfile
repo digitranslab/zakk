@@ -1,11 +1,11 @@
 FROM node:20-alpine AS base
 
-LABEL com.onyx.maintainer="founders@digi-trans.org"
-LABEL com.onyx.description="This image is the web/frontend container of Onyx which \
-contains code for both the Community and Enterprise editions of Onyx. If you do not \
+LABEL com.zakk.maintainer="founders@digi-trans.org"
+LABEL com.zakk.description="This image is the web/frontend container of Zakk which \
+contains code for both the Community and Enterprise editions of Zakk. If you do not \
 have a contract or agreement with DanswerAI, you are not permitted to use the Enterprise \
 Edition features outside of personal development or testing purposes. Please reach out to \
-founders@digi-trans.org for more information. Please visit https://github.com/digitranslab/onyx"
+founders@digi-trans.org for more information. Please visit https://github.com/digitranslab/zakk"
 
 # Default ZAKK_VERSION, typically overriden during builds by GitHub Actions.
 ARG ZAKK_VERSION=0.0.0-dev

@@ -9,9 +9,9 @@ from typing import Any
 
 from googleapiclient.errors import HttpError  # type: ignore
 
-from onyx.connectors.google_drive.models import GoogleDriveFileType
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import retry_builder
+from zakk.connectors.google_drive.models import GoogleDriveFileType
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import retry_builder
 
 logger = setup_logger()
 

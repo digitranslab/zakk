@@ -18,20 +18,20 @@ from urllib.parse import urlparse
 import requests
 from pydantic import BaseModel
 
-from onyx.configs.app_configs import (
+from zakk.configs.app_configs import (
     CONFLUENCE_CONNECTOR_ATTACHMENT_CHAR_COUNT_THRESHOLD,
 )
-from onyx.configs.app_configs import CONFLUENCE_CONNECTOR_ATTACHMENT_SIZE_THRESHOLD
-from onyx.configs.constants import FileOrigin
-from onyx.file_processing.extract_file_text import extract_file_text
-from onyx.file_processing.extract_file_text import is_accepted_file_ext
-from onyx.file_processing.extract_file_text import OnyxExtensionType
-from onyx.file_processing.file_validation import is_valid_image_type
-from onyx.file_processing.image_utils import store_image_and_create_section
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import CONFLUENCE_CONNECTOR_ATTACHMENT_SIZE_THRESHOLD
+from zakk.configs.constants import FileOrigin
+from zakk.file_processing.extract_file_text import extract_file_text
+from zakk.file_processing.extract_file_text import is_accepted_file_ext
+from zakk.file_processing.extract_file_text import ZakkExtensionType
+from zakk.file_processing.file_validation import is_valid_image_type
+from zakk.file_processing.image_utils import store_image_and_create_section
+from zakk.utils.logger import setup_logger
 
 if TYPE_CHECKING:
-    from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
+    from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
 
 
 logger = setup_logger()
@@ -63,7 +63,7 @@ def validate_attachment_filetype(
     extension = Path(title).suffix.lstrip(".").lower() if "." in title else ""
 
     return is_accepted_file_ext(
-        "." + extension, OnyxExtensionType.Plain | OnyxExtensionType.Document
+        "." + extension, ZakkExtensionType.Plain | ZakkExtensionType.Document
     )
 
 

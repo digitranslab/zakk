@@ -3,21 +3,21 @@ from datetime import datetime
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
-from onyx.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
+from zakk.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
+from zakk.agents.agent_search.kb_search.graph_utils import (
     stream_write_step_answer_explicit,
 )
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.kb_search.states import ResultsDataUpdate
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.kb_search.states import ResultsDataUpdate
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import SubQueryPiece
-from onyx.db.document import get_base_llm_doc_information
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import SubQueryPiece
+from zakk.db.document import get_base_llm_doc_information
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -33,7 +33,7 @@ def _get_formated_source_reference_results(
     if source_document_results is None:
         return None
 
-    # get all entities that correspond to an Onyx document
+    # get all entities that correspond to an Zakk document
     document_ids = source_document_results
 
     with get_session_with_current_tenant() as session:

@@ -7,18 +7,18 @@ from langchain_core.messages import AIMessage
 from langchain_core.messages import BaseMessage
 from requests import Timeout
 
-from onyx.configs.model_configs import GEN_AI_NUM_RESERVED_OUTPUT_TOKENS
-from onyx.llm.interfaces import LLM
-from onyx.llm.interfaces import ToolChoiceOptions
-from onyx.llm.utils import convert_lm_input_to_basic_string
-from onyx.utils.logger import setup_logger
+from zakk.configs.model_configs import GEN_AI_NUM_RESERVED_OUTPUT_TOKENS
+from zakk.llm.interfaces import LLM
+from zakk.llm.interfaces import ToolChoiceOptions
+from zakk.llm.utils import convert_lm_input_to_basic_string
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
 
 
 class CustomModelServer(LLM):
-    """This class is to provide an example for how to use Onyx
+    """This class is to provide an example for how to use Zakk
     with any LLM, even servers with custom API definitions.
     To use with your own model server, simply implement the functions
     below to fit your model server expectation
@@ -41,7 +41,7 @@ class CustomModelServer(LLM):
     ):
         if not endpoint:
             raise ValueError(
-                "Cannot point Onyx to a custom LLM server without providing the "
+                "Cannot point Zakk to a custom LLM server without providing the "
                 "endpoint for the model server."
             )
 

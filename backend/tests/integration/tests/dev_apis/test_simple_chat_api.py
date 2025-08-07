@@ -4,7 +4,7 @@ import os
 import pytest
 import requests
 
-from onyx.configs.constants import MessageType
+from zakk.configs.constants import MessageType
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.constants import GENERAL_HEADERS
 from tests.integration.common_utils.constants import NUM_DOCS

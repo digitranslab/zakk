@@ -7,28 +7,28 @@ from typing import Optional
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.standard_answer import (
+from ee.zakk.db.standard_answer import (
     create_initial_default_standard_answer_category,
 )
-from ee.onyx.server.enterprise_settings.models import AnalyticsScriptUpload
-from ee.onyx.server.enterprise_settings.models import EnterpriseSettings
-from ee.onyx.server.enterprise_settings.models import NavigationItem
-from ee.onyx.server.enterprise_settings.store import store_analytics_script
-from ee.onyx.server.enterprise_settings.store import (
+from ee.zakk.server.enterprise_settings.models import AnalyticsScriptUpload
+from ee.zakk.server.enterprise_settings.models import EnterpriseSettings
+from ee.zakk.server.enterprise_settings.models import NavigationItem
+from ee.zakk.server.enterprise_settings.store import store_analytics_script
+from ee.zakk.server.enterprise_settings.store import (
     store_settings as store_ee_settings,
 )
-from ee.onyx.server.enterprise_settings.store import upload_logo
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.llm import update_default_provider
-from onyx.db.llm import upsert_llm_provider
-from onyx.db.models import Tool
-from onyx.db.persona import upsert_persona
-from onyx.server.features.persona.models import PersonaUpsertRequest
-from onyx.server.manage.llm.models import LLMProviderUpsertRequest
-from onyx.server.settings.models import Settings
-from onyx.server.settings.store import store_settings as store_base_settings
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.enterprise_settings.store import upload_logo
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.llm import update_default_provider
+from zakk.db.llm import upsert_llm_provider
+from zakk.db.models import Tool
+from zakk.db.persona import upsert_persona
+from zakk.server.features.persona.models import PersonaUpsertRequest
+from zakk.server.manage.llm.models import LLMProviderUpsertRequest
+from zakk.server.settings.models import Settings
+from zakk.server.settings.store import store_settings as store_base_settings
+from zakk.utils.logger import setup_logger
 
 
 class CustomToolSeed(BaseModel):

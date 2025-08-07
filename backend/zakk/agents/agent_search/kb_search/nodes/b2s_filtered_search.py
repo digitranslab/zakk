@@ -5,33 +5,33 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.kb_search.graph_utils import build_document_context
-from onyx.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
-from onyx.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import build_document_context
+from zakk.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
+from zakk.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
+from zakk.agents.agent_search.kb_search.graph_utils import (
     stream_write_step_answer_explicit,
 )
-from onyx.agents.agent_search.kb_search.graph_utils import write_custom_event
-from onyx.agents.agent_search.kb_search.ops import research
-from onyx.agents.agent_search.kb_search.states import ConsolidatedResearchUpdate
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
+from zakk.agents.agent_search.kb_search.graph_utils import write_custom_event
+from zakk.agents.agent_search.kb_search.ops import research
+from zakk.agents.agent_search.kb_search.states import ConsolidatedResearchUpdate
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
     trim_prompt_piece,
 )
-from onyx.agents.agent_search.shared_graph_utils.calculations import (
+from zakk.agents.agent_search.shared_graph_utils.calculations import (
     get_answer_generation_documents,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.chat.models import SubQueryPiece
-from onyx.configs.kg_configs import KG_FILTERED_SEARCH_TIMEOUT
-from onyx.configs.kg_configs import KG_RESEARCH_NUM_RETRIEVED_DOCS
-from onyx.context.search.models import InferenceSection
-from onyx.prompts.kg_prompts import KG_SEARCH_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.chat.models import SubQueryPiece
+from zakk.configs.kg_configs import KG_FILTERED_SEARCH_TIMEOUT
+from zakk.configs.kg_configs import KG_RESEARCH_NUM_RETRIEVED_DOCS
+from zakk.context.search.models import InferenceSection
+from zakk.prompts.kg_prompts import KG_SEARCH_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 
 logger = setup_logger()

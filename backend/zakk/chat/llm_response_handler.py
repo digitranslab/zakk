@@ -4,15 +4,15 @@ from collections.abc import Iterator
 
 from langchain_core.messages import BaseMessage
 
-from onyx.chat.models import ResponsePart
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.prompt_builder.answer_prompt_builder import LLMCall
-from onyx.chat.stream_processing.answer_response_handler import AnswerResponseHandler
-from onyx.chat.stream_processing.answer_response_handler import (
+from zakk.chat.models import ResponsePart
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.prompt_builder.answer_prompt_builder import LLMCall
+from zakk.chat.stream_processing.answer_response_handler import AnswerResponseHandler
+from zakk.chat.stream_processing.answer_response_handler import (
     DummyAnswerResponseHandler,
 )
-from onyx.chat.tool_handling.tool_response_handler import ToolResponseHandler
+from zakk.chat.tool_handling.tool_response_handler import ToolResponseHandler
 
 
 # This is Legacy code that is not used anymore.

@@ -5,47 +5,47 @@ from pydantic import BaseModel
 from pydantic import Field
 from sqlalchemy.orm import Session
 
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import CitationConfig
-from onyx.chat.models import DocumentPruningConfig
-from onyx.chat.models import PromptConfig
-from onyx.configs.app_configs import AZURE_DALLE_API_BASE
-from onyx.configs.app_configs import AZURE_DALLE_API_KEY
-from onyx.configs.app_configs import AZURE_DALLE_API_VERSION
-from onyx.configs.app_configs import AZURE_DALLE_DEPLOYMENT_NAME
-from onyx.configs.app_configs import IMAGE_MODEL_NAME
-from onyx.configs.chat_configs import NUM_INTERNET_SEARCH_CHUNKS
-from onyx.configs.chat_configs import NUM_INTERNET_SEARCH_RESULTS
-from onyx.configs.model_configs import GEN_AI_TEMPERATURE
-from onyx.context.search.enums import LLMEvaluationType
-from onyx.context.search.enums import OptionalSearchSetting
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import RerankingDetails
-from onyx.context.search.models import RetrievalDetails
-from onyx.db.llm import fetch_existing_llm_providers
-from onyx.db.models import Persona
-from onyx.db.models import User
-from onyx.file_store.models import InMemoryChatFile
-from onyx.llm.interfaces import LLM
-from onyx.llm.interfaces import LLMConfig
-from onyx.natural_language_processing.utils import get_tokenizer
-from onyx.tools.built_in_tools import get_built_in_tool_by_id
-from onyx.tools.models import DynamicSchemaInfo
-from onyx.tools.tool import Tool
-from onyx.tools.tool_implementations.custom.custom_tool import (
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import CitationConfig
+from zakk.chat.models import DocumentPruningConfig
+from zakk.chat.models import PromptConfig
+from zakk.configs.app_configs import AZURE_DALLE_API_BASE
+from zakk.configs.app_configs import AZURE_DALLE_API_KEY
+from zakk.configs.app_configs import AZURE_DALLE_API_VERSION
+from zakk.configs.app_configs import AZURE_DALLE_DEPLOYMENT_NAME
+from zakk.configs.app_configs import IMAGE_MODEL_NAME
+from zakk.configs.chat_configs import NUM_INTERNET_SEARCH_CHUNKS
+from zakk.configs.chat_configs import NUM_INTERNET_SEARCH_RESULTS
+from zakk.configs.model_configs import GEN_AI_TEMPERATURE
+from zakk.context.search.enums import LLMEvaluationType
+from zakk.context.search.enums import OptionalSearchSetting
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import RerankingDetails
+from zakk.context.search.models import RetrievalDetails
+from zakk.db.llm import fetch_existing_llm_providers
+from zakk.db.models import Persona
+from zakk.db.models import User
+from zakk.file_store.models import InMemoryChatFile
+from zakk.llm.interfaces import LLM
+from zakk.llm.interfaces import LLMConfig
+from zakk.natural_language_processing.utils import get_tokenizer
+from zakk.tools.built_in_tools import get_built_in_tool_by_id
+from zakk.tools.models import DynamicSchemaInfo
+from zakk.tools.tool import Tool
+from zakk.tools.tool_implementations.custom.custom_tool import (
     build_custom_tools_from_openapi_schema_and_headers,
 )
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     ImageGenerationTool,
 )
-from onyx.tools.tool_implementations.internet_search.internet_search_tool import (
+from zakk.tools.tool_implementations.internet_search.internet_search_tool import (
     InternetSearchTool,
 )
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.tools.utils import compute_all_tool_tokens
-from onyx.tools.utils import explicit_tool_calling_supported
-from onyx.utils.headers import header_dict_to_header_list
-from onyx.utils.logger import setup_logger
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.tools.utils import compute_all_tool_tokens
+from zakk.tools.utils import explicit_tool_calling_supported
+from zakk.utils.headers import header_dict_to_header_list
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -262,7 +262,7 @@ def construct_tools(
                 except ValueError as e:
                     logger.error(f"Failed to initialize Internet Search Tool: {e}")
                     raise ValueError(
-                        "Internet search tool requires a Bing or Exa API key, please contact your Onyx admin to get it added!"
+                        "Internet search tool requires a Bing or Exa API key, please contact your Zakk admin to get it added!"
                     )
 
         # Handle custom tools

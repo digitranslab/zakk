@@ -1,13 +1,13 @@
 import re
 from collections.abc import Generator
 
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.stream_processing.utils import DocumentIdOrderMapping
-from onyx.configs.chat_configs import STOP_STREAM_PAT
-from onyx.prompts.constants import TRIPLE_BACKTICK
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.stream_processing.utils import DocumentIdOrderMapping
+from zakk.configs.chat_configs import STOP_STREAM_PAT
+from zakk.prompts.constants import TRIPLE_BACKTICK
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -48,10 +48,10 @@ class CitationProcessor:
 
     def process_token(
         self, token: str | None
-    ) -> Generator[OnyxAnswerPiece | CitationInfo, None, None]:
+    ) -> Generator[ZakkAnswerPiece | CitationInfo, None, None]:
         # None -> end of stream
         if token is None:
-            yield OnyxAnswerPiece(answer_piece=self.curr_segment)
+            yield ZakkAnswerPiece(answer_piece=self.curr_segment)
             return
 
         if self.stop_stream:
@@ -115,7 +115,7 @@ class CitationProcessor:
             self.curr_segment = ""
 
         if result:
-            yield OnyxAnswerPiece(answer_piece=result)
+            yield ZakkAnswerPiece(answer_piece=result)
 
     def process_citation(self, match: re.Match) -> tuple[str, list[CitationInfo]]:
         """

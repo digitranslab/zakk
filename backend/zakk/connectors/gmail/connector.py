@@ -7,36 +7,36 @@ from google.oauth2.credentials import Credentials as OAuthCredentials  # type: i
 from google.oauth2.service_account import Credentials as ServiceAccountCredentials  # type: ignore
 from googleapiclient.errors import HttpError  # type: ignore
 
-from onyx.access.models import ExternalAccess
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
-from onyx.connectors.google_utils.google_auth import get_google_creds
-from onyx.connectors.google_utils.google_utils import execute_paginated_retrieval
-from onyx.connectors.google_utils.google_utils import execute_single_retrieval
-from onyx.connectors.google_utils.resources import get_admin_service
-from onyx.connectors.google_utils.resources import get_gmail_service
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.access.models import ExternalAccess
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
+from zakk.connectors.google_utils.google_auth import get_google_creds
+from zakk.connectors.google_utils.google_utils import execute_paginated_retrieval
+from zakk.connectors.google_utils.google_utils import execute_single_retrieval
+from zakk.connectors.google_utils.resources import get_admin_service
+from zakk.connectors.google_utils.resources import get_gmail_service
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_PRIMARY_ADMIN_KEY,
 )
-from onyx.connectors.google_utils.shared_constants import MISSING_SCOPES_ERROR_STR
-from onyx.connectors.google_utils.shared_constants import ONYX_SCOPE_INSTRUCTIONS
-from onyx.connectors.google_utils.shared_constants import SLIM_BATCH_SIZE
-from onyx.connectors.google_utils.shared_constants import USER_FIELDS
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import retry_builder
+from zakk.connectors.google_utils.shared_constants import MISSING_SCOPES_ERROR_STR
+from zakk.connectors.google_utils.shared_constants import ZAKK_SCOPE_INSTRUCTIONS
+from zakk.connectors.google_utils.shared_constants import SLIM_BATCH_SIZE
+from zakk.connectors.google_utils.shared_constants import USER_FIELDS
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import retry_builder
 
 
 logger = setup_logger()
@@ -387,7 +387,7 @@ class GmailConnector(LoadConnector, PollConnector, SlimConnector):
             yield from self._fetch_threads()
         except Exception as e:
             if MISSING_SCOPES_ERROR_STR in str(e):
-                raise PermissionError(ONYX_SCOPE_INSTRUCTIONS) from e
+                raise PermissionError(ZAKK_SCOPE_INSTRUCTIONS) from e
             raise e
 
     def poll_source(
@@ -397,7 +397,7 @@ class GmailConnector(LoadConnector, PollConnector, SlimConnector):
             yield from self._fetch_threads(start, end)
         except Exception as e:
             if MISSING_SCOPES_ERROR_STR in str(e):
-                raise PermissionError(ONYX_SCOPE_INSTRUCTIONS) from e
+                raise PermissionError(ZAKK_SCOPE_INSTRUCTIONS) from e
             raise e
 
     def retrieve_all_slim_documents(
@@ -410,7 +410,7 @@ class GmailConnector(LoadConnector, PollConnector, SlimConnector):
             yield from self._fetch_slim_threads(start, end, callback=callback)
         except Exception as e:
             if MISSING_SCOPES_ERROR_STR in str(e):
-                raise PermissionError(ONYX_SCOPE_INSTRUCTIONS) from e
+                raise PermissionError(ZAKK_SCOPE_INSTRUCTIONS) from e
             raise e
 
 

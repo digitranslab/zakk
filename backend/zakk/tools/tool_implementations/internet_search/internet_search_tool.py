@@ -7,65 +7,65 @@ from typing import cast
 
 from sqlalchemy.orm import Session
 
-from onyx.chat.chat_utils import llm_doc_from_inference_section
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import ContextualPruningConfig
-from onyx.chat.models import DocumentPruningConfig
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import PromptConfig
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.chat.prompt_builder.citations_prompt import compute_max_document_tokens
-from onyx.chat.prompt_builder.citations_prompt import compute_max_llm_input_tokens
-from onyx.chat.prune_and_merge import prune_and_merge_sections
-from onyx.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
-from onyx.configs.chat_configs import CONTEXT_CHUNKS_BELOW
-from onyx.configs.chat_configs import NUM_INTERNET_SEARCH_CHUNKS
-from onyx.configs.chat_configs import NUM_INTERNET_SEARCH_RESULTS
-from onyx.configs.constants import DocumentSource
-from onyx.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
-from onyx.connectors.models import Document
-from onyx.connectors.models import TextSection
-from onyx.context.search.enums import SearchType
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceSection
-from onyx.db.models import Persona
-from onyx.db.search_settings import get_current_search_settings
-from onyx.indexing.chunker import Chunker
-from onyx.indexing.embedder import DefaultIndexingEmbedder
-from onyx.indexing.embedder import embed_chunks_with_failure_handling
-from onyx.indexing.models import IndexChunk
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.prompts.chat_prompts import INTERNET_SEARCH_QUERY_REPHRASE
-from onyx.secondary_llm_flows.choose_search import check_if_need_search
-from onyx.secondary_llm_flows.query_expansion import history_based_query_rephrase
-from onyx.tools.message import ToolCallSummary
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool import Tool
-from onyx.tools.tool_implementations.internet_search.models import (
+from zakk.chat.chat_utils import llm_doc_from_inference_section
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import ContextualPruningConfig
+from zakk.chat.models import DocumentPruningConfig
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import PromptConfig
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.chat.prompt_builder.citations_prompt import compute_max_document_tokens
+from zakk.chat.prompt_builder.citations_prompt import compute_max_llm_input_tokens
+from zakk.chat.prune_and_merge import prune_and_merge_sections
+from zakk.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
+from zakk.configs.chat_configs import CONTEXT_CHUNKS_BELOW
+from zakk.configs.chat_configs import NUM_INTERNET_SEARCH_CHUNKS
+from zakk.configs.chat_configs import NUM_INTERNET_SEARCH_RESULTS
+from zakk.configs.constants import DocumentSource
+from zakk.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
+from zakk.connectors.models import Document
+from zakk.connectors.models import TextSection
+from zakk.context.search.enums import SearchType
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceSection
+from zakk.db.models import Persona
+from zakk.db.search_settings import get_current_search_settings
+from zakk.indexing.chunker import Chunker
+from zakk.indexing.embedder import DefaultIndexingEmbedder
+from zakk.indexing.embedder import embed_chunks_with_failure_handling
+from zakk.indexing.models import IndexChunk
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.prompts.chat_prompts import INTERNET_SEARCH_QUERY_REPHRASE
+from zakk.secondary_llm_flows.choose_search import check_if_need_search
+from zakk.secondary_llm_flows.query_expansion import history_based_query_rephrase
+from zakk.tools.message import ToolCallSummary
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool import Tool
+from zakk.tools.tool_implementations.internet_search.models import (
     InternetSearchResponseSummary,
 )
-from onyx.tools.tool_implementations.internet_search.providers import (
+from zakk.tools.tool_implementations.internet_search.providers import (
     get_default_provider,
 )
-from onyx.tools.tool_implementations.internet_search.providers import (
+from zakk.tools.tool_implementations.internet_search.providers import (
     get_provider_by_name,
 )
-from onyx.tools.tool_implementations.internet_search.providers import (
+from zakk.tools.tool_implementations.internet_search.providers import (
     InternetSearchProvider,
 )
-from onyx.tools.tool_implementations.search.search_utils import llm_doc_to_dict
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.tools.tool_implementations.search.search_utils import llm_doc_to_dict
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     build_next_prompt_for_search_like_tool,
 )
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     documents_to_indexing_documents,
 )
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     FINAL_CONTEXT_DOCUMENTS_ID,
 )
-from onyx.utils.logger import setup_logger
-from onyx.utils.special_types import JSON_ro
+from zakk.utils.logger import setup_logger
+from zakk.utils.special_types import JSON_ro
 from shared_configs.enums import EmbedTextType
 
 logger = setup_logger()

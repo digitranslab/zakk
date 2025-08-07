@@ -14,20 +14,20 @@ from redis import asyncio as aioredis
 from redis.client import Redis
 from redis.lock import Lock as RedisLock
 
-from onyx.configs.app_configs import REDIS_AUTH_KEY_PREFIX
-from onyx.configs.app_configs import REDIS_DB_NUMBER
-from onyx.configs.app_configs import REDIS_HEALTH_CHECK_INTERVAL
-from onyx.configs.app_configs import REDIS_HOST
-from onyx.configs.app_configs import REDIS_PASSWORD
-from onyx.configs.app_configs import REDIS_POOL_MAX_CONNECTIONS
-from onyx.configs.app_configs import REDIS_PORT
-from onyx.configs.app_configs import REDIS_REPLICA_HOST
-from onyx.configs.app_configs import REDIS_SSL
-from onyx.configs.app_configs import REDIS_SSL_CA_CERTS
-from onyx.configs.app_configs import REDIS_SSL_CERT_REQS
-from onyx.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
-from onyx.configs.constants import REDIS_SOCKET_KEEPALIVE_OPTIONS
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import REDIS_AUTH_KEY_PREFIX
+from zakk.configs.app_configs import REDIS_DB_NUMBER
+from zakk.configs.app_configs import REDIS_HEALTH_CHECK_INTERVAL
+from zakk.configs.app_configs import REDIS_HOST
+from zakk.configs.app_configs import REDIS_PASSWORD
+from zakk.configs.app_configs import REDIS_POOL_MAX_CONNECTIONS
+from zakk.configs.app_configs import REDIS_PORT
+from zakk.configs.app_configs import REDIS_REPLICA_HOST
+from zakk.configs.app_configs import REDIS_SSL
+from zakk.configs.app_configs import REDIS_SSL_CA_CERTS
+from zakk.configs.app_configs import REDIS_SSL_CERT_REQS
+from zakk.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
+from zakk.configs.constants import REDIS_SOCKET_KEEPALIVE_OPTIONS
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import DEFAULT_REDIS_PREFIX
 from shared_configs.contextvars import get_current_tenant_id
 

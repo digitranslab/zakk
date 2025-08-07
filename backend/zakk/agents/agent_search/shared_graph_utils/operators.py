@@ -1,8 +1,8 @@
-from onyx.agents.agent_search.shared_graph_utils.models import (
+from zakk.agents.agent_search.shared_graph_utils.models import (
     SubQuestionAnswerResults,
 )
-from onyx.chat.prune_and_merge import _merge_sections
-from onyx.context.search.models import InferenceSection
+from zakk.chat.prune_and_merge import _merge_sections
+from zakk.context.search.models import InferenceSection
 
 
 def dedup_inference_sections(

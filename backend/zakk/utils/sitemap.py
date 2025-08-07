@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 
 import requests
 
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

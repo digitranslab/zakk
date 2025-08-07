@@ -2,12 +2,12 @@ from typing import cast
 
 from langchain_core.runnables.config import RunnableConfig
 
-from onyx.agents.agent_search.core_state import CoreState
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.core_state import CoreState
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalInput,
 )
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

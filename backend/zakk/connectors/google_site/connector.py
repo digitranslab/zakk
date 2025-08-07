@@ -6,17 +6,17 @@ from typing import cast
 from bs4 import BeautifulSoup
 from bs4 import Tag
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.models import Document
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import load_files_from_zip
-from onyx.file_processing.extract_file_text import read_text_file
-from onyx.file_processing.html_utils import web_html_cleanup
-from onyx.file_store.file_store import get_default_file_store
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.models import Document
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import load_files_from_zip
+from zakk.file_processing.extract_file_text import read_text_file
+from zakk.file_processing.html_utils import web_html_cleanup
+from zakk.file_store.file_store import get_default_file_store
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

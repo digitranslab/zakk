@@ -6,19 +6,19 @@ from typing import cast
 
 import httpx
 
-from onyx.configs.app_configs import MAX_PRUNING_DOCUMENT_RETRIEVAL_PER_MINUTE
-from onyx.configs.app_configs import VESPA_REQUEST_TIMEOUT
-from onyx.connectors.cross_connector_utils.rate_limit_wrapper import (
+from zakk.configs.app_configs import MAX_PRUNING_DOCUMENT_RETRIEVAL_PER_MINUTE
+from zakk.configs.app_configs import VESPA_REQUEST_TIMEOUT
+from zakk.connectors.cross_connector_utils.rate_limit_wrapper import (
     rate_limit_builder,
 )
-from onyx.connectors.interfaces import BaseConnector
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import Document
-from onyx.httpx.httpx_pool import HttpxPool
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from zakk.connectors.interfaces import BaseConnector
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import Document
+from zakk.httpx.httpx_pool import HttpxPool
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

@@ -2,10 +2,10 @@
 
 from typing import Any
 
-from onyx.configs.constants import FederatedConnectorSource
-from onyx.federated_connectors.interfaces import FederatedConnector
-from onyx.federated_connectors.slack.federated_connector import SlackFederatedConnector
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import FederatedConnectorSource
+from zakk.federated_connectors.interfaces import FederatedConnector
+from zakk.federated_connectors.slack.federated_connector import SlackFederatedConnector
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

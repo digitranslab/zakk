@@ -5,8 +5,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from onyx.utils.logger import setup_logger
-from onyx.utils.special_types import JSON_ro
+from zakk.utils.logger import setup_logger
+from zakk.utils.special_types import JSON_ro
 
 logger = setup_logger()
 
@@ -89,7 +89,7 @@ class LongTermLogger:
             )
             thread.start()
         except Exception:
-            # Should never interfere with normal functions of Onyx
+            # Should never interfere with normal functions of Zakk
             pass
 
     def fetch_category(

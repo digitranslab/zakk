@@ -14,25 +14,25 @@ from sqlalchemy import String
 from sqlalchemy import Table
 from sqlalchemy.dialects.postgresql import ARRAY
 
-from onyx.configs.kg_configs import KG_NORMALIZATION_RERANK_LEVENSHTEIN_WEIGHT
-from onyx.configs.kg_configs import KG_NORMALIZATION_RERANK_NGRAM_WEIGHTS
-from onyx.configs.kg_configs import KG_NORMALIZATION_RERANK_THRESHOLD
-from onyx.configs.kg_configs import KG_NORMALIZATION_RETRIEVE_ENTITIES_LIMIT
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import KGEntity
-from onyx.db.relationships import get_relationships_for_entity_type_pairs
-from onyx.kg.models import NormalizedEntities
-from onyx.kg.models import NormalizedRelationships
-from onyx.kg.utils.embeddings import encode_string_batch
-from onyx.kg.utils.formatting_utils import format_entity_id_for_models
-from onyx.kg.utils.formatting_utils import get_attributes
-from onyx.kg.utils.formatting_utils import get_entity_type
-from onyx.kg.utils.formatting_utils import make_entity_w_attributes
-from onyx.kg.utils.formatting_utils import make_relationship_id
-from onyx.kg.utils.formatting_utils import split_entity_id
-from onyx.kg.utils.formatting_utils import split_relationship_id
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.configs.kg_configs import KG_NORMALIZATION_RERANK_LEVENSHTEIN_WEIGHT
+from zakk.configs.kg_configs import KG_NORMALIZATION_RERANK_NGRAM_WEIGHTS
+from zakk.configs.kg_configs import KG_NORMALIZATION_RERANK_THRESHOLD
+from zakk.configs.kg_configs import KG_NORMALIZATION_RETRIEVE_ENTITIES_LIMIT
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import KGEntity
+from zakk.db.relationships import get_relationships_for_entity_type_pairs
+from zakk.kg.models import NormalizedEntities
+from zakk.kg.models import NormalizedRelationships
+from zakk.kg.utils.embeddings import encode_string_batch
+from zakk.kg.utils.formatting_utils import format_entity_id_for_models
+from zakk.kg.utils.formatting_utils import get_attributes
+from zakk.kg.utils.formatting_utils import get_entity_type
+from zakk.kg.utils.formatting_utils import make_entity_w_attributes
+from zakk.kg.utils.formatting_utils import make_relationship_id
+from zakk.kg.utils.formatting_utils import split_entity_id
+from zakk.kg.utils.formatting_utils import split_relationship_id
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 
 logger = setup_logger()

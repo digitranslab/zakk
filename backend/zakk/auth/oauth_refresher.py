@@ -10,12 +10,12 @@ import httpx
 from fastapi_users.manager import BaseUserManager
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from onyx.configs.app_configs import OAUTH_CLIENT_ID
-from onyx.configs.app_configs import OAUTH_CLIENT_SECRET
-from onyx.configs.app_configs import TRACK_EXTERNAL_IDP_EXPIRY
-from onyx.db.models import OAuthAccount
-from onyx.db.models import User
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import OAUTH_CLIENT_ID
+from zakk.configs.app_configs import OAUTH_CLIENT_SECRET
+from zakk.configs.app_configs import TRACK_EXTERNAL_IDP_EXPIRY
+from zakk.db.models import OAuthAccount
+from zakk.db.models import User
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

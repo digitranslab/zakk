@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CloudFormation template for Onyx Web Server TaskDefinition
+Description: CloudFormation template for Zakk Web Server TaskDefinition
 Parameters:
   Environment:
     Type: String
@@ -11,7 +11,7 @@ Parameters:
     Default: vpc-098cfa79d637dabff
   ServiceName:
     Type: String
-    Default: onyx-web-server
+    Default: zakk-web-server
   TaskCpu:
     Type: String
     Default: "1024"
@@ -29,7 +29,7 @@ Resources:
     Properties:
       Cluster:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-ECSClusterName"
+          Fn::Sub: "${Environment}-zakk-cluster-ECSClusterName"
       CapacityProviderStrategy:
         - CapacityProvider: FARGATE
           Base: 0
@@ -60,7 +60,7 @@ Resources:
         - RegistryArn: !GetAtt ServiceDiscoveryService.Arn
       Tags:
         - Key: app
-          Value: onyx
+          Value: zakk
         - Key: service
           Value: !Ref ServiceName
         - Key: env
@@ -70,7 +70,7 @@ Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: !Sub Onyx SecurityGroup access to EFS mount and ${ServiceName}.
+      GroupDescription: !Sub Zakk SecurityGroup access to EFS mount and ${ServiceName}.
       GroupName: !Sub ${Environment}-ecs-${ServiceName}
       VpcId: !Ref VpcID
       SecurityGroupIngress:
@@ -93,7 +93,7 @@ Resources:
             TTL: 15
       NamespaceId:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-OnyxNamespace"
+          Fn::Sub: "${Environment}-zakk-cluster-ZakkNamespace"
       HealthCheckCustomConfig:
         FailureThreshold: 1
   
@@ -103,10 +103,10 @@ Resources:
       Family: !Sub ${Environment}-${ServiceName}-TaskDefinition
       TaskRoleArn:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-ECSTaskRole"
+          Fn::Sub: "${Environment}-zakk-cluster-ECSTaskRole"
       ExecutionRoleArn:
         Fn::ImportValue:
-          Fn::Sub: "${Environment}-onyx-cluster-ECSTaskExecutionRole"
+          Fn::Sub: "${Environment}-zakk-cluster-ECSTaskExecutionRole"
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -116,8 +116,8 @@ Resources:
         CpuArchitecture: ARM64
         OperatingSystemFamily: LINUX
       ContainerDefinitions:
-        - Name: onyx-webserver
-          Image: onyxdotapp/onyx-web-server:latest
+        - Name: zakk-webserver
+          Image: digitranslab/zakk-web-server:latest
           Cpu: 0
           Essential: true
           PortMappings:
@@ -132,9 +132,9 @@ Resources:
               Value: "false"
             - Name: INTERNAL_URL
               Value: !Sub
-                - "http://${Environment}-onyx-backend-api-server-service.${ImportedNamespace}:8080"
+                - "http://${Environment}-zakk-backend-api-server-service.${ImportedNamespace}:8080"
                 - ImportedNamespace: !ImportValue
-                    Fn::Sub: "${Environment}-onyx-cluster-OnyxNamespaceName"
+                    Fn::Sub: "${Environment}-zakk-cluster-ZakkNamespaceName"
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -157,7 +157,7 @@ Resources:
       ResourceId: !Sub
         - "service/${ImportedCluster}/${Environment}-${ServiceName}-service"
         - ImportedCluster: !ImportValue
-            'Fn::Sub': "${Environment}-onyx-cluster-ECSClusterName"
+            'Fn::Sub': "${Environment}-zakk-cluster-ECSClusterName"
           ServiceName: !Ref ServiceName
           Environment: !Ref Environment
       ScalableDimension: ecs:service:DesiredCount

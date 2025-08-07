@@ -5,10 +5,10 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.db.models import Tool
-from onyx.server.features.tool.models import Header
-from onyx.utils.headers import HeaderItemDict
-from onyx.utils.logger import setup_logger
+from zakk.db.models import Tool
+from zakk.server.features.tool.models import Header
+from zakk.utils.headers import HeaderItemDict
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

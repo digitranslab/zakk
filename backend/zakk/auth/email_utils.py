@@ -19,22 +19,22 @@ from sendgrid.helpers.mail import FileType
 from sendgrid.helpers.mail import Mail
 from sendgrid.helpers.mail import To
 
-from onyx.configs.app_configs import EMAIL_CONFIGURED
-from onyx.configs.app_configs import EMAIL_FROM
-from onyx.configs.app_configs import SENDGRID_API_KEY
-from onyx.configs.app_configs import SMTP_PASS
-from onyx.configs.app_configs import SMTP_PORT
-from onyx.configs.app_configs import SMTP_SERVER
-from onyx.configs.app_configs import SMTP_USER
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import ZAKK_DEFAULT_APPLICATION_NAME
-from onyx.configs.constants import ZAKK_SLACK_URL
-from onyx.db.models import User
-from onyx.server.runtime.zakk_runtime import ZakkRuntime
-from onyx.utils.logger import setup_logger
-from onyx.utils.url import add_url_params
-from onyx.utils.variable_functionality import fetch_versioned_implementation
+from zakk.configs.app_configs import EMAIL_CONFIGURED
+from zakk.configs.app_configs import EMAIL_FROM
+from zakk.configs.app_configs import SENDGRID_API_KEY
+from zakk.configs.app_configs import SMTP_PASS
+from zakk.configs.app_configs import SMTP_PORT
+from zakk.configs.app_configs import SMTP_SERVER
+from zakk.configs.app_configs import SMTP_USER
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import ZAKK_DEFAULT_APPLICATION_NAME
+from zakk.configs.constants import ZAKK_SLACK_URL
+from zakk.db.models import User
+from zakk.server.runtime.zakk_runtime import ZakkRuntime
+from zakk.utils.logger import setup_logger
+from zakk.utils.url import add_url_params
+from zakk.utils.variable_functionality import fetch_versioned_implementation
 from shared_configs.configs import MULTI_TENANT
 
 logger = setup_logger()
@@ -301,7 +301,7 @@ def send_subscription_cancellation_email(user_email: str) -> None:
     # Example usage of the reusable HTML
     try:
         load_runtime_settings_fn = fetch_versioned_implementation(
-            "onyx.server.enterprise_settings.store", "load_runtime_settings"
+            "zakk.server.enterprise_settings.store", "load_runtime_settings"
         )
         settings = load_runtime_settings_fn()
         application_name = settings.application_name
@@ -399,7 +399,7 @@ def send_user_email_invite(
 ) -> None:
     try:
         load_runtime_settings_fn = fetch_versioned_implementation(
-            "onyx.server.enterprise_settings.store", "load_runtime_settings"
+            "zakk.server.enterprise_settings.store", "load_runtime_settings"
         )
         settings = load_runtime_settings_fn()
         application_name = settings.application_name
@@ -432,7 +432,7 @@ def send_forgot_password_email(
     # Builds a forgot password email with or without fancy HTML
     try:
         load_runtime_settings_fn = fetch_versioned_implementation(
-            "onyx.server.enterprise_settings.store", "load_runtime_settings"
+            "zakk.server.enterprise_settings.store", "load_runtime_settings"
         )
         settings = load_runtime_settings_fn()
         application_name = settings.application_name
@@ -477,7 +477,7 @@ def send_user_verification_email(
     # Builds a verification email
     try:
         load_runtime_settings_fn = fetch_versioned_implementation(
-            "onyx.server.enterprise_settings.store", "load_runtime_settings"
+            "zakk.server.enterprise_settings.store", "load_runtime_settings"
         )
         settings = load_runtime_settings_fn()
         application_name = settings.application_name

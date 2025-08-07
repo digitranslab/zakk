@@ -2,9 +2,9 @@ from http import HTTPStatus
 
 import requests
 
-from onyx.configs.constants import DocumentSource
-from onyx.db.enums import AccessType
-from onyx.db.models import UserRole
+from zakk.configs.constants import DocumentSource
+from zakk.db.enums import AccessType
+from zakk.db.models import UserRole
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.managers.cc_pair import CCPairManager
 from tests.integration.common_utils.managers.connector import ConnectorManager

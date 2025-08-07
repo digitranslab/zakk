@@ -6,37 +6,37 @@ from typing import cast
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
-from onyx.access.models import default_public_access
-from onyx.configs.constants import DEFAULT_BOOST
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import KV_DOCUMENTS_SEEDED_KEY
-from onyx.configs.constants import RETURN_SEPARATOR
-from onyx.configs.model_configs import DEFAULT_DOCUMENT_ENCODER_MODEL
-from onyx.connectors.models import Document
-from onyx.connectors.models import IndexAttemptMetadata
-from onyx.connectors.models import InputType
-from onyx.connectors.models import TextSection
-from onyx.db.connector import check_connectors_exist
-from onyx.db.connector import create_connector
-from onyx.db.connector_credential_pair import add_credential_to_connector
-from onyx.db.credentials import PUBLIC_CREDENTIAL_ID
-from onyx.db.document import check_docs_exist
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.index_attempt import mock_successful_index_attempt
-from onyx.db.models import Document as DbDocument
-from onyx.db.search_settings import get_current_search_settings
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.interfaces import IndexBatchParams
-from onyx.document_index.vespa.shared_utils.utils import wait_for_vespa_with_timeout
-from onyx.indexing.indexing_pipeline import index_doc_batch_prepare
-from onyx.indexing.models import ChunkEmbedding
-from onyx.indexing.models import DocMetadataAwareIndexChunk
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.server.documents.models import ConnectorBase
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_versioned_implementation
+from zakk.access.models import default_public_access
+from zakk.configs.constants import DEFAULT_BOOST
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import KV_DOCUMENTS_SEEDED_KEY
+from zakk.configs.constants import RETURN_SEPARATOR
+from zakk.configs.model_configs import DEFAULT_DOCUMENT_ENCODER_MODEL
+from zakk.connectors.models import Document
+from zakk.connectors.models import IndexAttemptMetadata
+from zakk.connectors.models import InputType
+from zakk.connectors.models import TextSection
+from zakk.db.connector import check_connectors_exist
+from zakk.db.connector import create_connector
+from zakk.db.connector_credential_pair import add_credential_to_connector
+from zakk.db.credentials import PUBLIC_CREDENTIAL_ID
+from zakk.db.document import check_docs_exist
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.index_attempt import mock_successful_index_attempt
+from zakk.db.models import Document as DbDocument
+from zakk.db.search_settings import get_current_search_settings
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.interfaces import IndexBatchParams
+from zakk.document_index.vespa.shared_utils.utils import wait_for_vespa_with_timeout
+from zakk.indexing.indexing_pipeline import index_doc_batch_prepare
+from zakk.indexing.models import ChunkEmbedding
+from zakk.indexing.models import DocMetadataAwareIndexChunk
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.server.documents.models import ConnectorBase
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_versioned_implementation
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 
@@ -115,7 +115,7 @@ def _create_indexable_chunks(
 def load_processed_docs(cohere_enabled: bool) -> list[dict]:
     initial_docs_path = os.path.join(
         os.getcwd(),
-        "onyx",
+        "zakk",
         "seeding",
         "initial_docs.json",
     )
@@ -209,7 +209,7 @@ def seed_initial_documents(
 
     cc_pair_id = cast(int, result.data)
     processed_docs = fetch_versioned_implementation(
-        "onyx.seeding.load_docs",
+        "zakk.seeding.load_docs",
         "load_processed_docs",
     )(cohere_enabled)
 

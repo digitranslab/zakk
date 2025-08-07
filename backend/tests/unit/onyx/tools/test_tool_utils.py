@@ -3,9 +3,9 @@ from unittest.mock import patch
 
 import pytest
 
-from onyx.llm.llm_provider_options import ANTHROPIC_PROVIDER_NAME
-from onyx.llm.llm_provider_options import BEDROCK_PROVIDER_NAME
-from onyx.tools.utils import explicit_tool_calling_supported
+from zakk.llm.llm_provider_options import ANTHROPIC_PROVIDER_NAME
+from zakk.llm.llm_provider_options import BEDROCK_PROVIDER_NAME
+from zakk.tools.utils import explicit_tool_calling_supported
 
 
 @pytest.mark.parametrize(
@@ -90,8 +90,8 @@ from onyx.tools.utils import explicit_tool_calling_supported
         ),
     ],
 )
-@patch("onyx.tools.utils.find_model_obj")
-@patch("onyx.tools.utils.litellm")
+@patch("zakk.tools.utils.find_model_obj")
+@patch("zakk.tools.utils.litellm")
 def test_explicit_tool_calling_supported(
     mock_litellm: MagicMock,
     mock_find_model_obj: MagicMock,

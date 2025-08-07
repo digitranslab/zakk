@@ -6,19 +6,19 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import model_validator
 
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import PersonaOverrideConfig
-from onyx.chat.models import QADocsResponse
-from onyx.chat.models import SubQuestionIdentifier
-from onyx.chat.models import ThreadMessage
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.enums import LLMEvaluationType
-from onyx.context.search.enums import SearchType
-from onyx.context.search.models import ChunkContext
-from onyx.context.search.models import RerankingDetails
-from onyx.context.search.models import RetrievalDetails
-from onyx.context.search.models import SavedSearchDoc
-from onyx.server.manage.models import StandardAnswer
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import PersonaOverrideConfig
+from zakk.chat.models import QADocsResponse
+from zakk.chat.models import SubQuestionIdentifier
+from zakk.chat.models import ThreadMessage
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.enums import LLMEvaluationType
+from zakk.context.search.enums import SearchType
+from zakk.context.search.models import ChunkContext
+from zakk.context.search.models import RerankingDetails
+from zakk.context.search.models import RetrievalDetails
+from zakk.context.search.models import SavedSearchDoc
+from zakk.server.manage.models import StandardAnswer
 
 
 class StandardAnswerRequest(BaseModel):

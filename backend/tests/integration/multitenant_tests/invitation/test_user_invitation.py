@@ -1,4 +1,4 @@
-from onyx.db.models import UserRole
+from zakk.db.models import UserRole
 from tests.integration.common_utils.managers.user import UserManager
 from tests.integration.common_utils.test_models import DATestUser
 

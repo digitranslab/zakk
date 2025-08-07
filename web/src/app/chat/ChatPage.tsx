@@ -66,7 +66,7 @@ import { SEARCH_PARAM_NAMES, shouldSubmitOnLoad } from "./searchParams";
 import { LlmDescriptor, useFilters, useLlmManager } from "@/lib/hooks";
 import { ChatState, FeedbackType, RegenerationState } from "./types";
 import { DocumentResults } from "./documentSidebar/DocumentResults";
-import { OnyxInitializingLoader } from "@/components/OnyxInitializingLoader";
+import { ZakkInitializingLoader } from "@/components/ZakkInitializingLoader";
 import { FeedbackModal } from "./modal/FeedbackModal";
 import { ShareChatSessionModal } from "./modal/ShareChatSessionModal";
 import { FiArrowDown } from "react-icons/fi";
@@ -75,7 +75,7 @@ import { AIMessage, HumanMessage } from "./message/Messages";
 import { StarterMessages } from "../../components/assistants/StarterMessage";
 import {
   AnswerPiecePacket,
-  OnyxDocument,
+  ZakkDocument,
   DocumentInfoPacket,
   StreamStopInfo,
   StreamStopReason,
@@ -83,7 +83,7 @@ import {
   SubQuestionPiece,
   AgentAnswerPiece,
   RefinedAnswerImprovement,
-  MinimalOnyxDocument,
+  MinimalZakkDocument,
 } from "@/lib/search/interfaces";
 import { buildFilters } from "@/lib/search/utils";
 import { SettingsContext } from "@/components/settings/SettingsProvider";
@@ -460,7 +460,7 @@ export function ChatPage({
     useState<MinimalPersonaSnapshot | null>(null);
 
   const [presentingDocument, setPresentingDocument] =
-    useState<MinimalOnyxDocument | null>(null);
+    useState<MinimalZakkDocument | null>(null);
 
   // Current assistant is decided based on this ordering
   // 1. Alternative assistant (assistant selected explicitly by user)
@@ -553,7 +553,7 @@ export function ChatPage({
 
   // this is used to track which assistant is being used to generate the current message
   // for example, this would come into play when:
-  // 1. default assistant is `Onyx`
+  // 1. default assistant is `Zakk`
   // 2. we "@"ed the `GPT` assistant and sent a message
   // 3. while the `GPT` assistant message is generating, we "@" the `Paraphrase` assistant
   const [alternativeGeneratingAssistant, setAlternativeGeneratingAssistant] =
@@ -1563,9 +1563,9 @@ export function ChatPage({
       selectedDocuments.length > 0
         ? RetrievalType.SelectedDocs
         : RetrievalType.None;
-    let documents: OnyxDocument[] = selectedDocuments;
+    let documents: ZakkDocument[] = selectedDocuments;
     let aiMessageImages: FileDescriptor[] | null = null;
-    let agenticDocs: OnyxDocument[] | null = null;
+    let agenticDocs: ZakkDocument[] | null = null;
     let error: string | null = null;
     let stackTrace: string | null = null;
 
@@ -2261,7 +2261,7 @@ export function ChatPage({
   const innerSidebarElementRef = useRef<HTMLDivElement>(null);
   const [settingsToggled, setSettingsToggled] = useState(false);
 
-  const [selectedDocuments, setSelectedDocuments] = useState<OnyxDocument[]>(
+  const [selectedDocuments, setSelectedDocuments] = useState<ZakkDocument[]>(
     []
   );
   const [selectedDocumentTokens, setSelectedDocumentTokens] = useState(0);
@@ -2453,7 +2453,7 @@ export function ChatPage({
     clearSelectedItems();
   };
 
-  const toggleDocumentSelection = (document: OnyxDocument) => {
+  const toggleDocumentSelection = (document: ZakkDocument) => {
     setSelectedDocuments((prev) =>
       prev.some((d) => d.document_id === document.document_id)
         ? prev.filter((d) => d.document_id !== document.document_id)
@@ -3554,7 +3554,7 @@ export function ChatPage({
                         }`}
                   />
                   <div className="my-auto">
-                    <OnyxInitializingLoader />
+                    <ZakkInitializingLoader />
                   </div>
                 </div>
               )}

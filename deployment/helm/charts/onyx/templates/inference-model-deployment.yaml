@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "onyx-stack.fullname" . }}-inference-model
+  name: {{ include "zakk-stack.fullname" . }}-inference-model
   labels:
     {{- range .Values.inferenceCapability.labels }}
     {{ .key }}: {{ .value }}
@@ -33,7 +33,7 @@ spec:
         - configMapRef:
             name: {{ .Values.config.envConfigMapName }}
         env:
-          {{- include "onyx-stack.envSecrets" . | nindent 12}}
+          {{- include "zakk-stack.envSecrets" . | nindent 12}}
         {{- if .Values.inferenceCapability.resources }}
         resources:
           {{- toYaml .Values.inferenceCapability.resources | nindent 10 }}

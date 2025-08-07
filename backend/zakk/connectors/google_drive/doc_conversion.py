@@ -10,39 +10,39 @@ from googleapiclient.errors import HttpError  # type: ignore
 from googleapiclient.http import MediaIoBaseDownload  # type: ignore
 from pydantic import BaseModel
 
-from onyx.access.models import ExternalAccess
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import FileOrigin
-from onyx.connectors.google_drive.constants import DRIVE_FOLDER_TYPE
-from onyx.connectors.google_drive.constants import DRIVE_SHORTCUT_TYPE
-from onyx.connectors.google_drive.models import GDriveMimeType
-from onyx.connectors.google_drive.models import GoogleDriveFileType
-from onyx.connectors.google_drive.section_extraction import get_document_sections
-from onyx.connectors.google_drive.section_extraction import HEADING_DELIMITER
-from onyx.connectors.google_utils.resources import get_drive_service
-from onyx.connectors.google_utils.resources import get_google_docs_service
-from onyx.connectors.google_utils.resources import GoogleDocsService
-from onyx.connectors.google_utils.resources import GoogleDriveService
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import ALL_ACCEPTED_FILE_EXTENSIONS
-from onyx.file_processing.extract_file_text import docx_to_text_and_images
-from onyx.file_processing.extract_file_text import extract_file_text
-from onyx.file_processing.extract_file_text import get_file_ext
-from onyx.file_processing.extract_file_text import pptx_to_text
-from onyx.file_processing.extract_file_text import read_pdf_file
-from onyx.file_processing.extract_file_text import xlsx_to_text
-from onyx.file_processing.file_validation import is_valid_image_type
-from onyx.file_processing.image_utils import store_image_and_create_section
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import (
+from zakk.access.models import ExternalAccess
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import FileOrigin
+from zakk.connectors.google_drive.constants import DRIVE_FOLDER_TYPE
+from zakk.connectors.google_drive.constants import DRIVE_SHORTCUT_TYPE
+from zakk.connectors.google_drive.models import GDriveMimeType
+from zakk.connectors.google_drive.models import GoogleDriveFileType
+from zakk.connectors.google_drive.section_extraction import get_document_sections
+from zakk.connectors.google_drive.section_extraction import HEADING_DELIMITER
+from zakk.connectors.google_utils.resources import get_drive_service
+from zakk.connectors.google_utils.resources import get_google_docs_service
+from zakk.connectors.google_utils.resources import GoogleDocsService
+from zakk.connectors.google_utils.resources import GoogleDriveService
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import ALL_ACCEPTED_FILE_EXTENSIONS
+from zakk.file_processing.extract_file_text import docx_to_text_and_images
+from zakk.file_processing.extract_file_text import extract_file_text
+from zakk.file_processing.extract_file_text import get_file_ext
+from zakk.file_processing.extract_file_text import pptx_to_text
+from zakk.file_processing.extract_file_text import read_pdf_file
+from zakk.file_processing.extract_file_text import xlsx_to_text
+from zakk.file_processing.file_validation import is_valid_image_type
+from zakk.file_processing.image_utils import store_image_and_create_section
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
-from onyx.utils.variable_functionality import noop_fallback
+from zakk.utils.variable_functionality import noop_fallback
 
 logger = setup_logger()
 
@@ -323,7 +323,7 @@ def _get_external_access_for_raw_gdrive_file(
             ExternalAccess,
         ],
         fetch_versioned_implementation_with_fallback(
-            "onyx.external_permissions.google_drive.doc_sync",
+            "zakk.external_permissions.google_drive.doc_sync",
             "get_external_access_for_raw_gdrive_file",
             fallback=noop_fallback,
         ),

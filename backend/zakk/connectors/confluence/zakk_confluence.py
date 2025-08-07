@@ -30,22 +30,22 @@ from atlassian import Confluence  # type:ignore
 from redis import Redis
 from requests import HTTPError
 
-from onyx.configs.app_configs import CONFLUENCE_CONNECTOR_USER_PROFILES_OVERRIDE
-from onyx.configs.app_configs import OAUTH_CONFLUENCE_CLOUD_CLIENT_ID
-from onyx.configs.app_configs import OAUTH_CONFLUENCE_CLOUD_CLIENT_SECRET
-from onyx.connectors.confluence.models import ConfluenceUser
-from onyx.connectors.confluence.user_profile_override import (
+from zakk.configs.app_configs import CONFLUENCE_CONNECTOR_USER_PROFILES_OVERRIDE
+from zakk.configs.app_configs import OAUTH_CONFLUENCE_CLOUD_CLIENT_ID
+from zakk.configs.app_configs import OAUTH_CONFLUENCE_CLOUD_CLIENT_SECRET
+from zakk.connectors.confluence.models import ConfluenceUser
+from zakk.connectors.confluence.user_profile_override import (
     process_confluence_user_profiles_override,
 )
-from onyx.connectors.confluence.utils import _handle_http_error
-from onyx.connectors.confluence.utils import confluence_refresh_tokens
-from onyx.connectors.confluence.utils import get_start_param_from_url
-from onyx.connectors.confluence.utils import update_param_in_path
-from onyx.connectors.interfaces import CredentialsProviderInterface
-from onyx.file_processing.html_utils import format_document_soup
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.connectors.confluence.utils import _handle_http_error
+from zakk.connectors.confluence.utils import confluence_refresh_tokens
+from zakk.connectors.confluence.utils import get_start_param_from_url
+from zakk.connectors.confluence.utils import update_param_in_path
+from zakk.connectors.interfaces import CredentialsProviderInterface
+from zakk.file_processing.html_utils import format_document_soup
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

@@ -3,16 +3,16 @@ from typing import TYPE_CHECKING
 
 from langchain_core.messages import HumanMessage
 
-from onyx.llm.utils import message_to_prompt_and_imgs
-from onyx.tools.tool import Tool
+from zakk.llm.utils import message_to_prompt_and_imgs
+from zakk.tools.tool import Tool
 
 if TYPE_CHECKING:
-    from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-    from onyx.tools.tool_implementations.custom.custom_tool import (
+    from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+    from zakk.tools.tool_implementations.custom.custom_tool import (
         CustomToolCallSummary,
     )
-    from onyx.tools.message import ToolCallSummary
-    from onyx.tools.models import ToolResponse
+    from zakk.tools.message import ToolCallSummary
+    from zakk.tools.models import ToolResponse
 
 
 def build_user_message_for_non_tool_calling_llm(

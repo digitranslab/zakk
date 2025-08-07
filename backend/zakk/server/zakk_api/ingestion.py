@@ -6,35 +6,35 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import api_key_dep
-from onyx.configs.constants import DEFAULT_CC_PAIR_ID
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import Document
-from onyx.connectors.models import IndexAttemptMetadata
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.document import get_documents_by_cc_pair
-from onyx.db.document import get_ingestion_documents
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.search_settings import get_active_search_settings
-from onyx.db.search_settings import get_current_search_settings
-from onyx.db.search_settings import get_secondary_search_settings
-from onyx.document_index.factory import get_default_document_index
-from onyx.indexing.embedder import DefaultIndexingEmbedder
-from onyx.indexing.indexing_pipeline import run_indexing_pipeline
-from onyx.natural_language_processing.search_nlp_models import (
+from zakk.auth.users import api_key_dep
+from zakk.configs.constants import DEFAULT_CC_PAIR_ID
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import Document
+from zakk.connectors.models import IndexAttemptMetadata
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.document import get_documents_by_cc_pair
+from zakk.db.document import get_ingestion_documents
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.search_settings import get_active_search_settings
+from zakk.db.search_settings import get_current_search_settings
+from zakk.db.search_settings import get_secondary_search_settings
+from zakk.document_index.factory import get_default_document_index
+from zakk.indexing.embedder import DefaultIndexingEmbedder
+from zakk.indexing.indexing_pipeline import run_indexing_pipeline
+from zakk.natural_language_processing.search_nlp_models import (
     InformationContentClassificationModel,
 )
-from onyx.server.zakk_api.models import DocMinimalInfo
-from onyx.server.zakk_api.models import IngestionDocument
-from onyx.server.zakk_api.models import IngestionResult
-from onyx.utils.logger import setup_logger
+from zakk.server.zakk_api.models import DocMinimalInfo
+from zakk.server.zakk_api.models import IngestionDocument
+from zakk.server.zakk_api.models import IngestionResult
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()
 
 # not using /api to avoid confusion with nginx api path routing
-router = APIRouter(prefix="/onyx-api")
+router = APIRouter(prefix="/zakk-api")
 
 
 @router.get("/connector-docs/{cc_pair_id}")

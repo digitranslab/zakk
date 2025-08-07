@@ -6,7 +6,7 @@ from langchain_core.messages.tool import ToolCall
 from langchain_core.messages.tool import ToolMessage
 from pydantic import BaseModel
 
-from onyx.natural_language_processing.utils import BaseTokenizer
+from zakk.natural_language_processing.utils import BaseTokenizer
 
 # Langchain has their own version of pydantic which is version 1
 

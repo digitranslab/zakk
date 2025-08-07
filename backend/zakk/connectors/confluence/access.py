@@ -2,10 +2,10 @@ from collections.abc import Callable
 from typing import Any
 from typing import cast
 
-from onyx.access.models import ExternalAccess
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.utils.variable_functionality import fetch_versioned_implementation
-from onyx.utils.variable_functionality import global_version
+from zakk.access.models import ExternalAccess
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.utils.variable_functionality import fetch_versioned_implementation
+from zakk.utils.variable_functionality import global_version
 
 
 def get_page_restrictions(
@@ -38,7 +38,7 @@ def get_page_restrictions(
             ExternalAccess | None,
         ],
         fetch_versioned_implementation(
-            "onyx.external_permissions.confluence.page_access", "get_page_restrictions"
+            "zakk.external_permissions.confluence.page_access", "get_page_restrictions"
         ),
     )
 
@@ -73,7 +73,7 @@ def get_all_space_permissions(
             dict[str, ExternalAccess],
         ],
         fetch_versioned_implementation(
-            "onyx.external_permissions.confluence.space_access",
+            "zakk.external_permissions.confluence.space_access",
             "get_all_space_permissions",
         ),
     )

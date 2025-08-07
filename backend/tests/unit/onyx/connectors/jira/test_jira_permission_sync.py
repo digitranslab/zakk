@@ -3,9 +3,9 @@ from unittest.mock import patch
 
 import pytest
 
-from ee.onyx.external_permissions.jira.doc_sync import jira_doc_sync
-from onyx.connectors.jira.connector import JiraConnector
-from onyx.db.models import ConnectorCredentialPair
+from ee.zakk.external_permissions.jira.doc_sync import jira_doc_sync
+from zakk.connectors.jira.connector import JiraConnector
+from zakk.db.models import ConnectorCredentialPair
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ def test_jira_permission_sync(
     mock_fetch_all_existing_docs_fn: MagicMock,
     mock_fetch_all_existing_docs_ids_fn: MagicMock,
 ) -> None:
-    with patch("onyx.connectors.jira.connector.build_jira_client") as mock_build_client:
+    with patch("zakk.connectors.jira.connector.build_jira_client") as mock_build_client:
         mock_build_client.return_value = jira_connector._jira_client
 
         for doc in jira_doc_sync(

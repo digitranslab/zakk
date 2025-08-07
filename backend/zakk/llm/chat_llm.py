@@ -25,21 +25,21 @@ from langchain_core.messages.tool import ToolCallChunk
 from langchain_core.messages.tool import ToolMessage
 from langchain_core.prompt_values import PromptValue
 
-from onyx.configs.app_configs import LOG_DANSWER_MODEL_INTERACTIONS
-from onyx.configs.app_configs import MOCK_LLM_RESPONSE
-from onyx.configs.chat_configs import QA_TIMEOUT
-from onyx.configs.model_configs import (
+from zakk.configs.app_configs import LOG_DANSWER_MODEL_INTERACTIONS
+from zakk.configs.app_configs import MOCK_LLM_RESPONSE
+from zakk.configs.chat_configs import QA_TIMEOUT
+from zakk.configs.model_configs import (
     DISABLE_LITELLM_STREAMING,
 )
-from onyx.configs.model_configs import GEN_AI_TEMPERATURE
-from onyx.configs.model_configs import LITELLM_EXTRA_BODY
-from onyx.llm.interfaces import LLM
-from onyx.llm.interfaces import LLMConfig
-from onyx.llm.interfaces import ToolChoiceOptions
-from onyx.llm.utils import model_is_reasoning_model
-from onyx.server.utils import mask_string
-from onyx.utils.logger import setup_logger
-from onyx.utils.long_term_log import LongTermLogger
+from zakk.configs.model_configs import GEN_AI_TEMPERATURE
+from zakk.configs.model_configs import LITELLM_EXTRA_BODY
+from zakk.llm.interfaces import LLM
+from zakk.llm.interfaces import LLMConfig
+from zakk.llm.interfaces import ToolChoiceOptions
+from zakk.llm.utils import model_is_reasoning_model
+from zakk.server.utils import mask_string
+from zakk.utils.logger import setup_logger
+from zakk.utils.long_term_log import LongTermLogger
 
 
 logger = setup_logger()

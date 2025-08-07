@@ -7,14 +7,14 @@ from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
-from onyx.access.utils import build_ext_group_name_for_onyx
-from onyx.configs.constants import DocumentSource
-from onyx.db.models import PublicExternalUserGroup
-from onyx.db.models import User
-from onyx.db.models import User__ExternalUserGroupId
-from onyx.db.users import batch_add_ext_perm_user_if_not_exists
-from onyx.db.users import get_user_by_email
-from onyx.utils.logger import setup_logger
+from zakk.access.utils import build_ext_group_name_for_zakk
+from zakk.configs.constants import DocumentSource
+from zakk.db.models import PublicExternalUserGroup
+from zakk.db.models import User
+from zakk.db.models import User__ExternalUserGroupId
+from zakk.db.users import batch_add_ext_perm_user_if_not_exists
+from zakk.db.users import get_user_by_email
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -113,7 +113,7 @@ def upsert_external_groups(
 
     # Process each external group
     for external_group in external_groups:
-        external_group_id = build_ext_group_name_for_onyx(
+        external_group_id = build_ext_group_name_for_zakk(
             ext_group_name=external_group.id,
             source=source,
         )

@@ -56,65 +56,65 @@ from httpx_oauth.oauth2 import OAuth2Token
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from onyx.auth.api_key import get_hashed_api_key_from_request
-from onyx.auth.email_utils import send_forgot_password_email
-from onyx.auth.email_utils import send_user_verification_email
-from onyx.auth.invited_users import get_invited_users
-from onyx.auth.schemas import AuthBackend
-from onyx.auth.schemas import UserCreate
-from onyx.auth.schemas import UserRole
-from onyx.auth.schemas import UserUpdateWithRole
-from onyx.configs.app_configs import AUTH_BACKEND
-from onyx.configs.app_configs import AUTH_COOKIE_EXPIRE_TIME_SECONDS
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.app_configs import DISABLE_AUTH
-from onyx.configs.app_configs import EMAIL_CONFIGURED
-from onyx.configs.app_configs import PASSWORD_MAX_LENGTH
-from onyx.configs.app_configs import PASSWORD_MIN_LENGTH
-from onyx.configs.app_configs import PASSWORD_REQUIRE_DIGIT
-from onyx.configs.app_configs import PASSWORD_REQUIRE_LOWERCASE
-from onyx.configs.app_configs import PASSWORD_REQUIRE_SPECIAL_CHAR
-from onyx.configs.app_configs import PASSWORD_REQUIRE_UPPERCASE
-from onyx.configs.app_configs import REDIS_AUTH_KEY_PREFIX
-from onyx.configs.app_configs import REQUIRE_EMAIL_VERIFICATION
-from onyx.configs.app_configs import SESSION_EXPIRE_TIME_SECONDS
-from onyx.configs.app_configs import TRACK_EXTERNAL_IDP_EXPIRY
-from onyx.configs.app_configs import USER_AUTH_SECRET
-from onyx.configs.app_configs import VALID_EMAIL_DOMAINS
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import ANONYMOUS_USER_COOKIE_NAME
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
-from onyx.configs.constants import DANSWER_API_KEY_PREFIX
-from onyx.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
-from onyx.configs.constants import MilestoneRecordType
-from onyx.configs.constants import ZakkRedisLocks
-from onyx.configs.constants import PASSWORD_SPECIAL_CHARS
-from onyx.configs.constants import UNNAMED_KEY_PLACEHOLDER
-from onyx.db.api_key import fetch_user_for_api_key
-from onyx.db.auth import get_access_token_db
-from onyx.db.auth import get_default_admin_user_emails
-from onyx.db.auth import get_user_count
-from onyx.db.auth import get_user_db
-from onyx.db.auth import SQLAlchemyUserAdminDB
-from onyx.db.engine.async_sql_engine import get_async_session
-from onyx.db.engine.async_sql_engine import get_async_session_context_manager
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.models import AccessToken
-from onyx.db.models import OAuthAccount
-from onyx.db.models import User
-from onyx.db.users import get_user_by_email
-from onyx.redis.redis_pool import get_async_redis_connection
-from onyx.redis.redis_pool import get_redis_client
-from onyx.server.utils import BasicAuthenticationError
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import create_milestone_and_report
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
-from onyx.utils.timing import log_function_time
-from onyx.utils.url import add_url_params
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
-from onyx.utils.variable_functionality import fetch_versioned_implementation
+from zakk.auth.api_key import get_hashed_api_key_from_request
+from zakk.auth.email_utils import send_forgot_password_email
+from zakk.auth.email_utils import send_user_verification_email
+from zakk.auth.invited_users import get_invited_users
+from zakk.auth.schemas import AuthBackend
+from zakk.auth.schemas import UserCreate
+from zakk.auth.schemas import UserRole
+from zakk.auth.schemas import UserUpdateWithRole
+from zakk.configs.app_configs import AUTH_BACKEND
+from zakk.configs.app_configs import AUTH_COOKIE_EXPIRE_TIME_SECONDS
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.app_configs import DISABLE_AUTH
+from zakk.configs.app_configs import EMAIL_CONFIGURED
+from zakk.configs.app_configs import PASSWORD_MAX_LENGTH
+from zakk.configs.app_configs import PASSWORD_MIN_LENGTH
+from zakk.configs.app_configs import PASSWORD_REQUIRE_DIGIT
+from zakk.configs.app_configs import PASSWORD_REQUIRE_LOWERCASE
+from zakk.configs.app_configs import PASSWORD_REQUIRE_SPECIAL_CHAR
+from zakk.configs.app_configs import PASSWORD_REQUIRE_UPPERCASE
+from zakk.configs.app_configs import REDIS_AUTH_KEY_PREFIX
+from zakk.configs.app_configs import REQUIRE_EMAIL_VERIFICATION
+from zakk.configs.app_configs import SESSION_EXPIRE_TIME_SECONDS
+from zakk.configs.app_configs import TRACK_EXTERNAL_IDP_EXPIRY
+from zakk.configs.app_configs import USER_AUTH_SECRET
+from zakk.configs.app_configs import VALID_EMAIL_DOMAINS
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import ANONYMOUS_USER_COOKIE_NAME
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
+from zakk.configs.constants import DANSWER_API_KEY_PREFIX
+from zakk.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
+from zakk.configs.constants import MilestoneRecordType
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.configs.constants import PASSWORD_SPECIAL_CHARS
+from zakk.configs.constants import UNNAMED_KEY_PLACEHOLDER
+from zakk.db.api_key import fetch_user_for_api_key
+from zakk.db.auth import get_access_token_db
+from zakk.db.auth import get_default_admin_user_emails
+from zakk.db.auth import get_user_count
+from zakk.db.auth import get_user_db
+from zakk.db.auth import SQLAlchemyUserAdminDB
+from zakk.db.engine.async_sql_engine import get_async_session
+from zakk.db.engine.async_sql_engine import get_async_session_context_manager
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.models import AccessToken
+from zakk.db.models import OAuthAccount
+from zakk.db.models import User
+from zakk.db.users import get_user_by_email
+from zakk.redis.redis_pool import get_async_redis_connection
+from zakk.redis.redis_pool import get_redis_client
+from zakk.server.utils import BasicAuthenticationError
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import create_milestone_and_report
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
+from zakk.utils.timing import log_function_time
+from zakk.utils.url import add_url_params
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.utils.variable_functionality import fetch_versioned_implementation
 from shared_configs.configs import async_return_default_schema
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
@@ -257,7 +257,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     async def get_by_email(self, user_email: str) -> User:
         tenant_id = fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.user_mapping", "get_tenant_id_for_email", None
+            "zakk.server.tenants.user_mapping", "get_tenant_id_for_email", None
         )(user_email)
         async with get_async_session_context_manager(tenant_id) as db_session:
             if MULTI_TENANT:
@@ -292,7 +292,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         )
 
         tenant_id = await fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.provisioning",
+            "zakk.server.tenants.provisioning",
             "get_or_provision_tenant",
             async_return_default_schema,
         )(
@@ -404,7 +404,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         )
 
         tenant_id = await fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.provisioning",
+            "zakk.server.tenants.provisioning",
             "get_or_provision_tenant",
             async_return_default_schema,
         )(
@@ -556,7 +556,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         self, user: User, request: Optional[Request] = None
     ) -> None:
         tenant_id = await fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.provisioning",
+            "zakk.server.tenants.provisioning",
             "get_or_provision_tenant",
             async_return_default_schema,
         )(
@@ -608,7 +608,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
                 "Your admin has not enabled this feature.",
             )
         tenant_id = await fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.provisioning",
+            "zakk.server.tenants.provisioning",
             "get_or_provision_tenant",
             async_return_default_schema,
         )(email=user.email)
@@ -637,7 +637,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         tenant_id: str | None = None
         try:
             tenant_id = fetch_ee_implementation_or_noop(
-                "onyx.server.tenants.provisioning",
+                "zakk.server.tenants.provisioning",
                 "get_tenant_id_for_email",
                 POSTGRES_DEFAULT_SCHEMA,
             )(
@@ -767,7 +767,7 @@ class TenantAwareRedisStrategy(RedisStrategy[User, uuid.UUID]):
         redis = await get_async_redis_connection()
 
         tenant_id = await fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.provisioning",
+            "zakk.server.tenants.provisioning",
             "get_or_provision_tenant",
             async_return_default_schema,
         )(email=user.email)
@@ -933,7 +933,7 @@ class FastAPIUserWithLogoutRouter(FastAPIUsers[models.UP, models.ID]):
         Provide a router for session token refreshing.
         """
         # Import the oauth_refresher here to avoid circular imports
-        from onyx.auth.oauth_refresher import check_and_refresh_oauth_tokens
+        from zakk.auth.oauth_refresher import check_and_refresh_oauth_tokens
 
         router = APIRouter()
 
@@ -1035,7 +1035,7 @@ async def optional_user(
     user: User | None = Depends(optional_fastapi_current_user),
 ) -> User | None:
     versioned_fetch_user = fetch_versioned_implementation(
-        "onyx.auth.users", "optional_user_"
+        "zakk.auth.users", "optional_user_"
     )
     user = await versioned_fetch_user(request, user, async_db_session)
 
@@ -1153,7 +1153,7 @@ async def current_admin_user(user: User | None = Depends(current_user)) -> User 
 
 
 def get_default_admin_user_emails_() -> list[str]:
-    # No default seeding available for Onyx MIT
+    # No default seeding available for Zakk MIT
     return []
 
 
@@ -1308,7 +1308,7 @@ def get_oauth_router(
         referral_source = state_data.get("referral_source", None)
         try:
             tenant_id = fetch_ee_implementation_or_noop(
-                "onyx.server.tenants.user_mapping", "get_tenant_id_for_email", None
+                "zakk.server.tenants.user_mapping", "get_tenant_id_for_email", None
             )(account_email)
         except exceptions.UserNotExists:
             tenant_id = None

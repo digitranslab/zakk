@@ -2,19 +2,19 @@ from collections.abc import Callable
 
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
-from onyx.agents.agent_search.shared_graph_utils.models import InitialAgentResultStats
-from onyx.agents.agent_search.shared_graph_utils.models import QueryRetrievalResult
-from onyx.agents.agent_search.shared_graph_utils.models import (
+from zakk.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
+from zakk.agents.agent_search.shared_graph_utils.models import InitialAgentResultStats
+from zakk.agents.agent_search.shared_graph_utils.models import QueryRetrievalResult
+from zakk.agents.agent_search.shared_graph_utils.models import (
     SubQuestionAnswerResults,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.models import StreamType
-from onyx.chat.models import SubQuestionPiece
-from onyx.tools.models import SearchQueryInfo
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.models import StreamType
+from zakk.chat.models import SubQuestionPiece
+from zakk.tools.models import SearchQueryInfo
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

@@ -13,32 +13,32 @@ from office365.runtime.http.request_options import RequestOptions  # type: ignor
 from office365.teams.channels.channel import Channel  # type: ignore
 from office365.teams.team import Team  # type: ignore
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.interfaces import CheckpointedConnector
-from onyx.connectors.interfaces import CheckpointOutput
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import EntityFailure
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.connectors.teams.models import Message
-from onyx.connectors.teams.utils import fetch_expert_infos
-from onyx.connectors.teams.utils import fetch_external_access
-from onyx.connectors.teams.utils import fetch_messages
-from onyx.connectors.teams.utils import fetch_replies
-from onyx.file_processing.html_utils import parse_html_page_basic
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.interfaces import CheckpointedConnector
+from zakk.connectors.interfaces import CheckpointOutput
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import EntityFailure
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.connectors.teams.models import Message
+from zakk.connectors.teams.utils import fetch_expert_infos
+from zakk.connectors.teams.utils import fetch_external_access
+from zakk.connectors.teams.utils import fetch_messages
+from zakk.connectors.teams.utils import fetch_replies
+from zakk.file_processing.html_utils import parse_html_page_basic
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

@@ -2,30 +2,30 @@ from langgraph.graph import END
 from langgraph.graph import START
 from langgraph.graph import StateGraph
 
-from onyx.agents.agent_search.dc_search_analysis.edges import (
+from zakk.agents.agent_search.dc_search_analysis.edges import (
     parallel_object_research_consolidation_edge,
 )
-from onyx.agents.agent_search.dc_search_analysis.edges import (
+from zakk.agents.agent_search.dc_search_analysis.edges import (
     parallel_object_source_research_edge,
 )
-from onyx.agents.agent_search.dc_search_analysis.nodes.a1_search_objects import (
+from zakk.agents.agent_search.dc_search_analysis.nodes.a1_search_objects import (
     search_objects,
 )
-from onyx.agents.agent_search.dc_search_analysis.nodes.a2_research_object_source import (
+from zakk.agents.agent_search.dc_search_analysis.nodes.a2_research_object_source import (
     research_object_source,
 )
-from onyx.agents.agent_search.dc_search_analysis.nodes.a3_structure_research_by_object import (
+from zakk.agents.agent_search.dc_search_analysis.nodes.a3_structure_research_by_object import (
     structure_research_by_object,
 )
-from onyx.agents.agent_search.dc_search_analysis.nodes.a4_consolidate_object_research import (
+from zakk.agents.agent_search.dc_search_analysis.nodes.a4_consolidate_object_research import (
     consolidate_object_research,
 )
-from onyx.agents.agent_search.dc_search_analysis.nodes.a5_consolidate_research import (
+from zakk.agents.agent_search.dc_search_analysis.nodes.a5_consolidate_research import (
     consolidate_research,
 )
-from onyx.agents.agent_search.dc_search_analysis.states import MainInput
-from onyx.agents.agent_search.dc_search_analysis.states import MainState
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.dc_search_analysis.states import MainInput
+from zakk.agents.agent_search.dc_search_analysis.states import MainState
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

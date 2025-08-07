@@ -1,11 +1,11 @@
-from ee.onyx.db.connector_credential_pair import get_all_auto_sync_cc_pairs
-from ee.onyx.external_permissions.sync_params import get_all_censoring_enabled_sources
-from ee.onyx.external_permissions.sync_params import get_source_perm_sync_config
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.pipeline import InferenceChunk
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import User
-from onyx.utils.logger import setup_logger
+from ee.zakk.db.connector_credential_pair import get_all_auto_sync_cc_pairs
+from ee.zakk.external_permissions.sync_params import get_all_censoring_enabled_sources
+from ee.zakk.external_permissions.sync_params import get_source_perm_sync_config
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.pipeline import InferenceChunk
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import User
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

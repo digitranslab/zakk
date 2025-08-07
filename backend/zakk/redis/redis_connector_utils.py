@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 
-from onyx.db.connector_credential_pair import get_connector_credential_pair
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import TaskStatus
-from onyx.db.models import TaskQueueState
-from onyx.redis.redis_connector import RedisConnector
-from onyx.server.documents.models import DeletionAttemptSnapshot
+from zakk.db.connector_credential_pair import get_connector_credential_pair
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import TaskStatus
+from zakk.db.models import TaskQueueState
+from zakk.redis.redis_connector import RedisConnector
+from zakk.server.documents.models import DeletionAttemptSnapshot
 
 
 def _get_deletion_status(

@@ -1,16 +1,16 @@
 from datetime import datetime
 from typing import cast
 
-from onyx.chat.models import LlmDoc
-from onyx.configs.constants import DocumentSource
-from onyx.configs.kg_configs import KG_RESEARCH_NUM_RETRIEVED_DOCS
-from onyx.context.search.models import InferenceSection
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.tools.models import SearchToolOverrideKwargs
-from onyx.tools.tool_implementations.search.search_tool import (
+from zakk.chat.models import LlmDoc
+from zakk.configs.constants import DocumentSource
+from zakk.configs.kg_configs import KG_RESEARCH_NUM_RETRIEVED_DOCS
+from zakk.context.search.models import InferenceSection
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.tools.models import SearchToolOverrideKwargs
+from zakk.tools.tool_implementations.search.search_tool import (
     FINAL_CONTEXT_DOCUMENTS_ID,
 )
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
 
 
 def research(

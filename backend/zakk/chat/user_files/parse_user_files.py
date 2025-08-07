@@ -2,13 +2,13 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from onyx.db.models import Persona
-from onyx.db.models import UserFile
-from onyx.file_store.models import InMemoryChatFile
-from onyx.file_store.utils import get_user_files_as_user
-from onyx.file_store.utils import load_in_memory_chat_files
-from onyx.tools.models import SearchToolOverrideKwargs
-from onyx.utils.logger import setup_logger
+from zakk.db.models import Persona
+from zakk.db.models import UserFile
+from zakk.file_store.models import InMemoryChatFile
+from zakk.file_store.utils import get_user_files_as_user
+from zakk.file_store.utils import load_in_memory_chat_files
+from zakk.tools.models import SearchToolOverrideKwargs
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -63,8 +63,8 @@ def parse_user_files(
 
     # Calculate token count for the files, need to import here to avoid circular import
     # TODO: fix this
-    from onyx.db.user_documents import calculate_user_files_token_count
-    from onyx.chat.prompt_builder.citations_prompt import (
+    from zakk.db.user_documents import calculate_user_files_token_count
+    from zakk.chat.prompt_builder.citations_prompt import (
         compute_max_document_tokens_for_persona,
     )
 

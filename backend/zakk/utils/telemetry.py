@@ -7,20 +7,20 @@ from typing import cast
 import requests
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DISABLE_TELEMETRY
-from onyx.configs.app_configs import ENTERPRISE_EDITION_ENABLED
-from onyx.configs.constants import KV_CUSTOMER_UUID_KEY
-from onyx.configs.constants import KV_INSTANCE_DOMAIN_KEY
-from onyx.configs.constants import MilestoneRecordType
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.milestone import create_milestone_if_not_exists
-from onyx.db.models import User
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.utils.variable_functionality import (
+from zakk.configs.app_configs import DISABLE_TELEMETRY
+from zakk.configs.app_configs import ENTERPRISE_EDITION_ENABLED
+from zakk.configs.constants import KV_CUSTOMER_UUID_KEY
+from zakk.configs.constants import KV_INSTANCE_DOMAIN_KEY
+from zakk.configs.constants import MilestoneRecordType
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.milestone import create_milestone_if_not_exists
+from zakk.db.models import User
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
-from onyx.utils.variable_functionality import noop_fallback
+from zakk.utils.variable_functionality import noop_fallback
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.contextvars import get_current_tenant_id
 
@@ -140,7 +140,7 @@ def optional_telemetry(
         )
         thread.start()
     except Exception:
-        # Should never interfere with normal functions of Onyx
+        # Should never interfere with normal functions of Zakk
         pass
 
 
@@ -153,10 +153,10 @@ def mt_cloud_telemetry(
         return
 
     # MIT version should not need to include any Posthog code
-    # This is only for Onyx MT Cloud, this code should also never be hit, no reason for any orgs to
-    # be running the Multi Tenant version of Onyx.
+    # This is only for Zakk MT Cloud, this code should also never be hit, no reason for any orgs to
+    # be running the Multi Tenant version of Zakk.
     fetch_versioned_implementation_with_fallback(
-        module="onyx.utils.telemetry",
+        module="zakk.utils.telemetry",
         attribute="event_telemetry",
         fallback=noop_fallback,
     )(distinct_id, event, properties)

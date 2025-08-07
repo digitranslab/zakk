@@ -3,18 +3,18 @@ from datetime import datetime
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
-from onyx.agents.agent_search.kb_search.graph_utils import rename_entities_in_answer
-from onyx.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
+from zakk.agents.agent_search.kb_search.graph_utils import rename_entities_in_answer
+from zakk.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
+from zakk.agents.agent_search.kb_search.graph_utils import (
     stream_write_step_answer_explicit,
 )
-from onyx.agents.agent_search.kb_search.states import ConsolidatedResearchUpdate
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.kb_search.states import ConsolidatedResearchUpdate
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

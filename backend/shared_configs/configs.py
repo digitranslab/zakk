@@ -18,7 +18,7 @@ INDEXING_MODEL_SERVER_PORT = int(
     os.environ.get("INDEXING_MODEL_SERVER_PORT") or MODEL_SERVER_PORT
 )
 
-# Onyx custom Deep Learning Models
+# Zakk custom Deep Learning Models
 CONNECTOR_CLASSIFIER_MODEL_REPO = "Danswer/filter-extraction-model"
 CONNECTOR_CLASSIFIER_MODEL_TAG = "1.0.0"
 INTENT_MODEL_VERSION = "digitranslab/hybrid-intent-token-classifier"
@@ -57,7 +57,7 @@ INDEXING_ONLY = os.environ.get("INDEXING_ONLY", "").lower() == "true"
 # The process needs to have this for the log file to write to
 # otherwise, it will not create additional log files
 # This should just be the filename base without extension or path.
-LOG_FILE_NAME = os.environ.get("LOG_FILE_NAME") or "onyx"
+LOG_FILE_NAME = os.environ.get("LOG_FILE_NAME") or "zakk"
 
 # Enable generating persistent log files for local dev environments
 DEV_LOGGING_ENABLED = os.environ.get("DEV_LOGGING_ENABLED", "").lower() == "true"

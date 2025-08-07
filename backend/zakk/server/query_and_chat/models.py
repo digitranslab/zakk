@@ -6,23 +6,23 @@ from uuid import UUID
 from pydantic import BaseModel
 from pydantic import model_validator
 
-from onyx.chat.models import PersonaOverrideConfig
-from onyx.chat.models import RetrievalDocs
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import MessageType
-from onyx.configs.constants import SearchFeedbackType
-from onyx.configs.constants import SessionType
-from onyx.context.search.models import BaseFilters
-from onyx.context.search.models import ChunkContext
-from onyx.context.search.models import RerankingDetails
-from onyx.context.search.models import RetrievalDetails
-from onyx.context.search.models import SearchDoc
-from onyx.context.search.models import Tag
-from onyx.db.enums import ChatSessionSharedStatus
-from onyx.file_store.models import FileDescriptor
-from onyx.llm.override_models import LLMOverride
-from onyx.llm.override_models import PromptOverride
-from onyx.tools.models import ToolCallFinalResult
+from zakk.chat.models import PersonaOverrideConfig
+from zakk.chat.models import RetrievalDocs
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import MessageType
+from zakk.configs.constants import SearchFeedbackType
+from zakk.configs.constants import SessionType
+from zakk.context.search.models import BaseFilters
+from zakk.context.search.models import ChunkContext
+from zakk.context.search.models import RerankingDetails
+from zakk.context.search.models import RetrievalDetails
+from zakk.context.search.models import SearchDoc
+from zakk.context.search.models import Tag
+from zakk.db.enums import ChatSessionSharedStatus
+from zakk.file_store.models import FileDescriptor
+from zakk.llm.override_models import LLMOverride
+from zakk.llm.override_models import PromptOverride
+from zakk.tools.models import ToolCallFinalResult
 
 
 if TYPE_CHECKING:
@@ -38,7 +38,7 @@ class TagResponse(BaseModel):
 
 
 class UpdateChatSessionThreadRequest(BaseModel):
-    # If not specified, use Onyx default persona
+    # If not specified, use Zakk default persona
     chat_session_id: UUID
     new_alternate_model: str
 
@@ -49,7 +49,7 @@ class UpdateChatSessionTemperatureRequest(BaseModel):
 
 
 class ChatSessionCreationRequest(BaseModel):
-    # If not specified, use Onyx default persona
+    # If not specified, use Zakk default persona
     persona_id: int = 0
     description: str | None = None
 

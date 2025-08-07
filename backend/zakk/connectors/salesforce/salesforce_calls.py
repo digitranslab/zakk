@@ -10,12 +10,12 @@ from simple_salesforce.bulk2 import SFBulk2Handler
 from simple_salesforce.bulk2 import SFBulk2Type
 from simple_salesforce.exceptions import SalesforceRefusedRequest
 
-from onyx.connectors.cross_connector_utils.rate_limit_wrapper import (
+from zakk.connectors.cross_connector_utils.rate_limit_wrapper import (
     rate_limit_builder,
 )
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import retry_builder
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import retry_builder
 
 logger = setup_logger()
 

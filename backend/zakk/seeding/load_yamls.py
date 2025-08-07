@@ -1,23 +1,23 @@
 import yaml
 from sqlalchemy.orm import Session
 
-from onyx.configs.chat_configs import INPUT_PROMPT_YAML
-from onyx.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
-from onyx.configs.chat_configs import PERSONAS_YAML
-from onyx.configs.chat_configs import PROMPTS_YAML
-from onyx.configs.chat_configs import USER_FOLDERS_YAML
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.document_set import get_or_create_document_set_by_name
-from onyx.db.input_prompt import insert_input_prompt_if_not_exists
-from onyx.db.models import DocumentSet as DocumentSetDBModel
-from onyx.db.models import Persona
-from onyx.db.models import Prompt as PromptDBModel
-from onyx.db.models import Tool as ToolDBModel
-from onyx.db.persona import upsert_persona
-from onyx.db.prompts import get_prompt_by_name
-from onyx.db.prompts import upsert_prompt
-from onyx.db.user_documents import upsert_user_folder
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.configs.chat_configs import INPUT_PROMPT_YAML
+from zakk.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
+from zakk.configs.chat_configs import PERSONAS_YAML
+from zakk.configs.chat_configs import PROMPTS_YAML
+from zakk.configs.chat_configs import USER_FOLDERS_YAML
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.document_set import get_or_create_document_set_by_name
+from zakk.db.input_prompt import insert_input_prompt_if_not_exists
+from zakk.db.models import DocumentSet as DocumentSetDBModel
+from zakk.db.models import Persona
+from zakk.db.models import Prompt as PromptDBModel
+from zakk.db.models import Tool as ToolDBModel
+from zakk.db.persona import upsert_persona
+from zakk.db.prompts import get_prompt_by_name
+from zakk.db.prompts import upsert_prompt
+from zakk.db.user_documents import upsert_user_folder
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     ImageGenerationTool,
 )
 

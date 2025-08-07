@@ -1,14 +1,14 @@
 from sqlalchemy.orm import Session
 
-from onyx.db.document import reset_all_document_kg_stages
-from onyx.db.models import Connector
-from onyx.db.models import KGEntity
-from onyx.db.models import KGEntityExtractionStaging
-from onyx.db.models import KGEntityType
-from onyx.db.models import KGRelationship
-from onyx.db.models import KGRelationshipExtractionStaging
-from onyx.db.models import KGRelationshipType
-from onyx.db.models import KGRelationshipTypeExtractionStaging
+from zakk.db.document import reset_all_document_kg_stages
+from zakk.db.models import Connector
+from zakk.db.models import KGEntity
+from zakk.db.models import KGEntityExtractionStaging
+from zakk.db.models import KGEntityType
+from zakk.db.models import KGRelationship
+from zakk.db.models import KGRelationshipExtractionStaging
+from zakk.db.models import KGRelationshipType
+from zakk.db.models import KGRelationshipTypeExtractionStaging
 
 
 def reset_full_kg_index__commit(db_session: Session) -> None:

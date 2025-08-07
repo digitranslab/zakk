@@ -1,10 +1,10 @@
 from typing import cast
 
-from onyx.configs.constants import KV_SEARCH_SETTINGS
-from onyx.context.search.models import SavedSearchSettings
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import KV_SEARCH_SETTINGS
+from zakk.context.search.models import SavedSearchSettings
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

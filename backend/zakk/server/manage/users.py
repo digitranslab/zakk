@@ -21,57 +21,57 @@ from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
-from onyx.auth.email_utils import send_user_email_invite
-from onyx.auth.invited_users import get_invited_users
-from onyx.auth.invited_users import write_invited_users
-from onyx.auth.noauth_user import fetch_no_auth_user
-from onyx.auth.noauth_user import set_no_auth_user_preferences
-from onyx.auth.schemas import UserRole
-from onyx.auth.users import anonymous_user_enabled
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_user
-from onyx.auth.users import optional_user
-from onyx.configs.app_configs import AUTH_BACKEND
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.app_configs import AuthBackend
-from onyx.configs.app_configs import DEV_MODE
-from onyx.configs.app_configs import ENABLE_EMAIL_INVITES
-from onyx.configs.app_configs import REDIS_AUTH_KEY_PREFIX
-from onyx.configs.app_configs import SESSION_EXPIRE_TIME_SECONDS
-from onyx.configs.app_configs import VALID_EMAIL_DOMAINS
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
-from onyx.db.api_key import is_api_key_email_address
-from onyx.db.auth import get_live_users_count
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import AccessToken
-from onyx.db.models import User
-from onyx.db.users import delete_user_from_db
-from onyx.db.users import get_all_users
-from onyx.db.users import get_page_of_filtered_users
-from onyx.db.users import get_total_filtered_users_count
-from onyx.db.users import get_user_by_email
-from onyx.db.users import validate_user_role_update
-from onyx.key_value_store.factory import get_kv_store
-from onyx.redis.redis_pool import get_raw_redis_client
-from onyx.server.documents.models import PaginatedReturn
-from onyx.server.manage.models import AllUsersResponse
-from onyx.server.manage.models import AutoScrollRequest
-from onyx.server.manage.models import TenantInfo
-from onyx.server.manage.models import TenantSnapshot
-from onyx.server.manage.models import UserByEmail
-from onyx.server.manage.models import UserInfo
-from onyx.server.manage.models import UserPreferences
-from onyx.server.manage.models import UserRoleResponse
-from onyx.server.manage.models import UserRoleUpdateRequest
-from onyx.server.models import FullUserSnapshot
-from onyx.server.models import InvitedUserSnapshot
-from onyx.server.models import MinimalUserSnapshot
-from onyx.server.utils import BasicAuthenticationError
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
-from onyx.utils.variable_functionality import (
+from zakk.auth.email_utils import send_user_email_invite
+from zakk.auth.invited_users import get_invited_users
+from zakk.auth.invited_users import write_invited_users
+from zakk.auth.noauth_user import fetch_no_auth_user
+from zakk.auth.noauth_user import set_no_auth_user_preferences
+from zakk.auth.schemas import UserRole
+from zakk.auth.users import anonymous_user_enabled
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_user
+from zakk.auth.users import optional_user
+from zakk.configs.app_configs import AUTH_BACKEND
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.app_configs import AuthBackend
+from zakk.configs.app_configs import DEV_MODE
+from zakk.configs.app_configs import ENABLE_EMAIL_INVITES
+from zakk.configs.app_configs import REDIS_AUTH_KEY_PREFIX
+from zakk.configs.app_configs import SESSION_EXPIRE_TIME_SECONDS
+from zakk.configs.app_configs import VALID_EMAIL_DOMAINS
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
+from zakk.db.api_key import is_api_key_email_address
+from zakk.db.auth import get_live_users_count
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import AccessToken
+from zakk.db.models import User
+from zakk.db.users import delete_user_from_db
+from zakk.db.users import get_all_users
+from zakk.db.users import get_page_of_filtered_users
+from zakk.db.users import get_total_filtered_users_count
+from zakk.db.users import get_user_by_email
+from zakk.db.users import validate_user_role_update
+from zakk.key_value_store.factory import get_kv_store
+from zakk.redis.redis_pool import get_raw_redis_client
+from zakk.server.documents.models import PaginatedReturn
+from zakk.server.manage.models import AllUsersResponse
+from zakk.server.manage.models import AutoScrollRequest
+from zakk.server.manage.models import TenantInfo
+from zakk.server.manage.models import TenantSnapshot
+from zakk.server.manage.models import UserByEmail
+from zakk.server.manage.models import UserInfo
+from zakk.server.manage.models import UserPreferences
+from zakk.server.manage.models import UserRoleResponse
+from zakk.server.manage.models import UserRoleUpdateRequest
+from zakk.server.models import FullUserSnapshot
+from zakk.server.models import InvitedUserSnapshot
+from zakk.server.models import MinimalUserSnapshot
+from zakk.server.utils import BasicAuthenticationError
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
 from shared_configs.configs import MULTI_TENANT
@@ -116,7 +116,7 @@ def set_user_role(
     if requested_role == UserRole.CURATOR:
         # Remove all curator db relationships before changing role
         fetch_ee_implementation_or_noop(
-            "onyx.db.user_group",
+            "zakk.db.user_group",
             "remove_curator_status__no_commit",
         )(db_session, user_to_update)
 
@@ -136,7 +136,7 @@ async def test_upsert_user(
 ) -> None | FullUserSnapshot:
     """Test endpoint for upsert_saml_user. Only used for integration testing."""
     user = await fetch_ee_implementation_or_noop(
-        "onyx.server.saml", "upsert_saml_user", None
+        "zakk.server.saml", "upsert_saml_user", None
     )(email=request.email)
     return FullUserSnapshot.from_user_model(user) if user else None
 
@@ -318,7 +318,7 @@ def bulk_invite_users(
     if MULTI_TENANT:
         try:
             fetch_ee_implementation_or_noop(
-                "onyx.server.tenants.provisioning", "add_users_to_tenant", None
+                "zakk.server.tenants.provisioning", "add_users_to_tenant", None
             )(new_invited_emails, tenant_id)
 
         except Exception as e:
@@ -344,7 +344,7 @@ def bulk_invite_users(
     try:
         logger.info("Registering tenant users")
         fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.billing", "register_tenant_users", None
+            "zakk.server.tenants.billing", "register_tenant_users", None
         )(tenant_id, get_live_users_count(db_session))
 
         return number_of_invited_users
@@ -355,7 +355,7 @@ def bulk_invite_users(
         )
         write_invited_users(initial_invited_users)  # Reset to original state
         fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.user_mapping", "remove_users_from_tenant", None
+            "zakk.server.tenants.user_mapping", "remove_users_from_tenant", None
         )(new_invited_emails, tenant_id)
         raise e
 
@@ -372,7 +372,7 @@ def remove_invited_user(
 
     if MULTI_TENANT:
         fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.user_mapping", "remove_users_from_tenant", None
+            "zakk.server.tenants.user_mapping", "remove_users_from_tenant", None
         )([user_email.user_email], tenant_id)
 
     number_of_invited_users = write_invited_users(remaining_users)
@@ -380,7 +380,7 @@ def remove_invited_user(
     try:
         if MULTI_TENANT and not DEV_MODE:
             fetch_ee_implementation_or_noop(
-                "onyx.server.tenants.billing", "register_tenant_users", None
+                "zakk.server.tenants.billing", "register_tenant_users", None
             )(tenant_id, get_live_users_count(db_session))
     except Exception:
         logger.error(
@@ -447,7 +447,7 @@ async def delete_user(
     try:
         tenant_id = get_current_tenant_id()
         fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.user_mapping", "remove_users_from_tenant", None
+            "zakk.server.tenants.user_mapping", "remove_users_from_tenant", None
         )([user_email.user_email], tenant_id)
         delete_user_from_db(user_to_delete, db_session)
         logger.info(f"Deleted user {user_to_delete.email}")
@@ -634,7 +634,7 @@ def verify_user_logged_in(
     )
 
     team_name = fetch_ee_implementation_or_noop(
-        "onyx.server.tenants.user_mapping", "get_tenant_id_for_email", None
+        "zakk.server.tenants.user_mapping", "get_tenant_id_for_email", None
     )(user.email)
 
     new_tenant: TenantSnapshot | None = None
@@ -643,18 +643,18 @@ def verify_user_logged_in(
     if MULTI_TENANT:
         if team_name != get_current_tenant_id():
             user_count = fetch_ee_implementation_or_noop(
-                "onyx.server.tenants.user_mapping", "get_tenant_count", None
+                "zakk.server.tenants.user_mapping", "get_tenant_count", None
             )(team_name)
             new_tenant = TenantSnapshot(tenant_id=team_name, number_of_users=user_count)
 
         tenant_invitation = fetch_ee_implementation_or_noop(
-            "onyx.server.tenants.user_mapping", "get_tenant_invitation", None
+            "zakk.server.tenants.user_mapping", "get_tenant_invitation", None
         )(user.email)
 
     super_users_list = cast(
         list[str],
         fetch_versioned_implementation_with_fallback(
-            "onyx.configs.app_configs",
+            "zakk.configs.app_configs",
             "SUPER_USERS",
             [],
         ),

@@ -8,27 +8,27 @@ from typing import Any
 
 import yaml
 
-from onyx.agents.agent_search.deep_search.main.graph_builder import (
+from zakk.agents.agent_search.deep_search.main.graph_builder import (
     agent_search_graph_builder,
 )
-from onyx.agents.agent_search.deep_search.main.states import (
+from zakk.agents.agent_search.deep_search.main.states import (
     MainInput as MainInput_a,
 )
-from onyx.agents.agent_search.run_graph import run_agent_search_graph
-from onyx.agents.agent_search.run_graph import run_basic_graph
-from onyx.agents.agent_search.shared_graph_utils.utils import get_test_config
-from onyx.chat.models import AgentAnswerPiece
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import RefinedAnswerImprovement
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamType
-from onyx.chat.models import SubQuestionPiece
-from onyx.context.search.models import SearchRequest
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.llm.factory import get_default_llms
-from onyx.tools.force import ForceUseTool
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.run_graph import run_agent_search_graph
+from zakk.agents.agent_search.run_graph import run_basic_graph
+from zakk.agents.agent_search.shared_graph_utils.utils import get_test_config
+from zakk.chat.models import AgentAnswerPiece
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import RefinedAnswerImprovement
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamType
+from zakk.chat.models import SubQuestionPiece
+from zakk.context.search.models import SearchRequest
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.llm.factory import get_default_llms
+from zakk.tools.force import ForceUseTool
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -98,7 +98,7 @@ with get_session_with_current_tenant() as db_session:
                 # query="What are the guiding principles behind the development of cockroachDB",
                 # query="What are the temperatures in Munich, Hawaii, and New York?",
                 # query="When was Washington born?",
-                # query="What is Onyx?",
+                # query="What is Zakk?",
                 # query="What is the difference between astronomy and astrology?",
                 query=example_question,
             )
@@ -121,7 +121,7 @@ with get_session_with_current_tenant() as db_session:
                 # Base Flow
                 base_flow_start_time: datetime = datetime.now()
                 for output in run_basic_graph(config):
-                    if isinstance(output, OnyxAnswerPiece):
+                    if isinstance(output, ZakkAnswerPiece):
                         answer_tokens["base_answer"].append(output.answer_piece or "")
 
                 output_data["base_answer"] = "".join(answer_tokens["base_answer"])

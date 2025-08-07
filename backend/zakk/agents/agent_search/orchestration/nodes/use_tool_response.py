@@ -4,22 +4,22 @@ from langchain_core.messages import AIMessageChunk
 from langchain_core.runnables.config import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.basic.states import BasicOutput
-from onyx.agents.agent_search.basic.states import BasicState
-from onyx.agents.agent_search.basic.utils import process_llm_stream
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.chat.models import LlmDoc
-from onyx.context.search.utils import dedupe_documents
-from onyx.tools.tool_implementations.search.search_tool import (
+from zakk.agents.agent_search.basic.states import BasicOutput
+from zakk.agents.agent_search.basic.states import BasicState
+from zakk.agents.agent_search.basic.utils import process_llm_stream
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.chat.models import LlmDoc
+from zakk.context.search.utils import dedupe_documents
+from zakk.tools.tool_implementations.search.search_tool import (
     SEARCH_RESPONSE_SUMMARY_ID,
 )
-from onyx.tools.tool_implementations.search.search_tool import SearchResponseSummary
-from onyx.tools.tool_implementations.search.search_utils import section_to_llm_doc
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.tools.tool_implementations.search.search_tool import SearchResponseSummary
+from zakk.tools.tool_implementations.search.search_utils import section_to_llm_doc
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     FINAL_CONTEXT_DOCUMENTS_ID,
 )
-from onyx.utils.logger import setup_logger
-from onyx.utils.timing import log_function_time
+from zakk.utils.logger import setup_logger
+from zakk.utils.timing import log_function_time
 
 logger = setup_logger()
 

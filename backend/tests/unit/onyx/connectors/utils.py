@@ -4,12 +4,12 @@ from typing import TypeVar
 
 from pydantic import BaseModel
 
-from onyx.connectors.connector_runner import CheckpointOutputWrapper
-from onyx.connectors.interfaces import CheckpointedConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
+from zakk.connectors.connector_runner import CheckpointOutputWrapper
+from zakk.connectors.interfaces import CheckpointedConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
 
 _ITERATION_LIMIT = 100_000
 

@@ -6,18 +6,18 @@ from pydantic import BaseModel
 from pydantic import ConfigDict
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import MAX_FEDERATED_CHUNKS
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import FederatedConnectorSource
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import SearchQuery
-from onyx.db.federated import (
+from zakk.configs.app_configs import MAX_FEDERATED_CHUNKS
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import FederatedConnectorSource
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import SearchQuery
+from zakk.db.federated import (
     get_federated_connector_document_set_mappings_by_document_set_names,
 )
-from onyx.db.federated import list_federated_connector_oauth_tokens
-from onyx.db.models import FederatedConnector__DocumentSet
-from onyx.federated_connectors.factory import get_federated_connector
-from onyx.utils.logger import setup_logger
+from zakk.db.federated import list_federated_connector_oauth_tokens
+from zakk.db.models import FederatedConnector__DocumentSet
+from zakk.federated_connectors.factory import get_federated_connector
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

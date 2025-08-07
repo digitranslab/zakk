@@ -20,11 +20,11 @@ from model_server.custom_models import warm_up_intent_model
 from model_server.encoders import router as encoders_router
 from model_server.management_endpoints import router as management_router
 from model_server.utils import get_gpu_type
-from onyx import __version__
-from onyx.utils.logger import setup_logger
-from onyx.utils.logger import setup_uvicorn_logger
-from onyx.utils.middleware import add_zakk_request_id_middleware
-from onyx.utils.middleware import add_zakk_tenant_id_middleware
+from zakk import __version__
+from zakk.utils.logger import setup_logger
+from zakk.utils.logger import setup_uvicorn_logger
+from zakk.utils.middleware import add_zakk_request_id_middleware
+from zakk.utils.middleware import add_zakk_tenant_id_middleware
 from shared_configs.configs import INDEXING_ONLY
 from shared_configs.configs import MIN_THREADS_ML_MODELS
 from shared_configs.configs import MODEL_SERVER_ALLOWED_HOST
@@ -107,7 +107,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
 
 def get_model_app() -> FastAPI:
     application = FastAPI(
-        title="Onyx Model Server", version=__version__, lifespan=lifespan
+        title="Zakk Model Server", version=__version__, lifespan=lifespan
     )
     if SENTRY_DSN:
         sentry_sdk.init(
@@ -141,7 +141,7 @@ app = get_model_app()
 
 if __name__ == "__main__":
     logger.notice(
-        f"Starting Onyx Model Server on http://{MODEL_SERVER_ALLOWED_HOST}:{str(MODEL_SERVER_PORT)}/"
+        f"Starting Zakk Model Server on http://{MODEL_SERVER_ALLOWED_HOST}:{str(MODEL_SERVER_PORT)}/"
     )
     logger.notice(f"Model Server Version: {__version__}")
     uvicorn.run(app, host=MODEL_SERVER_ALLOWED_HOST, port=MODEL_SERVER_PORT)

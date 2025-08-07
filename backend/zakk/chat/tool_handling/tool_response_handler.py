@@ -4,24 +4,24 @@ from langchain_core.messages import AIMessageChunk
 from langchain_core.messages import BaseMessage
 from langchain_core.messages import ToolCall
 
-from onyx.chat.models import ResponsePart
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.chat.prompt_builder.answer_prompt_builder import LLMCall
-from onyx.chat.prompt_builder.answer_prompt_builder import PromptSnapshot
-from onyx.llm.interfaces import LLM
-from onyx.tools.force import ForceUseTool
-from onyx.tools.message import build_tool_message
-from onyx.tools.message import ToolCallSummary
-from onyx.tools.models import ToolCallFinalResult
-from onyx.tools.models import ToolCallKickoff
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool import Tool
-from onyx.tools.tool_runner import (
+from zakk.chat.models import ResponsePart
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.chat.prompt_builder.answer_prompt_builder import LLMCall
+from zakk.chat.prompt_builder.answer_prompt_builder import PromptSnapshot
+from zakk.llm.interfaces import LLM
+from zakk.tools.force import ForceUseTool
+from zakk.tools.message import build_tool_message
+from zakk.tools.message import ToolCallSummary
+from zakk.tools.models import ToolCallFinalResult
+from zakk.tools.models import ToolCallKickoff
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool import Tool
+from zakk.tools.tool_runner import (
     check_which_tools_should_run_for_non_tool_calling_llm,
 )
-from onyx.tools.tool_runner import ToolRunner
-from onyx.tools.tool_selection import select_single_tool_for_non_tool_calling_llm
-from onyx.utils.logger import setup_logger
+from zakk.tools.tool_runner import ToolRunner
+from zakk.tools.tool_selection import select_single_tool_for_non_tool_calling_llm
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

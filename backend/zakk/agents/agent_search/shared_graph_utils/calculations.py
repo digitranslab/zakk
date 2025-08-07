@@ -1,14 +1,14 @@
 import numpy as np
 
-from onyx.agents.agent_search.shared_graph_utils.models import AnswerGenerationDocuments
-from onyx.agents.agent_search.shared_graph_utils.models import RetrievalFitScoreMetrics
-from onyx.agents.agent_search.shared_graph_utils.models import RetrievalFitStats
-from onyx.agents.agent_search.shared_graph_utils.operators import (
+from zakk.agents.agent_search.shared_graph_utils.models import AnswerGenerationDocuments
+from zakk.agents.agent_search.shared_graph_utils.models import RetrievalFitScoreMetrics
+from zakk.agents.agent_search.shared_graph_utils.models import RetrievalFitStats
+from zakk.agents.agent_search.shared_graph_utils.operators import (
     dedup_inference_section_list,
 )
-from onyx.chat.models import SectionRelevancePiece
-from onyx.context.search.models import InferenceSection
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import SectionRelevancePiece
+from zakk.context.search.models import InferenceSection
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

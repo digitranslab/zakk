@@ -4,32 +4,32 @@ from fastapi import HTTPException
 from fastapi import Query
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_user
-from onyx.connectors.factory import validate_ccpair_for_user
-from onyx.db.credentials import alter_credential
-from onyx.db.credentials import cleanup_gmail_credentials
-from onyx.db.credentials import create_credential
-from onyx.db.credentials import CREDENTIAL_PERMISSIONS_TO_IGNORE
-from onyx.db.credentials import delete_credential
-from onyx.db.credentials import delete_credential_for_user
-from onyx.db.credentials import fetch_credential_by_id_for_user
-from onyx.db.credentials import fetch_credentials_by_source_for_user
-from onyx.db.credentials import fetch_credentials_for_user
-from onyx.db.credentials import swap_credentials_connector
-from onyx.db.credentials import update_credential
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import DocumentSource
-from onyx.db.models import User
-from onyx.server.documents.models import CredentialBase
-from onyx.server.documents.models import CredentialDataUpdateRequest
-from onyx.server.documents.models import CredentialSnapshot
-from onyx.server.documents.models import CredentialSwapRequest
-from onyx.server.documents.models import ObjectCreationIdResponse
-from onyx.server.models import StatusResponse
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_user
+from zakk.connectors.factory import validate_ccpair_for_user
+from zakk.db.credentials import alter_credential
+from zakk.db.credentials import cleanup_gmail_credentials
+from zakk.db.credentials import create_credential
+from zakk.db.credentials import CREDENTIAL_PERMISSIONS_TO_IGNORE
+from zakk.db.credentials import delete_credential
+from zakk.db.credentials import delete_credential_for_user
+from zakk.db.credentials import fetch_credential_by_id_for_user
+from zakk.db.credentials import fetch_credentials_by_source_for_user
+from zakk.db.credentials import fetch_credentials_for_user
+from zakk.db.credentials import swap_credentials_connector
+from zakk.db.credentials import update_credential
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import DocumentSource
+from zakk.db.models import User
+from zakk.server.documents.models import CredentialBase
+from zakk.server.documents.models import CredentialDataUpdateRequest
+from zakk.server.documents.models import CredentialSnapshot
+from zakk.server.documents.models import CredentialSwapRequest
+from zakk.server.documents.models import ObjectCreationIdResponse
+from zakk.server.models import StatusResponse
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 
 logger = setup_logger()
 
@@ -130,7 +130,7 @@ def create_credential_from_model(
 ) -> ObjectCreationIdResponse:
     if not _ignore_credential_permissions(credential_info.source):
         fetch_ee_implementation_or_noop(
-            "onyx.db.user_group", "validate_object_creation_for_user", None
+            "zakk.db.user_group", "validate_object_creation_for_user", None
         )(
             db_session=db_session,
             user=user,

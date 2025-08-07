@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "onyx-stack.fullname" . }}-celery-worker-docprocessing
+  name: {{ include "zakk-stack.fullname" . }}-celery-worker-docprocessing
   labels:
-    {{- include "onyx-stack.labels" . | nindent 4 }}
+    {{- include "zakk-stack.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.celery_worker_docprocessing.autoscaling.enabled }}
   replicas: {{ .Values.celery_worker_docprocessing.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "onyx-stack.selectorLabels" . | nindent 6 }}
+      {{- include "zakk-stack.selectorLabels" . | nindent 6 }}
       {{- if .Values.celery_worker_docprocessing.deploymentLabels }}
       {{- toYaml .Values.celery_worker_docprocessing.deploymentLabels | nindent 6 }}
       {{- end }}
@@ -21,7 +21,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "onyx-stack.labels" . | nindent 8 }}
+        {{- include "zakk-stack.labels" . | nindent 8 }}
         {{- with .Values.celery_worker_docprocessing.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -30,7 +30,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "onyx-stack.serviceAccountName" . }}
+      serviceAccountName: {{ include "zakk-stack.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.celery_worker_docprocessing.podSecurityContext | nindent 8 }}
       containers:
@@ -43,7 +43,7 @@ spec:
             [
               "celery",
               "-A",
-              "onyx.background.celery.versioned_apps.docprocessing",
+              "zakk.background.celery.versioned_apps.docprocessing",
               "worker",
               "--pool=threads",
               "--concurrency=6",
@@ -61,7 +61,7 @@ spec:
           env:
             - name: ENABLE_MULTIPASS_INDEXING
               value: "{{ .Values.celery_worker_docprocessing.enableMiniChunk }}"
-            {{- include "onyx-stack.envSecrets" . | nindent 12}}
+            {{- include "zakk-stack.envSecrets" . | nindent 12}}
           startupProbe:
             {{ .Values.celery_shared.startupProbe | toYaml | nindent 12}}
           readinessProbe:
@@ -71,7 +71,7 @@ spec:
                 - /bin/bash
                 - -c
                 - >
-                    python onyx/background/celery/celery_k8s_probe.py
+                    python zakk/background/celery/celery_k8s_probe.py
                     --probe readiness
                     --filename /tmp/zakk_k8s_docprocessing_readiness.txt
           livenessProbe:
@@ -81,6 +81,6 @@ spec:
                 - /bin/bash
                 - -c
                 - >
-                    python onyx/background/celery/celery_k8s_probe.py
+                    python zakk/background/celery/celery_k8s_probe.py
                     --probe liveness
                     --filename /tmp/zakk_k8s_docprocessing_liveness.txt

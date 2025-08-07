@@ -3,33 +3,33 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.configs.constants import MilestoneRecordType
-from onyx.db.constants import SLACK_BOT_PERSONA_PREFIX
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import ChannelConfig
-from onyx.db.models import User
-from onyx.db.persona import get_persona_by_id
-from onyx.db.slack_bot import fetch_slack_bot
-from onyx.db.slack_bot import fetch_slack_bots
-from onyx.db.slack_bot import insert_slack_bot
-from onyx.db.slack_bot import remove_slack_bot
-from onyx.db.slack_bot import update_slack_bot
-from onyx.db.slack_channel_config import create_slack_channel_persona
-from onyx.db.slack_channel_config import fetch_slack_channel_config
-from onyx.db.slack_channel_config import fetch_slack_channel_configs
-from onyx.db.slack_channel_config import insert_slack_channel_config
-from onyx.db.slack_channel_config import remove_slack_channel_config
-from onyx.db.slack_channel_config import update_slack_channel_config
-from onyx.zakkbot.slack.config import validate_channel_name
-from onyx.server.manage.models import SlackBot
-from onyx.server.manage.models import SlackBotCreationRequest
-from onyx.server.manage.models import SlackChannelConfig
-from onyx.server.manage.models import SlackChannelConfigCreationRequest
-from onyx.server.manage.validate_tokens import validate_app_token
-from onyx.server.manage.validate_tokens import validate_bot_token
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import create_milestone_and_report
+from zakk.auth.users import current_admin_user
+from zakk.configs.constants import MilestoneRecordType
+from zakk.db.constants import SLACK_BOT_PERSONA_PREFIX
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import ChannelConfig
+from zakk.db.models import User
+from zakk.db.persona import get_persona_by_id
+from zakk.db.slack_bot import fetch_slack_bot
+from zakk.db.slack_bot import fetch_slack_bots
+from zakk.db.slack_bot import insert_slack_bot
+from zakk.db.slack_bot import remove_slack_bot
+from zakk.db.slack_bot import update_slack_bot
+from zakk.db.slack_channel_config import create_slack_channel_persona
+from zakk.db.slack_channel_config import fetch_slack_channel_config
+from zakk.db.slack_channel_config import fetch_slack_channel_configs
+from zakk.db.slack_channel_config import insert_slack_channel_config
+from zakk.db.slack_channel_config import remove_slack_channel_config
+from zakk.db.slack_channel_config import update_slack_channel_config
+from zakk.zakkbot.slack.config import validate_channel_name
+from zakk.server.manage.models import SlackBot
+from zakk.server.manage.models import SlackBotCreationRequest
+from zakk.server.manage.models import SlackChannelConfig
+from zakk.server.manage.models import SlackChannelConfigCreationRequest
+from zakk.server.manage.validate_tokens import validate_app_token
+from zakk.server.manage.validate_tokens import validate_bot_token
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import create_milestone_and_report
 from shared_configs.contextvars import get_current_tenant_id
 
 SLACK_API_CHANNELS_PER_PAGE = 100
@@ -274,7 +274,7 @@ def create_bot(
     create_milestone_and_report(
         user=None,
         distinct_id=tenant_id or "N/A",
-        event_type=MilestoneRecordType.CREATED_ONYX_BOT,
+        event_type=MilestoneRecordType.CREATED_ZAKK_BOT,
         properties=None,
         db_session=db_session,
     )

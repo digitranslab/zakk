@@ -3,22 +3,22 @@ from collections.abc import Generator
 from googleapiclient.errors import HttpError  # type: ignore
 from pydantic import BaseModel
 
-from ee.onyx.db.external_perm import ExternalUserGroup
-from ee.onyx.external_permissions.google_drive.folder_retrieval import (
+from ee.zakk.db.external_perm import ExternalUserGroup
+from ee.zakk.external_permissions.google_drive.folder_retrieval import (
     get_folder_permissions_by_ids,
 )
-from ee.onyx.external_permissions.google_drive.folder_retrieval import (
+from ee.zakk.external_permissions.google_drive.folder_retrieval import (
     get_modified_folders,
 )
-from ee.onyx.external_permissions.google_drive.models import GoogleDrivePermission
-from ee.onyx.external_permissions.google_drive.models import PermissionType
-from onyx.connectors.google_drive.connector import GoogleDriveConnector
-from onyx.connectors.google_utils.google_utils import execute_paginated_retrieval
-from onyx.connectors.google_utils.resources import AdminService
-from onyx.connectors.google_utils.resources import get_admin_service
-from onyx.connectors.google_utils.resources import get_drive_service
-from onyx.db.models import ConnectorCredentialPair
-from onyx.utils.logger import setup_logger
+from ee.zakk.external_permissions.google_drive.models import GoogleDrivePermission
+from ee.zakk.external_permissions.google_drive.models import PermissionType
+from zakk.connectors.google_drive.connector import GoogleDriveConnector
+from zakk.connectors.google_utils.google_utils import execute_paginated_retrieval
+from zakk.connectors.google_utils.resources import AdminService
+from zakk.connectors.google_utils.resources import get_admin_service
+from zakk.connectors.google_utils.resources import get_drive_service
+from zakk.db.models import ConnectorCredentialPair
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -126,7 +126,7 @@ def _drive_folder_to_zakk_group(
     group_email_to_member_emails_map: dict[str, list[str]],
 ) -> ExternalUserGroup:
     """
-    Converts a folder into an Onyx group.
+    Converts a folder into an Zakk group.
     """
     anyone_can_access = False
     folder_member_emails: set[str] = set()
@@ -318,7 +318,7 @@ def _build_zakk_groups(
 ) -> list[ExternalUserGroup]:
     zakk_groups: list[ExternalUserGroup] = []
 
-    # Convert all drive member definitions to onyx groups
+    # Convert all drive member definitions to zakk groups
     # This is because having drive level access means you have
     # irrevocable access to all the files in the drive.
     for drive_id, (group_emails, user_emails) in drive_id_to_members_map.items():
@@ -338,7 +338,7 @@ def _build_zakk_groups(
             )
         )
 
-    # Convert all folder permissions to onyx groups
+    # Convert all folder permissions to zakk groups
     for folder in folder_info:
         anyone_can_access = False
         folder_member_emails: set[str] = set()
@@ -371,7 +371,7 @@ def _build_zakk_groups(
             )
         )
 
-    # Convert all group member definitions to onyx groups
+    # Convert all group member definitions to zakk groups
     for group_email, member_emails in group_email_to_member_emails_map.items():
         zakk_groups.append(
             ExternalUserGroup(
@@ -404,7 +404,7 @@ def gdrive_group_sync(
         admin_service, google_drive_connector.google_domain
     )
 
-    # Each google group is an Onyx group, yield those
+    # Each google group is an Zakk group, yield those
     group_email_to_member_emails_map: dict[str, list[str]] = {}
     for group_email in all_group_emails:
         zakk_group = _google_group_to_zakk_group(admin_service, group_email)

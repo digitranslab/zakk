@@ -8,11 +8,11 @@ from office365.graph_client import GraphClient  # type: ignore
 from office365.teams.channels.channel import Channel  # type: ignore
 from office365.teams.channels.channel import ConversationMember  # type: ignore
 
-from onyx.access.models import ExternalAccess
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.teams.models import Message
-from onyx.utils.logger import setup_logger
+from zakk.access.models import ExternalAccess
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.teams.models import Message
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

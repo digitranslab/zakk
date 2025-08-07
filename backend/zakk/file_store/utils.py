@@ -7,18 +7,18 @@ from uuid import UUID
 import requests
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import FileOrigin
-from onyx.db.models import ChatMessage
-from onyx.db.models import UserFile
-from onyx.db.models import UserFolder
-from onyx.file_store.file_store import get_default_file_store
-from onyx.file_store.models import ChatFileType
-from onyx.file_store.models import FileDescriptor
-from onyx.file_store.models import InMemoryChatFile
-from onyx.server.query_and_chat.chat_utils import mime_type_to_chat_file_type
-from onyx.utils.b64 import get_image_type
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.configs.constants import FileOrigin
+from zakk.db.models import ChatMessage
+from zakk.db.models import UserFile
+from zakk.db.models import UserFolder
+from zakk.file_store.file_store import get_default_file_store
+from zakk.file_store.models import ChatFileType
+from zakk.file_store.models import FileDescriptor
+from zakk.file_store.models import InMemoryChatFile
+from zakk.server.query_and_chat.chat_utils import mime_type_to_chat_file_type
+from zakk.utils.b64 import get_image_type
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
 
 logger = setup_logger()
 
@@ -325,7 +325,7 @@ def save_files(urls: list[str], base64_files: list[str]) -> list[str]:
 def load_all_persona_files_for_chat(
     persona_id: int, db_session: Session
 ) -> tuple[list[InMemoryChatFile], list[int]]:
-    from onyx.db.models import Persona
+    from zakk.db.models import Persona
     from sqlalchemy.orm import joinedload
 
     persona = (

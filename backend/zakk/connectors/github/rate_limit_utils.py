@@ -5,7 +5,7 @@ from datetime import timezone
 
 from github import Github
 
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

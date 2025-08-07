@@ -5,23 +5,23 @@ from typing import TypeVar
 
 from pydantic import BaseModel
 
-from onyx.chat.models import ContextualPruningConfig
-from onyx.chat.models import (
+from zakk.chat.models import ContextualPruningConfig
+from zakk.chat.models import (
     LlmDoc,
 )
-from onyx.chat.models import PromptConfig
-from onyx.chat.prompt_builder.citations_prompt import compute_max_document_tokens
-from onyx.configs.app_configs import MAX_FEDERATED_SECTIONS
-from onyx.configs.constants import IGNORE_FOR_QA
-from onyx.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceSection
-from onyx.llm.interfaces import LLMConfig
-from onyx.natural_language_processing.utils import get_tokenizer
-from onyx.natural_language_processing.utils import tokenizer_trim_content
-from onyx.prompts.prompt_utils import build_doc_context_str
-from onyx.tools.tool_implementations.search.search_utils import section_to_dict
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import PromptConfig
+from zakk.chat.prompt_builder.citations_prompt import compute_max_document_tokens
+from zakk.configs.app_configs import MAX_FEDERATED_SECTIONS
+from zakk.configs.constants import IGNORE_FOR_QA
+from zakk.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceSection
+from zakk.llm.interfaces import LLMConfig
+from zakk.natural_language_processing.utils import get_tokenizer
+from zakk.natural_language_processing.utils import tokenizer_trim_content
+from zakk.prompts.prompt_utils import build_doc_context_str
+from zakk.tools.tool_implementations.search.search_utils import section_to_dict
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

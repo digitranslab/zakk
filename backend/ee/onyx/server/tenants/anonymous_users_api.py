@@ -4,22 +4,22 @@ from fastapi import HTTPException
 from fastapi import Response
 from sqlalchemy.exc import IntegrityError
 
-from ee.onyx.auth.users import generate_anonymous_user_jwt_token
-from ee.onyx.server.tenants.anonymous_user_path import get_anonymous_user_path
-from ee.onyx.server.tenants.anonymous_user_path import (
+from ee.zakk.auth.users import generate_anonymous_user_jwt_token
+from ee.zakk.server.tenants.anonymous_user_path import get_anonymous_user_path
+from ee.zakk.server.tenants.anonymous_user_path import (
     get_tenant_id_for_anonymous_user_path,
 )
-from ee.onyx.server.tenants.anonymous_user_path import modify_anonymous_user_path
-from ee.onyx.server.tenants.anonymous_user_path import validate_anonymous_user_path
-from ee.onyx.server.tenants.models import AnonymousUserPath
-from onyx.auth.users import anonymous_user_enabled
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import optional_user
-from onyx.auth.users import User
-from onyx.configs.constants import ANONYMOUS_USER_COOKIE_NAME
-from onyx.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
-from onyx.db.engine.sql_engine import get_session_with_shared_schema
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.tenants.anonymous_user_path import modify_anonymous_user_path
+from ee.zakk.server.tenants.anonymous_user_path import validate_anonymous_user_path
+from ee.zakk.server.tenants.models import AnonymousUserPath
+from zakk.auth.users import anonymous_user_enabled
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import optional_user
+from zakk.auth.users import User
+from zakk.configs.constants import ANONYMOUS_USER_COOKIE_NAME
+from zakk.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
+from zakk.db.engine.sql_engine import get_session_with_shared_schema
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()

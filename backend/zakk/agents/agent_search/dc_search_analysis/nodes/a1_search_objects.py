@@ -4,24 +4,24 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.dc_search_analysis.ops import extract_section
-from onyx.agents.agent_search.dc_search_analysis.ops import research
-from onyx.agents.agent_search.dc_search_analysis.states import MainState
-from onyx.agents.agent_search.dc_search_analysis.states import (
+from zakk.agents.agent_search.dc_search_analysis.ops import extract_section
+from zakk.agents.agent_search.dc_search_analysis.ops import research
+from zakk.agents.agent_search.dc_search_analysis.states import MainState
+from zakk.agents.agent_search.dc_search_analysis.states import (
     SearchSourcesObjectsUpdate,
 )
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
     trim_prompt_piece,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import AgentAnswerPiece
-from onyx.configs.constants import DocumentSource
-from onyx.prompts.agents.dc_prompts import DC_OBJECT_NO_BASE_DATA_EXTRACTION_PROMPT
-from onyx.prompts.agents.dc_prompts import DC_OBJECT_SEPARATOR
-from onyx.prompts.agents.dc_prompts import DC_OBJECT_WITH_BASE_DATA_EXTRACTION_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import AgentAnswerPiece
+from zakk.configs.constants import DocumentSource
+from zakk.prompts.agents.dc_prompts import DC_OBJECT_NO_BASE_DATA_EXTRACTION_PROMPT
+from zakk.prompts.agents.dc_prompts import DC_OBJECT_SEPARATOR
+from zakk.prompts.agents.dc_prompts import DC_OBJECT_WITH_BASE_DATA_EXTRACTION_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

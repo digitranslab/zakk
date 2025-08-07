@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from fastapi import Depends
 
-from ee.onyx.server.tenants.models import TenantByDomainResponse
-from ee.onyx.server.tenants.provisioning import get_tenant_by_domain_from_control_plane
-from onyx.auth.users import current_user
-from onyx.auth.users import User
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.tenants.models import TenantByDomainResponse
+from ee.zakk.server.tenants.provisioning import get_tenant_by_domain_from_control_plane
+from zakk.auth.users import current_user
+from zakk.auth.users import User
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()

@@ -1,4 +1,4 @@
-"""Onyx Database tool"""
+"""Zakk Database tool"""
 
 import os
 
@@ -12,17 +12,17 @@ if True:  # noqa: E402
     from pydantic import BaseModel
     from sqlalchemy import func
 
-    from onyx.db.engine.sql_engine import (
+    from zakk.db.engine.sql_engine import (
         SYNC_DB_API,
         USE_IAM_AUTH,
         build_connection_string,
     )
-    from onyx.db.engine.tenant_utils import get_all_tenant_ids
-    from onyx.db.engine.sql_engine import get_session_with_tenant
-    from onyx.db.engine.sql_engine import SqlEngine
-    from onyx.db.models import Document
-    from onyx.db.models import User
-    from onyx.utils.logger import setup_logger
+    from zakk.db.engine.tenant_utils import get_all_tenant_ids
+    from zakk.db.engine.sql_engine import get_session_with_tenant
+    from zakk.db.engine.sql_engine import SqlEngine
+    from zakk.db.models import Document
+    from zakk.db.models import User
+    from zakk.utils.logger import setup_logger
     from shared_configs.contextvars import CURRENT_TENANT_ID_CONTEXTVAR
 
     import heapq

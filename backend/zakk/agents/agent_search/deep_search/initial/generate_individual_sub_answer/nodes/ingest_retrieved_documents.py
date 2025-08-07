@@ -1,10 +1,10 @@
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
     SubQuestionRetrievalIngestionUpdate,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalOutput,
 )
-from onyx.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
+from zakk.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
 
 
 def ingest_retrieved_documents(

@@ -6,13 +6,13 @@ from fastapi import Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from onyx.context.search.models import SearchRequest
-from onyx.context.search.pipeline import SearchPipeline
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.llm.factory import get_default_llms
-from onyx.server.zakk_api.ingestion import api_key_dep
-from onyx.utils.logger import setup_logger
+from zakk.context.search.models import SearchRequest
+from zakk.context.search.pipeline import SearchPipeline
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.llm.factory import get_default_llms
+from zakk.server.zakk_api.ingestion import api_key_dep
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

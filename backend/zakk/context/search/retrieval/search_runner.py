@@ -5,38 +5,38 @@ from uuid import UUID
 import nltk  # type:ignore
 from sqlalchemy.orm import Session
 
-from onyx.agents.agent_search.shared_graph_utils.models import QueryExpansionType
-from onyx.context.search.enums import SearchType
-from onyx.context.search.models import ChunkMetric
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceChunkUncleaned
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import MAX_METRICS_CONTENT
-from onyx.context.search.models import RetrievalMetricsContainer
-from onyx.context.search.models import SearchQuery
-from onyx.context.search.postprocessing.postprocessing import cleanup_chunks
-from onyx.context.search.preprocessing.preprocessing import HYBRID_ALPHA
-from onyx.context.search.preprocessing.preprocessing import HYBRID_ALPHA_KEYWORD
-from onyx.context.search.utils import get_query_embedding
-from onyx.context.search.utils import get_query_embeddings
-from onyx.context.search.utils import inference_section_from_chunks
-from onyx.db.search_settings import get_multilingual_expansion
-from onyx.document_index.interfaces import DocumentIndex
-from onyx.document_index.interfaces import VespaChunkRequest
-from onyx.document_index.vespa.shared_utils.utils import (
+from zakk.agents.agent_search.shared_graph_utils.models import QueryExpansionType
+from zakk.context.search.enums import SearchType
+from zakk.context.search.models import ChunkMetric
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceChunkUncleaned
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import MAX_METRICS_CONTENT
+from zakk.context.search.models import RetrievalMetricsContainer
+from zakk.context.search.models import SearchQuery
+from zakk.context.search.postprocessing.postprocessing import cleanup_chunks
+from zakk.context.search.preprocessing.preprocessing import HYBRID_ALPHA
+from zakk.context.search.preprocessing.preprocessing import HYBRID_ALPHA_KEYWORD
+from zakk.context.search.utils import get_query_embedding
+from zakk.context.search.utils import get_query_embeddings
+from zakk.context.search.utils import inference_section_from_chunks
+from zakk.db.search_settings import get_multilingual_expansion
+from zakk.document_index.interfaces import DocumentIndex
+from zakk.document_index.interfaces import VespaChunkRequest
+from zakk.document_index.vespa.shared_utils.utils import (
     replace_invalid_doc_id_characters,
 )
-from onyx.federated_connectors.federated_retrieval import (
+from zakk.federated_connectors.federated_retrieval import (
     get_federated_retrieval_functions,
 )
-from onyx.secondary_llm_flows.query_expansion import multilingual_query_expansion
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
-from onyx.utils.threadpool_concurrency import run_in_background
-from onyx.utils.threadpool_concurrency import TimeoutThread
-from onyx.utils.threadpool_concurrency import wait_on_background
-from onyx.utils.timing import log_function_time
+from zakk.secondary_llm_flows.query_expansion import multilingual_query_expansion
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.utils.threadpool_concurrency import run_in_background
+from zakk.utils.threadpool_concurrency import TimeoutThread
+from zakk.utils.threadpool_concurrency import wait_on_background
+from zakk.utils.timing import log_function_time
 from shared_configs.model_server_models import Embedding
 
 logger = setup_logger()

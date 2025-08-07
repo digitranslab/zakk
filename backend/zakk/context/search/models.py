@@ -6,15 +6,15 @@ from pydantic import ConfigDict
 from pydantic import Field
 from pydantic import field_validator
 
-from onyx.configs.chat_configs import NUM_RETURNED_HITS
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.enums import LLMEvaluationType
-from onyx.context.search.enums import OptionalSearchSetting
-from onyx.context.search.enums import SearchType
-from onyx.db.models import Persona
-from onyx.db.models import SearchSettings
-from onyx.indexing.models import BaseChunk
-from onyx.indexing.models import IndexingSetting
+from zakk.configs.chat_configs import NUM_RETURNED_HITS
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.enums import LLMEvaluationType
+from zakk.context.search.enums import OptionalSearchSetting
+from zakk.context.search.enums import SearchType
+from zakk.db.models import Persona
+from zakk.db.models import SearchSettings
+from zakk.indexing.models import BaseChunk
+from zakk.indexing.models import IndexingSetting
 from shared_configs.enums import RerankerProvider
 from shared_configs.model_server_models import Embedding
 
@@ -214,7 +214,7 @@ class RetrievalDetails(ChunkContext):
     # If the Persona is configured to not run search (0 chunks), this is bypassed
     # If no Prompt is configured, the only search results are shown, this is bypassed
     run_search: OptionalSearchSetting = OptionalSearchSetting.ALWAYS
-    # Is this a real-time/streaming call or a question where Onyx can take more time?
+    # Is this a real-time/streaming call or a question where Zakk can take more time?
     # Used to determine reranking flow
     real_time: bool = True
     # The following have defaults in the Persona settings which can be overridden via

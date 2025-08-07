@@ -5,37 +5,37 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.access.access import get_acl_for_user
-from onyx.agents.agent_search.kb_search.graph_utils import rename_entities_in_answer
-from onyx.agents.agent_search.kb_search.graph_utils import stream_write_close_steps
-from onyx.agents.agent_search.kb_search.ops import research
-from onyx.agents.agent_search.kb_search.states import MainOutput
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.calculations import (
+from zakk.access.access import get_acl_for_user
+from zakk.agents.agent_search.kb_search.graph_utils import rename_entities_in_answer
+from zakk.agents.agent_search.kb_search.graph_utils import stream_write_close_steps
+from zakk.agents.agent_search.kb_search.ops import research
+from zakk.agents.agent_search.kb_search.states import MainOutput
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.calculations import (
     get_answer_generation_documents,
 )
-from onyx.agents.agent_search.shared_graph_utils.llm import stream_llm_answer
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.shared_graph_utils.llm import stream_llm_answer
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import relevance_from_docs
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import ExtendedToolResponse
-from onyx.configs.kg_configs import KG_MAX_TOKENS_ANSWER_GENERATION
-from onyx.configs.kg_configs import KG_RESEARCH_NUM_RETRIEVED_DOCS
-from onyx.configs.kg_configs import KG_TIMEOUT_CONNECT_LLM_INITIAL_ANSWER_GENERATION
-from onyx.configs.kg_configs import KG_TIMEOUT_LLM_INITIAL_ANSWER_GENERATION
-from onyx.context.search.enums import SearchType
-from onyx.context.search.models import InferenceSection
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.prompts.kg_prompts import OUTPUT_FORMAT_NO_EXAMPLES_PROMPT
-from onyx.prompts.kg_prompts import OUTPUT_FORMAT_NO_OVERALL_ANSWER_PROMPT
-from onyx.tools.tool_implementations.search.search_tool import IndexFilters
-from onyx.tools.tool_implementations.search.search_tool import SearchQueryInfo
-from onyx.tools.tool_implementations.search.search_tool import yield_search_responses
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.agents.agent_search.shared_graph_utils.utils import relevance_from_docs
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import ExtendedToolResponse
+from zakk.configs.kg_configs import KG_MAX_TOKENS_ANSWER_GENERATION
+from zakk.configs.kg_configs import KG_RESEARCH_NUM_RETRIEVED_DOCS
+from zakk.configs.kg_configs import KG_TIMEOUT_CONNECT_LLM_INITIAL_ANSWER_GENERATION
+from zakk.configs.kg_configs import KG_TIMEOUT_LLM_INITIAL_ANSWER_GENERATION
+from zakk.context.search.enums import SearchType
+from zakk.context.search.models import InferenceSection
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.prompts.kg_prompts import OUTPUT_FORMAT_NO_EXAMPLES_PROMPT
+from zakk.prompts.kg_prompts import OUTPUT_FORMAT_NO_OVERALL_ANSWER_PROMPT
+from zakk.tools.tool_implementations.search.search_tool import IndexFilters
+from zakk.tools.tool_implementations.search.search_tool import SearchQueryInfo
+from zakk.tools.tool_implementations.search.search_tool import yield_search_responses
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

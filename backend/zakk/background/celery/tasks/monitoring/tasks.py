@@ -18,33 +18,33 @@ from sqlalchemy import select
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.celery_redis import celery_get_queue_length
-from onyx.background.celery.celery_redis import celery_get_unacked_task_ids
-from onyx.background.celery.memory_monitoring import emit_process_memory
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import ONYX_CLOUD_TENANT_ID
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.sql_engine import get_session_with_shared_schema
-from onyx.db.engine.tenant_utils import get_all_tenant_ids
-from onyx.db.engine.time_utils import get_db_current_time
-from onyx.db.enums import IndexingStatus
-from onyx.db.enums import SyncStatus
-from onyx.db.enums import SyncType
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import DocumentSet
-from onyx.db.models import IndexAttempt
-from onyx.db.models import SyncRecord
-from onyx.db.models import UserGroup
-from onyx.db.search_settings import get_active_search_settings_list
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import redis_lock_dump
-from onyx.utils.logger import is_running_in_container
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.celery_redis import celery_get_queue_length
+from zakk.background.celery.celery_redis import celery_get_unacked_task_ids
+from zakk.background.celery.memory_monitoring import emit_process_memory
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZAKK_CLOUD_TENANT_ID
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.sql_engine import get_session_with_shared_schema
+from zakk.db.engine.tenant_utils import get_all_tenant_ids
+from zakk.db.engine.time_utils import get_db_current_time
+from zakk.db.enums import IndexingStatus
+from zakk.db.enums import SyncStatus
+from zakk.db.enums import SyncType
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import DocumentSet
+from zakk.db.models import IndexAttempt
+from zakk.db.models import SyncRecord
+from zakk.db.models import UserGroup
+from zakk.db.search_settings import get_active_search_settings_list
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import redis_lock_dump
+from zakk.utils.logger import is_running_in_container
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.contextvars import CURRENT_TENANT_ID_CONTEXTVAR
 
@@ -151,9 +151,9 @@ def _collect_queue_metrics(redis_celery: Redis) -> list[Metric]:
         "sync_queue_length": "sync",
         "deletion_queue_length": "deletion",
         "pruning_queue_length": "pruning",
-        "permissions_sync_queue_length": OnyxCeleryQueues.CONNECTOR_DOC_PERMISSIONS_SYNC,
-        "external_group_sync_queue_length": OnyxCeleryQueues.CONNECTOR_EXTERNAL_GROUP_SYNC,
-        "permissions_upsert_queue_length": OnyxCeleryQueues.DOC_PERMISSIONS_UPSERT,
+        "permissions_sync_queue_length": ZakkCeleryQueues.CONNECTOR_DOC_PERMISSIONS_SYNC,
+        "external_group_sync_queue_length": ZakkCeleryQueues.CONNECTOR_EXTERNAL_GROUP_SYNC,
+        "permissions_upsert_queue_length": ZakkCeleryQueues.DOC_PERMISSIONS_UPSERT,
     }
 
     for name, queue in queue_mappings.items():
@@ -656,11 +656,11 @@ def build_job_id(
 
 
 @shared_task(
-    name=OnyxCeleryTask.MONITOR_BACKGROUND_PROCESSES,
+    name=ZakkCeleryTask.MONITOR_BACKGROUND_PROCESSES,
     ignore_result=True,
     soft_time_limit=_MONITORING_SOFT_TIME_LIMIT,
     time_limit=_MONITORING_TIME_LIMIT,
-    queue=OnyxCeleryQueues.MONITORING,
+    queue=ZakkCeleryQueues.MONITORING,
     bind=True,
 )
 def monitor_background_processes(self: Task, *, tenant_id: str) -> None:
@@ -678,7 +678,7 @@ def monitor_background_processes(self: Task, *, tenant_id: str) -> None:
     r = get_redis_client()
 
     lock_monitoring: RedisLock = r.lock(
-        OnyxRedisLocks.MONITOR_BACKGROUND_PROCESSES_LOCK,
+        ZakkRedisLocks.MONITOR_BACKGROUND_PROCESSES_LOCK,
         timeout=_MONITORING_SOFT_TIME_LIMIT,
     )
 
@@ -730,7 +730,7 @@ def monitor_background_processes(self: Task, *, tenant_id: str) -> None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.CLOUD_MONITOR_ALEMBIC,
+    name=ZakkCeleryTask.CLOUD_MONITOR_ALEMBIC,
 )
 def cloud_check_alembic() -> bool | None:
     """A task to verify that all tenants are on the same alembic revision.
@@ -747,10 +747,10 @@ def cloud_check_alembic() -> bool | None:
 
     time_start = time.monotonic()
 
-    redis_client = get_redis_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+    redis_client = get_redis_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
 
     lock_beat: RedisLock = redis_client.lock(
-        OnyxRedisLocks.CLOUD_CHECK_ALEMBIC_BEAT_LOCK,
+        ZakkRedisLocks.CLOUD_CHECK_ALEMBIC_BEAT_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -862,7 +862,7 @@ def cloud_check_alembic() -> bool | None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.CLOUD_MONITOR_CELERY_QUEUES, ignore_result=True, bind=True
+    name=ZakkCeleryTask.CLOUD_MONITOR_CELERY_QUEUES, ignore_result=True, bind=True
 )
 def cloud_monitor_celery_queues(
     self: Task,
@@ -870,7 +870,7 @@ def cloud_monitor_celery_queues(
     return monitor_celery_queues_helper(self)
 
 
-@shared_task(name=OnyxCeleryTask.MONITOR_CELERY_QUEUES, ignore_result=True, bind=True)
+@shared_task(name=ZakkCeleryTask.MONITOR_CELERY_QUEUES, ignore_result=True, bind=True)
 def monitor_celery_queues(self: Task, *, tenant_id: str) -> None:
     return monitor_celery_queues_helper(self)
 
@@ -883,30 +883,30 @@ def monitor_celery_queues_helper(
     r_celery = task.app.broker_connection().channel().client  # type: ignore
     n_celery = celery_get_queue_length("celery", r_celery)
     n_docfetching = celery_get_queue_length(
-        OnyxCeleryQueues.CONNECTOR_DOC_FETCHING, r_celery
+        ZakkCeleryQueues.CONNECTOR_DOC_FETCHING, r_celery
     )
-    n_docprocessing = celery_get_queue_length(OnyxCeleryQueues.DOCPROCESSING, r_celery)
+    n_docprocessing = celery_get_queue_length(ZakkCeleryQueues.DOCPROCESSING, r_celery)
     n_user_files_indexing = celery_get_queue_length(
-        OnyxCeleryQueues.USER_FILES_INDEXING, r_celery
+        ZakkCeleryQueues.USER_FILES_INDEXING, r_celery
     )
-    n_sync = celery_get_queue_length(OnyxCeleryQueues.VESPA_METADATA_SYNC, r_celery)
-    n_deletion = celery_get_queue_length(OnyxCeleryQueues.CONNECTOR_DELETION, r_celery)
-    n_pruning = celery_get_queue_length(OnyxCeleryQueues.CONNECTOR_PRUNING, r_celery)
+    n_sync = celery_get_queue_length(ZakkCeleryQueues.VESPA_METADATA_SYNC, r_celery)
+    n_deletion = celery_get_queue_length(ZakkCeleryQueues.CONNECTOR_DELETION, r_celery)
+    n_pruning = celery_get_queue_length(ZakkCeleryQueues.CONNECTOR_PRUNING, r_celery)
     n_permissions_sync = celery_get_queue_length(
-        OnyxCeleryQueues.CONNECTOR_DOC_PERMISSIONS_SYNC, r_celery
+        ZakkCeleryQueues.CONNECTOR_DOC_PERMISSIONS_SYNC, r_celery
     )
     n_external_group_sync = celery_get_queue_length(
-        OnyxCeleryQueues.CONNECTOR_EXTERNAL_GROUP_SYNC, r_celery
+        ZakkCeleryQueues.CONNECTOR_EXTERNAL_GROUP_SYNC, r_celery
     )
     n_permissions_upsert = celery_get_queue_length(
-        OnyxCeleryQueues.DOC_PERMISSIONS_UPSERT, r_celery
+        ZakkCeleryQueues.DOC_PERMISSIONS_UPSERT, r_celery
     )
 
     n_docfetching_prefetched = celery_get_unacked_task_ids(
-        OnyxCeleryQueues.CONNECTOR_DOC_FETCHING, r_celery
+        ZakkCeleryQueues.CONNECTOR_DOC_FETCHING, r_celery
     )
     n_docprocessing_prefetched = celery_get_unacked_task_ids(
-        OnyxCeleryQueues.DOCPROCESSING, r_celery
+        ZakkCeleryQueues.DOCPROCESSING, r_celery
     )
 
     task_logger.info(
@@ -936,11 +936,11 @@ def _get_cmdline_for_process(process: psutil.Process) -> str | None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.MONITOR_PROCESS_MEMORY,
+    name=ZakkCeleryTask.MONITOR_PROCESS_MEMORY,
     ignore_result=True,
     soft_time_limit=_MONITORING_SOFT_TIME_LIMIT,
     time_limit=_MONITORING_TIME_LIMIT,
-    queue=OnyxCeleryQueues.MONITORING,
+    queue=ZakkCeleryQueues.MONITORING,
     bind=True,
 )
 def monitor_process_memory(self: Task, *, tenant_id: str) -> None:
@@ -1016,7 +1016,7 @@ def monitor_process_memory(self: Task, *, tenant_id: str) -> None:
 
 
 @shared_task(
-    name=OnyxCeleryTask.CLOUD_MONITOR_CELERY_PIDBOX, ignore_result=True, bind=True
+    name=ZakkCeleryTask.CLOUD_MONITOR_CELERY_PIDBOX, ignore_result=True, bind=True
 )
 def cloud_monitor_celery_pidbox(
     self: Task,

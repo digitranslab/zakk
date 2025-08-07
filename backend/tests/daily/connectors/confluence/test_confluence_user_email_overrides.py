@@ -1,9 +1,9 @@
 import types
 from unittest.mock import patch
 
-from onyx.connectors.confluence.zakk_confluence import ConfluenceUser
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.connectors.interfaces import CredentialsProviderInterface
+from zakk.connectors.confluence.zakk_confluence import ConfluenceUser
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.connectors.interfaces import CredentialsProviderInterface
 
 
 class MockCredentialsProvider(CredentialsProviderInterface):

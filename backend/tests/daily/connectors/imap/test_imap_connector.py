@@ -3,9 +3,9 @@ import time
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.credentials_provider import OnyxStaticCredentialsProvider
-from onyx.connectors.imap.connector import ImapConnector
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.credentials_provider import ZakkStaticCredentialsProvider
+from zakk.connectors.imap.connector import ImapConnector
 from tests.daily.connectors.imap.models import EmailDoc
 from tests.daily.connectors.utils import (
     load_all_docs_from_checkpoint_connector_with_perm_sync,
@@ -32,7 +32,7 @@ def imap_connector() -> ImapConnector:
         mailboxes=mailboxes,
     )
     imap_connector.set_credentials_provider(
-        OnyxStaticCredentialsProvider(
+        ZakkStaticCredentialsProvider(
             tenant_id=None,
             connector_name=DocumentSource.IMAP,
             credential_json={
@@ -51,12 +51,12 @@ def imap_connector() -> ImapConnector:
         [
             EmailDoc(
                 subject="Testing",
-                recipients=set(["admin@onyx-test.com", "raunak@digi-trans.org"]),
+                recipients=set(["admin@zakk-test.com", "raunak@digi-trans.org"]),
                 body="Hello, testing.",
             ),
             EmailDoc(
                 subject="Hello world",
-                recipients=set(["admin@onyx-test.com", "r@rabh.io", "raunak@digi-trans.org"]),
+                recipients=set(["admin@zakk-test.com", "r@rabh.io", "raunak@digi-trans.org"]),
                 body='Hello world, this is an email that contains multiple "To" recipients.',
             ),
         ]

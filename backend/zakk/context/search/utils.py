@@ -6,16 +6,16 @@ from nltk.corpus import stopwords  # type:ignore
 from nltk.tokenize import word_tokenize  # type:ignore
 from sqlalchemy.orm import Session
 
-from onyx.chat.models import SectionRelevancePiece
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import SavedSearchDoc
-from onyx.context.search.models import SavedSearchDocWithContent
-from onyx.context.search.models import SearchDoc
-from onyx.db.models import SearchDoc as DBSearchDoc
-from onyx.db.search_settings import get_current_search_settings
-from onyx.natural_language_processing.search_nlp_models import EmbeddingModel
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import SectionRelevancePiece
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import SavedSearchDoc
+from zakk.context.search.models import SavedSearchDocWithContent
+from zakk.context.search.models import SearchDoc
+from zakk.db.models import SearchDoc as DBSearchDoc
+from zakk.db.search_settings import get_current_search_settings
+from zakk.natural_language_processing.search_nlp_models import EmbeddingModel
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MODEL_SERVER_HOST
 from shared_configs.configs import MODEL_SERVER_PORT
 from shared_configs.enums import EmbedTextType

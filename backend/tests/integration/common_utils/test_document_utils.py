@@ -2,11 +2,11 @@ import uuid
 from datetime import datetime
 from datetime import timezone
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import TextSection
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import TextSection
 
 
 def create_test_document(

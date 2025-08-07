@@ -11,7 +11,7 @@ from typing import TypeVar
 import torch
 
 from model_server.constants import GPUStatus
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -91,7 +91,7 @@ def pass_aws_key(api_key: str) -> tuple[str, str, str]:
     if len(parts) != 4:
         raise ValueError(
             f"API key must be in format 'aws_ACCESSKEY_SECRETKEY_REGION', got {len(parts) - 1} parts"
-            "this is an onyx specific format for formatting the aws secrets for bedrock"
+            "this is an zakk specific format for formatting the aws secrets for bedrock"
         )
 
     try:

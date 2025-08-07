@@ -1,11 +1,11 @@
 import pytest
 
-from onyx.auth.email_utils import build_user_email_invite
-from onyx.auth.email_utils import send_email
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import ZAKK_DEFAULT_APPLICATION_NAME
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.server.runtime.zakk_runtime import ZakkRuntime
+from zakk.auth.email_utils import build_user_email_invite
+from zakk.auth.email_utils import send_email
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import ZAKK_DEFAULT_APPLICATION_NAME
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.server.runtime.zakk_runtime import ZakkRuntime
 
 
 @pytest.mark.skip(

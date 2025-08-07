@@ -9,14 +9,14 @@ from sqlalchemy import cast
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.query_history import fetch_chat_sessions_eagerly_by_time
-from ee.onyx.server.reporting.usage_export_models import ChatMessageSkeleton
-from ee.onyx.server.reporting.usage_export_models import FlowType
-from ee.onyx.server.reporting.usage_export_models import UsageReportMetadata
-from onyx.configs.constants import MessageType
-from onyx.db.models import UsageReport
-from onyx.db.models import User
-from onyx.file_store.file_store import get_default_file_store
+from ee.zakk.db.query_history import fetch_chat_sessions_eagerly_by_time
+from ee.zakk.server.reporting.usage_export_models import ChatMessageSkeleton
+from ee.zakk.server.reporting.usage_export_models import FlowType
+from ee.zakk.server.reporting.usage_export_models import UsageReportMetadata
+from zakk.configs.constants import MessageType
+from zakk.db.models import UsageReport
+from zakk.db.models import User
+from zakk.file_store.file_store import get_default_file_store
 
 
 # Gets skeletons of all messages in the given range

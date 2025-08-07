@@ -11,9 +11,9 @@ from fastapi import HTTPException
 from fastapi.responses import FileResponse
 from starlette.background import BackgroundTask
 
-from onyx.auth.users import current_admin_user
-from onyx.db.models import User
-from onyx.utils.long_term_log import LongTermLogger
+from zakk.auth.users import current_admin_user
+from zakk.db.models import User
+from zakk.utils.long_term_log import LongTermLogger
 
 router = APIRouter(prefix="/admin/long-term-logs")
 

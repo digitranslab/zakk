@@ -4,16 +4,16 @@ from typing import cast
 
 from langchain_core.messages import BaseMessage
 
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import PromptConfig
-from onyx.configs.chat_configs import LANGUAGE_HINT
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.models import InferenceChunk
-from onyx.db.models import Prompt
-from onyx.prompts.chat_prompts import ADDITIONAL_INFO
-from onyx.prompts.chat_prompts import CITATION_REMINDER
-from onyx.prompts.constants import CODE_BLOCK_PAT
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import PromptConfig
+from zakk.configs.chat_configs import LANGUAGE_HINT
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.models import InferenceChunk
+from zakk.db.models import Prompt
+from zakk.prompts.chat_prompts import ADDITIONAL_INFO
+from zakk.prompts.chat_prompts import CITATION_REMINDER
+from zakk.prompts.constants import CODE_BLOCK_PAT
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

@@ -4,40 +4,40 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.models import GraphInputs
-from onyx.agents.agent_search.models import GraphPersistence
-from onyx.agents.agent_search.models import GraphSearchConfig
-from onyx.agents.agent_search.models import GraphTooling
-from onyx.agents.agent_search.run_graph import run_agent_search_graph
-from onyx.agents.agent_search.run_graph import run_basic_graph
-from onyx.agents.agent_search.run_graph import run_dc_graph
-from onyx.agents.agent_search.run_graph import run_kb_graph
-from onyx.chat.models import AgentAnswerPiece
-from onyx.chat.models import AnswerPacket
-from onyx.chat.models import AnswerStream
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.models import SubQuestionKey
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.configs.agent_configs import AGENT_ALLOW_REFINEMENT
-from onyx.configs.agent_configs import INITIAL_SEARCH_DECOMPOSITION_ENABLED
-from onyx.configs.chat_configs import USE_DIV_CON_AGENT
-from onyx.configs.constants import BASIC_KEY
-from onyx.context.search.models import RerankingDetails
-from onyx.db.kg_config import get_kg_config_settings
-from onyx.db.models import Persona
-from onyx.file_store.utils import InMemoryChatFile
-from onyx.llm.interfaces import LLM
-from onyx.tools.force import ForceUseTool
-from onyx.tools.tool import Tool
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.tools.utils import explicit_tool_calling_supported
-from onyx.utils.gpu_utils import fast_gpu_status_request
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.models import GraphInputs
+from zakk.agents.agent_search.models import GraphPersistence
+from zakk.agents.agent_search.models import GraphSearchConfig
+from zakk.agents.agent_search.models import GraphTooling
+from zakk.agents.agent_search.run_graph import run_agent_search_graph
+from zakk.agents.agent_search.run_graph import run_basic_graph
+from zakk.agents.agent_search.run_graph import run_dc_graph
+from zakk.agents.agent_search.run_graph import run_kb_graph
+from zakk.chat.models import AgentAnswerPiece
+from zakk.chat.models import AnswerPacket
+from zakk.chat.models import AnswerStream
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.models import SubQuestionKey
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.configs.agent_configs import AGENT_ALLOW_REFINEMENT
+from zakk.configs.agent_configs import INITIAL_SEARCH_DECOMPOSITION_ENABLED
+from zakk.configs.chat_configs import USE_DIV_CON_AGENT
+from zakk.configs.constants import BASIC_KEY
+from zakk.context.search.models import RerankingDetails
+from zakk.db.kg_config import get_kg_config_settings
+from zakk.db.models import Persona
+from zakk.file_store.utils import InMemoryChatFile
+from zakk.llm.interfaces import LLM
+from zakk.tools.force import ForceUseTool
+from zakk.tools.tool import Tool
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.tools.utils import explicit_tool_calling_supported
+from zakk.utils.gpu_utils import fast_gpu_status_request
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -177,7 +177,7 @@ class Answer:
             # since level 0 is the first answer the user sees and therefore the
             # child message of the user message in the db (so it is handled
             # like a basic flow answer)
-            if (isinstance(packet, OnyxAnswerPiece) and packet.answer_piece) or (
+            if (isinstance(packet, ZakkAnswerPiece) and packet.answer_piece) or (
                 isinstance(packet, AgentAnswerPiece)
                 and packet.answer_piece
                 and packet.answer_type == "agent_level_answer"
@@ -197,7 +197,7 @@ class Answer:
             ):
                 assert packet.level is not None
                 answer_by_level[packet.level] += packet.answer_piece
-            elif isinstance(packet, OnyxAnswerPiece) and packet.answer_piece:
+            elif isinstance(packet, ZakkAnswerPiece) and packet.answer_piece:
                 answer_by_level[BASIC_KEY[0]] += packet.answer_piece
         return answer_by_level
 

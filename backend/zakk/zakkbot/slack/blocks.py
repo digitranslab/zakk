@@ -15,37 +15,37 @@ from slack_sdk.models.blocks import SectionBlock
 from slack_sdk.models.blocks.basic_components import MarkdownTextObject
 from slack_sdk.models.blocks.block_elements import ImageElement
 
-from onyx.chat.models import ChatZakkBotResponse
-from onyx.configs.app_configs import DISABLE_GENERATIVE_AI
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import SearchFeedbackType
-from onyx.configs.zakkbot_configs import DANSWER_BOT_NUM_DOCS_TO_DISPLAY
-from onyx.context.search.models import SavedSearchDoc
-from onyx.db.chat import get_chat_session_by_message_id
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import ChannelConfig
-from onyx.zakkbot.slack.constants import CONTINUE_IN_WEB_UI_ACTION_ID
-from onyx.zakkbot.slack.constants import DISLIKE_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import FEEDBACK_DOC_BUTTON_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import FOLLOWUP_BUTTON_ACTION_ID
-from onyx.zakkbot.slack.constants import FOLLOWUP_BUTTON_RESOLVED_ACTION_ID
-from onyx.zakkbot.slack.constants import IMMEDIATE_RESOLVED_BUTTON_ACTION_ID
-from onyx.zakkbot.slack.constants import KEEP_TO_YOURSELF_ACTION_ID
-from onyx.zakkbot.slack.constants import LIKE_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import SHOW_EVERYONE_ACTION_ID
-from onyx.zakkbot.slack.formatting import format_slack_message
-from onyx.zakkbot.slack.icons import source_to_github_img_link
-from onyx.zakkbot.slack.models import ActionValuesEphemeralMessage
-from onyx.zakkbot.slack.models import ActionValuesEphemeralMessageChannelConfig
-from onyx.zakkbot.slack.models import ActionValuesEphemeralMessageMessageInfo
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.zakkbot.slack.utils import build_continue_in_web_ui_id
-from onyx.zakkbot.slack.utils import build_feedback_id
-from onyx.zakkbot.slack.utils import build_publish_ephemeral_message_id
-from onyx.zakkbot.slack.utils import remove_slack_text_interactions
-from onyx.zakkbot.slack.utils import translate_vespa_highlight_to_slack
-from onyx.utils.text_processing import decode_escapes
+from zakk.chat.models import ChatZakkBotResponse
+from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import SearchFeedbackType
+from zakk.configs.zakkbot_configs import DANSWER_BOT_NUM_DOCS_TO_DISPLAY
+from zakk.context.search.models import SavedSearchDoc
+from zakk.db.chat import get_chat_session_by_message_id
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import ChannelConfig
+from zakk.zakkbot.slack.constants import CONTINUE_IN_WEB_UI_ACTION_ID
+from zakk.zakkbot.slack.constants import DISLIKE_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import FEEDBACK_DOC_BUTTON_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import FOLLOWUP_BUTTON_ACTION_ID
+from zakk.zakkbot.slack.constants import FOLLOWUP_BUTTON_RESOLVED_ACTION_ID
+from zakk.zakkbot.slack.constants import IMMEDIATE_RESOLVED_BUTTON_ACTION_ID
+from zakk.zakkbot.slack.constants import KEEP_TO_YOURSELF_ACTION_ID
+from zakk.zakkbot.slack.constants import LIKE_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import SHOW_EVERYONE_ACTION_ID
+from zakk.zakkbot.slack.formatting import format_slack_message
+from zakk.zakkbot.slack.icons import source_to_github_img_link
+from zakk.zakkbot.slack.models import ActionValuesEphemeralMessage
+from zakk.zakkbot.slack.models import ActionValuesEphemeralMessageChannelConfig
+from zakk.zakkbot.slack.models import ActionValuesEphemeralMessageMessageInfo
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.zakkbot.slack.utils import build_continue_in_web_ui_id
+from zakk.zakkbot.slack.utils import build_feedback_id
+from zakk.zakkbot.slack.utils import build_publish_ephemeral_message_id
+from zakk.zakkbot.slack.utils import remove_slack_text_interactions
+from zakk.zakkbot.slack.utils import translate_vespa_highlight_to_slack
+from zakk.utils.text_processing import decode_escapes
 
 _MAX_BLURB_LEN = 45
 
@@ -503,7 +503,7 @@ def _build_continue_in_web_ui_block(
             elements=[
                 ButtonElement(
                     action_id=CONTINUE_IN_WEB_UI_ACTION_ID,
-                    text="Continue Chat in Onyx!",
+                    text="Continue Chat in Zakk!",
                     style="primary",
                     url=f"{WEB_DOMAIN}/chat?slackChatId={chat_session.id}",
                 ),

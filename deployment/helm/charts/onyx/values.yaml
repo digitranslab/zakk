@@ -1,11 +1,11 @@
-# Default values for onyx-stack.
+# Default values for zakk-stack.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 global:
-  # Global version for all Onyx components (overrides .Chart.AppVersion)
+  # Global version for all Zakk components (overrides .Chart.AppVersion)
   version: "latest"
-  # Global pull policy for all Onyx component images
+  # Global pull policy for all Zakk component images
   pullPolicy: "IfNotPresent"
 
 postgresql:
@@ -18,7 +18,7 @@ postgresql:
       sizeLimit: 2Gi
   enabled: true
   auth:
-    existingSecret: onyx-secrets
+    existingSecret: zakk-secrets
     secretKeys:
       # overwriting as postgres typically expects 'postgres-password'
       adminPasswordKey: postgres_password
@@ -45,7 +45,7 @@ vespa:
   podAnnotations: {}
   podLabels:
     app: vespa
-    app.kubernetes.io/instance: onyx
+    app.kubernetes.io/instance: zakk
     app.kubernetes.io/name: vespa
   securityContext:
     privileged: true
@@ -81,7 +81,7 @@ inferenceCapability:
     - key: app
       value: inference-model-server
   image:
-    repository: onyxdotapp/onyx-model-server
+    repository: digitranslab/zakk-model-server
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   containerPorts:
@@ -114,7 +114,7 @@ indexCapability:
   containerPorts:
     server: 9000
   image:
-    repository: onyxdotapp/onyx-model-server
+    repository: digitranslab/zakk-model-server
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   limitConcurrency: 10
@@ -150,17 +150,17 @@ nginx:
     type: LoadBalancer
     ports:
       http: 80
-      onyx: 3000
+      zakk: 3000
     targetPort:
       http: http
-      onyx: http
+      zakk: http
 
-  existingServerBlockConfigmap: onyx-nginx-conf
+  existingServerBlockConfigmap: zakk-nginx-conf
 
 webserver:
   replicaCount: 1
   image:
-    repository: onyxdotapp/onyx-web-server
+    repository: digitranslab/zakk-web-server
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   deploymentLabels:
@@ -224,14 +224,14 @@ webserver:
 api:
   replicaCount: 1
   image:
-    repository: onyxdotapp/onyx-backend
+    repository: digitranslab/zakk-backend
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   deploymentLabels:
     app: api-server
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend
+    scope: zakk-backend
     app: api-server
 
   containerPorts:
@@ -296,12 +296,12 @@ api:
 
 celery_shared:
   image:
-    repository: onyxdotapp/onyx-backend
+    repository: digitranslab/zakk-backend
     tag: ""  # Overrides the image tag whose default is the chart appVersion.
   startupProbe:
     # startupProbe fails after 2m
     exec:
-      command: ["test", "-f", "/app/onyx/main.py"]
+      command: ["test", "-f", "/app/zakk/main.py"]
     failureThreshold: 24
     periodSeconds: 5
     timeoutSeconds: 3
@@ -323,7 +323,7 @@ celery_beat:
   replicaCount: 1
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-beat
   deploymentLabels:
     app: celery-beat
@@ -351,7 +351,7 @@ celery_worker_heavy:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-heavy
   deploymentLabels:
     app: celery-worker-heavy
@@ -379,7 +379,7 @@ celery_worker_docprocessing:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-docprocessing
   deploymentLabels:
     app: celery-worker-docprocessing
@@ -407,7 +407,7 @@ celery_worker_light:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-light
   deploymentLabels:
     app: celery-worker-light
@@ -435,7 +435,7 @@ celery_worker_monitoring:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-monitoring
   deploymentLabels:
     app: celery-worker-monitoring
@@ -463,7 +463,7 @@ celery_worker_primary:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-primary
   deploymentLabels:
     app: celery-worker-primary
@@ -491,7 +491,7 @@ celery_worker_user_files_indexing:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-user-files-indexing
   deploymentLabels:
     app: celery-worker-user-files-indexing
@@ -517,11 +517,11 @@ slackbot:
   enabled: true
   replicaCount: 1
   image:
-    repository: onyxdotapp/onyx-backend
+    repository: digitranslab/zakk-backend
     tag: ""  # Overrides the image tag whose default is the chart appVersion.
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend
+    scope: zakk-backend
     app: slack-bot
   deploymentLabels:
     app: slack-bot
@@ -542,7 +542,7 @@ celery_worker_docfetching:
     enabled: false
   podAnnotations: {}
   podLabels:
-    scope: onyx-backend-celery
+    scope: zakk-backend-celery
     app: celery-worker-docfetching
   deploymentLabels:
     app: celery-worker-docfetching
@@ -591,16 +591,16 @@ redis:
     type: ClusterIP
     port: 6379
   auth:
-    existingSecret: onyx-secrets
+    existingSecret: zakk-secrets
     existingSecretPasswordKey: redis_password
 
 minio:
   enabled: true
   auth:
-    existingSecret: onyx-secrets
+    existingSecret: zakk-secrets
     rootUserSecretKey: s3_aws_access_key_id
     rootPasswordSecretKey: s3_aws_secret_access_key
-  defaultBuckets: "onyx-file-store-bucket"
+  defaultBuckets: "zakk-file-store-bucket"
   persistence:
     enabled: true
     size: 30Gi
@@ -618,16 +618,16 @@ ingress:
   enabled: false
   className: ""
   api:
-    host: onyx.local
+    host: zakk.local
   webserver:
-    host: onyx.local
+    host: zakk.local
 
 letsencrypt:
   enabled: false
   email: "abc@abc.com"
 
 auth:
-  # existingSecret onyx-secret for storing smtp, oauth, slack, and other secrets
+  # existingSecret zakk-secret for storing smtp, oauth, slack, and other secrets
   # keys are lowercased version of env vars (e.g. SMTP_USER -> smtp_user)
   existingSecret: ""
   # optionally override the secret keys to reference in the secret
@@ -643,7 +643,7 @@ auth:
     s3_aws_access_key_id: "s3_aws_access_key_id"
     s3_aws_secret_access_key: "s3_aws_secret_access_key"
   # will be overridden by the existingSecret if set
-  secretName: "onyx-secrets"
+  secretName: "zakk-secrets"
   # set values as strings, they will be base64 encoded
   # this is used to populate the secrets yaml
   secrets:
@@ -657,7 +657,7 @@ auth:
     s3_aws_secret_access_key: "minioadmin"
 
 configMap:
-  # Change this for production uses unless Onyx is only accessible behind VPN
+  # Change this for production uses unless Zakk is only accessible behind VPN
   AUTH_TYPE: "disabled"
   # 1 Day Default
   SESSION_EXPIRE_TIME_SECONDS: "86400"

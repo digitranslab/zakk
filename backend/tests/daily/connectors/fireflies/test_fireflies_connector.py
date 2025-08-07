@@ -6,9 +6,9 @@ from typing import Any
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.fireflies.connector import FirefliesConnector
-from onyx.connectors.models import Document
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.fireflies.connector import FirefliesConnector
+from zakk.connectors.models import Document
 
 
 def load_test_data(file_name: str = "test_fireflies_data.json") -> dict[str, Any]:

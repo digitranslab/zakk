@@ -5,16 +5,16 @@ from fastapi import Depends
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 
-from ee.onyx.server.oauth.api_router import router
-from ee.onyx.server.oauth.confluence_cloud import ConfluenceCloudOAuth
-from ee.onyx.server.oauth.google_drive import GoogleDriveOAuth
-from ee.onyx.server.oauth.slack import SlackOAuth
-from onyx.auth.users import current_admin_user
-from onyx.configs.app_configs import DEV_MODE
-from onyx.configs.constants import DocumentSource
-from onyx.db.models import User
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.oauth.api_router import router
+from ee.zakk.server.oauth.confluence_cloud import ConfluenceCloudOAuth
+from ee.zakk.server.oauth.google_drive import GoogleDriveOAuth
+from ee.zakk.server.oauth.slack import SlackOAuth
+from zakk.auth.users import current_admin_user
+from zakk.configs.app_configs import DEV_MODE
+from zakk.configs.constants import DocumentSource
+from zakk.db.models import User
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()

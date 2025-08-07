@@ -6,46 +6,46 @@ from fastapi import HTTPException
 from fastapi.datastructures import Headers
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import is_user_admin
-from onyx.background.celery.tasks.kg_processing.kg_indexing import (
+from zakk.auth.users import is_user_admin
+from zakk.background.celery.tasks.kg_processing.kg_indexing import (
     try_creating_kg_processing_task,
 )
-from onyx.background.celery.tasks.kg_processing.kg_indexing import (
+from zakk.background.celery.tasks.kg_processing.kg_indexing import (
     try_creating_kg_source_reset_task,
 )
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import PersonaOverrideConfig
-from onyx.chat.models import ThreadMessage
-from onyx.configs.constants import DEFAULT_PERSONA_ID
-from onyx.configs.constants import MessageType
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import RerankingDetails
-from onyx.context.search.models import RetrievalDetails
-from onyx.db.chat import create_chat_session
-from onyx.db.chat import get_chat_messages_by_session
-from onyx.db.kg_config import get_kg_config_settings
-from onyx.db.kg_config import is_kg_config_settings_enabled_valid
-from onyx.db.llm import fetch_existing_doc_sets
-from onyx.db.llm import fetch_existing_tools
-from onyx.db.models import ChatMessage
-from onyx.db.models import Persona
-from onyx.db.models import Prompt
-from onyx.db.models import Tool
-from onyx.db.models import User
-from onyx.db.prompts import get_prompts_by_ids
-from onyx.db.search_settings import get_current_search_settings
-from onyx.kg.models import KGException
-from onyx.kg.setup.kg_default_entity_definitions import (
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import PersonaOverrideConfig
+from zakk.chat.models import ThreadMessage
+from zakk.configs.constants import DEFAULT_PERSONA_ID
+from zakk.configs.constants import MessageType
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import RerankingDetails
+from zakk.context.search.models import RetrievalDetails
+from zakk.db.chat import create_chat_session
+from zakk.db.chat import get_chat_messages_by_session
+from zakk.db.kg_config import get_kg_config_settings
+from zakk.db.kg_config import is_kg_config_settings_enabled_valid
+from zakk.db.llm import fetch_existing_doc_sets
+from zakk.db.llm import fetch_existing_tools
+from zakk.db.models import ChatMessage
+from zakk.db.models import Persona
+from zakk.db.models import Prompt
+from zakk.db.models import Tool
+from zakk.db.models import User
+from zakk.db.prompts import get_prompts_by_ids
+from zakk.db.search_settings import get_current_search_settings
+from zakk.kg.models import KGException
+from zakk.kg.setup.kg_default_entity_definitions import (
     populate_missing_default_entity_types__commit,
 )
-from onyx.llm.models import PreviousMessage
-from onyx.natural_language_processing.utils import BaseTokenizer
-from onyx.server.query_and_chat.models import CreateChatMessageRequest
-from onyx.tools.tool_implementations.custom.custom_tool import (
+from zakk.llm.models import PreviousMessage
+from zakk.natural_language_processing.utils import BaseTokenizer
+from zakk.server.query_and_chat.models import CreateChatMessageRequest
+from zakk.tools.tool_implementations.custom.custom_tool import (
     build_custom_tools_from_openapi_schema_and_headers,
 )
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

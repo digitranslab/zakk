@@ -4,10 +4,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.constants import NotificationType
-from onyx.db.models import Notification
-from onyx.db.models import User
+from zakk.auth.schemas import UserRole
+from zakk.configs.constants import NotificationType
+from zakk.db.models import Notification
+from zakk.db.models import User
 
 
 def create_notification(

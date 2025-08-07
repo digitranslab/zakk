@@ -2,41 +2,41 @@ from langgraph.graph import END
 from langgraph.graph import START
 from langgraph.graph import StateGraph
 
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.edges import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.edges import (
     parallel_retrieval_edge,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.expand_queries import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.expand_queries import (
     expand_queries,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.format_queries import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.format_queries import (
     format_queries,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.format_results import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.format_results import (
     format_results,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.kickoff_verification import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.kickoff_verification import (
     kickoff_verification,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.rerank_documents import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.rerank_documents import (
     rerank_documents,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.retrieve_documents import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.retrieve_documents import (
     retrieve_documents,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.verify_documents import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.nodes.verify_documents import (
     verify_documents,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalInput,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalOutput,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalState,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import get_test_config
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.shared_graph_utils.utils import get_test_config
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -131,15 +131,15 @@ def expanded_retrieval_graph_builder() -> StateGraph:
 
 
 if __name__ == "__main__":
-    from onyx.db.engine.sql_engine import get_session_with_current_tenant
-    from onyx.llm.factory import get_default_llms
-    from onyx.context.search.models import SearchRequest
+    from zakk.db.engine.sql_engine import get_session_with_current_tenant
+    from zakk.llm.factory import get_default_llms
+    from zakk.context.search.models import SearchRequest
 
     graph = expanded_retrieval_graph_builder()
     compiled_graph = graph.compile()
     primary_llm, fast_llm = get_default_llms()
     search_request = SearchRequest(
-        query="what can you do with onyx or danswer?",
+        query="what can you do with zakk or danswer?",
     )
 
     with get_session_with_current_tenant() as db_session:
@@ -147,7 +147,7 @@ if __name__ == "__main__":
             db_session, primary_llm, fast_llm, search_request
         )
         inputs = ExpandedRetrievalInput(
-            question="what can you do with onyx?",
+            question="what can you do with zakk?",
             base_search=False,
             sub_question_id=None,
             log_messages=[],

@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
-from onyx.agents.agent_search.kb_search.states import KGAnswerFormat
-from onyx.agents.agent_search.kb_search.states import KGAnswerStrategy
-from onyx.agents.agent_search.kb_search.states import KGRelationshipDetection
-from onyx.agents.agent_search.kb_search.states import KGSearchType
-from onyx.agents.agent_search.kb_search.states import YesNoEnum
+from zakk.agents.agent_search.kb_search.states import KGAnswerFormat
+from zakk.agents.agent_search.kb_search.states import KGAnswerStrategy
+from zakk.agents.agent_search.kb_search.states import KGRelationshipDetection
+from zakk.agents.agent_search.kb_search.states import KGSearchType
+from zakk.agents.agent_search.kb_search.states import YesNoEnum
 
 
 class KGQuestionEntityExtractionResult(BaseModel):

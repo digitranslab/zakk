@@ -6,14 +6,14 @@ from langchain.schema.messages import HumanMessage
 from langchain.schema.messages import SystemMessage
 from pydantic import BaseModel
 
-from onyx.configs.constants import MessageType
-from onyx.file_store.models import InMemoryChatFile
-from onyx.llm.utils import build_content_with_imgs
-from onyx.llm.utils import message_to_string
-from onyx.tools.models import ToolCallFinalResult
+from zakk.configs.constants import MessageType
+from zakk.file_store.models import InMemoryChatFile
+from zakk.llm.utils import build_content_with_imgs
+from zakk.llm.utils import message_to_string
+from zakk.tools.models import ToolCallFinalResult
 
 if TYPE_CHECKING:
-    from onyx.db.models import ChatMessage
+    from zakk.db.models import ChatMessage
 
 
 class PreviousMessage(BaseModel):

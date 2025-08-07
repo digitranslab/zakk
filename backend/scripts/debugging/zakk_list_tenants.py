@@ -15,8 +15,8 @@ PYTHONPATH=. python scripts/debugging/zakk_list_tenants.py
 
 import sys
 
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.db.engine.tenant_utils import get_all_tenant_ids
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.db.engine.tenant_utils import get_all_tenant_ids
 from shared_configs.configs import TENANT_ID_PREFIX
 
 

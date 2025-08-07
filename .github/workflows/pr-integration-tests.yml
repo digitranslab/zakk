@@ -85,8 +85,8 @@ jobs:
       # successfully.
       - name: Pull Web Docker image
         run: |
-          docker pull onyxdotapp/onyx-web-server:latest
-          docker tag onyxdotapp/onyx-web-server:latest onyxdotapp/onyx-web-server:test
+          docker pull digitranslab/zakk-web-server:latest
+          docker tag digitranslab/zakk-web-server:latest digitranslab/zakk-web-server:test
 
       # we use the runs-on cache for docker builds
       # in conjunction with runs-on runners, it has better speed and unlimited caching
@@ -101,7 +101,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           platforms: linux/amd64
-          tags: onyxdotapp/onyx-backend:test
+          tags: digitranslab/zakk-backend:test
           push: false
           load: true
           cache-from: type=s3,prefix=cache/${{ github.repository }}/integration-tests/backend-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
@@ -113,7 +113,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile.model_server
           platforms: linux/amd64
-          tags: onyxdotapp/onyx-model-server:test
+          tags: digitranslab/zakk-model-server:test
           push: false
           load: true
           cache-from: type=s3,prefix=cache/${{ github.repository }}/integration-tests/model-server-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
@@ -125,7 +125,7 @@ jobs:
           context: ./backend
           file: ./backend/tests/integration/Dockerfile
           platforms: linux/amd64
-          tags: onyxdotapp/onyx-integration:test
+          tags: digitranslab/zakk-integration:test
           push: false
           load: true
           cache-from: type=s3,prefix=cache/${{ github.repository }}/integration-tests/integration-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
@@ -142,7 +142,7 @@ jobs:
           DISABLE_TELEMETRY=true \
           IMAGE_TAG=test \
           DEV_MODE=true \
-          docker compose -f docker-compose.multitenant-dev.yml -p onyx-stack up -d
+          docker compose -f docker-compose.multitenant-dev.yml -p zakk-stack up -d
         id: start_docker_multi_tenant
 
       # In practice, `cloud` Auth type would require OAUTH credentials to be set.
@@ -151,7 +151,7 @@ jobs:
           echo "Waiting for 3 minutes to ensure API server is ready..."
           sleep 180
           echo "Running integration tests..."
-          docker run --rm --network onyx-stack_default \
+          docker run --rm --network zakk-stack_default \
             --name test-runner \
             -e POSTGRES_HOST=relational_db \
             -e POSTGRES_USER=postgres \
@@ -172,7 +172,7 @@ jobs:
             -e DISABLE_TELEMETRY=true \
             -e IMAGE_TAG=test \
             -e DEV_MODE=true \
-            onyxdotapp/onyx-integration:test \
+            digitranslab/zakk-integration:test \
             /app/tests/integration/multitenant_tests
         continue-on-error: true
         id: run_multitenant_tests
@@ -189,7 +189,7 @@ jobs:
       - name: Stop multi-tenant Docker containers
         run: |
           cd deployment/docker_compose
-          docker compose -f docker-compose.multitenant-dev.yml -p onyx-stack down -v
+          docker compose -f docker-compose.multitenant-dev.yml -p zakk-stack down -v
 
       # NOTE: Use pre-ping/null pool to reduce flakiness due to dropped connections
       - name: Start Docker containers
@@ -204,14 +204,14 @@ jobs:
           IMAGE_TAG=test \
           INTEGRATION_TESTS_MODE=true \
           CHECK_TTL_MANAGEMENT_TASK_FREQUENCY_IN_HOURS=0.001 \
-          docker compose -f docker-compose.dev.yml -p onyx-stack up -d
+          docker compose -f docker-compose.dev.yml -p zakk-stack up -d
         id: start_docker
 
       - name: Wait for service to be ready
         run: |
           echo "Starting wait-for-service script..."
 
-          docker logs -f onyx-stack-api_server-1 &
+          docker logs -f zakk-stack-api_server-1 &
 
           start_time=$(date +%s)
           timeout=300  # 5 minutes in seconds
@@ -251,7 +251,7 @@ jobs:
       - name: Run Standard Integration Tests
         run: |
           echo "Running integration tests..."
-          docker run --rm --network onyx-stack_default \
+          docker run --rm --network zakk-stack_default \
             --name test-runner \
             -e POSTGRES_HOST=relational_db \
             -e POSTGRES_USER=postgres \
@@ -275,7 +275,7 @@ jobs:
             -e TEST_WEB_HOSTNAME=test-runner \
             -e MOCK_CONNECTOR_SERVER_HOST=mock_connector_server \
             -e MOCK_CONNECTOR_SERVER_PORT=8001 \
-            onyxdotapp/onyx-integration:test \
+            digitranslab/zakk-integration:test \
             /app/tests/integration/tests \
             /app/tests/integration/connector_job_tests
         continue-on-error: true
@@ -296,13 +296,13 @@ jobs:
         if: always()
         run: |
           cd deployment/docker_compose
-          docker compose -f docker-compose.dev.yml -p onyx-stack logs --no-color api_server > $GITHUB_WORKSPACE/api_server.log || true
+          docker compose -f docker-compose.dev.yml -p zakk-stack logs --no-color api_server > $GITHUB_WORKSPACE/api_server.log || true
 
       - name: Dump all-container logs (optional)
         if: always()
         run: |
           cd deployment/docker_compose
-          docker compose -f docker-compose.dev.yml -p onyx-stack logs --no-color > $GITHUB_WORKSPACE/docker-compose.log || true
+          docker compose -f docker-compose.dev.yml -p zakk-stack logs --no-color > $GITHUB_WORKSPACE/docker-compose.log || true
 
       - name: Upload logs
         if: always()
@@ -316,4 +316,4 @@ jobs:
         if: always()
         run: |
           cd deployment/docker_compose
-          docker compose -f docker-compose.dev.yml -p onyx-stack down -v
+          docker compose -f docker-compose.dev.yml -p zakk-stack down -v

@@ -1,8 +1,8 @@
 from typing import ClassVar
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.mediawiki import wiki
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.mediawiki import wiki
 
 
 class WikipediaConnector(wiki.MediaWikiConnector):

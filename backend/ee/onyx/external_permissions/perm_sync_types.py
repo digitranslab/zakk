@@ -4,16 +4,16 @@ from typing import Optional
 from typing import Protocol
 from typing import TYPE_CHECKING
 
-from onyx.context.search.models import InferenceChunk
-from onyx.db.utils import DocumentRow
-from onyx.db.utils import SortOrder
+from zakk.context.search.models import InferenceChunk
+from zakk.db.utils import DocumentRow
+from zakk.db.utils import SortOrder
 
 # Avoid circular imports
 if TYPE_CHECKING:
-    from ee.onyx.db.external_perm import ExternalUserGroup  # noqa
-    from onyx.access.models import DocExternalAccess  # noqa
-    from onyx.db.models import ConnectorCredentialPair  # noqa
-    from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface  # noqa
+    from ee.zakk.db.external_perm import ExternalUserGroup  # noqa
+    from zakk.access.models import DocExternalAccess  # noqa
+    from zakk.db.models import ConnectorCredentialPair  # noqa
+    from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface  # noqa
 
 
 class FetchAllDocumentsFunction(Protocol):

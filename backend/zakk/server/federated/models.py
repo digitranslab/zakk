@@ -4,7 +4,7 @@ from typing import Any
 from pydantic import BaseModel
 from pydantic import Field
 
-from onyx.configs.constants import FederatedConnectorSource
+from zakk.configs.constants import FederatedConnectorSource
 
 
 class FederatedConnectorCredentials(BaseModel):

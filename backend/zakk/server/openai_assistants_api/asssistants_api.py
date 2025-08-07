@@ -9,18 +9,18 @@ from fastapi import Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_user
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import Persona
-from onyx.db.models import User
-from onyx.db.persona import get_persona_by_id
-from onyx.db.persona import get_raw_personas_for_user
-from onyx.db.persona import mark_persona_as_deleted
-from onyx.db.persona import upsert_persona
-from onyx.db.prompts import upsert_prompt
-from onyx.db.tools import get_tool_by_name
-from onyx.utils.logger import setup_logger
+from zakk.auth.users import current_user
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import Persona
+from zakk.db.models import User
+from zakk.db.persona import get_persona_by_id
+from zakk.db.persona import get_raw_personas_for_user
+from zakk.db.persona import mark_persona_as_deleted
+from zakk.db.persona import upsert_persona
+from zakk.db.prompts import upsert_prompt
+from zakk.db.tools import get_tool_by_name
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

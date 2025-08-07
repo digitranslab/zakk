@@ -1,4 +1,4 @@
-"""Tool to generate all supported schema variations for Onyx Cloud's Vespa database.
+"""Tool to generate all supported schema variations for Zakk Cloud's Vespa database.
 
 Usage:
 
@@ -16,9 +16,9 @@ from pathlib import Path
 
 import jinja2
 
-from onyx.configs.embedding_configs import SUPPORTED_EMBEDDING_MODELS
-from onyx.db.enums import EmbeddingPrecision
-from onyx.utils.logger import setup_logger
+from zakk.configs.embedding_configs import SUPPORTED_EMBEDDING_MODELS
+from zakk.db.enums import EmbeddingPrecision
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -95,12 +95,12 @@ def main() -> None:
     parser.add_argument(
         "--template",
         help="The Jinja template to use for schemas",
-        default="onyx/document_index/vespa/app_config/schemas/danswer_chunk.sd.jinja",
+        default="zakk/document_index/vespa/app_config/schemas/danswer_chunk.sd.jinja",
     )
     parser.add_argument(
         "--cloud-services-template",
         help="The cloud-services.xml.jinja template path",
-        default="ee/onyx/document_index/vespa/app_config/cloud-services.xml.jinja",
+        default="ee/zakk/document_index/vespa/app_config/cloud-services.xml.jinja",
     )
     parser.add_argument(
         "--output-path",

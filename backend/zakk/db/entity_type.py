@@ -3,12 +3,12 @@ from collections import defaultdict
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
-from onyx.db.connector import fetch_unique_document_sources
-from onyx.db.document import DocumentSource
-from onyx.db.models import Connector
-from onyx.db.models import KGEntityType
-from onyx.kg.models import KGAttributeEntityOption
-from onyx.server.kg.models import EntityType
+from zakk.db.connector import fetch_unique_document_sources
+from zakk.db.document import DocumentSource
+from zakk.db.models import Connector
+from zakk.db.models import KGEntityType
+from zakk.kg.models import KGAttributeEntityOption
+from zakk.server.kg.models import EntityType
 
 
 UNGROUNDED_SOURCE_NAME = "Ungrounded"

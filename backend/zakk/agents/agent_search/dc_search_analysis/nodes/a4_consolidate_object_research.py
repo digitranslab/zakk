@@ -4,16 +4,16 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.dc_search_analysis.ops import extract_section
-from onyx.agents.agent_search.dc_search_analysis.states import ObjectInformationInput
-from onyx.agents.agent_search.dc_search_analysis.states import ObjectResearchUpdate
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
+from zakk.agents.agent_search.dc_search_analysis.ops import extract_section
+from zakk.agents.agent_search.dc_search_analysis.states import ObjectInformationInput
+from zakk.agents.agent_search.dc_search_analysis.states import ObjectResearchUpdate
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
     trim_prompt_piece,
 )
-from onyx.prompts.agents.dc_prompts import DC_OBJECT_CONSOLIDATION_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.prompts.agents.dc_prompts import DC_OBJECT_CONSOLIDATION_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

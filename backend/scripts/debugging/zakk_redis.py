@@ -10,20 +10,20 @@ from uuid import UUID
 
 from redis import Redis
 
-from ee.onyx.server.tenants.user_mapping import get_tenant_id_for_email
-from onyx.auth.invited_users import get_invited_users
-from onyx.auth.invited_users import write_invited_users
-from onyx.configs.app_configs import REDIS_AUTH_KEY_PREFIX
-from onyx.configs.app_configs import REDIS_DB_NUMBER
-from onyx.configs.app_configs import REDIS_HOST
-from onyx.configs.app_configs import REDIS_PASSWORD
-from onyx.configs.app_configs import REDIS_PORT
-from onyx.configs.app_configs import REDIS_SSL
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.users import get_user_by_email
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_connector_index import RedisConnectorIndex
-from onyx.redis.redis_pool import RedisPool
+from ee.zakk.server.tenants.user_mapping import get_tenant_id_for_email
+from zakk.auth.invited_users import get_invited_users
+from zakk.auth.invited_users import write_invited_users
+from zakk.configs.app_configs import REDIS_AUTH_KEY_PREFIX
+from zakk.configs.app_configs import REDIS_DB_NUMBER
+from zakk.configs.app_configs import REDIS_HOST
+from zakk.configs.app_configs import REDIS_PASSWORD
+from zakk.configs.app_configs import REDIS_PORT
+from zakk.configs.app_configs import REDIS_SSL
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.users import get_user_by_email
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_connector_index import RedisConnectorIndex
+from zakk.redis.redis_pool import RedisPool
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 from shared_configs.contextvars import CURRENT_TENANT_ID_CONTEXTVAR
@@ -46,7 +46,7 @@ SCAN_ITER_COUNT = 10000
 BATCH_DEFAULT = 1000
 
 
-class OnyxRedisCommand(Enum):
+class ZakkRedisCommand(Enum):
     purge_connectorsync_taskset = "purge_connectorsync_taskset"
     purge_documentset_taskset = "purge_documentset_taskset"
     purge_usergroup_taskset = "purge_usergroup_taskset"
@@ -75,7 +75,7 @@ def get_user_id(user_email: str) -> tuple[UUID, str]:
 
 
 def zakk_redis(
-    command: OnyxRedisCommand,
+    command: ZakkRedisCommand,
     batch: int,
     dry_run: bool,
     ssl: bool,
@@ -109,19 +109,19 @@ def zakk_redis(
 
     logger.info("Redis ping succeeded.")
 
-    if command == OnyxRedisCommand.purge_connectorsync_taskset:
+    if command == ZakkRedisCommand.purge_connectorsync_taskset:
         """Purge connector tasksets. Used when the tasks represented in the tasksets
         have been purged."""
         return purge_by_match_and_type(
             "*connectorsync_taskset*", "set", batch, dry_run, r
         )
-    elif command == OnyxRedisCommand.purge_documentset_taskset:
+    elif command == ZakkRedisCommand.purge_documentset_taskset:
         return purge_by_match_and_type(
             "*documentset_taskset*", "set", batch, dry_run, r
         )
-    elif command == OnyxRedisCommand.purge_usergroup_taskset:
+    elif command == ZakkRedisCommand.purge_usergroup_taskset:
         return purge_by_match_and_type("*usergroup_taskset*", "set", batch, dry_run, r)
-    elif command == OnyxRedisCommand.purge_locks_blocking_deletion:
+    elif command == ZakkRedisCommand.purge_locks_blocking_deletion:
         if cc_pair_id is None:
             logger.error("You must specify --cc-pair with purge_deletion_locks")
             return 1
@@ -143,22 +143,22 @@ def zakk_redis(
             f"{tenant_id}:{redis_connector.external_group_sync.fence_key}", dry_run, r
         )
         return 0
-    elif command == OnyxRedisCommand.purge_vespa_syncing:
+    elif command == ZakkRedisCommand.purge_vespa_syncing:
         return purge_by_match_and_type(
             "*connectorsync:vespa_syncing*", "string", batch, dry_run, r
         )
-    elif command == OnyxRedisCommand.purge_pidbox:
+    elif command == ZakkRedisCommand.purge_pidbox:
         return purge_by_match_and_type(
             "*reply.celery.pidbox", "list", batch, dry_run, r
         )
-    elif command == OnyxRedisCommand.get_list_element:
+    elif command == ZakkRedisCommand.get_list_element:
         # just hardcoded for now
         result = r.lrange(
             "0097a564-d343-3c1f-9fd1-af8cce038115.reply.celery.pidbox", 0, 0
         )
         print(f"{result}")
         return 0
-    elif command == OnyxRedisCommand.get_user_token:
+    elif command == ZakkRedisCommand.get_user_token:
         if not user_email:
             logger.error("You must specify --user-email with get_user_token")
             return 1
@@ -169,7 +169,7 @@ def zakk_redis(
         else:
             print(f"No token found for user {user_email}")
             return 2
-    elif command == OnyxRedisCommand.delete_user_token:
+    elif command == ZakkRedisCommand.delete_user_token:
         if not user_email:
             logger.error("You must specify --user-email with delete_user_token")
             return 1
@@ -177,7 +177,7 @@ def zakk_redis(
             return 0
         else:
             return 2
-    elif command == OnyxRedisCommand.add_invited_user:
+    elif command == ZakkRedisCommand.add_invited_user:
         if not user_email:
             logger.error("You must specify --user-email with add_invited_user")
             return 1
@@ -380,12 +380,12 @@ def delete_user_token_from_redis(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Onyx Redis Manager")
+    parser = argparse.ArgumentParser(description="Zakk Redis Manager")
     parser.add_argument(
         "--command",
-        type=OnyxRedisCommand,
+        type=ZakkRedisCommand,
         help="The command to run",
-        choices=list(OnyxRedisCommand),
+        choices=list(ZakkRedisCommand),
         required=True,
     )
 

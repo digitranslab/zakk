@@ -3,7 +3,7 @@ from functools import lru_cache
 import requests
 from retry import retry
 
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import INDEXING_MODEL_SERVER_HOST
 from shared_configs.configs import INDEXING_MODEL_SERVER_PORT
 from shared_configs.configs import MODEL_SERVER_HOST

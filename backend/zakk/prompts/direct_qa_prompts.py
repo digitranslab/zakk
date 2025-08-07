@@ -2,11 +2,11 @@
 # It is used also for the one shot direct QA flow
 import json
 
-from onyx.prompts.constants import DEFAULT_IGNORE_STATEMENT
-from onyx.prompts.constants import FINAL_QUERY_PAT
-from onyx.prompts.constants import GENERAL_SEP_PAT
-from onyx.prompts.constants import QUESTION_PAT
-from onyx.prompts.constants import THOUGHT_PAT
+from zakk.prompts.constants import DEFAULT_IGNORE_STATEMENT
+from zakk.prompts.constants import FINAL_QUERY_PAT
+from zakk.prompts.constants import GENERAL_SEP_PAT
+from zakk.prompts.constants import QUESTION_PAT
+from zakk.prompts.constants import THOUGHT_PAT
 
 
 ONE_SHOT_SYSTEM_PROMPT = """
@@ -145,4 +145,4 @@ You MUST respond in the following format:
 
 # User the following for easy viewing of prompts
 if __name__ == "__main__":
-    print(JSON_PROMPT)  # Default prompt used in the Onyx UI flow
+    print(JSON_PROMPT)  # Default prompt used in the Zakk UI flow

@@ -1,10 +1,10 @@
 import httpx
 from sqlalchemy.orm import Session
 
-from onyx.db.models import SearchSettings
-from onyx.db.search_settings import get_current_search_settings
-from onyx.document_index.interfaces import DocumentIndex
-from onyx.document_index.vespa.index import VespaIndex
+from zakk.db.models import SearchSettings
+from zakk.db.search_settings import get_current_search_settings
+from zakk.document_index.interfaces import DocumentIndex
+from zakk.document_index.vespa.index import VespaIndex
 from shared_configs.configs import MULTI_TENANT
 
 

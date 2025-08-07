@@ -1,3 +1,3 @@
 import os
 
-__version__ = os.environ.get("ONYX_VERSION", "") or "Development"
+__version__ = os.environ.get("ZAKK_VERSION", "") or "Development"

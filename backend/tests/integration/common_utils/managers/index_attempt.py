@@ -5,14 +5,14 @@ from urllib.parse import urlencode
 
 import requests
 
-from onyx.background.indexing.models import IndexAttemptErrorPydantic
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import IndexModelStatus
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexingStatus
-from onyx.db.search_settings import get_current_search_settings
-from onyx.server.documents.models import IndexAttemptSnapshot
-from onyx.server.documents.models import PaginatedReturn
+from zakk.background.indexing.models import IndexAttemptErrorPydantic
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import IndexModelStatus
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexingStatus
+from zakk.db.search_settings import get_current_search_settings
+from zakk.server.documents.models import IndexAttemptSnapshot
+from zakk.server.documents.models import PaginatedReturn
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.constants import GENERAL_HEADERS
 from tests.integration.common_utils.constants import MAX_DELAY

@@ -21,24 +21,24 @@ from playwright.sync_api import sync_playwright
 from requests_oauthlib import OAuth2Session  # type:ignore
 from urllib3.exceptions import MaxRetryError
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.app_configs import WEB_CONNECTOR_OAUTH_CLIENT_ID
-from onyx.configs.app_configs import WEB_CONNECTOR_OAUTH_CLIENT_SECRET
-from onyx.configs.app_configs import WEB_CONNECTOR_OAUTH_TOKEN_URL
-from onyx.configs.app_configs import WEB_CONNECTOR_VALIDATE_URLS
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.models import Document
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import read_pdf_file
-from onyx.file_processing.html_utils import web_html_cleanup
-from onyx.utils.logger import setup_logger
-from onyx.utils.sitemap import list_pages_for_site
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.app_configs import WEB_CONNECTOR_OAUTH_CLIENT_ID
+from zakk.configs.app_configs import WEB_CONNECTOR_OAUTH_CLIENT_SECRET
+from zakk.configs.app_configs import WEB_CONNECTOR_OAUTH_TOKEN_URL
+from zakk.configs.app_configs import WEB_CONNECTOR_VALIDATE_URLS
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.models import Document
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import read_pdf_file
+from zakk.file_processing.html_utils import web_html_cleanup
+from zakk.utils.logger import setup_logger
+from zakk.utils.sitemap import list_pages_for_site
 from shared_configs.configs import MULTI_TENANT
 
 logger = setup_logger()

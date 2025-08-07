@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from onyx.server.query_and_chat.models import ChatSessionDetails
+from zakk.server.query_and_chat.models import ChatSessionDetails
 
 
 class UserFolderSnapshot(BaseModel):

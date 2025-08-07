@@ -6,31 +6,31 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.kb_search.graph_utils import build_document_context
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import build_document_context
+from zakk.agents.agent_search.kb_search.graph_utils import (
     get_doc_information_for_entity,
 )
-from onyx.agents.agent_search.kb_search.graph_utils import write_custom_event
-from onyx.agents.agent_search.kb_search.ops import research
-from onyx.agents.agent_search.kb_search.states import KGSourceDivisionType
-from onyx.agents.agent_search.kb_search.states import ResearchObjectInput
-from onyx.agents.agent_search.kb_search.states import ResearchObjectUpdate
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
+from zakk.agents.agent_search.kb_search.graph_utils import write_custom_event
+from zakk.agents.agent_search.kb_search.ops import research
+from zakk.agents.agent_search.kb_search.states import KGSourceDivisionType
+from zakk.agents.agent_search.kb_search.states import ResearchObjectInput
+from zakk.agents.agent_search.kb_search.states import ResearchObjectUpdate
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
     trim_prompt_piece,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import SubQueryPiece
-from onyx.configs.kg_configs import KG_MAX_SEARCH_DOCUMENTS
-from onyx.configs.kg_configs import KG_OBJECT_SOURCE_RESEARCH_TIMEOUT
-from onyx.context.search.models import InferenceSection
-from onyx.kg.utils.formatting_utils import split_entity_id
-from onyx.prompts.kg_prompts import KG_OBJECT_SOURCE_RESEARCH_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import SubQueryPiece
+from zakk.configs.kg_configs import KG_MAX_SEARCH_DOCUMENTS
+from zakk.configs.kg_configs import KG_OBJECT_SOURCE_RESEARCH_TIMEOUT
+from zakk.context.search.models import InferenceSection
+from zakk.kg.utils.formatting_utils import split_entity_id
+from zakk.prompts.kg_prompts import KG_OBJECT_SOURCE_RESEARCH_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

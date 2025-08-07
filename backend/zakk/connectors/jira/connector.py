@@ -9,39 +9,39 @@ from jira import JIRA
 from jira.resources import Issue
 from typing_extensions import override
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.app_configs import JIRA_CONNECTOR_LABELS_TO_SKIP
-from onyx.configs.app_configs import JIRA_CONNECTOR_MAX_TICKET_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.app_configs import JIRA_CONNECTOR_LABELS_TO_SKIP
+from zakk.configs.app_configs import JIRA_CONNECTOR_MAX_TICKET_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     is_atlassian_date_error,
 )
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.interfaces import CheckpointedConnector
-from onyx.connectors.interfaces import CheckpointOutput
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.jira.access import get_project_permissions
-from onyx.connectors.jira.utils import best_effort_basic_expert_info
-from onyx.connectors.jira.utils import best_effort_get_field_from_issue
-from onyx.connectors.jira.utils import build_jira_client
-from onyx.connectors.jira.utils import build_jira_url
-from onyx.connectors.jira.utils import extract_text_from_adf
-from onyx.connectors.jira.utils import get_comment_strs
-from onyx.connectors.jira.utils import get_jira_project_key_from_issue
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.interfaces import CheckpointedConnector
+from zakk.connectors.interfaces import CheckpointOutput
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.jira.access import get_project_permissions
+from zakk.connectors.jira.utils import best_effort_basic_expert_info
+from zakk.connectors.jira.utils import best_effort_get_field_from_issue
+from zakk.connectors.jira.utils import build_jira_client
+from zakk.connectors.jira.utils import build_jira_url
+from zakk.connectors.jira.utils import extract_text_from_adf
+from zakk.connectors.jira.utils import get_comment_strs
+from zakk.connectors.jira.utils import get_jira_project_key_from_issue
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -432,7 +432,7 @@ class JiraConnector(CheckpointedConnector[JiraConnectorCheckpoint], SlimConnecto
 
 if __name__ == "__main__":
     import os
-    from onyx.utils.variable_functionality import global_version
+    from zakk.utils.variable_functionality import global_version
     from tests.daily.connectors.utils import load_all_docs_from_checkpoint_connector
 
     # For connector permission testing, set EE to true.

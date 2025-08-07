@@ -10,18 +10,18 @@ from celery import shared_task
 from celery import Task
 from redis.lock import Lock as RedisLock
 
-from ee.onyx.server.tenants.provisioning import setup_tenant
-from ee.onyx.server.tenants.schema_management import create_schema_if_not_exists
-from ee.onyx.server.tenants.schema_management import get_current_alembic_version
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.configs.app_configs import TARGET_AVAILABLE_TENANTS
-from onyx.configs.constants import ONYX_CLOUD_TENANT_ID
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.engine.sql_engine import get_session_with_shared_schema
-from onyx.db.models import AvailableTenant
-from onyx.redis.redis_pool import get_redis_client
+from ee.zakk.server.tenants.provisioning import setup_tenant
+from ee.zakk.server.tenants.schema_management import create_schema_if_not_exists
+from ee.zakk.server.tenants.schema_management import get_current_alembic_version
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.configs.app_configs import TARGET_AVAILABLE_TENANTS
+from zakk.configs.constants import ZAKK_CLOUD_TENANT_ID
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.engine.sql_engine import get_session_with_shared_schema
+from zakk.db.models import AvailableTenant
+from zakk.redis.redis_pool import get_redis_client
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import TENANT_ID_PREFIX
 
@@ -35,8 +35,8 @@ _TENANT_PROVISIONING_TIME_LIMIT = 60 * 10  # 10 minutes
 
 
 @shared_task(
-    name=OnyxCeleryTask.CLOUD_CHECK_AVAILABLE_TENANTS,
-    queue=OnyxCeleryQueues.MONITORING,
+    name=ZakkCeleryTask.CLOUD_CHECK_AVAILABLE_TENANTS,
+    queue=ZakkCeleryQueues.MONITORING,
     ignore_result=True,
     soft_time_limit=_TENANT_PROVISIONING_SOFT_TIME_LIMIT,
     time_limit=_TENANT_PROVISIONING_TIME_LIMIT,
@@ -55,9 +55,9 @@ def check_available_tenants(self: Task) -> None:
         )
         return
 
-    r = get_redis_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+    r = get_redis_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
     lock_check: RedisLock = r.lock(
-        OnyxRedisLocks.CHECK_AVAILABLE_TENANTS_LOCK,
+        ZakkRedisLocks.CHECK_AVAILABLE_TENANTS_LOCK,
         timeout=_TENANT_PROVISIONING_SOFT_TIME_LIMIT,
     )
 
@@ -110,9 +110,9 @@ def pre_provision_tenant() -> None:
     # The MULTI_TENANT check is now done at the caller level (check_available_tenants)
     # rather than inside this function
 
-    r = get_redis_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+    r = get_redis_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
     lock_provision: RedisLock = r.lock(
-        OnyxRedisLocks.CLOUD_PRE_PROVISION_TENANT_LOCK,
+        ZakkRedisLocks.CLOUD_PRE_PROVISION_TENANT_LOCK,
         timeout=_TENANT_PROVISIONING_SOFT_TIME_LIMIT,
     )
 
@@ -177,7 +177,7 @@ def pre_provision_tenant() -> None:
                 f"Rolling back failed tenant provisioning for: {tenant_id}"
             )
             try:
-                from ee.onyx.server.tenants.provisioning import (
+                from ee.zakk.server.tenants.provisioning import (
                     rollback_tenant_provisioning,
                 )
 

@@ -3,14 +3,14 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_user
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.notification import dismiss_notification
-from onyx.db.notification import get_notification_by_id
-from onyx.db.notification import get_notifications
-from onyx.server.settings.models import Notification as NotificationModel
-from onyx.utils.logger import setup_logger
+from zakk.auth.users import current_user
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.notification import dismiss_notification
+from zakk.db.notification import get_notification_by_id
+from zakk.db.notification import get_notifications
+from zakk.server.settings.models import Notification as NotificationModel
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

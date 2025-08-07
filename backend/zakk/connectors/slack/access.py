@@ -3,11 +3,11 @@ from typing import cast
 
 from slack_sdk import WebClient
 
-from onyx.access.models import ExternalAccess
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.slack.models import ChannelType
-from onyx.utils.variable_functionality import fetch_versioned_implementation
-from onyx.utils.variable_functionality import global_version
+from zakk.access.models import ExternalAccess
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.slack.models import ChannelType
+from zakk.utils.variable_functionality import fetch_versioned_implementation
+from zakk.utils.variable_functionality import global_version
 
 
 def get_channel_access(
@@ -38,7 +38,7 @@ def get_channel_access(
             ExternalAccess,
         ],
         fetch_versioned_implementation(
-            "onyx.external_permissions.slack.channel_access", "get_channel_access"
+            "zakk.external_permissions.slack.channel_access", "get_channel_access"
         ),
     )
 

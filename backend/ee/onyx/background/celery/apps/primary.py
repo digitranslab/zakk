@@ -5,20 +5,20 @@ from uuid import UUID
 from celery import shared_task
 from celery import Task
 
-from ee.onyx.background.celery_utils import should_perform_chat_ttl_check
-from ee.onyx.background.task_name_builders import name_chat_ttl_task
-from ee.onyx.server.reporting.usage_export_generation import create_new_usage_report
-from onyx.background.celery.apps.primary import celery_app
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.db.chat import delete_chat_session
-from onyx.db.chat import get_chat_sessions_older_than
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import TaskStatus
-from onyx.db.tasks import mark_task_as_finished_with_id
-from onyx.db.tasks import register_task
-from onyx.server.settings.store import load_settings
-from onyx.utils.logger import setup_logger
+from ee.zakk.background.celery_utils import should_perform_chat_ttl_check
+from ee.zakk.background.task_name_builders import name_chat_ttl_task
+from ee.zakk.server.reporting.usage_export_generation import create_new_usage_report
+from zakk.background.celery.apps.primary import celery_app
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.db.chat import delete_chat_session
+from zakk.db.chat import get_chat_sessions_older_than
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import TaskStatus
+from zakk.db.tasks import mark_task_as_finished_with_id
+from zakk.db.tasks import register_task
+from zakk.server.settings.store import load_settings
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -26,7 +26,7 @@ logger = setup_logger()
 
 
 @shared_task(
-    name=OnyxCeleryTask.PERFORM_TTL_MANAGEMENT_TASK,
+    name=ZakkCeleryTask.PERFORM_TTL_MANAGEMENT_TASK,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     bind=True,
@@ -96,7 +96,7 @@ def perform_ttl_management_task(
 
 
 @celery_app.task(
-    name=OnyxCeleryTask.CHECK_TTL_MANAGEMENT_TASK,
+    name=ZakkCeleryTask.CHECK_TTL_MANAGEMENT_TASK,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
 )
@@ -116,7 +116,7 @@ def check_ttl_management_task(*, tenant_id: str) -> None:
 
 
 @celery_app.task(
-    name=OnyxCeleryTask.AUTOGENERATE_USAGE_REPORT_TASK,
+    name=ZakkCeleryTask.AUTOGENERATE_USAGE_REPORT_TASK,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
 )
@@ -132,8 +132,8 @@ def autogenerate_usage_report_task(*, tenant_id: str) -> None:
 
 celery_app.autodiscover_tasks(
     [
-        "ee.onyx.background.celery.tasks.doc_permission_syncing",
-        "ee.onyx.background.celery.tasks.external_group_syncing",
-        "ee.onyx.background.celery.tasks.cloud",
+        "ee.zakk.background.celery.tasks.doc_permission_syncing",
+        "ee.zakk.background.celery.tasks.external_group_syncing",
+        "ee.zakk.background.celery.tasks.cloud",
     ]
 )

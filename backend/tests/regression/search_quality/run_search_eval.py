@@ -21,7 +21,7 @@ from pydantic import ValidationError
 from requests.exceptions import RequestException
 from retry import retry
 
-# add onyx/backend to path (since this isn't done automatically when running as a script)
+# add zakk/backend to path (since this isn't done automatically when running as a script)
 current_dir = Path(__file__).parent
 zakk_dir = current_dir.parent.parent.parent.parent
 sys.path.append(str(zakk_dir / "backend"))
@@ -37,20 +37,20 @@ load_dotenv(env_path)
 # pylint: disable=E402
 # flake8: noqa: E402
 
-from ee.onyx.server.query_and_chat.models import OneShotQARequest
-from ee.onyx.server.query_and_chat.models import OneShotQAResponse
-from onyx.chat.models import ThreadMessage
-from onyx.configs.app_configs import POSTGRES_API_SERVER_POOL_OVERFLOW
-from onyx.configs.app_configs import POSTGRES_API_SERVER_POOL_SIZE
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import MessageType
-from onyx.context.search.enums import OptionalSearchSetting
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import RetrievalDetails
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.query_and_chat.models import OneShotQARequest
+from ee.zakk.server.query_and_chat.models import OneShotQAResponse
+from zakk.chat.models import ThreadMessage
+from zakk.configs.app_configs import POSTGRES_API_SERVER_POOL_OVERFLOW
+from zakk.configs.app_configs import POSTGRES_API_SERVER_POOL_SIZE
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import MessageType
+from zakk.context.search.enums import OptionalSearchSetting
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import RetrievalDetails
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA_STANDARD_VALUE
 from tests.regression.search_quality.models import AnalysisSummary
@@ -424,7 +424,7 @@ class SearchAnswerAnalyzer:
 
     @retry(tries=3, delay=1, backoff=2)
     def _perform_oneshot_qa(self, query: str) -> OneshotQAResult:
-        """Perform a OneShot QA query against the Onyx API and time it."""
+        """Perform a OneShot QA query against the Zakk API and time it."""
         # create the OneShot QA request
         messages = [ThreadMessage(message=query, sender=None, role=MessageType.USER)]
         filters = IndexFilters(access_control_list=None, tenant_id=self.tenant_id)
@@ -448,7 +448,7 @@ class SearchAnswerAnalyzer:
             request_data = qa_request.model_dump()
             headers = GENERAL_HEADERS.copy()
             if AUTH_TYPE != AuthType.DISABLED:
-                headers["Authorization"] = f"Bearer {os.environ.get('ONYX_API_KEY')}"
+                headers["Authorization"] = f"Bearer {os.environ.get('ZAKK_API_KEY')}"
 
             start_time = time.monotonic()
             response = requests.post(
@@ -621,21 +621,21 @@ def run_search_eval(
             "Please add it to the root .vscode/.env file."
         )
 
-    # check onyx api key is set if auth is enabled
-    if AUTH_TYPE != AuthType.DISABLED and not os.environ.get("ONYX_API_KEY"):
+    # check zakk api key is set if auth is enabled
+    if AUTH_TYPE != AuthType.DISABLED and not os.environ.get("ZAKK_API_KEY"):
         raise RuntimeError(
-            "ONYX_API_KEY is required if auth is enabled. "
+            "ZAKK_API_KEY is required if auth is enabled. "
             "Please create one in the admin panel and add it to the root .vscode/.env file."
         )
 
-    # check onyx is running
+    # check zakk is running
     try:
         response = requests.get(
             f"{config.api_url}/health", timeout=config.request_timeout
         )
         response.raise_for_status()
     except RequestException as e:
-        raise RuntimeError(f"Could not connect to Onyx API: {e}")
+        raise RuntimeError(f"Could not connect to Zakk API: {e}")
 
     # create the export folder
     export_folder = current_dir / datetime.now().strftime("eval-%Y-%m-%d-%H-%M-%S")
@@ -702,7 +702,7 @@ if __name__ == "__main__":
         "--api_endpoint",
         type=str,
         default="http://127.0.0.1:8080",
-        help="Base URL of the Onyx API server (default: %(default)s).",
+        help="Base URL of the Zakk API server (default: %(default)s).",
     )
     parser.add_argument(
         "-s",

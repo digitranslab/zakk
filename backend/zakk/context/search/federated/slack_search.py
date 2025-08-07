@@ -8,30 +8,30 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import ENABLE_CONTEXTUAL_RAG
-from onyx.configs.app_configs import MAX_SLACK_QUERY_EXPANSIONS
-from onyx.configs.chat_configs import DOC_TIME_DECAY
-from onyx.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
-from onyx.connectors.models import IndexingDocument
-from onyx.connectors.models import TextSection
-from onyx.context.search.federated.models import SlackMessage
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import SearchQuery
-from onyx.db.document import DocumentSource
-from onyx.db.search_settings import get_current_search_settings
-from onyx.document_index.document_index_utils import (
+from zakk.configs.app_configs import ENABLE_CONTEXTUAL_RAG
+from zakk.configs.app_configs import MAX_SLACK_QUERY_EXPANSIONS
+from zakk.configs.chat_configs import DOC_TIME_DECAY
+from zakk.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
+from zakk.connectors.models import IndexingDocument
+from zakk.connectors.models import TextSection
+from zakk.context.search.federated.models import SlackMessage
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import SearchQuery
+from zakk.db.document import DocumentSource
+from zakk.db.search_settings import get_current_search_settings
+from zakk.document_index.document_index_utils import (
     get_multipass_config,
 )
-from onyx.indexing.chunker import Chunker
-from onyx.indexing.embedder import DefaultIndexingEmbedder
-from onyx.indexing.models import DocAwareChunk
-from onyx.llm.factory import get_default_llms
-from onyx.llm.interfaces import LLM
-from onyx.llm.utils import message_to_string
-from onyx.prompts.federated_search import SLACK_QUERY_EXPANSION_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
-from onyx.utils.timing import log_function_time
+from zakk.indexing.chunker import Chunker
+from zakk.indexing.embedder import DefaultIndexingEmbedder
+from zakk.indexing.models import DocAwareChunk
+from zakk.llm.factory import get_default_llms
+from zakk.llm.interfaces import LLM
+from zakk.llm.utils import message_to_string
+from zakk.prompts.federated_search import SLACK_QUERY_EXPANSION_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.utils.timing import log_function_time
 
 logger = setup_logger()
 

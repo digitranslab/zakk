@@ -12,16 +12,16 @@ from pyairtable.api.types import RecordDict
 from pyairtable.models.schema import TableSchema
 from retry import retry
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import extract_file_text
-from onyx.file_processing.extract_file_text import get_file_ext
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import extract_file_text
+from zakk.file_processing.extract_file_text import get_file_ext
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

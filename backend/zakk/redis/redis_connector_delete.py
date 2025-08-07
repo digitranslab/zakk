@@ -9,14 +9,14 @@ from pydantic import BaseModel
 from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DB_YIELD_PER_DEFAULT
-from onyx.configs.constants import CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.document import construct_document_id_select_for_connector_credential_pair
+from zakk.configs.app_configs import DB_YIELD_PER_DEFAULT
+from zakk.configs.constants import CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.document import construct_document_id_select_for_connector_credential_pair
 
 
 class RedisConnectorDeletePayload(BaseModel):
@@ -74,12 +74,12 @@ class RedisConnectorDelete:
 
     def set_fence(self, payload: RedisConnectorDeletePayload | None) -> None:
         if not payload:
-            self.redis.srem(OnyxRedisConstants.ACTIVE_FENCES, self.fence_key)
+            self.redis.srem(ZakkRedisConstants.ACTIVE_FENCES, self.fence_key)
             self.redis.delete(self.fence_key)
             return
 
         self.redis.set(self.fence_key, payload.model_dump_json())
-        self.redis.sadd(OnyxRedisConstants.ACTIVE_FENCES, self.fence_key)
+        self.redis.sadd(ZakkRedisConstants.ACTIVE_FENCES, self.fence_key)
 
     def set_active(self) -> None:
         """This sets a signal to keep the permissioning flow from getting cleaned up within
@@ -138,16 +138,16 @@ class RedisConnectorDelete:
 
             # Priority on sync's triggered by new indexing should be medium
             celery_app.send_task(
-                OnyxCeleryTask.DOCUMENT_BY_CC_PAIR_CLEANUP_TASK,
+                ZakkCeleryTask.DOCUMENT_BY_CC_PAIR_CLEANUP_TASK,
                 kwargs=dict(
                     document_id=doc_id,
                     connector_id=cc_pair.connector_id,
                     credential_id=cc_pair.credential_id,
                     tenant_id=self.tenant_id,
                 ),
-                queue=OnyxCeleryQueues.CONNECTOR_DELETION,
+                queue=ZakkCeleryQueues.CONNECTOR_DELETION,
                 task_id=custom_task_id,
-                priority=OnyxCeleryPriority.MEDIUM,
+                priority=ZakkCeleryPriority.MEDIUM,
                 ignore_result=True,
             )
 
@@ -156,7 +156,7 @@ class RedisConnectorDelete:
         return num_tasks_sent
 
     def reset(self) -> None:
-        self.redis.srem(OnyxRedisConstants.ACTIVE_FENCES, self.fence_key)
+        self.redis.srem(ZakkRedisConstants.ACTIVE_FENCES, self.fence_key)
         self.redis.delete(self.active_key)
         self.redis.delete(self.taskset_key)
         self.redis.delete(self.fence_key)

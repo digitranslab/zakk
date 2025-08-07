@@ -4,11 +4,11 @@ from typing import Any
 
 import boto3
 
-from onyx.configs.app_configs import POSTGRES_HOST
-from onyx.configs.app_configs import POSTGRES_PORT
-from onyx.configs.app_configs import POSTGRES_USER
-from onyx.configs.app_configs import USE_IAM_AUTH
-from onyx.configs.constants import SSL_CERT_FILE
+from zakk.configs.app_configs import POSTGRES_HOST
+from zakk.configs.app_configs import POSTGRES_PORT
+from zakk.configs.app_configs import POSTGRES_USER
+from zakk.configs.app_configs import USE_IAM_AUTH
+from zakk.configs.constants import SSL_CERT_FILE
 
 
 def get_iam_auth_token(

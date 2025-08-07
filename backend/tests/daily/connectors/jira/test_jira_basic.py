@@ -4,9 +4,9 @@ from unittest.mock import patch
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.jira.connector import JiraConnector
-from onyx.connectors.models import Document
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.jira.connector import JiraConnector
+from zakk.connectors.models import Document
 from tests.daily.connectors.utils import load_all_docs_from_checkpoint_connector
 
 
@@ -27,7 +27,7 @@ def jira_connector() -> JiraConnector:
 
 
 @patch(
-    "onyx.file_processing.extract_file_text.get_unstructured_api_key",
+    "zakk.file_processing.extract_file_text.get_unstructured_api_key",
     return_value=None,
 )
 def test_jira_connector_basic(reset: None, jira_connector: JiraConnector) -> None:
@@ -80,7 +80,7 @@ def test_jira_connector_basic(reset: None, jira_connector: JiraConnector) -> Non
     section = story.sections[0]
     assert (
         section.text
-        == "This is a critical request for super-human answer quality in Onyx! We need magic!\n"
+        == "This is a critical request for super-human answer quality in Zakk! We need magic!\n"
     )
     assert section.link == "https://danswerai.atlassian.net/browse/AS-3"
 
@@ -91,7 +91,7 @@ def test_jira_connector_basic(reset: None, jira_connector: JiraConnector) -> Non
     assert epic.metadata == {
         "priority": "Medium",
         "status": "Backlog",
-        "reporter": "Founder Onyx",
+        "reporter": "Founder Zakk",
         "assignee": "Chris Weaver",
         "issuetype": "Epic",
         "created": "2025-04-16T16:55:53.068-0700",

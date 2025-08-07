@@ -9,29 +9,29 @@ from redis.exceptions import LockError
 from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.configs.app_configs import DISABLE_INDEX_UPDATE_ON_SWAP
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import DANSWER_REDIS_FUNCTION_LOCK_PREFIX
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.engine.time_utils import get_db_current_time
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import IndexingStatus
-from onyx.db.enums import IndexModelStatus
-from onyx.db.index_attempt import get_last_attempt_for_cc_pair
-from onyx.db.index_attempt import get_recent_attempts_for_cc_pair
-from onyx.db.index_attempt import mark_attempt_failed
-from onyx.db.indexing_coordination import IndexingCoordination
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import SearchSettings
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_pool import redis_lock_dump
-from onyx.utils.logger import setup_logger
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.configs.app_configs import DISABLE_INDEX_UPDATE_ON_SWAP
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import DANSWER_REDIS_FUNCTION_LOCK_PREFIX
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.engine.time_utils import get_db_current_time
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import IndexingStatus
+from zakk.db.enums import IndexModelStatus
+from zakk.db.index_attempt import get_last_attempt_for_cc_pair
+from zakk.db.index_attempt import get_recent_attempts_for_cc_pair
+from zakk.db.index_attempt import mark_attempt_failed
+from zakk.db.indexing_coordination import IndexingCoordination
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import SearchSettings
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_pool import redis_lock_dump
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -359,14 +359,14 @@ def try_creating_docfetching_task(
         # TODO: at the moment the indexing pipeline is
         # shared between user files and connectors
         queue = (
-            OnyxCeleryQueues.USER_FILES_INDEXING
+            ZakkCeleryQueues.USER_FILES_INDEXING
             if cc_pair.is_user_file
-            else OnyxCeleryQueues.CONNECTOR_DOC_FETCHING
+            else ZakkCeleryQueues.CONNECTOR_DOC_FETCHING
         )
 
         # Send the task to Celery
         result = celery_app.send_task(
-            OnyxCeleryTask.CONNECTOR_DOC_FETCHING_TASK,
+            ZakkCeleryTask.CONNECTOR_DOC_FETCHING_TASK,
             kwargs=dict(
                 index_attempt_id=index_attempt_id,
                 cc_pair_id=cc_pair.id,
@@ -375,7 +375,7 @@ def try_creating_docfetching_task(
             ),
             queue=queue,
             task_id=custom_task_id,
-            priority=OnyxCeleryPriority.MEDIUM,
+            priority=ZakkCeleryPriority.MEDIUM,
         )
         if not result:
             raise RuntimeError("send_task for connector_doc_fetching_task failed.")

@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import { useEffect, useRef, useState } from "react";
 import { FiBook, FiCheck, FiEdit2, FiSearch, FiX } from "react-icons/fi";
 import { FileResponse } from "../my-documents/DocumentsContext";
@@ -56,7 +56,7 @@ export function SearchSummary({
   finished: boolean;
   query: string;
   handleSearchQueryEdit?: (query: string) => void;
-  docs: OnyxDocument[];
+  docs: ZakkDocument[];
   toggleDocumentSelection: () => void;
   userFileSearch: boolean;
 }) {

@@ -8,25 +8,25 @@ from typing import Optional
 import regex
 from pydantic import BaseModel
 
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import OnyxAnswer
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.configs.chat_configs import QUOTE_ALLOWED_ERROR_PERCENT
-from onyx.context.search.models import InferenceChunk
-from onyx.prompts.constants import ANSWER_PAT
-from onyx.prompts.constants import QUOTE_PAT
-from onyx.utils.logger import setup_logger
-from onyx.utils.text_processing import clean_model_quote
-from onyx.utils.text_processing import clean_up_code_blocks
-from onyx.utils.text_processing import extract_embedded_json
-from onyx.utils.text_processing import shared_precompare_cleanup
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import ZakkAnswer
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.configs.chat_configs import QUOTE_ALLOWED_ERROR_PERCENT
+from zakk.context.search.models import InferenceChunk
+from zakk.prompts.constants import ANSWER_PAT
+from zakk.prompts.constants import QUOTE_PAT
+from zakk.utils.logger import setup_logger
+from zakk.utils.text_processing import clean_model_quote
+from zakk.utils.text_processing import clean_up_code_blocks
+from zakk.utils.text_processing import extract_embedded_json
+from zakk.utils.text_processing import shared_precompare_cleanup
 
 
 logger = setup_logger()
 answer_pattern = re.compile(r'{\s*"answer"\s*:\s*"', re.IGNORECASE)
 
 
-class OnyxQuote(BaseModel):
+class ZakkQuote(BaseModel):
     # This is during inference so everything is a string by this point
     quote: str
     document_id: str
@@ -36,8 +36,8 @@ class OnyxQuote(BaseModel):
     blurb: str
 
 
-class OnyxQuotes(BaseModel):
-    quotes: list[OnyxQuote]
+class ZakkQuotes(BaseModel):
+    quotes: list[ZakkQuote]
 
 
 def _extract_answer_quotes_freeform(
@@ -104,8 +104,8 @@ def match_quotes_to_docs(
     max_error_percent: float = QUOTE_ALLOWED_ERROR_PERCENT,
     fuzzy_search: bool = False,
     prefix_only_length: int = 100,
-) -> OnyxQuotes:
-    zakk_quotes: list[OnyxQuote] = []
+) -> ZakkQuotes:
+    zakk_quotes: list[ZakkQuote] = []
     for quote in quotes:
         max_edits = math.ceil(float(len(quote)) * max_error_percent)
 
@@ -143,7 +143,7 @@ def match_quotes_to_docs(
                     break
 
             zakk_quotes.append(
-                OnyxQuote(
+                ZakkQuote(
                     quote=quote,
                     document_id=doc.document_id,
                     link=curr_link,
@@ -154,7 +154,7 @@ def match_quotes_to_docs(
             )
             break
 
-    return OnyxQuotes(quotes=zakk_quotes)
+    return ZakkQuotes(quotes=zakk_quotes)
 
 
 def separate_answer_quotes(
@@ -172,24 +172,24 @@ def _process_answer(
     answer_raw: str,
     docs: list[LlmDoc],
     is_json_prompt: bool = True,
-) -> tuple[OnyxAnswer, OnyxQuotes]:
+) -> tuple[ZakkAnswer, ZakkQuotes]:
     """Used (1) in the non-streaming case to process the model output
     into an Answer and Quotes AND (2) after the complete streaming response
     has been received to process the model output into an Answer and Quotes."""
     answer, quote_strings = separate_answer_quotes(answer_raw, is_json_prompt)
     if not answer:
         logger.debug("No answer extracted from raw output")
-        return OnyxAnswer(answer=None), OnyxQuotes(quotes=[])
+        return ZakkAnswer(answer=None), ZakkQuotes(quotes=[])
 
     logger.notice(f"Answer: {answer}")
     if not quote_strings:
         logger.debug("No quotes extracted from raw output")
-        return OnyxAnswer(answer=answer), OnyxQuotes(quotes=[])
+        return ZakkAnswer(answer=answer), ZakkQuotes(quotes=[])
     logger.debug(f"All quotes (including unmatched): {quote_strings}")
     quotes = match_quotes_to_docs(quote_strings, docs)
     logger.debug(f"Final quotes: {quotes}")
 
-    return OnyxAnswer(answer=answer), quotes
+    return ZakkAnswer(answer=answer), quotes
 
 
 def _stream_json_answer_end(answer_so_far: str, next_token: str) -> bool:
@@ -205,7 +205,7 @@ def _stream_json_answer_end(answer_so_far: str, next_token: str) -> bool:
 
 def _extract_quotes_from_completed_token_stream(
     model_output: str, context_docs: list[LlmDoc], is_json_prompt: bool = True
-) -> OnyxQuotes:
+) -> ZakkQuotes:
     answer, quotes = _process_answer(model_output, context_docs, is_json_prompt)
     if answer:
         logger.notice(answer)
@@ -232,7 +232,7 @@ class QuotesProcessor:
 
     def process_token(
         self, token: str | None
-    ) -> Generator[OnyxAnswerPiece | OnyxQuotes, None, None]:
+    ) -> Generator[ZakkAnswerPiece | ZakkQuotes, None, None]:
         # None -> end of stream
         if token is None:
             if self.model_output:
@@ -271,12 +271,12 @@ class QuotesProcessor:
                         pos -= 1
                     # If even number of backslashes, quote is not escaped
                     if num_backslashes % 2 == 0:
-                        yield OnyxAnswerPiece(answer_piece=remaining[:quote_idx])
+                        yield ZakkAnswerPiece(answer_piece=remaining[:quote_idx])
                         return
 
                 # If no unescaped quote found, yield the remaining string
                 if len(remaining) > 0:
-                    yield OnyxAnswerPiece(answer_piece=remaining)
+                    yield ZakkAnswerPiece(answer_piece=remaining)
                 return
 
         if self.found_answer_start and not self.found_answer_end:
@@ -286,13 +286,13 @@ class QuotesProcessor:
                 if token:
                     try:
                         answer_token_section = token.index('"')
-                        yield OnyxAnswerPiece(
+                        yield ZakkAnswerPiece(
                             answer_piece=self.hold_quote + token[:answer_token_section]
                         )
                     except ValueError:
                         logger.error("Quotation mark not found in token")
-                        yield OnyxAnswerPiece(answer_piece=self.hold_quote + token)
-                yield OnyxAnswerPiece(answer_piece=None)
+                        yield ZakkAnswerPiece(answer_piece=self.hold_quote + token)
+                yield ZakkAnswerPiece(answer_piece=None)
                 return
 
             elif not self.is_json_prompt:
@@ -305,11 +305,11 @@ class QuotesProcessor:
                     or quote_loose in self.hold_quote + token
                 ):
                     self.found_answer_end = True
-                    yield OnyxAnswerPiece(answer_piece=None)
+                    yield ZakkAnswerPiece(answer_piece=None)
                     return
                 if self.hold_quote + token in quote_pat_full:
                     self.hold_quote += token
                     return
 
-            yield OnyxAnswerPiece(answer_piece=self.hold_quote + token)
+            yield ZakkAnswerPiece(answer_piece=self.hold_quote + token)
             self.hold_quote = ""

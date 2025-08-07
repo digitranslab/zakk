@@ -6,9 +6,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import Document
-from onyx.connectors.sharepoint.connector import SharepointConnector
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import Document
+from zakk.connectors.sharepoint.connector import SharepointConnector
 
 
 @dataclass

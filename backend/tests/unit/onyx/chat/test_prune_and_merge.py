@@ -1,10 +1,10 @@
 import pytest
 
-from onyx.chat.prune_and_merge import _merge_sections
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.utils import inference_section_from_chunks
+from zakk.chat.prune_and_merge import _merge_sections
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.utils import inference_section_from_chunks
 
 
 # This large test accounts for all of the following:

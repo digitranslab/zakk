@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from onyx.db.models import BackgroundError
+from zakk.db.models import BackgroundError
 
 
 def create_background_error(

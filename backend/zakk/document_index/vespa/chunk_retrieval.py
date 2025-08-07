@@ -10,49 +10,49 @@ from typing import cast
 import httpx
 from retry import retry
 
-from onyx.configs.app_configs import LOG_VESPA_TIMING_INFORMATION
-from onyx.configs.app_configs import VESPA_LANGUAGE_OVERRIDE
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import InferenceChunkUncleaned
-from onyx.document_index.interfaces import VespaChunkRequest
-from onyx.document_index.vespa.shared_utils.utils import get_vespa_http_client
-from onyx.document_index.vespa.shared_utils.vespa_request_builders import (
+from zakk.configs.app_configs import LOG_VESPA_TIMING_INFORMATION
+from zakk.configs.app_configs import VESPA_LANGUAGE_OVERRIDE
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import InferenceChunkUncleaned
+from zakk.document_index.interfaces import VespaChunkRequest
+from zakk.document_index.vespa.shared_utils.utils import get_vespa_http_client
+from zakk.document_index.vespa.shared_utils.vespa_request_builders import (
     build_vespa_filters,
 )
-from onyx.document_index.vespa.shared_utils.vespa_request_builders import (
+from zakk.document_index.vespa.shared_utils.vespa_request_builders import (
     build_vespa_id_based_retrieval_yql,
 )
-from onyx.document_index.vespa_constants import ACCESS_CONTROL_LIST
-from onyx.document_index.vespa_constants import BLURB
-from onyx.document_index.vespa_constants import BOOST
-from onyx.document_index.vespa_constants import CHUNK_CONTEXT
-from onyx.document_index.vespa_constants import CHUNK_ID
-from onyx.document_index.vespa_constants import CONTENT
-from onyx.document_index.vespa_constants import CONTENT_SUMMARY
-from onyx.document_index.vespa_constants import DOC_SUMMARY
-from onyx.document_index.vespa_constants import DOC_UPDATED_AT
-from onyx.document_index.vespa_constants import DOCUMENT_ID
-from onyx.document_index.vespa_constants import DOCUMENT_ID_ENDPOINT
-from onyx.document_index.vespa_constants import HIDDEN
-from onyx.document_index.vespa_constants import IMAGE_FILE_NAME
-from onyx.document_index.vespa_constants import LARGE_CHUNK_REFERENCE_IDS
-from onyx.document_index.vespa_constants import MAX_ID_SEARCH_QUERY_SIZE
-from onyx.document_index.vespa_constants import MAX_OR_CONDITIONS
-from onyx.document_index.vespa_constants import METADATA
-from onyx.document_index.vespa_constants import METADATA_SUFFIX
-from onyx.document_index.vespa_constants import PRIMARY_OWNERS
-from onyx.document_index.vespa_constants import RECENCY_BIAS
-from onyx.document_index.vespa_constants import SEARCH_ENDPOINT
-from onyx.document_index.vespa_constants import SECONDARY_OWNERS
-from onyx.document_index.vespa_constants import SECTION_CONTINUATION
-from onyx.document_index.vespa_constants import SEMANTIC_IDENTIFIER
-from onyx.document_index.vespa_constants import SOURCE_LINKS
-from onyx.document_index.vespa_constants import SOURCE_TYPE
-from onyx.document_index.vespa_constants import TENANT_ID
-from onyx.document_index.vespa_constants import TITLE
-from onyx.document_index.vespa_constants import YQL_BASE
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.document_index.vespa_constants import ACCESS_CONTROL_LIST
+from zakk.document_index.vespa_constants import BLURB
+from zakk.document_index.vespa_constants import BOOST
+from zakk.document_index.vespa_constants import CHUNK_CONTEXT
+from zakk.document_index.vespa_constants import CHUNK_ID
+from zakk.document_index.vespa_constants import CONTENT
+from zakk.document_index.vespa_constants import CONTENT_SUMMARY
+from zakk.document_index.vespa_constants import DOC_SUMMARY
+from zakk.document_index.vespa_constants import DOC_UPDATED_AT
+from zakk.document_index.vespa_constants import DOCUMENT_ID
+from zakk.document_index.vespa_constants import DOCUMENT_ID_ENDPOINT
+from zakk.document_index.vespa_constants import HIDDEN
+from zakk.document_index.vespa_constants import IMAGE_FILE_NAME
+from zakk.document_index.vespa_constants import LARGE_CHUNK_REFERENCE_IDS
+from zakk.document_index.vespa_constants import MAX_ID_SEARCH_QUERY_SIZE
+from zakk.document_index.vespa_constants import MAX_OR_CONDITIONS
+from zakk.document_index.vespa_constants import METADATA
+from zakk.document_index.vespa_constants import METADATA_SUFFIX
+from zakk.document_index.vespa_constants import PRIMARY_OWNERS
+from zakk.document_index.vespa_constants import RECENCY_BIAS
+from zakk.document_index.vespa_constants import SEARCH_ENDPOINT
+from zakk.document_index.vespa_constants import SECONDARY_OWNERS
+from zakk.document_index.vespa_constants import SECTION_CONTINUATION
+from zakk.document_index.vespa_constants import SEMANTIC_IDENTIFIER
+from zakk.document_index.vespa_constants import SOURCE_LINKS
+from zakk.document_index.vespa_constants import SOURCE_TYPE
+from zakk.document_index.vespa_constants import TENANT_ID
+from zakk.document_index.vespa_constants import TITLE
+from zakk.document_index.vespa_constants import YQL_BASE
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
 from shared_configs.configs import MULTI_TENANT
 
 logger = setup_logger()

@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from onyx.tools.tool import Tool
+from zakk.tools.tool import Tool
 
 
 class ForceUseTool(BaseModel):

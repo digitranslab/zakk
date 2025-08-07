@@ -9,13 +9,13 @@ from typing import TypeAlias
 
 from pydantic import BaseModel
 
-from onyx.configs.constants import FileOrigin
-from onyx.connectors.models import DocExtractionContext
-from onyx.connectors.models import DocIndexingContext
-from onyx.connectors.models import Document
-from onyx.file_store.file_store import FileStore
-from onyx.file_store.file_store import get_default_file_store
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import FileOrigin
+from zakk.connectors.models import DocExtractionContext
+from zakk.connectors.models import DocIndexingContext
+from zakk.connectors.models import Document
+from zakk.file_store.file_store import FileStore
+from zakk.file_store.file_store import get_default_file_store
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

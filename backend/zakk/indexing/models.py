@@ -3,15 +3,15 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 from pydantic import Field
 
-from onyx.access.models import DocumentAccess
-from onyx.connectors.models import Document
-from onyx.db.enums import EmbeddingPrecision
-from onyx.utils.logger import setup_logger
+from zakk.access.models import DocumentAccess
+from zakk.connectors.models import Document
+from zakk.db.enums import EmbeddingPrecision
+from zakk.utils.logger import setup_logger
 from shared_configs.enums import EmbeddingProvider
 from shared_configs.model_server_models import Embedding
 
 if TYPE_CHECKING:
-    from onyx.db.models import SearchSettings
+    from zakk.db.models import SearchSettings
 
 
 logger = setup_logger()

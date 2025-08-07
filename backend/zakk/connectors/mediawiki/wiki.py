@@ -13,17 +13,17 @@ import pywikibot.time  # type: ignore[import-untyped]
 from pywikibot import pagegenerators  # type: ignore[import-untyped]
 from pywikibot import textlib  # type: ignore[import-untyped]
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.mediawiki.family import family_class_dispatch
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.mediawiki.family import family_class_dispatch
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -48,7 +48,7 @@ def pywikibot_timestamp_to_utc_datetime(
 def get_doc_from_page(
     page: pywikibot.Page, site: pywikibot.Site | None, source_type: DocumentSource
 ) -> Document:
-    """Generate Onyx Document from a MediaWiki page object.
+    """Generate Zakk Document from a MediaWiki page object.
 
     Args:
         page: Page from a MediaWiki site.

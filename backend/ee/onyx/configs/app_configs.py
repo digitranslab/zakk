@@ -19,7 +19,7 @@ if _OIDC_SCOPE_OVERRIDE:
         pass
 
 # Applicable for SAML Auth
-SAML_CONF_DIR = os.environ.get("SAML_CONF_DIR") or "/app/ee/onyx/configs/saml_config"
+SAML_CONF_DIR = os.environ.get("SAML_CONF_DIR") or "/app/ee/zakk/configs/saml_config"
 
 
 #####
@@ -127,7 +127,7 @@ SUPER_USERS = json.loads(os.environ.get("SUPER_USERS", "[]"))
 SUPER_CLOUD_API_KEY = os.environ.get("SUPER_CLOUD_API_KEY", "api_key")
 
 # The posthog client does not accept empty API keys or hosts however it fails silently
-# when the capture is called. These defaults prevent Posthog issues from breaking the Onyx app
+# when the capture is called. These defaults prevent Posthog issues from breaking the Zakk app
 POSTHOG_API_KEY = os.environ.get("POSTHOG_API_KEY") or "FooBar"
 POSTHOG_HOST = os.environ.get("POSTHOG_HOST") or "https://us.i.posthog.com"
 

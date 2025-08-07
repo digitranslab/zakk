@@ -7,10 +7,10 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.salesforce.utils import SalesforceObject
-from onyx.connectors.salesforce.utils import validate_salesforce_id
-from onyx.utils.logger import setup_logger
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.salesforce.utils import SalesforceObject
+from zakk.connectors.salesforce.utils import validate_salesforce_id
+from zakk.utils.logger import setup_logger
 from shared_configs.utils import batch_list
 
 logger = setup_logger()

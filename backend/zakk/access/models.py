@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from onyx.access.utils import prefix_external_group
-from onyx.access.utils import prefix_user_email
-from onyx.access.utils import prefix_user_group
-from onyx.configs.constants import PUBLIC_DOC_PAT
+from zakk.access.utils import prefix_external_group
+from zakk.access.utils import prefix_user_email
+from zakk.access.utils import prefix_user_group
+from zakk.configs.constants import PUBLIC_DOC_PAT
 
 
 @dataclass(frozen=True)
@@ -17,7 +17,7 @@ class ExternalAccess:
     external_user_emails: set[str]
     # Names or external IDs of groups with access to the doc
     external_user_group_ids: set[str]
-    # Whether the document is public in the external system or Onyx
+    # Whether the document is public in the external system or Zakk
     is_public: bool
 
     def __str__(self) -> str:
@@ -107,7 +107,7 @@ class DocExternalAccess:
 
 @dataclass(frozen=True, init=False)
 class DocumentAccess(ExternalAccess):
-    # User emails for Onyx users, None indicates admin
+    # User emails for Zakk users, None indicates admin
     user_emails: set[str | None]
 
     # Names of user groups associated with this document

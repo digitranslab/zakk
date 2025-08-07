@@ -20,29 +20,29 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.task_formatters import CeleryTaskColoredFormatter
-from onyx.background.celery.apps.task_formatters import CeleryTaskPlainFormatter
-from onyx.background.celery.celery_utils import celery_is_worker_primary
-from onyx.background.celery.celery_utils import make_probe_path
-from onyx.background.celery.tasks.vespa.document_sync import DOCUMENT_SYNC_PREFIX
-from onyx.background.celery.tasks.vespa.document_sync import DOCUMENT_SYNC_TASKSET_KEY
-from onyx.configs.constants import ONYX_CLOUD_CELERY_TASK_PREFIX
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.engine.sql_engine import get_sqlalchemy_engine
-from onyx.document_index.vespa.shared_utils.utils import wait_for_vespa_with_timeout
-from onyx.httpx.httpx_pool import HttpxPool
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_connector_delete import RedisConnectorDelete
-from onyx.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
-from onyx.redis.redis_connector_ext_group_sync import RedisConnectorExternalGroupSync
-from onyx.redis.redis_connector_prune import RedisConnectorPrune
-from onyx.redis.redis_document_set import RedisDocumentSet
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_usergroup import RedisUserGroup
-from onyx.utils.logger import ColoredFormatter
-from onyx.utils.logger import LoggerContextVars
-from onyx.utils.logger import PlainFormatter
-from onyx.utils.logger import setup_logger
+from zakk.background.celery.apps.task_formatters import CeleryTaskColoredFormatter
+from zakk.background.celery.apps.task_formatters import CeleryTaskPlainFormatter
+from zakk.background.celery.celery_utils import celery_is_worker_primary
+from zakk.background.celery.celery_utils import make_probe_path
+from zakk.background.celery.tasks.vespa.document_sync import DOCUMENT_SYNC_PREFIX
+from zakk.background.celery.tasks.vespa.document_sync import DOCUMENT_SYNC_TASKSET_KEY
+from zakk.configs.constants import ZAKK_CLOUD_CELERY_TASK_PREFIX
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.engine.sql_engine import get_sqlalchemy_engine
+from zakk.document_index.vespa.shared_utils.utils import wait_for_vespa_with_timeout
+from zakk.httpx.httpx_pool import HttpxPool
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_connector_delete import RedisConnectorDelete
+from zakk.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
+from zakk.redis.redis_connector_ext_group_sync import RedisConnectorExternalGroupSync
+from zakk.redis.redis_connector_prune import RedisConnectorPrune
+from zakk.redis.redis_document_set import RedisDocumentSet
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_usergroup import RedisUserGroup
+from zakk.utils.logger import ColoredFormatter
+from zakk.utils.logger import LoggerContextVars
+from zakk.utils.logger import PlainFormatter
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 from shared_configs.configs import SENTRY_DSN
@@ -135,7 +135,7 @@ def on_task_postrun(
     if not task_id:
         return
 
-    if task.name.startswith(ONYX_CLOUD_CELERY_TASK_PREFIX):
+    if task.name.startswith(ZAKK_CLOUD_CELERY_TASK_PREFIX):
         # this is a cloud / all tenant task ... no postrun is needed
         return
 
@@ -329,7 +329,7 @@ def on_secondary_worker_init(sender: Any, **kwargs: Any) -> None:
 
     logger.info("Waiting for primary worker to be ready...")
     while True:
-        if r.exists(OnyxRedisLocks.PRIMARY_WORKER):
+        if r.exists(ZakkRedisLocks.PRIMARY_WORKER):
             break
 
         time_elapsed = time.monotonic() - time_start
@@ -481,7 +481,7 @@ class TenantContextFilter(logging.Filter):
 
         tenant_id = CURRENT_TENANT_ID_CONTEXTVAR.get()
         if tenant_id:
-            # Match the 8 character tenant abbreviation used in OnyxLoggingAdapter
+            # Match the 8 character tenant abbreviation used in ZakkLoggingAdapter
             tenant_id = tenant_id.split(TENANT_ID_PREFIX)[-1][:8]
             record.name = f"[t:{tenant_id}]"
         else:

@@ -2,22 +2,22 @@ from collections.abc import Generator
 from datetime import datetime
 from datetime import timezone
 
-from ee.onyx.external_permissions.google_drive.models import GoogleDrivePermission
-from ee.onyx.external_permissions.google_drive.models import PermissionType
-from ee.onyx.external_permissions.google_drive.permission_retrieval import (
+from ee.zakk.external_permissions.google_drive.models import GoogleDrivePermission
+from ee.zakk.external_permissions.google_drive.models import PermissionType
+from ee.zakk.external_permissions.google_drive.permission_retrieval import (
     get_permissions_by_ids,
 )
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsFunction
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
-from onyx.access.models import DocExternalAccess
-from onyx.access.models import ExternalAccess
-from onyx.connectors.google_drive.connector import GoogleDriveConnector
-from onyx.connectors.google_drive.models import GoogleDriveFileType
-from onyx.connectors.google_utils.resources import GoogleDriveService
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.db.models import ConnectorCredentialPair
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsFunction
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
+from zakk.access.models import DocExternalAccess
+from zakk.access.models import ExternalAccess
+from zakk.connectors.google_drive.connector import GoogleDriveConnector
+from zakk.connectors.google_drive.models import GoogleDriveFileType
+from zakk.connectors.google_utils.resources import GoogleDriveService
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.db.models import ConnectorCredentialPair
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -114,7 +114,7 @@ def get_external_access_for_raw_gdrive_file(
     for permission in permissions_list:
         # if the permission is inherited, do not add it directly to the file
         # instead, add the folder ID as a group that has access to the file
-        # we will then handle mapping that folder to the list of Onyx users
+        # we will then handle mapping that folder to the list of Zakk users
         # in the group sync job
         # NOTE: this doesn't handle the case where a folder initially has no
         # permissioning, but then later that folder is shared with a user or group.

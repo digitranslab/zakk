@@ -8,8 +8,8 @@ from fastapi import Request
 from passlib.hash import sha256_crypt
 from pydantic import BaseModel
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.app_configs import API_KEY_HASH_ROUNDS
+from zakk.auth.schemas import UserRole
+from zakk.configs.app_configs import API_KEY_HASH_ROUNDS
 from shared_configs.configs import MULTI_TENANT
 
 
@@ -18,7 +18,7 @@ _API_KEY_HEADER_NAME = "Authorization"
 # to non-standard, experimental, or custom headers in HTTP or other protocols. It
 # indicates that the header is not part of the official standards defined by
 # organizations like the Internet Engineering Task Force (IETF).
-_API_KEY_HEADER_ALTERNATIVE_NAME = "X-Onyx-Authorization"
+_API_KEY_HEADER_ALTERNATIVE_NAME = "X-Zakk-Authorization"
 _BEARER_PREFIX = "Bearer "
 _API_KEY_PREFIX = "on_"
 _DEPRECATED_API_KEY_PREFIX = "dn_"

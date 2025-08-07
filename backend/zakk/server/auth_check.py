@@ -4,15 +4,15 @@ from fastapi import FastAPI
 from fastapi.dependencies.models import Dependant
 from starlette.routing import BaseRoute
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_chat_accessible_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_limited_user
-from onyx.auth.users import current_user
-from onyx.auth.users import current_user_with_expired_token
-from onyx.configs.app_configs import APP_API_PREFIX
-from onyx.server.zakk_api.ingestion import api_key_dep
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_chat_accessible_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_limited_user
+from zakk.auth.users import current_user
+from zakk.auth.users import current_user_with_expired_token
+from zakk.configs.app_configs import APP_API_PREFIX
+from zakk.server.zakk_api.ingestion import api_key_dep
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 
 
 PUBLIC_ENDPOINT_SPECS = [
@@ -28,7 +28,7 @@ PUBLIC_ENDPOINT_SPECS = [
     # just returns auth type, needs to be accessible before the user is logged
     # in to determine what flow to give the user
     ("/auth/type", {"GET"}),
-    # just gets the version of Onyx (e.g. 0.3.11)
+    # just gets the version of Zakk (e.g. 0.3.11)
     ("/version", {"GET"}),
     # stuff related to basic auth
     ("/auth/refresh", {"POST"}),
@@ -88,10 +88,10 @@ def check_router_auth(
     """
 
     control_plane_dep = fetch_ee_implementation_or_noop(
-        "onyx.server.tenants.access", "control_plane_dep"
+        "zakk.server.tenants.access", "control_plane_dep"
     )
     current_cloud_superuser = fetch_ee_implementation_or_noop(
-        "onyx.auth.users", "current_cloud_superuser"
+        "zakk.auth.users", "current_cloud_superuser"
     )
 
     for route in application.routes:

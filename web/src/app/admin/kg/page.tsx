@@ -265,7 +265,7 @@ function Main() {
             </div>
             <p>
               (To use Knowledge Graph queries, you&apos;ll need a dedicated
-              Assistant configured in a specific way. Please contact the Onyx
+              Assistant configured in a specific way. Please contact the Zakk
               team for setup instructions.)
             </p>
           </div>

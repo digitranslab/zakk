@@ -1,6 +1,6 @@
 import { WebResultIcon } from "@/components/WebResultIcon";
 import { SourceIcon } from "@/components/SourceIcon";
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import { ValidSources } from "@/lib/types";
 import React, { useEffect, useState } from "react";
 import { SearchResultIcon } from "@/components/SearchResultIcon";
@@ -11,7 +11,7 @@ export const ResultIcon = ({
   doc,
   size,
 }: {
-  doc: OnyxDocument;
+  doc: ZakkDocument;
   size: number;
 }) => {
   return (
@@ -28,7 +28,7 @@ export const ResultIcon = ({
 
 interface SeeMoreBlockProps {
   toggleDocumentSelection: () => void;
-  docs: OnyxDocument[];
+  docs: ZakkDocument[];
   webSourceDomains: string[];
   toggled: boolean;
   fullWidth?: boolean;
@@ -42,7 +42,7 @@ const getDomainFromUrl = (url: string) => {
     return null;
   }
 };
-export function getUniqueIcons(docs: OnyxDocument[]): JSX.Element[] {
+export function getUniqueIcons(docs: ZakkDocument[]): JSX.Element[] {
   const uniqueIcons: JSX.Element[] = [];
   const seenDomains = new Set<string>();
   const seenSourceTypes = new Set<ValidSources>();

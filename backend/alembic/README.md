@@ -1,13 +1,13 @@
-<!-- ONYX_METADATA={"link": "https://github.com/digitranslab/onyx/blob/main/backend/alembic/README.md"} -->
+<!-- ZAKK_METADATA={"link": "https://github.com/digitranslab/zakk/blob/main/backend/alembic/README.md"} -->
 
 # Alembic DB Migrations
 
 These files are for creating/updating the tables in the Relational DB (Postgres).
-Onyx migrations use a generic single-database configuration with an async dbapi.
+Zakk migrations use a generic single-database configuration with an async dbapi.
 
 ## To generate new migrations:
 
-run from onyx/backend:
+run from zakk/backend:
 `alembic revision --autogenerate -m <DESCRIPTION_OF_MIGRATION>`
 
 More info can be found here: https://alembic.sqlalchemy.org/en/latest/autogenerate.html

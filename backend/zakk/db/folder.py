@@ -2,10 +2,10 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from onyx.db.chat import delete_chat_session
-from onyx.db.models import ChatFolder
-from onyx.db.models import ChatSession
-from onyx.utils.logger import setup_logger
+from zakk.db.chat import delete_chat_session
+from zakk.db.models import ChatFolder
+from zakk.db.models import ChatSession
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

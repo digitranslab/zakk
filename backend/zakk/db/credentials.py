@@ -8,21 +8,21 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import and_
 from sqlalchemy.sql.expression import or_
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.app_configs import DISABLE_AUTH
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.auth.schemas import UserRole
+from zakk.configs.app_configs import DISABLE_AUTH
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_DICT_SERVICE_ACCOUNT_KEY,
 )
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Credential
-from onyx.db.models import Credential__UserGroup
-from onyx.db.models import DocumentByConnectorCredentialPair
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.server.documents.models import CredentialBase
-from onyx.utils.logger import setup_logger
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Credential
+from zakk.db.models import Credential__UserGroup
+from zakk.db.models import DocumentByConnectorCredentialPair
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.server.documents.models import CredentialBase
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

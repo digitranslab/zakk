@@ -1,13 +1,13 @@
-from ee.onyx.configs.app_configs import CONFLUENCE_ANONYMOUS_ACCESS_IS_PUBLIC
-from ee.onyx.external_permissions.confluence.constants import ALL_CONF_EMAILS_GROUP_NAME
-from ee.onyx.external_permissions.confluence.constants import REQUEST_PAGINATION_LIMIT
-from ee.onyx.external_permissions.confluence.constants import VIEWSPACE_PERMISSION_TYPE
-from onyx.access.models import ExternalAccess
-from onyx.connectors.confluence.zakk_confluence import (
+from ee.zakk.configs.app_configs import CONFLUENCE_ANONYMOUS_ACCESS_IS_PUBLIC
+from ee.zakk.external_permissions.confluence.constants import ALL_CONF_EMAILS_GROUP_NAME
+from ee.zakk.external_permissions.confluence.constants import REQUEST_PAGINATION_LIMIT
+from ee.zakk.external_permissions.confluence.constants import VIEWSPACE_PERMISSION_TYPE
+from zakk.access.models import ExternalAccess
+from zakk.connectors.confluence.zakk_confluence import (
     get_user_email_from_username__server,
 )
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.utils.logger import setup_logger
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

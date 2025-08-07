@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import {
-  OnyxDocument,
+  ZakkDocument,
   DocumentRelevance,
-  SearchOnyxDocument,
+  SearchZakkDocument,
 } from "@/lib/search/interfaces";
 import { DocumentFeedbackBlock } from "./DocumentFeedbackBlock";
 import { useContext, useState } from "react";
@@ -137,7 +137,7 @@ export const buildDocumentSummaryDisplay = (
 export function DocumentMetadataBlock({
   document,
 }: {
-  document: OnyxDocument;
+  document: ZakkDocument;
 }) {
   // don't display super long tags, as they are ugly
   const MAXIMUM_TAG_LENGTH = 40;
@@ -173,7 +173,7 @@ export function DocumentMetadataBlock({
 }
 
 interface DocumentDisplayProps {
-  document: SearchOnyxDocument;
+  document: SearchZakkDocument;
   messageId: number | null;
   documentRank: number;
   isSelected: boolean;
@@ -201,7 +201,7 @@ export const DocumentDisplay = ({
     document.relevance_explanation ?? additional_relevance?.content;
   const settings = useContext(SettingsContext);
   const [presentingDocument, setPresentingDocument] =
-    useState<OnyxDocument | null>(null);
+    useState<ZakkDocument | null>(null);
 
   const handleViewFile = async () => {
     setPresentingDocument(document);
@@ -326,7 +326,7 @@ export const AgenticDocumentDisplay = ({
 }: DocumentDisplayProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [presentingDocument, setPresentingDocument] =
-    useState<OnyxDocument | null>(null);
+    useState<ZakkDocument | null>(null);
 
   const [alternativeToggled, setAlternativeToggled] = useState(false);
 
@@ -438,10 +438,10 @@ export function CompactDocumentCard({
   url,
   updatePresentingDocument,
 }: {
-  document: OnyxDocument;
+  document: ZakkDocument;
   icon?: React.ReactNode;
   url?: string;
-  updatePresentingDocument: (document: OnyxDocument) => void;
+  updatePresentingDocument: (document: ZakkDocument) => void;
 }) {
   return (
     <div

@@ -7,38 +7,38 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 from sqlalchemy import text
 
-from onyx.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
-from onyx.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
-from onyx.agents.agent_search.kb_search.graph_utils import stream_write_step_activities
-from onyx.agents.agent_search.kb_search.graph_utils import (
+from zakk.agents.agent_search.kb_search.graph_utils import get_near_empty_step_results
+from zakk.agents.agent_search.kb_search.graph_utils import stream_close_step_answer
+from zakk.agents.agent_search.kb_search.graph_utils import stream_write_step_activities
+from zakk.agents.agent_search.kb_search.graph_utils import (
     stream_write_step_answer_explicit,
 )
-from onyx.agents.agent_search.kb_search.states import KGAnswerStrategy
-from onyx.agents.agent_search.kb_search.states import KGRelationshipDetection
-from onyx.agents.agent_search.kb_search.states import KGSearchType
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.kb_search.states import SQLSimpleGenerationUpdate
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.kb_search.states import KGAnswerStrategy
+from zakk.agents.agent_search.kb_search.states import KGRelationshipDetection
+from zakk.agents.agent_search.kb_search.states import KGSearchType
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.kb_search.states import SQLSimpleGenerationUpdate
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
-from onyx.configs.kg_configs import KG_MAX_DEEP_SEARCH_RESULTS
-from onyx.configs.kg_configs import KG_SQL_GENERATION_MAX_TOKENS
-from onyx.configs.kg_configs import KG_SQL_GENERATION_TIMEOUT
-from onyx.configs.kg_configs import KG_SQL_GENERATION_TIMEOUT_OVERRIDE
-from onyx.configs.kg_configs import KG_TEMP_ALLOWED_DOCS_VIEW_NAME_PREFIX
-from onyx.configs.kg_configs import KG_TEMP_KG_ENTITIES_VIEW_NAME_PREFIX
-from onyx.configs.kg_configs import KG_TEMP_KG_RELATIONSHIPS_VIEW_NAME_PREFIX
-from onyx.db.engine.sql_engine import get_db_readonly_user_session_with_current_tenant
-from onyx.db.kg_temp_view import drop_views
-from onyx.llm.interfaces import LLM
-from onyx.prompts.kg_prompts import ENTITY_SOURCE_DETECTION_PROMPT
-from onyx.prompts.kg_prompts import SIMPLE_ENTITY_SQL_PROMPT
-from onyx.prompts.kg_prompts import SIMPLE_SQL_CORRECTION_PROMPT
-from onyx.prompts.kg_prompts import SIMPLE_SQL_PROMPT
-from onyx.prompts.kg_prompts import SOURCE_DETECTION_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.configs.kg_configs import KG_MAX_DEEP_SEARCH_RESULTS
+from zakk.configs.kg_configs import KG_SQL_GENERATION_MAX_TOKENS
+from zakk.configs.kg_configs import KG_SQL_GENERATION_TIMEOUT
+from zakk.configs.kg_configs import KG_SQL_GENERATION_TIMEOUT_OVERRIDE
+from zakk.configs.kg_configs import KG_TEMP_ALLOWED_DOCS_VIEW_NAME_PREFIX
+from zakk.configs.kg_configs import KG_TEMP_KG_ENTITIES_VIEW_NAME_PREFIX
+from zakk.configs.kg_configs import KG_TEMP_KG_RELATIONSHIPS_VIEW_NAME_PREFIX
+from zakk.db.engine.sql_engine import get_db_readonly_user_session_with_current_tenant
+from zakk.db.kg_temp_view import drop_views
+from zakk.llm.interfaces import LLM
+from zakk.prompts.kg_prompts import ENTITY_SOURCE_DETECTION_PROMPT
+from zakk.prompts.kg_prompts import SIMPLE_ENTITY_SQL_PROMPT
+from zakk.prompts.kg_prompts import SIMPLE_SQL_CORRECTION_PROMPT
+from zakk.prompts.kg_prompts import SIMPLE_SQL_PROMPT
+from zakk.prompts.kg_prompts import SOURCE_DETECTION_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 
 logger = setup_logger()

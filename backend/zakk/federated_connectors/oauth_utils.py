@@ -8,9 +8,9 @@ from typing import cast
 from typing import Dict
 from typing import Optional
 
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

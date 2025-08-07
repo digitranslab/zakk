@@ -1,11 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.auth.schemas import UserRole
-from onyx.db.models import Persona
-from onyx.db.models import Prompt
-from onyx.db.models import User
-from onyx.utils.logger import setup_logger
+from zakk.auth.schemas import UserRole
+from zakk.db.models import Persona
+from zakk.db.models import Prompt
+from zakk.db.models import User
+from zakk.utils.logger import setup_logger
 
 
 # Note: As prompts are fairly innocuous/harmless, there are no protections

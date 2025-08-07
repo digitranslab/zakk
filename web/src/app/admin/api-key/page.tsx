@@ -25,11 +25,11 @@ import { FiCopy, FiEdit2, FiRefreshCw } from "react-icons/fi";
 import { Modal } from "@/components/Modal";
 import { Spinner } from "@/components/Spinner";
 import { deleteApiKey, regenerateApiKey } from "./lib";
-import { OnyxApiKeyForm } from "./OnyxApiKeyForm";
+import { ZakkApiKeyForm } from "./ZakkApiKeyForm";
 import { APIKey } from "./types";
 import CreateButton from "@/components/ui/createButton";
 
-const API_KEY_TEXT = `API Keys allow you to access Onyx APIs programmatically. Click the button below to generate a new API Key.`;
+const API_KEY_TEXT = `API Keys allow you to access Zakk APIs programmatically. Click the button below to generate a new API Key.`;
 
 function NewApiKeyModal({
   apiKey,
@@ -122,7 +122,7 @@ function Main() {
         {newApiKeyButton}
 
         {showCreateUpdateForm && (
-          <OnyxApiKeyForm
+          <ZakkApiKeyForm
             onCreateApiKey={(apiKey) => {
               setFullApiKey(apiKey.api_key);
             }}
@@ -250,7 +250,7 @@ function Main() {
       </Table>
 
       {showCreateUpdateForm && (
-        <OnyxApiKeyForm
+        <ZakkApiKeyForm
           onCreateApiKey={(apiKey) => {
             setFullApiKey(apiKey.api_key);
           }}

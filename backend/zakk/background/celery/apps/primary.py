@@ -16,36 +16,36 @@ from celery.signals import worker_ready
 from celery.signals import worker_shutdown
 from redis.lock import Lock as RedisLock
 
-import onyx.background.celery.apps.app_base as app_base
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.celery_utils import celery_is_worker_primary
-from onyx.background.celery.tasks.vespa.document_sync import reset_document_sync
-from onyx.configs.constants import CELERY_PRIMARY_WORKER_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.configs.constants import POSTGRES_CELERY_WORKER_PRIMARY_APP_NAME
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.db.index_attempt import get_index_attempt
-from onyx.db.index_attempt import mark_attempt_canceled
-from onyx.db.indexing_coordination import IndexingCoordination
-from onyx.redis.redis_connector_delete import RedisConnectorDelete
-from onyx.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
-from onyx.redis.redis_connector_ext_group_sync import RedisConnectorExternalGroupSync
-from onyx.redis.redis_connector_index import RedisConnectorIndex
-from onyx.redis.redis_connector_prune import RedisConnectorPrune
-from onyx.redis.redis_connector_stop import RedisConnectorStop
-from onyx.redis.redis_document_set import RedisDocumentSet
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_usergroup import RedisUserGroup
-from onyx.utils.logger import setup_logger
+import zakk.background.celery.apps.app_base as app_base
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.celery_utils import celery_is_worker_primary
+from zakk.background.celery.tasks.vespa.document_sync import reset_document_sync
+from zakk.configs.constants import CELERY_PRIMARY_WORKER_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.configs.constants import POSTGRES_CELERY_WORKER_PRIMARY_APP_NAME
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.db.index_attempt import get_index_attempt
+from zakk.db.index_attempt import mark_attempt_canceled
+from zakk.db.indexing_coordination import IndexingCoordination
+from zakk.redis.redis_connector_delete import RedisConnectorDelete
+from zakk.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
+from zakk.redis.redis_connector_ext_group_sync import RedisConnectorExternalGroupSync
+from zakk.redis.redis_connector_index import RedisConnectorIndex
+from zakk.redis.redis_connector_prune import RedisConnectorPrune
+from zakk.redis.redis_connector_stop import RedisConnectorStop
+from zakk.redis.redis_document_set import RedisDocumentSet
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_usergroup import RedisUserGroup
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 
 logger = setup_logger()
 
 celery_app = Celery(__name__)
-celery_app.config_from_object("onyx.background.celery.configs.primary")
+celery_app.config_from_object("zakk.background.celery.configs.primary")
 celery_app.Task = app_base.TenantAwareTask  # type: ignore [misc]
 
 
@@ -121,7 +121,7 @@ def on_worker_init(sender: Worker, **kwargs: Any) -> None:
     # For the moment, we're assuming that we are the only primary worker
     # that should be running.
     # TODO: maybe check for or clean up another zombie primary worker if we detect it
-    r.delete(OnyxRedisLocks.PRIMARY_WORKER)
+    r.delete(ZakkRedisLocks.PRIMARY_WORKER)
 
     # this process wide lock is taken to help other workers start up in order.
     # it is planned to use this lock to enforce singleton behavior on the primary
@@ -131,7 +131,7 @@ def on_worker_init(sender: Worker, **kwargs: Any) -> None:
     # set thread_local=False since we don't control what thread the periodic task might
     # reacquire the lock with
     lock: RedisLock = r.lock(
-        OnyxRedisLocks.PRIMARY_WORKER,
+        ZakkRedisLocks.PRIMARY_WORKER,
         timeout=CELERY_PRIMARY_WORKER_LOCK_TIMEOUT,
         thread_local=False,
     )
@@ -149,9 +149,9 @@ def on_worker_init(sender: Worker, **kwargs: Any) -> None:
 
     # As currently designed, when this worker starts as "primary", we reinitialize redis
     # to a clean state (for our purposes, anyway)
-    r.delete(OnyxRedisLocks.CHECK_VESPA_SYNC_BEAT_LOCK)
+    r.delete(ZakkRedisLocks.CHECK_VESPA_SYNC_BEAT_LOCK)
 
-    r.delete(OnyxRedisConstants.ACTIVE_FENCES)
+    r.delete(ZakkRedisConstants.ACTIVE_FENCES)
 
     # NOTE: we want to remove the `Redis*` classes, prefer to just have functions
     # This is the preferred way to do this going forward
@@ -283,7 +283,7 @@ class HubPeriodicTask(bootsteps.StartStopStep):
                     "Reasons could be worker restart or lock expiration."
                 )
                 lock = r.lock(
-                    OnyxRedisLocks.PRIMARY_WORKER,
+                    ZakkRedisLocks.PRIMARY_WORKER,
                     timeout=CELERY_PRIMARY_WORKER_LOCK_TIMEOUT,
                 )
 
@@ -316,14 +316,14 @@ for bootstep in base_bootsteps:
 
 celery_app.autodiscover_tasks(
     [
-        "onyx.background.celery.tasks.connector_deletion",
-        "onyx.background.celery.tasks.docprocessing",
-        "onyx.background.celery.tasks.periodic",
-        "onyx.background.celery.tasks.pruning",
-        "onyx.background.celery.tasks.shared",
-        "onyx.background.celery.tasks.vespa",
-        "onyx.background.celery.tasks.llm_model_update",
-        "onyx.background.celery.tasks.user_file_folder_sync",
-        "onyx.background.celery.tasks.kg_processing",
+        "zakk.background.celery.tasks.connector_deletion",
+        "zakk.background.celery.tasks.docprocessing",
+        "zakk.background.celery.tasks.periodic",
+        "zakk.background.celery.tasks.pruning",
+        "zakk.background.celery.tasks.shared",
+        "zakk.background.celery.tasks.vespa",
+        "zakk.background.celery.tasks.llm_model_update",
+        "zakk.background.celery.tasks.user_file_folder_sync",
+        "zakk.background.celery.tasks.kg_processing",
     ]
 )

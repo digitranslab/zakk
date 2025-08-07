@@ -4,20 +4,20 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.dc_search_analysis.ops import extract_section
-from onyx.agents.agent_search.dc_search_analysis.states import MainState
-from onyx.agents.agent_search.dc_search_analysis.states import ResearchUpdate
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
+from zakk.agents.agent_search.dc_search_analysis.ops import extract_section
+from zakk.agents.agent_search.dc_search_analysis.states import MainState
+from zakk.agents.agent_search.dc_search_analysis.states import ResearchUpdate
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.agent_prompt_ops import (
     trim_prompt_piece,
 )
-from onyx.agents.agent_search.shared_graph_utils.llm import stream_llm_answer
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import AgentAnswerPiece
-from onyx.prompts.agents.dc_prompts import DC_FORMATTING_NO_BASE_DATA_PROMPT
-from onyx.prompts.agents.dc_prompts import DC_FORMATTING_WITH_BASE_DATA_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.agents.agent_search.shared_graph_utils.llm import stream_llm_answer
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import AgentAnswerPiece
+from zakk.prompts.agents.dc_prompts import DC_FORMATTING_NO_BASE_DATA_PROMPT
+from zakk.prompts.agents.dc_prompts import DC_FORMATTING_WITH_BASE_DATA_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 

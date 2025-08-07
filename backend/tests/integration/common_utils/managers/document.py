@@ -5,10 +5,10 @@ from sqlalchemy import and_
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import DocumentSource
-from onyx.db.enums import AccessType
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import DocumentByConnectorCredentialPair
+from zakk.configs.constants import DocumentSource
+from zakk.db.enums import AccessType
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import DocumentByConnectorCredentialPair
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.constants import GENERAL_HEADERS
 from tests.integration.common_utils.constants import NUM_DOCS
@@ -111,7 +111,7 @@ class DocumentManager:
             document = _generate_dummy_document(document_id, cc_pair.id)
             documents.append(document)
             response = requests.post(
-                f"{API_SERVER_URL}/onyx-api/ingestion",
+                f"{API_SERVER_URL}/zakk-api/ingestion",
                 json=document,
                 headers=api_key.headers if api_key else GENERAL_HEADERS,
             )
@@ -146,7 +146,7 @@ class DocumentManager:
             extra_metadata=metadata,
         )
         response = requests.post(
-            f"{API_SERVER_URL}/onyx-api/ingestion",
+            f"{API_SERVER_URL}/zakk-api/ingestion",
             json=document,
             headers=api_key.headers if api_key else GENERAL_HEADERS,
         )

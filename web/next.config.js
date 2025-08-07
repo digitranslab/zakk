@@ -104,7 +104,7 @@ const sentryEnabled = Boolean(
 
 // Sentry webpack plugin options
 const sentryWebpackPluginOptions = {
-  org: process.env.SENTRY_ORG || "onyx",
+  org: process.env.SENTRY_ORG || "zakk",
   project: process.env.SENTRY_PROJECT || "data-plane-web",
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !sentryEnabled, // Silence output when Sentry is disabled

@@ -2,10 +2,10 @@ import os
 
 import pytest
 
-from onyx.auth.schemas import UserRole
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.db.search_settings import get_current_search_settings
+from zakk.auth.schemas import UserRole
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.db.search_settings import get_current_search_settings
 from tests.integration.common_utils.constants import ADMIN_USER_NAME
 from tests.integration.common_utils.constants import GENERAL_HEADERS
 from tests.integration.common_utils.managers.user import build_email

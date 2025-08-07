@@ -1,15 +1,15 @@
 from datetime import datetime
 
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
     AnswerQuestionOutput,
 )
-from onyx.agents.agent_search.deep_search.main.states import (
+from zakk.agents.agent_search.deep_search.main.states import (
     SubQuestionResultsUpdate,
 )
-from onyx.agents.agent_search.shared_graph_utils.operators import (
+from zakk.agents.agent_search.shared_graph_utils.operators import (
     dedup_inference_sections,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import (
+from zakk.agents.agent_search.shared_graph_utils.utils import (
     get_langgraph_node_log_string,
 )
 

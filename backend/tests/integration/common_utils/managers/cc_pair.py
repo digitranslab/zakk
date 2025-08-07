@@ -6,14 +6,14 @@ from uuid import uuid4
 import requests
 
 import generated.zakk_openapi_client.zakk_openapi_client as api
-from onyx.connectors.models import InputType
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.server.documents.models import CCPairFullInfo
-from onyx.server.documents.models import ConnectorCredentialPairIdentifier
-from onyx.server.documents.models import ConnectorIndexingStatus
-from onyx.server.documents.models import DocumentSource
-from onyx.server.documents.models import DocumentSyncStatus
+from zakk.connectors.models import InputType
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.server.documents.models import CCPairFullInfo
+from zakk.server.documents.models import ConnectorCredentialPairIdentifier
+from zakk.server.documents.models import ConnectorIndexingStatus
+from zakk.server.documents.models import DocumentSource
+from zakk.server.documents.models import DocumentSyncStatus
 from tests.integration.common_utils.config import api_config
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.constants import GENERAL_HEADERS

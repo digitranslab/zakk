@@ -3,20 +3,20 @@ from datetime import timedelta
 
 from celery import shared_task
 
-from ee.onyx.db.query_history import get_all_query_history_export_tasks
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.enums import TaskStatus
-from onyx.db.tasks import delete_task_with_id
-from onyx.utils.logger import setup_logger
+from ee.zakk.db.query_history import get_all_query_history_export_tasks
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.enums import TaskStatus
+from zakk.db.tasks import delete_task_with_id
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
 
 
 @shared_task(
-    name=OnyxCeleryTask.EXPORT_QUERY_HISTORY_CLEANUP_TASK,
+    name=ZakkCeleryTask.EXPORT_QUERY_HISTORY_CLEANUP_TASK,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
 )

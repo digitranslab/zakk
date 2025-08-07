@@ -14,17 +14,17 @@ from ragas.metrics import Faithfulness  # type: ignore
 from ragas.metrics import ResponseRelevancy  # type: ignore
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import SavedSearchDoc
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.models import Document
-from onyx.db.models import FederatedConnector
-from onyx.db.search_settings import get_current_search_settings
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.interfaces import VespaChunkRequest
-from onyx.prompts.prompt_utils import build_doc_context_str
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import SavedSearchDoc
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.models import Document
+from zakk.db.models import FederatedConnector
+from zakk.db.search_settings import get_current_search_settings
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.interfaces import VespaChunkRequest
+from zakk.prompts.prompt_utils import build_doc_context_str
+from zakk.utils.logger import setup_logger
 from tests.regression.search_quality.models import CombinedMetrics
 from tests.regression.search_quality.models import GroundTruth
 from tests.regression.search_quality.models import RetrievedDocument

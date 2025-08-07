@@ -1,5 +1,5 @@
-from onyx.context.search.models import SearchDoc
-from onyx.tools.tool_implementations.internet_search.internet_search_tool import (
+from zakk.context.search.models import SearchDoc
+from zakk.tools.tool_implementations.internet_search.internet_search_tool import (
     InternetSearchResponseSummary,
 )
 

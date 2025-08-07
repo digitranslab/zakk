@@ -10,44 +10,44 @@ from fastapi import Request
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ee.onyx.configs.app_configs import ANTHROPIC_DEFAULT_API_KEY
-from ee.onyx.configs.app_configs import COHERE_DEFAULT_API_KEY
-from ee.onyx.configs.app_configs import HUBSPOT_TRACKING_URL
-from ee.onyx.configs.app_configs import OPENAI_DEFAULT_API_KEY
-from ee.onyx.server.tenants.access import generate_data_plane_token
-from ee.onyx.server.tenants.models import TenantByDomainResponse
-from ee.onyx.server.tenants.models import TenantCreationPayload
-from ee.onyx.server.tenants.models import TenantDeletionPayload
-from ee.onyx.server.tenants.schema_management import create_schema_if_not_exists
-from ee.onyx.server.tenants.schema_management import drop_schema
-from ee.onyx.server.tenants.schema_management import run_alembic_migrations
-from ee.onyx.server.tenants.user_mapping import add_users_to_tenant
-from ee.onyx.server.tenants.user_mapping import get_tenant_id_for_email
-from ee.onyx.server.tenants.user_mapping import user_owns_a_tenant
-from onyx.auth.users import exceptions
-from onyx.configs.app_configs import CONTROL_PLANE_API_BASE_URL
-from onyx.configs.app_configs import DEV_MODE
-from onyx.configs.constants import MilestoneRecordType
-from onyx.db.engine.sql_engine import get_session_with_shared_schema
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.llm import update_default_provider
-from onyx.db.llm import upsert_cloud_embedding_provider
-from onyx.db.llm import upsert_llm_provider
-from onyx.db.models import AvailableTenant
-from onyx.db.models import IndexModelStatus
-from onyx.db.models import SearchSettings
-from onyx.db.models import UserTenantMapping
-from onyx.llm.llm_provider_options import ANTHROPIC_MODEL_NAMES
-from onyx.llm.llm_provider_options import ANTHROPIC_PROVIDER_NAME
-from onyx.llm.llm_provider_options import ANTHROPIC_VISIBLE_MODEL_NAMES
-from onyx.llm.llm_provider_options import OPEN_AI_MODEL_NAMES
-from onyx.llm.llm_provider_options import OPEN_AI_VISIBLE_MODEL_NAMES
-from onyx.llm.llm_provider_options import OPENAI_PROVIDER_NAME
-from onyx.server.manage.embedding.models import CloudEmbeddingProviderCreationRequest
-from onyx.server.manage.llm.models import LLMProviderUpsertRequest
-from onyx.server.manage.llm.models import ModelConfigurationUpsertRequest
-from onyx.setup import setup_onyx
-from onyx.utils.telemetry import create_milestone_and_report
+from ee.zakk.configs.app_configs import ANTHROPIC_DEFAULT_API_KEY
+from ee.zakk.configs.app_configs import COHERE_DEFAULT_API_KEY
+from ee.zakk.configs.app_configs import HUBSPOT_TRACKING_URL
+from ee.zakk.configs.app_configs import OPENAI_DEFAULT_API_KEY
+from ee.zakk.server.tenants.access import generate_data_plane_token
+from ee.zakk.server.tenants.models import TenantByDomainResponse
+from ee.zakk.server.tenants.models import TenantCreationPayload
+from ee.zakk.server.tenants.models import TenantDeletionPayload
+from ee.zakk.server.tenants.schema_management import create_schema_if_not_exists
+from ee.zakk.server.tenants.schema_management import drop_schema
+from ee.zakk.server.tenants.schema_management import run_alembic_migrations
+from ee.zakk.server.tenants.user_mapping import add_users_to_tenant
+from ee.zakk.server.tenants.user_mapping import get_tenant_id_for_email
+from ee.zakk.server.tenants.user_mapping import user_owns_a_tenant
+from zakk.auth.users import exceptions
+from zakk.configs.app_configs import CONTROL_PLANE_API_BASE_URL
+from zakk.configs.app_configs import DEV_MODE
+from zakk.configs.constants import MilestoneRecordType
+from zakk.db.engine.sql_engine import get_session_with_shared_schema
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.llm import update_default_provider
+from zakk.db.llm import upsert_cloud_embedding_provider
+from zakk.db.llm import upsert_llm_provider
+from zakk.db.models import AvailableTenant
+from zakk.db.models import IndexModelStatus
+from zakk.db.models import SearchSettings
+from zakk.db.models import UserTenantMapping
+from zakk.llm.llm_provider_options import ANTHROPIC_MODEL_NAMES
+from zakk.llm.llm_provider_options import ANTHROPIC_PROVIDER_NAME
+from zakk.llm.llm_provider_options import ANTHROPIC_VISIBLE_MODEL_NAMES
+from zakk.llm.llm_provider_options import OPEN_AI_MODEL_NAMES
+from zakk.llm.llm_provider_options import OPEN_AI_VISIBLE_MODEL_NAMES
+from zakk.llm.llm_provider_options import OPENAI_PROVIDER_NAME
+from zakk.server.manage.embedding.models import CloudEmbeddingProviderCreationRequest
+from zakk.server.manage.llm.models import LLMProviderUpsertRequest
+from zakk.server.manage.llm.models import ModelConfigurationUpsertRequest
+from zakk.setup import setup_zakk
+from zakk.utils.telemetry import create_milestone_and_report
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 from shared_configs.configs import TENANT_ID_PREFIX
@@ -531,7 +531,7 @@ async def setup_tenant(tenant_id: str) -> None:
             # Configure default API keys
             configure_default_api_keys(db_session)
 
-            # Set up Onyx with appropriate settings
+            # Set up Zakk with appropriate settings
             current_search_settings = (
                 db_session.query(SearchSettings)
                 .filter_by(status=IndexModelStatus.FUTURE)
@@ -541,7 +541,7 @@ async def setup_tenant(tenant_id: str) -> None:
                 current_search_settings is not None
                 and current_search_settings.provider_type == EmbeddingProvider.COHERE
             )
-            setup_onyx(db_session, tenant_id, cohere_enabled=cohere_enabled)
+            setup_zakk(db_session, tenant_id, cohere_enabled=cohere_enabled)
 
     except Exception as e:
         logger.exception(f"Failed to set up tenant {tenant_id}")

@@ -9,19 +9,19 @@ import Text from "@/components/ui/text";
 import { USER_ROLE_LABELS, UserRole } from "@/lib/types";
 import { APIKey } from "./types";
 
-interface OnyxApiKeyFormProps {
+interface ZakkApiKeyFormProps {
   onClose: () => void;
   setPopup: (popupSpec: PopupSpec | null) => void;
   onCreateApiKey: (apiKey: APIKey) => void;
   apiKey?: APIKey;
 }
 
-export const OnyxApiKeyForm = ({
+export const ZakkApiKeyForm = ({
   onClose,
   setPopup,
   onCreateApiKey,
   apiKey,
-}: OnyxApiKeyFormProps) => {
+}: ZakkApiKeyFormProps) => {
   const isUpdate = apiKey !== undefined;
 
   return (

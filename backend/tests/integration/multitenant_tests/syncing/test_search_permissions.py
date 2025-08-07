@@ -1,6 +1,6 @@
 from typing import Any
 
-from onyx.db.models import UserRole
+from zakk.db.models import UserRole
 from tests.integration.common_utils.managers.api_key import APIKeyManager
 from tests.integration.common_utils.managers.cc_pair import CCPairManager
 from tests.integration.common_utils.managers.chat import ChatSessionManager
@@ -17,13 +17,13 @@ def setup_test_tenants(reset_multitenant: None) -> dict[str, Any]:
     """Helper function to set up test tenants with documents and users."""
     # Creating an admin user for Tenant 1
     admin_user1: DATestUser = UserManager.create(
-        email="admin@onyx-test.com",
+        email="admin@zakk-test.com",
     )
     assert UserManager.is_role(admin_user1, UserRole.ADMIN)
 
     # Create Tenant 2 and its Admin User
     admin_user2: DATestUser = UserManager.create(
-        email="admin2@onyx-test.com",
+        email="admin2@zakk-test.com",
     )
     assert UserManager.is_role(admin_user2, UserRole.ADMIN)
 

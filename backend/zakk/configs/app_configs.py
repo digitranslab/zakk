@@ -5,14 +5,14 @@ from datetime import datetime
 from datetime import timezone
 from typing import cast
 
-from onyx.auth.schemas import AuthBackend
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import DocumentIndexType
-from onyx.configs.constants import QueryHistoryType
-from onyx.file_processing.enums import HtmlBasedConnectorTransformLinksStrategy
-from onyx.prompts.image_analysis import DEFAULT_IMAGE_ANALYSIS_SYSTEM_PROMPT
-from onyx.prompts.image_analysis import DEFAULT_IMAGE_SUMMARIZATION_SYSTEM_PROMPT
-from onyx.prompts.image_analysis import DEFAULT_IMAGE_SUMMARIZATION_USER_PROMPT
+from zakk.auth.schemas import AuthBackend
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import DocumentIndexType
+from zakk.configs.constants import QueryHistoryType
+from zakk.file_processing.enums import HtmlBasedConnectorTransformLinksStrategy
+from zakk.prompts.image_analysis import DEFAULT_IMAGE_ANALYSIS_SYSTEM_PROMPT
+from zakk.prompts.image_analysis import DEFAULT_IMAGE_SUMMARIZATION_SYSTEM_PROMPT
+from zakk.prompts.image_analysis import DEFAULT_IMAGE_SUMMARIZATION_USER_PROMPT
 
 #####
 # App Configs
@@ -42,15 +42,15 @@ DISABLE_USER_KNOWLEDGE = os.environ.get("DISABLE_USER_KNOWLEDGE", "").lower() ==
 # 1. associated user emails
 # 2. anonymized user emails
 # 3. no queries
-ONYX_QUERY_HISTORY_TYPE = QueryHistoryType(
-    (os.environ.get("ONYX_QUERY_HISTORY_TYPE") or QueryHistoryType.NORMAL.value).lower()
+ZAKK_QUERY_HISTORY_TYPE = QueryHistoryType(
+    (os.environ.get("ZAKK_QUERY_HISTORY_TYPE") or QueryHistoryType.NORMAL.value).lower()
 )
 
 #####
 # Web Configs
 #####
 # WEB_DOMAIN is used to set the redirect_uri after login flows
-# NOTE: if you are having problems accessing the Onyx web UI locally (especially
+# NOTE: if you are having problems accessing the Zakk web UI locally (especially
 # on Windows, try  setting this to `http://127.0.0.1:3000` instead and see if that
 # fixes it)
 WEB_DOMAIN = os.environ.get("WEB_DOMAIN") or "http://localhost:3000"
@@ -79,7 +79,7 @@ PASSWORD_REQUIRE_SPECIAL_CHAR = (
 
 # Encryption key secret is used to encrypt connector credentials, api keys, and other sensitive
 # information. This provides an extra layer of security on top of Postgres access controls
-# and is available in Onyx EE
+# and is available in Zakk EE
 ENCRYPTION_KEY_SECRET = os.environ.get("ENCRYPTION_KEY_SECRET") or ""
 
 # Turn off mask if admin users should see full credentials for data connectors.
@@ -99,8 +99,8 @@ SESSION_EXPIRE_TIME_SECONDS = int(
 REQUEST_TIMEOUT_SECONDS = int(os.environ.get("REQUEST_TIMEOUT_SECONDS") or 60)
 
 # set `VALID_EMAIL_DOMAINS` to a comma seperated list of domains in order to
-# restrict access to Onyx to only users with emails from those domains.
-# E.g. `VALID_EMAIL_DOMAINS=example.com,example.org` will restrict Onyx
+# restrict access to Zakk to only users with emails from those domains.
+# E.g. `VALID_EMAIL_DOMAINS=example.com,example.org` will restrict Zakk
 # signups to users with either an @example.com or an @example.org email.
 # NOTE: maintaining `VALID_EMAIL_DOMAIN` to keep backwards compatibility
 _VALID_EMAIL_DOMAIN = os.environ.get("VALID_EMAIL_DOMAIN", "")
@@ -143,7 +143,7 @@ EMAIL_FROM = os.environ.get("EMAIL_FROM") or SMTP_USER
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY") or ""
 EMAIL_CONFIGURED = all([SMTP_SERVER, SMTP_USER, SMTP_PASS]) or SENDGRID_API_KEY
 
-# If set, Onyx will listen to the `expires_at` returned by the identity
+# If set, Zakk will listen to the `expires_at` returned by the identity
 # provider (e.g. Okta, Google, etc.) and force the user to re-authenticate
 # after this time has elapsed. Disabled since by default many auth providers
 # have very short expiry times (e.g. 1 hour) which provide a poor user experience
@@ -173,7 +173,7 @@ VESPA_CLOUD_URL = os.environ.get("VESPA_CLOUD_URL", "")
 
 # The default below is for dockerized deployment
 VESPA_DEPLOYMENT_ZIP = (
-    os.environ.get("VESPA_DEPLOYMENT_ZIP") or "/app/onyx/vespa-app.zip"
+    os.environ.get("VESPA_DEPLOYMENT_ZIP") or "/app/zakk/vespa-app.zip"
 )
 VESPA_CLOUD_CERT_PATH = os.environ.get("VESPA_CLOUD_CERT_PATH")
 VESPA_CLOUD_KEY_PATH = os.environ.get("VESPA_CLOUD_KEY_PATH")
@@ -354,7 +354,7 @@ DB_YIELD_PER_DEFAULT = 64
 POLL_CONNECTOR_OFFSET = 30  # Minutes overlap between poll windows
 
 # View the list here:
-# https://github.com/digitranslab/onyx/blob/main/backend/onyx/connectors/factory.py
+# https://github.com/digitranslab/zakk/blob/main/backend/zakk/connectors/factory.py
 # If this is empty, all connectors are enabled, this is an option for security heavy orgs where
 # only very select connectors are enabled and admins cannot add other connector types
 ENABLED_CONNECTOR_TYPES = os.environ.get("ENABLED_CONNECTOR_TYPES") or ""
@@ -624,7 +624,7 @@ CURRENT_PROCESS_IS_AN_INDEXING_JOB = (
 LOG_ALL_MODEL_INTERACTIONS = (
     os.environ.get("LOG_ALL_MODEL_INTERACTIONS", "").lower() == "true"
 )
-# Logs Onyx only model interactions like prompts, responses, messages etc.
+# Logs Zakk only model interactions like prompts, responses, messages etc.
 LOG_DANSWER_MODEL_INTERACTIONS = (
     os.environ.get("LOG_DANSWER_MODEL_INTERACTIONS", "").lower() == "true"
 )
@@ -691,7 +691,7 @@ MAX_FEDERATED_CHUNKS = int(
 #####
 # NOTE: this should only be enabled if you have purchased an enterprise license.
 # if you're interested in an enterprise license, please reach out to us at
-# founders@digi-trans.org OR message Chris Weaver or Yuhong Sun in the Onyx
+# founders@digi-trans.org OR message Chris Weaver or Yuhong Sun in the Zakk
 # Slack community (https://join.slack.com/t/danswer/shared_invite/zt-1w76msxmd-HJHLe3KNFIAIzk_0dSOKaQ)
 ENTERPRISE_EDITION_ENABLED = (
     os.environ.get("ENABLE_PAID_ENTERPRISE_EDITION_FEATURES", "").lower() == "true"
@@ -805,9 +805,9 @@ DB_READONLY_PASSWORD: str = urllib.parse.quote_plus(
 
 # File Store Configuration
 S3_FILE_STORE_BUCKET_NAME = (
-    os.environ.get("S3_FILE_STORE_BUCKET_NAME") or "onyx-file-store-bucket"
+    os.environ.get("S3_FILE_STORE_BUCKET_NAME") or "zakk-file-store-bucket"
 )
-S3_FILE_STORE_PREFIX = os.environ.get("S3_FILE_STORE_PREFIX") or "onyx-files"
+S3_FILE_STORE_PREFIX = os.environ.get("S3_FILE_STORE_PREFIX") or "zakk-files"
 # S3_ENDPOINT_URL is for MinIO and other S3-compatible storage. Leave blank for AWS S3.
 S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL")
 S3_VERIFY_SSL = os.environ.get("S3_VERIFY_SSL", "").lower() == "true"

@@ -3,22 +3,22 @@ import random
 
 from sqlalchemy.orm import Session
 
-from onyx.configs.chat_configs import ENABLE_CONNECTOR_CLASSIFIER
-from onyx.configs.constants import DocumentSource
-from onyx.db.connector import fetch_unique_document_sources
-from onyx.db.engine.sql_engine import get_sqlalchemy_engine
-from onyx.llm.interfaces import LLM
-from onyx.llm.utils import dict_based_prompt_to_langchain_prompt
-from onyx.llm.utils import message_to_string
-from onyx.natural_language_processing.search_nlp_models import (
+from zakk.configs.chat_configs import ENABLE_CONNECTOR_CLASSIFIER
+from zakk.configs.constants import DocumentSource
+from zakk.db.connector import fetch_unique_document_sources
+from zakk.db.engine.sql_engine import get_sqlalchemy_engine
+from zakk.llm.interfaces import LLM
+from zakk.llm.utils import dict_based_prompt_to_langchain_prompt
+from zakk.llm.utils import message_to_string
+from zakk.natural_language_processing.search_nlp_models import (
     ConnectorClassificationModel,
 )
-from onyx.prompts.constants import SOURCES_KEY
-from onyx.prompts.filter_extration import FILE_SOURCE_WARNING
-from onyx.prompts.filter_extration import SOURCE_FILTER_PROMPT
-from onyx.prompts.filter_extration import WEB_SOURCE_WARNING
-from onyx.utils.logger import setup_logger
-from onyx.utils.text_processing import extract_embedded_json
+from zakk.prompts.constants import SOURCES_KEY
+from zakk.prompts.filter_extration import FILE_SOURCE_WARNING
+from zakk.prompts.filter_extration import SOURCE_FILTER_PROMPT
+from zakk.prompts.filter_extration import WEB_SOURCE_WARNING
+from zakk.utils.logger import setup_logger
+from zakk.utils.text_processing import extract_embedded_json
 
 logger = setup_logger()
 
@@ -148,7 +148,7 @@ def extract_source_filter(
             },
             {
                 "role": "user",
-                "content": "What page from Onyx contains debugging instruction on segfault",
+                "content": "What page from Zakk contains debugging instruction on segfault",
             },
             {
                 "role": "assistant",
@@ -186,7 +186,7 @@ def extract_source_filter(
 
 
 if __name__ == "__main__":
-    from onyx.llm.factory import get_default_llms, get_main_llm_from_tuple
+    from zakk.llm.factory import get_default_llms, get_main_llm_from_tuple
 
     # Just for testing purposes
     with Session(get_sqlalchemy_engine()) as db_session:

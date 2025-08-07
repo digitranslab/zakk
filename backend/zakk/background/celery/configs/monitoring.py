@@ -1,4 +1,4 @@
-import onyx.background.celery.configs.base as shared_config
+import zakk.background.celery.configs.base as shared_config
 
 broker_url = shared_config.broker_url
 broker_connection_retry_on_startup = shared_config.broker_connection_retry_on_startup

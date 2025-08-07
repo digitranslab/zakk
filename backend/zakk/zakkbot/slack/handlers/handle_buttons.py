@@ -8,49 +8,49 @@ from slack_sdk.models.views import View
 from slack_sdk.socket_mode.request import SocketModeRequest
 from slack_sdk.webhook import WebhookClient
 
-from onyx.chat.models import ChatZakkBotResponse
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import QADocsResponse
-from onyx.configs.constants import MessageType
-from onyx.configs.constants import SearchFeedbackType
-from onyx.configs.zakkbot_configs import DANSWER_FOLLOWUP_EMOJI
-from onyx.connectors.slack.utils import expert_info_from_slack_id
-from onyx.context.search.models import SavedSearchDoc
-from onyx.db.chat import get_chat_message
-from onyx.db.chat import translate_db_message_to_chat_message_detail
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.feedback import create_chat_message_feedback
-from onyx.db.feedback import create_doc_retrieval_feedback
-from onyx.db.users import get_user_by_email
-from onyx.zakkbot.slack.blocks import build_follow_up_resolved_blocks
-from onyx.zakkbot.slack.blocks import build_slack_response_blocks
-from onyx.zakkbot.slack.blocks import get_document_feedback_blocks
-from onyx.zakkbot.slack.config import get_slack_channel_config_for_bot_and_channel
-from onyx.zakkbot.slack.constants import DISLIKE_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import FeedbackVisibility
-from onyx.zakkbot.slack.constants import KEEP_TO_YOURSELF_ACTION_ID
-from onyx.zakkbot.slack.constants import LIKE_BLOCK_ACTION_ID
-from onyx.zakkbot.slack.constants import SHOW_EVERYONE_ACTION_ID
-from onyx.zakkbot.slack.constants import VIEW_DOC_FEEDBACK_ID
-from onyx.zakkbot.slack.handlers.handle_message import (
+from zakk.chat.models import ChatZakkBotResponse
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import QADocsResponse
+from zakk.configs.constants import MessageType
+from zakk.configs.constants import SearchFeedbackType
+from zakk.configs.zakkbot_configs import DANSWER_FOLLOWUP_EMOJI
+from zakk.connectors.slack.utils import expert_info_from_slack_id
+from zakk.context.search.models import SavedSearchDoc
+from zakk.db.chat import get_chat_message
+from zakk.db.chat import translate_db_message_to_chat_message_detail
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.feedback import create_chat_message_feedback
+from zakk.db.feedback import create_doc_retrieval_feedback
+from zakk.db.users import get_user_by_email
+from zakk.zakkbot.slack.blocks import build_follow_up_resolved_blocks
+from zakk.zakkbot.slack.blocks import build_slack_response_blocks
+from zakk.zakkbot.slack.blocks import get_document_feedback_blocks
+from zakk.zakkbot.slack.config import get_slack_channel_config_for_bot_and_channel
+from zakk.zakkbot.slack.constants import DISLIKE_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import FeedbackVisibility
+from zakk.zakkbot.slack.constants import KEEP_TO_YOURSELF_ACTION_ID
+from zakk.zakkbot.slack.constants import LIKE_BLOCK_ACTION_ID
+from zakk.zakkbot.slack.constants import SHOW_EVERYONE_ACTION_ID
+from zakk.zakkbot.slack.constants import VIEW_DOC_FEEDBACK_ID
+from zakk.zakkbot.slack.handlers.handle_message import (
     remove_scheduled_feedback_reminder,
 )
-from onyx.zakkbot.slack.handlers.handle_regular_answer import (
+from zakk.zakkbot.slack.handlers.handle_regular_answer import (
     handle_regular_answer,
 )
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.zakkbot.slack.utils import build_feedback_id
-from onyx.zakkbot.slack.utils import decompose_action_id
-from onyx.zakkbot.slack.utils import fetch_group_ids_from_names
-from onyx.zakkbot.slack.utils import fetch_slack_user_ids_from_emails
-from onyx.zakkbot.slack.utils import get_channel_name_from_id
-from onyx.zakkbot.slack.utils import get_feedback_visibility
-from onyx.zakkbot.slack.utils import read_slack_thread
-from onyx.zakkbot.slack.utils import respond_in_thread_or_channel
-from onyx.zakkbot.slack.utils import TenantSocketModeClient
-from onyx.zakkbot.slack.utils import update_emote_react
-from onyx.server.query_and_chat.models import ChatMessageDetail
-from onyx.utils.logger import setup_logger
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.zakkbot.slack.utils import build_feedback_id
+from zakk.zakkbot.slack.utils import decompose_action_id
+from zakk.zakkbot.slack.utils import fetch_group_ids_from_names
+from zakk.zakkbot.slack.utils import fetch_slack_user_ids_from_emails
+from zakk.zakkbot.slack.utils import get_channel_name_from_id
+from zakk.zakkbot.slack.utils import get_feedback_visibility
+from zakk.zakkbot.slack.utils import read_slack_thread
+from zakk.zakkbot.slack.utils import respond_in_thread_or_channel
+from zakk.zakkbot.slack.utils import TenantSocketModeClient
+from zakk.zakkbot.slack.utils import update_emote_react
+from zakk.server.query_and_chat.models import ChatMessageDetail
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -300,7 +300,7 @@ def handle_publish_ephemeral_message_button(
                 client=client.web_client,
                 channel=channel_id,
                 receiver_ids=None,  # If respond_member_group_list is set, send to them. TODO: check!
-                text="Hello! Onyx has some results for you!",
+                text="Hello! Zakk has some results for you!",
                 blocks=all_blocks,
                 thread_ts=original_question_ts,
                 # don't unfurl, since otherwise we will have 5+ previews which makes the message very long
@@ -374,7 +374,7 @@ def handle_slack_feedback(
 ) -> None:
     message_id, doc_id, doc_rank = decompose_action_id(feedback_id)
 
-    # Get Onyx user from Slack ID
+    # Get Zakk user from Slack ID
     expert_info = expert_info_from_slack_id(
         user_id_to_post_confirmation, client, user_cache={}
     )

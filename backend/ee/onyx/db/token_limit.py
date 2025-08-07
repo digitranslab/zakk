@@ -7,15 +7,15 @@ from sqlalchemy import select
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DISABLE_AUTH
-from onyx.configs.constants import TokenRateLimitScope
-from onyx.db.models import TokenRateLimit
-from onyx.db.models import TokenRateLimit__UserGroup
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.db.models import UserGroup
-from onyx.db.models import UserRole
-from onyx.server.token_rate_limits.models import TokenRateLimitArgs
+from zakk.configs.app_configs import DISABLE_AUTH
+from zakk.configs.constants import TokenRateLimitScope
+from zakk.db.models import TokenRateLimit
+from zakk.db.models import TokenRateLimit__UserGroup
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.db.models import UserGroup
+from zakk.db.models import UserRole
+from zakk.server.token_rate_limits.models import TokenRateLimitArgs
 
 
 def _add_user_filters(

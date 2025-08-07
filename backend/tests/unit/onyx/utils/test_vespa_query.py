@@ -2,21 +2,21 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import INDEX_SEPARATOR
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import Tag
-from onyx.document_index.vespa.shared_utils.vespa_request_builders import (
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import INDEX_SEPARATOR
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import Tag
+from zakk.document_index.vespa.shared_utils.vespa_request_builders import (
     build_vespa_filters,
 )
-from onyx.document_index.vespa_constants import DOC_UPDATED_AT
-from onyx.document_index.vespa_constants import DOCUMENT_SETS
-from onyx.document_index.vespa_constants import HIDDEN
-from onyx.document_index.vespa_constants import METADATA_LIST
-from onyx.document_index.vespa_constants import SOURCE_TYPE
-from onyx.document_index.vespa_constants import TENANT_ID
-from onyx.document_index.vespa_constants import USER_FILE
-from onyx.document_index.vespa_constants import USER_FOLDER
+from zakk.document_index.vespa_constants import DOC_UPDATED_AT
+from zakk.document_index.vespa_constants import DOCUMENT_SETS
+from zakk.document_index.vespa_constants import HIDDEN
+from zakk.document_index.vespa_constants import METADATA_LIST
+from zakk.document_index.vespa_constants import SOURCE_TYPE
+from zakk.document_index.vespa_constants import TENANT_ID
+from zakk.document_index.vespa_constants import USER_FILE
+from zakk.document_index.vespa_constants import USER_FOLDER
 from shared_configs.configs import MULTI_TENANT
 
 # Import the function under test

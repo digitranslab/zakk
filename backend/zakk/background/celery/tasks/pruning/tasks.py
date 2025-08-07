@@ -15,53 +15,53 @@ from redis import Redis
 from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.celery_redis import celery_find_task
-from onyx.background.celery.celery_redis import celery_get_queue_length
-from onyx.background.celery.celery_redis import celery_get_queued_task_ids
-from onyx.background.celery.celery_redis import celery_get_unacked_task_ids
-from onyx.background.celery.celery_utils import extract_ids_from_runnable_connector
-from onyx.background.celery.tasks.beat_schedule import CLOUD_BEAT_MULTIPLIER_DEFAULT
-from onyx.background.celery.tasks.docprocessing.utils import IndexingCallbackBase
-from onyx.configs.app_configs import ALLOW_SIMULTANEOUS_PRUNING
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import CELERY_PRUNING_LOCK_TIMEOUT
-from onyx.configs.constants import CELERY_TASK_WAIT_FOR_FENCE_TIMEOUT
-from onyx.configs.constants import DANSWER_REDIS_FUNCTION_LOCK_PREFIX
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.configs.constants import OnyxRedisSignals
-from onyx.connectors.factory import instantiate_connector
-from onyx.connectors.models import InputType
-from onyx.db.connector import mark_ccpair_as_pruned
-from onyx.db.connector_credential_pair import get_connector_credential_pair
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.connector_credential_pair import get_connector_credential_pairs
-from onyx.db.document import get_documents_for_connector_credential_pair
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import SyncStatus
-from onyx.db.enums import SyncType
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.search_settings import get_current_search_settings
-from onyx.db.sync_record import insert_sync_record
-from onyx.db.sync_record import update_sync_record_status
-from onyx.db.tag import delete_orphan_tags__no_commit
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_connector_prune import RedisConnectorPrune
-from onyx.redis.redis_connector_prune import RedisConnectorPrunePayload
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import get_redis_replica_client
-from onyx.server.runtime.zakk_runtime import ZakkRuntime
-from onyx.server.utils import make_short_id
-from onyx.utils.logger import format_error_for_logging
-from onyx.utils.logger import LoggerContextVars
-from onyx.utils.logger import pruning_ctx
-from onyx.utils.logger import setup_logger
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.celery_redis import celery_find_task
+from zakk.background.celery.celery_redis import celery_get_queue_length
+from zakk.background.celery.celery_redis import celery_get_queued_task_ids
+from zakk.background.celery.celery_redis import celery_get_unacked_task_ids
+from zakk.background.celery.celery_utils import extract_ids_from_runnable_connector
+from zakk.background.celery.tasks.beat_schedule import CLOUD_BEAT_MULTIPLIER_DEFAULT
+from zakk.background.celery.tasks.docprocessing.utils import IndexingCallbackBase
+from zakk.configs.app_configs import ALLOW_SIMULTANEOUS_PRUNING
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import CELERY_PRUNING_LOCK_TIMEOUT
+from zakk.configs.constants import CELERY_TASK_WAIT_FOR_FENCE_TIMEOUT
+from zakk.configs.constants import DANSWER_REDIS_FUNCTION_LOCK_PREFIX
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.configs.constants import ZakkRedisSignals
+from zakk.connectors.factory import instantiate_connector
+from zakk.connectors.models import InputType
+from zakk.db.connector import mark_ccpair_as_pruned
+from zakk.db.connector_credential_pair import get_connector_credential_pair
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.connector_credential_pair import get_connector_credential_pairs
+from zakk.db.document import get_documents_for_connector_credential_pair
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import SyncStatus
+from zakk.db.enums import SyncType
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.search_settings import get_current_search_settings
+from zakk.db.sync_record import insert_sync_record
+from zakk.db.sync_record import update_sync_record_status
+from zakk.db.tag import delete_orphan_tags__no_commit
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_connector_prune import RedisConnectorPrune
+from zakk.redis.redis_connector_prune import RedisConnectorPrunePayload
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import get_redis_replica_client
+from zakk.server.runtime.zakk_runtime import ZakkRuntime
+from zakk.server.utils import make_short_id
+from zakk.utils.logger import format_error_for_logging
+from zakk.utils.logger import LoggerContextVars
+from zakk.utils.logger import pruning_ctx
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 
 logger = setup_logger()
@@ -149,7 +149,7 @@ def _is_pruning_due(cc_pair: ConnectorCredentialPair) -> bool:
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_PRUNING,
+    name=ZakkCeleryTask.CHECK_FOR_PRUNING,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     bind=True,
@@ -160,7 +160,7 @@ def check_for_pruning(self: Task, *, tenant_id: str) -> bool | None:
     r_celery: Redis = self.app.broker_connection().channel().client  # type: ignore
 
     lock_beat: RedisLock = r.lock(
-        OnyxRedisLocks.CHECK_PRUNE_BEAT_LOCK,
+        ZakkRedisLocks.CHECK_PRUNE_BEAT_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -172,7 +172,7 @@ def check_for_pruning(self: Task, *, tenant_id: str) -> bool | None:
         # the entire task needs to run frequently in order to finalize pruning
 
         # but pruning only kicks off once per hour
-        if not r.exists(OnyxRedisSignals.BLOCK_PRUNING):
+        if not r.exists(ZakkRedisSignals.BLOCK_PRUNING):
 
             task_logger.info("Checking for pruning due")
 
@@ -207,11 +207,11 @@ def check_for_pruning(self: Task, *, tenant_id: str) -> bool | None:
                     task_logger.info(
                         f"Pruning queued: cc_pair={cc_pair.id} id={payload_id}"
                     )
-            r.set(OnyxRedisSignals.BLOCK_PRUNING, 1, ex=_get_pruning_block_expiration())
+            r.set(ZakkRedisSignals.BLOCK_PRUNING, 1, ex=_get_pruning_block_expiration())
 
         # we want to run this less frequently than the overall task
         lock_beat.reacquire()
-        if not r.exists(OnyxRedisSignals.BLOCK_VALIDATE_PRUNING_FENCES):
+        if not r.exists(ZakkRedisSignals.BLOCK_VALIDATE_PRUNING_FENCES):
             # clear any permission fences that don't have associated celery tasks in progress
             # tasks can be in the queue in redis, in reserved tasks (prefetched by the worker),
             # or be currently executing
@@ -221,7 +221,7 @@ def check_for_pruning(self: Task, *, tenant_id: str) -> bool | None:
                 task_logger.exception("Exception while validating pruning fences")
 
             r.set(
-                OnyxRedisSignals.BLOCK_VALIDATE_PRUNING_FENCES,
+                ZakkRedisSignals.BLOCK_VALIDATE_PRUNING_FENCES,
                 1,
                 ex=_get_fence_validation_block_expiration(),
             )
@@ -229,12 +229,12 @@ def check_for_pruning(self: Task, *, tenant_id: str) -> bool | None:
         # use a lookup table to find active fences. We still have to verify the fence
         # exists since it is an optimization and not the source of truth.
         lock_beat.reacquire()
-        keys = cast(set[Any], r_replica.smembers(OnyxRedisConstants.ACTIVE_FENCES))
+        keys = cast(set[Any], r_replica.smembers(ZakkRedisConstants.ACTIVE_FENCES))
         for key in keys:
             key_bytes = cast(bytes, key)
 
             if not r.exists(key_bytes):
-                r.srem(OnyxRedisConstants.ACTIVE_FENCES, key_bytes)
+                r.srem(ZakkRedisConstants.ACTIVE_FENCES, key_bytes)
                 continue
 
             key_str = key_bytes.decode("utf-8")
@@ -357,16 +357,16 @@ def try_creating_prune_generator_task(
         redis_connector.prune.set_fence(payload)
 
         result = celery_app.send_task(
-            OnyxCeleryTask.CONNECTOR_PRUNING_GENERATOR_TASK,
+            ZakkCeleryTask.CONNECTOR_PRUNING_GENERATOR_TASK,
             kwargs=dict(
                 cc_pair_id=cc_pair.id,
                 connector_id=cc_pair.connector_id,
                 credential_id=cc_pair.credential_id,
                 tenant_id=tenant_id,
             ),
-            queue=OnyxCeleryQueues.CONNECTOR_PRUNING,
+            queue=ZakkCeleryQueues.CONNECTOR_PRUNING,
             task_id=custom_task_id,
-            priority=OnyxCeleryPriority.LOW,
+            priority=ZakkCeleryPriority.LOW,
         )
 
         # fill in the celery task id
@@ -391,7 +391,7 @@ def try_creating_prune_generator_task(
 
 
 @shared_task(
-    name=OnyxCeleryTask.CONNECTOR_PRUNING_GENERATOR_TASK,
+    name=ZakkCeleryTask.CONNECTOR_PRUNING_GENERATOR_TASK,
     acks_late=False,
     soft_time_limit=JOB_TIMEOUT,
     track_started=True,
@@ -467,7 +467,7 @@ def connector_pruning_generator_task(
     # set thread_local=False since we don't control what thread the indexing/pruning
     # might run our callback with
     lock: RedisLock = r.lock(
-        OnyxRedisLocks.PRUNING_LOCK_PREFIX + f"_{redis_connector.cc_pair_id}",
+        ZakkRedisLocks.PRUNING_LOCK_PREFIX + f"_{redis_connector.cc_pair_id}",
         timeout=CELERY_PRUNING_LOCK_TIMEOUT,
         thread_local=False,
     )
@@ -649,23 +649,23 @@ def validate_pruning_fences(
     # validating until the queue is small
     PERMISSION_SYNC_VALIDATION_MAX_QUEUE_LEN = 1024
 
-    queue_len = celery_get_queue_length(OnyxCeleryQueues.CONNECTOR_DELETION, r_celery)
+    queue_len = celery_get_queue_length(ZakkCeleryQueues.CONNECTOR_DELETION, r_celery)
     if queue_len > PERMISSION_SYNC_VALIDATION_MAX_QUEUE_LEN:
         return
 
     # the queue for a single pruning generator task
     reserved_generator_tasks = celery_get_unacked_task_ids(
-        OnyxCeleryQueues.CONNECTOR_PRUNING, r_celery
+        ZakkCeleryQueues.CONNECTOR_PRUNING, r_celery
     )
 
     # the queue for a reasonably large set of lightweight deletion tasks
     queued_upsert_tasks = celery_get_queued_task_ids(
-        OnyxCeleryQueues.CONNECTOR_DELETION, r_celery
+        ZakkCeleryQueues.CONNECTOR_DELETION, r_celery
     )
 
     # Use replica for this because the worst thing that happens
     # is that we don't run the validation on this pass
-    keys = cast(set[Any], r_replica.smembers(OnyxRedisConstants.ACTIVE_FENCES))
+    keys = cast(set[Any], r_replica.smembers(ZakkRedisConstants.ACTIVE_FENCES))
     for key in keys:
         key_bytes = cast(bytes, key)
         key_str = key_bytes.decode("utf-8")
@@ -743,7 +743,7 @@ def validate_pruning_fence(
     # either the generator task must be in flight or its subtasks must be
     found = celery_find_task(
         payload.celery_task_id,
-        OnyxCeleryQueues.CONNECTOR_PRUNING,
+        ZakkCeleryQueues.CONNECTOR_PRUNING,
         r_celery,
     )
     if found:

@@ -9,29 +9,29 @@ from pathlib import Path
 from typing import Any
 from typing import cast
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.connectors.salesforce.doc_conversion import convert_sf_object_to_doc
-from onyx.connectors.salesforce.doc_conversion import convert_sf_query_result_to_doc
-from onyx.connectors.salesforce.doc_conversion import ID_PREFIX
-from onyx.connectors.salesforce.zakk_salesforce import ZakkSalesforce
-from onyx.connectors.salesforce.salesforce_calls import fetch_all_csvs_in_parallel
-from onyx.connectors.salesforce.sqlite_functions import ZakkSalesforceSQLite
-from onyx.connectors.salesforce.utils import BASE_DATA_PATH
-from onyx.connectors.salesforce.utils import get_sqlite_db_path
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.connectors.salesforce.doc_conversion import convert_sf_object_to_doc
+from zakk.connectors.salesforce.doc_conversion import convert_sf_query_result_to_doc
+from zakk.connectors.salesforce.doc_conversion import ID_PREFIX
+from zakk.connectors.salesforce.zakk_salesforce import ZakkSalesforce
+from zakk.connectors.salesforce.salesforce_calls import fetch_all_csvs_in_parallel
+from zakk.connectors.salesforce.sqlite_functions import ZakkSalesforceSQLite
+from zakk.connectors.salesforce.utils import BASE_DATA_PATH
+from zakk.connectors.salesforce.utils import get_sqlite_db_path
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 
 
@@ -249,7 +249,7 @@ class SalesforceConnector(LoadConnector, PollConnector, SlimConnector):
 
         # This is for testing the rest of the functionality if data has
         # already been fetched and put in sqlite
-        # from import onyx.connectors.salesforce.sf_db.sqlite_functions find_ids_by_type
+        # from import zakk.connectors.salesforce.sf_db.sqlite_functions find_ids_by_type
         # for object_type in self.parent_object_list:
         #     updated_ids.update(list(find_ids_by_type(object_type)))
 

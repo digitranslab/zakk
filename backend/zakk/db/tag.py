@@ -6,11 +6,11 @@ from sqlalchemy import or_
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import DocumentSource
-from onyx.db.models import Document
-from onyx.db.models import Document__Tag
-from onyx.db.models import Tag
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.db.models import Document
+from zakk.db.models import Document__Tag
+from zakk.db.models import Tag
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

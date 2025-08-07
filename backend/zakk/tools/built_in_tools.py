@@ -6,20 +6,20 @@ from sqlalchemy import or_
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.db.models import Persona
-from onyx.db.models import Tool as ToolDBModel
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.db.models import Persona
+from zakk.db.models import Tool as ToolDBModel
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     ImageGenerationTool,
 )
-from onyx.tools.tool_implementations.internet_search.internet_search_tool import (
+from zakk.tools.tool_implementations.internet_search.internet_search_tool import (
     InternetSearchTool,
 )
-from onyx.tools.tool_implementations.internet_search.providers import (
+from zakk.tools.tool_implementations.internet_search.providers import (
     get_available_providers,
 )
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.tools.tool import Tool
-from onyx.utils.logger import setup_logger
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.tools.tool import Tool
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

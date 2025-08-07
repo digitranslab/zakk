@@ -6,11 +6,11 @@ import pytest
 import requests
 from requests import HTTPError
 
-from onyx.connectors.confluence.zakk_confluence import (
+from zakk.connectors.confluence.zakk_confluence import (
     _DEFAULT_PAGINATION_LIMIT,
 )
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.connectors.interfaces import CredentialsProviderInterface
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.connectors.interfaces import CredentialsProviderInterface
 
 
 # Helper to create mock responses

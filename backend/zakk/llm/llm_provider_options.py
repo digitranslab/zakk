@@ -3,10 +3,10 @@ from enum import Enum
 import litellm  # type: ignore
 from pydantic import BaseModel
 
-from onyx.llm.chat_llm import VERTEX_CREDENTIALS_FILE_KWARG
-from onyx.llm.chat_llm import VERTEX_LOCATION_KWARG
-from onyx.llm.utils import model_supports_image_input
-from onyx.server.manage.llm.models import ModelConfigurationView
+from zakk.llm.chat_llm import VERTEX_CREDENTIALS_FILE_KWARG
+from zakk.llm.chat_llm import VERTEX_LOCATION_KWARG
+from zakk.llm.utils import model_supports_image_input
+from zakk.server.manage.llm.models import ModelConfigurationView
 
 
 class CustomConfigKeyType(Enum):

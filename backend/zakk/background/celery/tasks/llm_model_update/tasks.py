@@ -4,13 +4,13 @@ import requests
 from celery import shared_task
 from celery import Task
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.app_configs import LLM_MODEL_UPDATE_API_URL
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import LLMProvider
-from onyx.db.models import ModelConfiguration
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.app_configs import LLM_MODEL_UPDATE_API_URL
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import LLMProvider
+from zakk.db.models import ModelConfiguration
 
 
 def _process_model_list_response(model_list_json: Any) -> list[str]:
@@ -54,7 +54,7 @@ def _process_model_list_response(model_list_json: Any) -> list[str]:
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_LLM_MODEL_UPDATE,
+    name=ZakkCeleryTask.CHECK_FOR_LLM_MODEL_UPDATE,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     trail=False,

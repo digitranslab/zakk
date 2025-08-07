@@ -9,26 +9,26 @@ from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import get_current_tenant_id
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import InputType
-from onyx.db.connector import create_connector
-from onyx.db.connector_credential_pair import add_credential_to_connector
-from onyx.db.credentials import create_credential
-from onyx.db.enums import AccessType
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Document
-from onyx.db.models import DocumentByConnectorCredentialPair
-from onyx.db.models import Persona
-from onyx.db.models import Persona__UserFile
-from onyx.db.models import User
-from onyx.db.models import UserFile
-from onyx.db.models import UserFolder
-from onyx.server.documents.connector import trigger_indexing_for_cc_pair
-from onyx.server.documents.connector import upload_files
-from onyx.server.documents.models import ConnectorBase
-from onyx.server.documents.models import CredentialBase
-from onyx.server.models import StatusResponse
+from zakk.auth.users import get_current_tenant_id
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import InputType
+from zakk.db.connector import create_connector
+from zakk.db.connector_credential_pair import add_credential_to_connector
+from zakk.db.credentials import create_credential
+from zakk.db.enums import AccessType
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Document
+from zakk.db.models import DocumentByConnectorCredentialPair
+from zakk.db.models import Persona
+from zakk.db.models import Persona__UserFile
+from zakk.db.models import User
+from zakk.db.models import UserFile
+from zakk.db.models import UserFolder
+from zakk.server.documents.connector import trigger_indexing_for_cc_pair
+from zakk.server.documents.connector import upload_files
+from zakk.server.documents.models import ConnectorBase
+from zakk.server.documents.models import CredentialBase
+from zakk.server.models import StatusResponse
 
 USER_FILE_CONSTANT = "USER_FILE_CONNECTOR"
 

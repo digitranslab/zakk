@@ -14,23 +14,23 @@ from requests import RequestException
 from requests import Response
 from retry import retry
 
-from onyx.configs.app_configs import INDEXING_EMBEDDING_MODEL_NUM_THREADS
-from onyx.configs.app_configs import LARGE_CHUNK_RATIO
-from onyx.configs.app_configs import SKIP_WARM_UP
-from onyx.configs.model_configs import BATCH_SIZE_ENCODE_CHUNKS
-from onyx.configs.model_configs import (
+from zakk.configs.app_configs import INDEXING_EMBEDDING_MODEL_NUM_THREADS
+from zakk.configs.app_configs import LARGE_CHUNK_RATIO
+from zakk.configs.app_configs import SKIP_WARM_UP
+from zakk.configs.model_configs import BATCH_SIZE_ENCODE_CHUNKS
+from zakk.configs.model_configs import (
     BATCH_SIZE_ENCODE_CHUNKS_FOR_API_EMBEDDING_SERVICES,
 )
-from onyx.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
-from onyx.connectors.models import ConnectorStopSignal
-from onyx.db.models import SearchSettings
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.natural_language_processing.exceptions import (
+from zakk.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
+from zakk.connectors.models import ConnectorStopSignal
+from zakk.db.models import SearchSettings
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.natural_language_processing.exceptions import (
     ModelServerRateLimitError,
 )
-from onyx.natural_language_processing.utils import get_tokenizer
-from onyx.natural_language_processing.utils import tokenizer_trim_content
-from onyx.utils.logger import setup_logger
+from zakk.natural_language_processing.utils import get_tokenizer
+from zakk.natural_language_processing.utils import tokenizer_trim_content
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import INDEXING_MODEL_SERVER_HOST
 from shared_configs.configs import INDEXING_MODEL_SERVER_PORT
 from shared_configs.configs import MODEL_SERVER_HOST
@@ -55,7 +55,7 @@ logger = setup_logger()
 
 
 WARM_UP_STRINGS = [
-    "Onyx is amazing!",
+    "Zakk is amazing!",
     "Check out our easy deployment guide at",
     "https://docs.digi-trans.org/quickstart",
 ]
@@ -125,10 +125,10 @@ class EmbeddingModel:
         def _make_request() -> Response:
             headers = {}
             if tenant_id:
-                headers["X-Onyx-Tenant-ID"] = tenant_id
+                headers["X-Zakk-Tenant-ID"] = tenant_id
 
             if request_id:
-                headers["X-Onyx-Request-ID"] = request_id
+                headers["X-Zakk-Request-ID"] = request_id
 
             response = requests.post(
                 self.embed_server_endpoint,

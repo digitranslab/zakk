@@ -4,8 +4,8 @@ import argparse
 import subprocess
 import time
 
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

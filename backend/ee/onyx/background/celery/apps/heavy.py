@@ -5,30 +5,30 @@ from datetime import datetime
 from celery import shared_task
 from celery import Task
 
-from ee.onyx.server.query_history.api import fetch_and_process_chat_session_history
-from ee.onyx.server.query_history.api import ONYX_ANONYMIZED_EMAIL
-from ee.onyx.server.query_history.models import QuestionAnswerPairSnapshot
-from onyx.background.celery.apps.heavy import celery_app
-from onyx.background.task_utils import construct_query_history_report_name
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.app_configs import ONYX_QUERY_HISTORY_TYPE
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import FileType
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import QueryHistoryType
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.tasks import delete_task_with_id
-from onyx.db.tasks import mark_task_as_finished_with_id
-from onyx.db.tasks import mark_task_as_started_with_id
-from onyx.file_store.file_store import get_default_file_store
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.query_history.api import fetch_and_process_chat_session_history
+from ee.zakk.server.query_history.api import ZAKK_ANONYMIZED_EMAIL
+from ee.zakk.server.query_history.models import QuestionAnswerPairSnapshot
+from zakk.background.celery.apps.heavy import celery_app
+from zakk.background.task_utils import construct_query_history_report_name
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.app_configs import ZAKK_QUERY_HISTORY_TYPE
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import FileType
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import QueryHistoryType
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.tasks import delete_task_with_id
+from zakk.db.tasks import mark_task_as_finished_with_id
+from zakk.db.tasks import mark_task_as_started_with_id
+from zakk.file_store.file_store import get_default_file_store
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
 
 
 @shared_task(
-    name=OnyxCeleryTask.EXPORT_QUERY_HISTORY_TASK,
+    name=ZakkCeleryTask.EXPORT_QUERY_HISTORY_TASK,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     bind=True,
@@ -68,8 +68,8 @@ def export_query_history_task(
             )
 
             for snapshot in snapshot_generator:
-                if ONYX_QUERY_HISTORY_TYPE == QueryHistoryType.ANONYMIZED:
-                    snapshot.user_email = ONYX_ANONYMIZED_EMAIL
+                if ZAKK_QUERY_HISTORY_TYPE == QueryHistoryType.ANONYMIZED:
+                    snapshot.user_email = ZAKK_ANONYMIZED_EMAIL
 
                 writer.writerows(
                     qa_pair.to_json()
@@ -122,8 +122,8 @@ def export_query_history_task(
 
 celery_app.autodiscover_tasks(
     [
-        "ee.onyx.background.celery.tasks.doc_permission_syncing",
-        "ee.onyx.background.celery.tasks.external_group_syncing",
-        "ee.onyx.background.celery.tasks.cleanup",
+        "ee.zakk.background.celery.tasks.doc_permission_syncing",
+        "ee.zakk.background.celery.tasks.external_group_syncing",
+        "ee.zakk.background.celery.tasks.cleanup",
     ]
 )

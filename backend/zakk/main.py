@@ -23,102 +23,102 @@ from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 from starlette.types import Lifespan
 
-from onyx import __version__
-from onyx.auth.schemas import UserCreate
-from onyx.auth.schemas import UserRead
-from onyx.auth.schemas import UserUpdate
-from onyx.auth.users import auth_backend
-from onyx.auth.users import create_zakk_oauth_router
-from onyx.auth.users import fastapi_users
-from onyx.configs.app_configs import APP_API_PREFIX
-from onyx.configs.app_configs import APP_HOST
-from onyx.configs.app_configs import APP_PORT
-from onyx.configs.app_configs import AUTH_RATE_LIMITING_ENABLED
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.app_configs import DISABLE_GENERATIVE_AI
-from onyx.configs.app_configs import LOG_ENDPOINT_LATENCY
-from onyx.configs.app_configs import OAUTH_CLIENT_ID
-from onyx.configs.app_configs import OAUTH_CLIENT_SECRET
-from onyx.configs.app_configs import POSTGRES_API_SERVER_POOL_OVERFLOW
-from onyx.configs.app_configs import POSTGRES_API_SERVER_POOL_SIZE
-from onyx.configs.app_configs import POSTGRES_API_SERVER_READ_ONLY_POOL_OVERFLOW
-from onyx.configs.app_configs import POSTGRES_API_SERVER_READ_ONLY_POOL_SIZE
-from onyx.configs.app_configs import SYSTEM_RECURSION_LIMIT
-from onyx.configs.app_configs import USER_AUTH_SECRET
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import AuthType
-from onyx.configs.constants import POSTGRES_WEB_APP_NAME
-from onyx.db.engine.connection_warmup import warm_up_connections
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.sql_engine import SqlEngine
-from onyx.file_store.file_store import get_default_file_store
-from onyx.server.api_key.api import router as api_key_router
-from onyx.server.auth_check import check_router_auth
-from onyx.server.documents.cc_pair import router as cc_pair_router
-from onyx.server.documents.connector import router as connector_router
-from onyx.server.documents.credential import router as credential_router
-from onyx.server.documents.document import router as document_router
-from onyx.server.documents.standard_oauth import router as standard_oauth_router
-from onyx.server.features.document_set.api import router as document_set_router
-from onyx.server.features.folder.api import router as folder_router
-from onyx.server.features.input_prompt.api import (
+from zakk import __version__
+from zakk.auth.schemas import UserCreate
+from zakk.auth.schemas import UserRead
+from zakk.auth.schemas import UserUpdate
+from zakk.auth.users import auth_backend
+from zakk.auth.users import create_zakk_oauth_router
+from zakk.auth.users import fastapi_users
+from zakk.configs.app_configs import APP_API_PREFIX
+from zakk.configs.app_configs import APP_HOST
+from zakk.configs.app_configs import APP_PORT
+from zakk.configs.app_configs import AUTH_RATE_LIMITING_ENABLED
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
+from zakk.configs.app_configs import LOG_ENDPOINT_LATENCY
+from zakk.configs.app_configs import OAUTH_CLIENT_ID
+from zakk.configs.app_configs import OAUTH_CLIENT_SECRET
+from zakk.configs.app_configs import POSTGRES_API_SERVER_POOL_OVERFLOW
+from zakk.configs.app_configs import POSTGRES_API_SERVER_POOL_SIZE
+from zakk.configs.app_configs import POSTGRES_API_SERVER_READ_ONLY_POOL_OVERFLOW
+from zakk.configs.app_configs import POSTGRES_API_SERVER_READ_ONLY_POOL_SIZE
+from zakk.configs.app_configs import SYSTEM_RECURSION_LIMIT
+from zakk.configs.app_configs import USER_AUTH_SECRET
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import AuthType
+from zakk.configs.constants import POSTGRES_WEB_APP_NAME
+from zakk.db.engine.connection_warmup import warm_up_connections
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.sql_engine import SqlEngine
+from zakk.file_store.file_store import get_default_file_store
+from zakk.server.api_key.api import router as api_key_router
+from zakk.server.auth_check import check_router_auth
+from zakk.server.documents.cc_pair import router as cc_pair_router
+from zakk.server.documents.connector import router as connector_router
+from zakk.server.documents.credential import router as credential_router
+from zakk.server.documents.document import router as document_router
+from zakk.server.documents.standard_oauth import router as standard_oauth_router
+from zakk.server.features.document_set.api import router as document_set_router
+from zakk.server.features.folder.api import router as folder_router
+from zakk.server.features.input_prompt.api import (
     admin_router as admin_input_prompt_router,
 )
-from onyx.server.features.input_prompt.api import (
+from zakk.server.features.input_prompt.api import (
     basic_router as input_prompt_router,
 )
-from onyx.server.features.notifications.api import router as notification_router
-from onyx.server.features.password.api import router as password_router
-from onyx.server.features.persona.api import admin_router as admin_persona_router
-from onyx.server.features.persona.api import basic_router as persona_router
-from onyx.server.features.tool.api import admin_router as admin_tool_router
-from onyx.server.features.tool.api import router as tool_router
-from onyx.server.federated.api import router as federated_router
-from onyx.server.gpts.api import router as gpts_router
-from onyx.server.kg.api import admin_router as kg_admin_router
-from onyx.server.long_term_logs.long_term_logs_api import (
+from zakk.server.features.notifications.api import router as notification_router
+from zakk.server.features.password.api import router as password_router
+from zakk.server.features.persona.api import admin_router as admin_persona_router
+from zakk.server.features.persona.api import basic_router as persona_router
+from zakk.server.features.tool.api import admin_router as admin_tool_router
+from zakk.server.features.tool.api import router as tool_router
+from zakk.server.federated.api import router as federated_router
+from zakk.server.gpts.api import router as gpts_router
+from zakk.server.kg.api import admin_router as kg_admin_router
+from zakk.server.long_term_logs.long_term_logs_api import (
     router as long_term_logs_router,
 )
-from onyx.server.manage.administrative import router as admin_router
-from onyx.server.manage.embedding.api import admin_router as embedding_admin_router
-from onyx.server.manage.embedding.api import basic_router as embedding_router
-from onyx.server.manage.get_state import router as state_router
-from onyx.server.manage.llm.api import admin_router as llm_admin_router
-from onyx.server.manage.llm.api import basic_router as llm_router
-from onyx.server.manage.search_settings import router as search_settings_router
-from onyx.server.manage.slack_bot import router as slack_bot_management_router
-from onyx.server.manage.users import router as user_router
-from onyx.server.middleware.latency_logging import add_latency_logging_middleware
-from onyx.server.middleware.rate_limiting import close_auth_limiter
-from onyx.server.middleware.rate_limiting import get_auth_rate_limiters
-from onyx.server.middleware.rate_limiting import setup_auth_limiter
-from onyx.server.zakk_api.ingestion import router as zakk_api_router
-from onyx.server.openai_assistants_api.full_openai_assistants_api import (
+from zakk.server.manage.administrative import router as admin_router
+from zakk.server.manage.embedding.api import admin_router as embedding_admin_router
+from zakk.server.manage.embedding.api import basic_router as embedding_router
+from zakk.server.manage.get_state import router as state_router
+from zakk.server.manage.llm.api import admin_router as llm_admin_router
+from zakk.server.manage.llm.api import basic_router as llm_router
+from zakk.server.manage.search_settings import router as search_settings_router
+from zakk.server.manage.slack_bot import router as slack_bot_management_router
+from zakk.server.manage.users import router as user_router
+from zakk.server.middleware.latency_logging import add_latency_logging_middleware
+from zakk.server.middleware.rate_limiting import close_auth_limiter
+from zakk.server.middleware.rate_limiting import get_auth_rate_limiters
+from zakk.server.middleware.rate_limiting import setup_auth_limiter
+from zakk.server.zakk_api.ingestion import router as zakk_api_router
+from zakk.server.openai_assistants_api.full_openai_assistants_api import (
     get_full_openai_assistants_api_router,
 )
-from onyx.server.query_and_chat.chat_backend import router as chat_router
-from onyx.server.query_and_chat.query_backend import (
+from zakk.server.query_and_chat.chat_backend import router as chat_router
+from zakk.server.query_and_chat.query_backend import (
     admin_router as admin_query_router,
 )
-from onyx.server.query_and_chat.query_backend import basic_router as query_router
-from onyx.server.settings.api import admin_router as settings_admin_router
-from onyx.server.settings.api import basic_router as settings_router
-from onyx.server.token_rate_limits.api import (
+from zakk.server.query_and_chat.query_backend import basic_router as query_router
+from zakk.server.settings.api import admin_router as settings_admin_router
+from zakk.server.settings.api import basic_router as settings_router
+from zakk.server.token_rate_limits.api import (
     router as token_rate_limit_settings_router,
 )
-from onyx.server.user_documents.api import router as user_documents_router
-from onyx.server.utils import BasicAuthenticationError
-from onyx.setup import setup_multitenant_onyx
-from onyx.setup import setup_onyx
-from onyx.utils.logger import setup_logger
-from onyx.utils.logger import setup_uvicorn_logger
-from onyx.utils.middleware import add_zakk_request_id_middleware
-from onyx.utils.telemetry import get_or_generate_uuid
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
-from onyx.utils.variable_functionality import fetch_versioned_implementation
-from onyx.utils.variable_functionality import global_version
-from onyx.utils.variable_functionality import set_is_ee_based_on_env_variable
+from zakk.server.user_documents.api import router as user_documents_router
+from zakk.server.utils import BasicAuthenticationError
+from zakk.setup import setup_multitenant_zakk
+from zakk.setup import setup_zakk
+from zakk.utils.logger import setup_logger
+from zakk.utils.logger import setup_uvicorn_logger
+from zakk.utils.middleware import add_zakk_request_id_middleware
+from zakk.utils.telemetry import get_or_generate_uuid
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
+from zakk.utils.variable_functionality import fetch_versioned_implementation
+from zakk.utils.variable_functionality import global_version
+from zakk.utils.variable_functionality import set_is_ee_based_on_env_variable
 from shared_configs.configs import CORS_ALLOWED_ORIGIN
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
@@ -234,7 +234,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     )
 
     verify_auth = fetch_versioned_implementation(
-        "onyx.auth.users", "verify_auth_setting"
+        "zakk.auth.users", "verify_auth_setting"
     )
 
     # Will throw exception if an issue is found
@@ -256,12 +256,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
         # If we are multi-tenant, we need to only set up initial public tables
         with get_session_with_current_tenant() as db_session:
-            setup_onyx(db_session, POSTGRES_DEFAULT_SCHEMA)
+            setup_zakk(db_session, POSTGRES_DEFAULT_SCHEMA)
             # set up the file store (e.g. create bucket if needed). On multi-tenant,
             # this is done via IaC
             get_default_file_store().initialize()
     else:
-        setup_multitenant_onyx()
+        setup_multitenant_zakk()
 
     if not MULTI_TENANT:
         # don't emit a metric for every pod rollover/restart
@@ -306,7 +306,7 @@ def log_http_error(request: Request, exc: Exception) -> JSONResponse:
 
 def get_application(lifespan_override: Lifespan | None = None) -> FastAPI:
     application = FastAPI(
-        title="Onyx Backend",
+        title="Zakk Backend",
         version=__version__,
         lifespan=lifespan_override or lifespan,
     )
@@ -481,12 +481,12 @@ def get_application(lifespan_override: Lifespan | None = None) -> FastAPI:
 # NOTE: needs to be outside of the `if __name__ == "__main__"` block so that the
 # app is exportable
 set_is_ee_based_on_env_variable()
-app = fetch_versioned_implementation(module="onyx.main", attribute="get_application")
+app = fetch_versioned_implementation(module="zakk.main", attribute="get_application")
 
 
 if __name__ == "__main__":
     logger.notice(
-        f"Starting Onyx Backend version {__version__} on http://{APP_HOST}:{str(APP_PORT)}/"
+        f"Starting Zakk Backend version {__version__} on http://{APP_HOST}:{str(APP_PORT)}/"
     )
 
     if global_version.is_ee_version():

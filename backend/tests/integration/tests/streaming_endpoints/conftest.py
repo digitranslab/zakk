@@ -2,7 +2,7 @@ from collections.abc import Callable
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
+from zakk.configs.constants import DocumentSource
 from tests.integration.common_utils.managers.api_key import APIKeyManager
 from tests.integration.common_utils.managers.cc_pair import CCPairManager
 from tests.integration.common_utils.managers.document import DocumentManager

@@ -8,7 +8,7 @@ import json
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
-from onyx.main import app as app_fn
+from zakk.main import app as app_fn
 
 
 def go(filename: str) -> None:
@@ -30,7 +30,7 @@ def go(filename: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Export OpenAPI schema for Onyx API (does not require starting API server)"
+        description="Export OpenAPI schema for Zakk API (does not require starting API server)"
     )
     parser.add_argument(
         "--filename", "-f", help="Filename to write to", default="openapi.json"

@@ -114,7 +114,7 @@ export const NewShortCutModal = ({
       const faviconUrl = isValidUrl
         ? `https://www.google.com/s2/favicons?domain=${new URL(
             url
-          ).hostname.replace(/^(cloud\.)?onyx\.app$/, "digi-trans.org")}&sz=64`
+          ).hostname.replace(/^(cloud\.)?zakk\.app$/, "digi-trans.org")}&sz=64`
         : "";
       onAdd({ name, url, favicon: faviconUrl });
       onClose();
@@ -140,7 +140,7 @@ export const NewShortCutModal = ({
   const faviconUrl = isValidUrl
     ? `https://www.google.com/s2/favicons?domain=${new URL(
         url
-      ).hostname.replace(/^(cloud\.)?onyx\.app$/, "digi-trans.org")}&sz=64`
+      ).hostname.replace(/^(cloud\.)?zakk\.app$/, "digi-trans.org")}&sz=64`
     : "";
 
   return (

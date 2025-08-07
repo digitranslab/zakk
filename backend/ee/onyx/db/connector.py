@@ -1,9 +1,9 @@
 from sqlalchemy import distinct
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import DocumentSource
-from onyx.db.models import Connector
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.db.models import Connector
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

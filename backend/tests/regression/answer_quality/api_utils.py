@@ -1,16 +1,16 @@
 import requests
 from retry import retry
 
-from ee.onyx.server.query_and_chat.models import OneShotQARequest
-from onyx.chat.models import ThreadMessage
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import MessageType
-from onyx.connectors.models import InputType
-from onyx.context.search.enums import OptionalSearchSetting
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import RetrievalDetails
-from onyx.db.enums import IndexingStatus
-from onyx.server.documents.models import ConnectorBase
+from ee.zakk.server.query_and_chat.models import OneShotQARequest
+from zakk.chat.models import ThreadMessage
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import MessageType
+from zakk.connectors.models import InputType
+from zakk.context.search.enums import OptionalSearchSetting
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import RetrievalDetails
+from zakk.db.enums import IndexingStatus
+from zakk.server.documents.models import ConnectorBase
 from tests.regression.answer_quality.cli_utils import get_api_server_host_port
 
 GENERAL_HEADERS = {"Content-Type": "application/json"}

@@ -3,16 +3,16 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from onyx.agents.agent_search.deep_search.main.models import (
+from zakk.agents.agent_search.deep_search.main.models import (
     AgentAdditionalMetrics,
 )
-from onyx.agents.agent_search.deep_search.main.models import AgentBaseMetrics
-from onyx.agents.agent_search.deep_search.main.models import (
+from zakk.agents.agent_search.deep_search.main.models import AgentBaseMetrics
+from zakk.agents.agent_search.deep_search.main.models import (
     AgentRefinedMetrics,
 )
-from onyx.agents.agent_search.deep_search.main.models import AgentTimings
-from onyx.context.search.models import InferenceSection
-from onyx.tools.models import SearchQueryInfo
+from zakk.agents.agent_search.deep_search.main.models import AgentTimings
+from zakk.context.search.models import InferenceSection
+from zakk.tools.models import SearchQueryInfo
 
 
 # Pydantic models for structured outputs

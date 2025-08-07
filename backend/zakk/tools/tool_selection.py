@@ -1,14 +1,14 @@
 import re
 from typing import Any
 
-from onyx.chat.chat_utils import combine_message_chain
-from onyx.configs.model_configs import GEN_AI_HISTORY_CUTOFF
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.llm.utils import message_to_string
-from onyx.prompts.constants import GENERAL_SEP_PAT
-from onyx.tools.tool import Tool
-from onyx.utils.logger import setup_logger
+from zakk.chat.chat_utils import combine_message_chain
+from zakk.configs.model_configs import GEN_AI_HISTORY_CUTOFF
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.llm.utils import message_to_string
+from zakk.prompts.constants import GENERAL_SEP_PAT
+from zakk.tools.tool import Tool
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

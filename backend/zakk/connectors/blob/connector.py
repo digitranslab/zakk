@@ -15,31 +15,31 @@ from botocore.exceptions import PartialCredentialsError
 from botocore.session import get_session
 from mypy_boto3_s3 import S3Client  # type: ignore
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import BlobType
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import FileOrigin
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import BlobType
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import FileOrigin
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     process_zakk_metadata,
 )
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import extract_text_and_images
-from onyx.file_processing.extract_file_text import get_file_ext
-from onyx.file_processing.extract_file_text import is_accepted_file_ext
-from onyx.file_processing.extract_file_text import OnyxExtensionType
-from onyx.file_processing.image_utils import store_image_and_create_section
-from onyx.utils.logger import setup_logger
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import extract_text_and_images
+from zakk.file_processing.extract_file_text import get_file_ext
+from zakk.file_processing.extract_file_text import is_accepted_file_ext
+from zakk.file_processing.extract_file_text import ZakkExtensionType
+from zakk.file_processing.image_utils import store_image_and_create_section
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -267,7 +267,7 @@ class BlobStorageConnector(LoadConnector, PollConnector):
                 link = self._get_blob_link(key)
 
                 # Handle image files
-                if is_accepted_file_ext(file_ext, OnyxExtensionType.Multimedia):
+                if is_accepted_file_ext(file_ext, ZakkExtensionType.Multimedia):
                     if not self._allow_images:
                         logger.debug(
                             f"Skipping image file: {key} (image processing not enabled)"

@@ -10,10 +10,10 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from slack_sdk.web import SlackResponse
 
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.slack.models import MessageType
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import retry_builder
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.slack.models import MessageType
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import retry_builder
 
 logger = setup_logger()
 
@@ -23,9 +23,9 @@ basic_retry_wrapper = retry_builder(tries=7)
 _SLACK_LIMIT = 900
 
 # used to serialize access to the retry TTL
-ONYX_SLACK_LOCK_TTL = 1800  # how long the lock is allowed to idle before it expires
-ONYX_SLACK_LOCK_BLOCKING_TIMEOUT = 60  # how long to wait for the lock per wait attempt
-ONYX_SLACK_LOCK_TOTAL_BLOCKING_TIMEOUT = 3600  # how long to wait for the lock in total
+ZAKK_SLACK_LOCK_TTL = 1800  # how long the lock is allowed to idle before it expires
+ZAKK_SLACK_LOCK_BLOCKING_TIMEOUT = 60  # how long to wait for the lock per wait attempt
+ZAKK_SLACK_LOCK_TOTAL_BLOCKING_TIMEOUT = 3600  # how long to wait for the lock in total
 
 
 @lru_cache()

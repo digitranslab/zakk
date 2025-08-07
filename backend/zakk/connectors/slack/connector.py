@@ -27,46 +27,46 @@ from slack_sdk.http_retry.builtin_interval_calculators import (
 )
 from typing_extensions import override
 
-from onyx.access.models import ExternalAccess
-from onyx.configs.app_configs import ENABLE_EXPENSIVE_EXPERT_CALLS
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.app_configs import SLACK_NUM_THREADS
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.interfaces import CheckpointedConnectorWithPermSync
-from onyx.connectors.interfaces import CheckpointOutput
-from onyx.connectors.interfaces import CredentialsConnector
-from onyx.connectors.interfaces import CredentialsProviderInterface
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import EntityFailure
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.connectors.slack.access import get_channel_access
-from onyx.connectors.slack.models import ChannelType
-from onyx.connectors.slack.models import MessageType
-from onyx.connectors.slack.models import ThreadType
-from onyx.connectors.slack.zakk_retry_handler import OnyxRedisSlackRetryHandler
-from onyx.connectors.slack.zakk_slack_web_client import OnyxSlackWebClient
-from onyx.connectors.slack.utils import (
+from zakk.access.models import ExternalAccess
+from zakk.configs.app_configs import ENABLE_EXPENSIVE_EXPERT_CALLS
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.app_configs import SLACK_NUM_THREADS
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.interfaces import CheckpointedConnectorWithPermSync
+from zakk.connectors.interfaces import CheckpointOutput
+from zakk.connectors.interfaces import CredentialsConnector
+from zakk.connectors.interfaces import CredentialsProviderInterface
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import EntityFailure
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.connectors.slack.access import get_channel_access
+from zakk.connectors.slack.models import ChannelType
+from zakk.connectors.slack.models import MessageType
+from zakk.connectors.slack.models import ThreadType
+from zakk.connectors.slack.zakk_retry_handler import ZakkRedisSlackRetryHandler
+from zakk.connectors.slack.zakk_slack_web_client import ZakkSlackWebClient
+from zakk.connectors.slack.utils import (
     expert_info_from_slack_id,
 )
-from onyx.connectors.slack.utils import get_message_link
-from onyx.connectors.slack.utils import make_paginated_slack_api_call
-from onyx.connectors.slack.utils import SlackTextCleaner
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
+from zakk.connectors.slack.utils import get_message_link
+from zakk.connectors.slack.utils import make_paginated_slack_api_call
+from zakk.connectors.slack.utils import SlackTextCleaner
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -646,7 +646,7 @@ class SlackConnector(
         delay_key = SlackConnector.make_delay_key(prefix)
 
         # NOTE: slack has a built in RateLimitErrorRetryHandler, but it isn't designed
-        # for concurrent workers. We've extended it with OnyxRedisSlackRetryHandler.
+        # for concurrent workers. We've extended it with ZakkRedisSlackRetryHandler.
         connection_error_retry_handler = ConnectionErrorRetryHandler(
             max_retry_count=max_retry_count,
             interval_calculator=FixedValueRetryIntervalCalculator(),
@@ -658,7 +658,7 @@ class SlackConnector(
             ],
         )
 
-        zakk_rate_limit_error_retry_handler = OnyxRedisSlackRetryHandler(
+        zakk_rate_limit_error_retry_handler = ZakkRedisSlackRetryHandler(
             max_retry_count=max_retry_count,
             delay_key=delay_key,
             r=r,
@@ -668,7 +668,7 @@ class SlackConnector(
             zakk_rate_limit_error_retry_handler,
         ]
 
-        client = OnyxSlackWebClient(
+        client = ZakkSlackWebClient(
             delay_lock=delay_lock,
             delay_key=delay_key,
             r=r,
@@ -1141,7 +1141,7 @@ class SlackConnector(
 if __name__ == "__main__":
     import os
     import time
-    from onyx.connectors.credentials_provider import OnyxStaticCredentialsProvider
+    from zakk.connectors.credentials_provider import ZakkStaticCredentialsProvider
     from shared_configs.contextvars import get_current_tenant_id
 
     slack_channel = os.environ.get("SLACK_CHANNEL")
@@ -1149,7 +1149,7 @@ if __name__ == "__main__":
         channels=[slack_channel] if slack_channel else None,
     )
 
-    provider = OnyxStaticCredentialsProvider(
+    provider = ZakkStaticCredentialsProvider(
         tenant_id=get_current_tenant_id(),
         connector_name="slack",
         credential_json={

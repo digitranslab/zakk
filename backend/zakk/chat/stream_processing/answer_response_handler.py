@@ -3,13 +3,13 @@ from collections.abc import Generator
 
 from langchain_core.messages import BaseMessage
 
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import ResponsePart
-from onyx.chat.stream_processing.citation_processing import CitationProcessor
-from onyx.chat.stream_processing.utils import DocumentIdOrderMapping
-from onyx.utils.logger import setup_logger
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import ResponsePart
+from zakk.chat.stream_processing.citation_processing import CitationProcessor
+from zakk.chat.stream_processing.utils import DocumentIdOrderMapping
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -32,7 +32,7 @@ class PassThroughAnswerResponseHandler(AnswerResponseHandler):
         previous_response_items: list[BaseMessage | str],
     ) -> Generator[ResponsePart, None, None]:
         content = _message_to_str(response_item)
-        yield OnyxAnswerPiece(answer_piece=content)
+        yield ZakkAnswerPiece(answer_piece=content)
 
 
 class DummyAnswerResponseHandler(AnswerResponseHandler):

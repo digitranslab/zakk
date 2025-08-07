@@ -7,10 +7,10 @@ from tokenizers import Encoding  # type: ignore
 from tokenizers import Tokenizer  # type: ignore
 from transformers import logging as transformer_logging  # type:ignore
 
-from onyx.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
-from onyx.configs.model_configs import DOCUMENT_ENCODER_MODEL
-from onyx.context.search.models import InferenceChunk
-from onyx.utils.logger import setup_logger
+from zakk.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
+from zakk.configs.model_configs import DOCUMENT_ENCODER_MODEL
+from zakk.context.search.models import InferenceChunk
+from zakk.utils.logger import setup_logger
 from shared_configs.enums import EmbeddingProvider
 
 TRIM_SEP_PAT = "\n... {n} tokens removed...\n"

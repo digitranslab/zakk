@@ -8,15 +8,15 @@ from redis import Redis
 from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DB_YIELD_PER_DEFAULT
-from onyx.configs.constants import CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.redis.redis_object_helper import RedisObjectHelper
-from onyx.utils.variable_functionality import fetch_versioned_implementation
-from onyx.utils.variable_functionality import global_version
+from zakk.configs.app_configs import DB_YIELD_PER_DEFAULT
+from zakk.configs.constants import CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.redis.redis_object_helper import RedisObjectHelper
+from zakk.utils.variable_functionality import fetch_versioned_implementation
+from zakk.utils.variable_functionality import global_version
 
 
 class RedisUserGroup(RedisObjectHelper):
@@ -36,12 +36,12 @@ class RedisUserGroup(RedisObjectHelper):
 
     def set_fence(self, payload: int | None) -> None:
         if payload is None:
-            self.redis.srem(OnyxRedisConstants.ACTIVE_FENCES, self.fence_key)
+            self.redis.srem(ZakkRedisConstants.ACTIVE_FENCES, self.fence_key)
             self.redis.delete(self.fence_key)
             return
 
         self.redis.set(self.fence_key, payload)
-        self.redis.sadd(OnyxRedisConstants.ACTIVE_FENCES, self.fence_key)
+        self.redis.sadd(ZakkRedisConstants.ACTIVE_FENCES, self.fence_key)
 
     @property
     def payload(self) -> int | None:
@@ -72,7 +72,7 @@ class RedisUserGroup(RedisObjectHelper):
 
         try:
             construct_document_id_select_by_usergroup = fetch_versioned_implementation(
-                "onyx.db.user_group",
+                "zakk.db.user_group",
                 "construct_document_id_select_by_usergroup",
             )
         except ModuleNotFoundError:
@@ -98,11 +98,11 @@ class RedisUserGroup(RedisObjectHelper):
             redis_client.sadd(self.taskset_key, custom_task_id)
 
             celery_app.send_task(
-                OnyxCeleryTask.VESPA_METADATA_SYNC_TASK,
+                ZakkCeleryTask.VESPA_METADATA_SYNC_TASK,
                 kwargs=dict(document_id=doc_id, tenant_id=tenant_id),
-                queue=OnyxCeleryQueues.VESPA_METADATA_SYNC,
+                queue=ZakkCeleryQueues.VESPA_METADATA_SYNC,
                 task_id=custom_task_id,
-                priority=OnyxCeleryPriority.MEDIUM,
+                priority=ZakkCeleryPriority.MEDIUM,
             )
 
             num_tasks_sent += 1
@@ -110,7 +110,7 @@ class RedisUserGroup(RedisObjectHelper):
         return num_tasks_sent, num_tasks_sent
 
     def reset(self) -> None:
-        self.redis.srem(OnyxRedisConstants.ACTIVE_FENCES, self.fence_key)
+        self.redis.srem(ZakkRedisConstants.ACTIVE_FENCES, self.fence_key)
         self.redis.delete(self.taskset_key)
         self.redis.delete(self.fence_key)
 

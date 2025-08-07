@@ -8,48 +8,48 @@ from urllib.parse import quote
 from requests.exceptions import HTTPError
 from typing_extensions import override
 
-from onyx.access.models import ExternalAccess
-from onyx.configs.app_configs import CONFLUENCE_CONNECTOR_LABELS_TO_SKIP
-from onyx.configs.app_configs import CONFLUENCE_TIMEZONE_OFFSET
-from onyx.configs.app_configs import CONTINUE_ON_CONNECTOR_FAILURE
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.confluence.access import get_all_space_permissions
-from onyx.connectors.confluence.access import get_page_restrictions
-from onyx.connectors.confluence.zakk_confluence import extract_text_from_confluence_html
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.connectors.confluence.utils import build_confluence_document_id
-from onyx.connectors.confluence.utils import convert_attachment_to_content
-from onyx.connectors.confluence.utils import datetime_from_string
-from onyx.connectors.confluence.utils import process_attachment
-from onyx.connectors.confluence.utils import update_param_in_path
-from onyx.connectors.confluence.utils import validate_attachment_filetype
-from onyx.connectors.credentials_provider import OnyxStaticCredentialsProvider
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.access.models import ExternalAccess
+from zakk.configs.app_configs import CONFLUENCE_CONNECTOR_LABELS_TO_SKIP
+from zakk.configs.app_configs import CONFLUENCE_TIMEZONE_OFFSET
+from zakk.configs.app_configs import CONTINUE_ON_CONNECTOR_FAILURE
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.confluence.access import get_all_space_permissions
+from zakk.connectors.confluence.access import get_page_restrictions
+from zakk.connectors.confluence.zakk_confluence import extract_text_from_confluence_html
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.connectors.confluence.utils import build_confluence_document_id
+from zakk.connectors.confluence.utils import convert_attachment_to_content
+from zakk.connectors.confluence.utils import datetime_from_string
+from zakk.connectors.confluence.utils import process_attachment
+from zakk.connectors.confluence.utils import update_param_in_path
+from zakk.connectors.confluence.utils import validate_attachment_filetype
+from zakk.connectors.credentials_provider import ZakkStaticCredentialsProvider
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     is_atlassian_date_error,
 )
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.interfaces import CheckpointedConnector
-from onyx.connectors.interfaces import CheckpointOutput
-from onyx.connectors.interfaces import ConnectorCheckpoint
-from onyx.connectors.interfaces import ConnectorFailure
-from onyx.connectors.interfaces import CredentialsConnector
-from onyx.connectors.interfaces import CredentialsProviderInterface
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.interfaces import SlimConnector
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import SlimDocument
-from onyx.connectors.models import TextSection
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.interfaces import CheckpointedConnector
+from zakk.connectors.interfaces import CheckpointOutput
+from zakk.connectors.interfaces import ConnectorCheckpoint
+from zakk.connectors.interfaces import ConnectorFailure
+from zakk.connectors.interfaces import CredentialsConnector
+from zakk.connectors.interfaces import CredentialsProviderInterface
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.interfaces import SlimConnector
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import SlimDocument
+from zakk.connectors.models import TextSection
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 # Potential Improvements
@@ -685,7 +685,7 @@ class ConfluenceConnector(
 
 if __name__ == "__main__":
     import os
-    from onyx.utils.variable_functionality import global_version
+    from zakk.utils.variable_functionality import global_version
     from tests.daily.connectors.utils import load_all_docs_from_checkpoint_connector
 
     # For connector permission testing, set EE to true.
@@ -710,7 +710,7 @@ if __name__ == "__main__":
         # page_id=page_id,
     )
 
-    credentials_provider = OnyxStaticCredentialsProvider(
+    credentials_provider = ZakkStaticCredentialsProvider(
         None,
         DocumentSource.CONFLUENCE,
         {

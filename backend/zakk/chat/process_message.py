@@ -10,152 +10,152 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from onyx.agents.agent_search.orchestration.nodes.call_tool import ToolCallException
-from onyx.chat.answer import Answer
-from onyx.chat.chat_utils import create_chat_chain
-from onyx.chat.chat_utils import create_temporary_persona
-from onyx.chat.chat_utils import process_kg_commands
-from onyx.chat.models import AgenticMessageResponseIDInfo
-from onyx.chat.models import AgentMessageIDInfo
-from onyx.chat.models import AgentSearchPacket
-from onyx.chat.models import AllCitations
-from onyx.chat.models import AnswerPostInfo
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import ChatZakkBotResponse
-from onyx.chat.models import CitationConfig
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import CustomToolResponse
-from onyx.chat.models import DocumentPruningConfig
-from onyx.chat.models import ExtendedToolResponse
-from onyx.chat.models import FileChatDisplay
-from onyx.chat.models import FinalUsedContextDocsResponse
-from onyx.chat.models import LLMRelevanceFilterResponse
-from onyx.chat.models import MessageResponseIDInfo
-from onyx.chat.models import MessageSpecificCitations
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import PromptConfig
-from onyx.chat.models import QADocsResponse
-from onyx.chat.models import RefinedAnswerImprovement
-from onyx.chat.models import StreamingError
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.models import SubQuestionKey
-from onyx.chat.models import UserKnowledgeFilePacket
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.chat.prompt_builder.answer_prompt_builder import default_build_system_message
-from onyx.chat.prompt_builder.answer_prompt_builder import default_build_user_message
-from onyx.chat.user_files.parse_user_files import parse_user_files
-from onyx.configs.chat_configs import CHAT_TARGET_CHUNK_PERCENTAGE
-from onyx.configs.chat_configs import DISABLE_LLM_CHOOSE_SEARCH
-from onyx.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
-from onyx.configs.chat_configs import SELECTED_SECTIONS_MAX_WINDOW_PERCENTAGE
-from onyx.configs.constants import AGENT_SEARCH_INITIAL_KEY
-from onyx.configs.constants import BASIC_KEY
-from onyx.configs.constants import MessageType
-from onyx.configs.constants import MilestoneRecordType
-from onyx.configs.constants import NO_AUTH_USER_ID
-from onyx.context.search.enums import OptionalSearchSetting
-from onyx.context.search.enums import QueryFlow
-from onyx.context.search.enums import SearchType
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import RetrievalDetails
-from onyx.context.search.retrieval.search_runner import (
+from zakk.agents.agent_search.orchestration.nodes.call_tool import ToolCallException
+from zakk.chat.answer import Answer
+from zakk.chat.chat_utils import create_chat_chain
+from zakk.chat.chat_utils import create_temporary_persona
+from zakk.chat.chat_utils import process_kg_commands
+from zakk.chat.models import AgenticMessageResponseIDInfo
+from zakk.chat.models import AgentMessageIDInfo
+from zakk.chat.models import AgentSearchPacket
+from zakk.chat.models import AllCitations
+from zakk.chat.models import AnswerPostInfo
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import ChatZakkBotResponse
+from zakk.chat.models import CitationConfig
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import CustomToolResponse
+from zakk.chat.models import DocumentPruningConfig
+from zakk.chat.models import ExtendedToolResponse
+from zakk.chat.models import FileChatDisplay
+from zakk.chat.models import FinalUsedContextDocsResponse
+from zakk.chat.models import LLMRelevanceFilterResponse
+from zakk.chat.models import MessageResponseIDInfo
+from zakk.chat.models import MessageSpecificCitations
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import PromptConfig
+from zakk.chat.models import QADocsResponse
+from zakk.chat.models import RefinedAnswerImprovement
+from zakk.chat.models import StreamingError
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.models import SubQuestionKey
+from zakk.chat.models import UserKnowledgeFilePacket
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.chat.prompt_builder.answer_prompt_builder import default_build_system_message
+from zakk.chat.prompt_builder.answer_prompt_builder import default_build_user_message
+from zakk.chat.user_files.parse_user_files import parse_user_files
+from zakk.configs.chat_configs import CHAT_TARGET_CHUNK_PERCENTAGE
+from zakk.configs.chat_configs import DISABLE_LLM_CHOOSE_SEARCH
+from zakk.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
+from zakk.configs.chat_configs import SELECTED_SECTIONS_MAX_WINDOW_PERCENTAGE
+from zakk.configs.constants import AGENT_SEARCH_INITIAL_KEY
+from zakk.configs.constants import BASIC_KEY
+from zakk.configs.constants import MessageType
+from zakk.configs.constants import MilestoneRecordType
+from zakk.configs.constants import NO_AUTH_USER_ID
+from zakk.context.search.enums import OptionalSearchSetting
+from zakk.context.search.enums import QueryFlow
+from zakk.context.search.enums import SearchType
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import RetrievalDetails
+from zakk.context.search.retrieval.search_runner import (
     inference_sections_from_ids,
 )
-from onyx.context.search.utils import chunks_or_sections_to_search_docs
-from onyx.context.search.utils import dedupe_documents
-from onyx.context.search.utils import drop_llm_indices
-from onyx.context.search.utils import relevant_sections_to_indices
-from onyx.db.chat import attach_files_to_chat_message
-from onyx.db.chat import create_db_search_doc
-from onyx.db.chat import create_new_chat_message
-from onyx.db.chat import create_search_doc_from_user_file
-from onyx.db.chat import get_chat_message
-from onyx.db.chat import get_chat_session_by_id
-from onyx.db.chat import get_db_search_doc_by_id
-from onyx.db.chat import get_doc_query_identifiers_from_model
-from onyx.db.chat import get_or_create_root_message
-from onyx.db.chat import reserve_message_id
-from onyx.db.chat import translate_db_message_to_chat_message_detail
-from onyx.db.chat import translate_db_search_doc_to_server_search_doc
-from onyx.db.chat import update_chat_session_updated_at_timestamp
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.milestone import check_multi_assistant_milestone
-from onyx.db.milestone import create_milestone_if_not_exists
-from onyx.db.milestone import update_user_assistant_milestone
-from onyx.db.models import ChatMessage
-from onyx.db.models import Persona
-from onyx.db.models import SearchDoc as DbSearchDoc
-from onyx.db.models import ToolCall
-from onyx.db.models import User
-from onyx.db.models import UserFile
-from onyx.db.persona import get_persona_by_id
-from onyx.db.search_settings import get_current_search_settings
-from onyx.document_index.factory import get_default_document_index
-from onyx.file_store.models import ChatFileType
-from onyx.file_store.models import FileDescriptor
-from onyx.file_store.models import InMemoryChatFile
-from onyx.file_store.utils import load_all_chat_files
-from onyx.file_store.utils import save_files
-from onyx.kg.models import KGException
-from onyx.llm.exceptions import GenAIDisabledException
-from onyx.llm.factory import get_llms_for_persona
-from onyx.llm.factory import get_main_llm_from_tuple
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.llm.utils import litellm_exception_to_error_msg
-from onyx.natural_language_processing.utils import get_tokenizer
-from onyx.server.query_and_chat.models import ChatMessageDetail
-from onyx.server.query_and_chat.models import CreateChatMessageRequest
-from onyx.server.utils import get_json_line
-from onyx.tools.force import ForceUseTool
-from onyx.tools.models import SearchToolOverrideKwargs
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool import Tool
-from onyx.tools.tool_constructor import construct_tools
-from onyx.tools.tool_constructor import CustomToolConfig
-from onyx.tools.tool_constructor import ImageGenerationToolConfig
-from onyx.tools.tool_constructor import InternetSearchToolConfig
-from onyx.tools.tool_constructor import SearchToolConfig
-from onyx.tools.tool_implementations.custom.custom_tool import (
+from zakk.context.search.utils import chunks_or_sections_to_search_docs
+from zakk.context.search.utils import dedupe_documents
+from zakk.context.search.utils import drop_llm_indices
+from zakk.context.search.utils import relevant_sections_to_indices
+from zakk.db.chat import attach_files_to_chat_message
+from zakk.db.chat import create_db_search_doc
+from zakk.db.chat import create_new_chat_message
+from zakk.db.chat import create_search_doc_from_user_file
+from zakk.db.chat import get_chat_message
+from zakk.db.chat import get_chat_session_by_id
+from zakk.db.chat import get_db_search_doc_by_id
+from zakk.db.chat import get_doc_query_identifiers_from_model
+from zakk.db.chat import get_or_create_root_message
+from zakk.db.chat import reserve_message_id
+from zakk.db.chat import translate_db_message_to_chat_message_detail
+from zakk.db.chat import translate_db_search_doc_to_server_search_doc
+from zakk.db.chat import update_chat_session_updated_at_timestamp
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.milestone import check_multi_assistant_milestone
+from zakk.db.milestone import create_milestone_if_not_exists
+from zakk.db.milestone import update_user_assistant_milestone
+from zakk.db.models import ChatMessage
+from zakk.db.models import Persona
+from zakk.db.models import SearchDoc as DbSearchDoc
+from zakk.db.models import ToolCall
+from zakk.db.models import User
+from zakk.db.models import UserFile
+from zakk.db.persona import get_persona_by_id
+from zakk.db.search_settings import get_current_search_settings
+from zakk.document_index.factory import get_default_document_index
+from zakk.file_store.models import ChatFileType
+from zakk.file_store.models import FileDescriptor
+from zakk.file_store.models import InMemoryChatFile
+from zakk.file_store.utils import load_all_chat_files
+from zakk.file_store.utils import save_files
+from zakk.kg.models import KGException
+from zakk.llm.exceptions import GenAIDisabledException
+from zakk.llm.factory import get_llms_for_persona
+from zakk.llm.factory import get_main_llm_from_tuple
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.llm.utils import litellm_exception_to_error_msg
+from zakk.natural_language_processing.utils import get_tokenizer
+from zakk.server.query_and_chat.models import ChatMessageDetail
+from zakk.server.query_and_chat.models import CreateChatMessageRequest
+from zakk.server.utils import get_json_line
+from zakk.tools.force import ForceUseTool
+from zakk.tools.models import SearchToolOverrideKwargs
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool import Tool
+from zakk.tools.tool_constructor import construct_tools
+from zakk.tools.tool_constructor import CustomToolConfig
+from zakk.tools.tool_constructor import ImageGenerationToolConfig
+from zakk.tools.tool_constructor import InternetSearchToolConfig
+from zakk.tools.tool_constructor import SearchToolConfig
+from zakk.tools.tool_implementations.custom.custom_tool import (
     CUSTOM_TOOL_RESPONSE_ID,
 )
-from onyx.tools.tool_implementations.custom.custom_tool import CustomToolCallSummary
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.tools.tool_implementations.custom.custom_tool import CustomToolCallSummary
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     IMAGE_GENERATION_RESPONSE_ID,
 )
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     ImageGenerationResponse,
 )
-from onyx.tools.tool_implementations.internet_search.internet_search_tool import (
+from zakk.tools.tool_implementations.internet_search.internet_search_tool import (
     INTERNET_SEARCH_RESPONSE_SUMMARY_ID,
 )
-from onyx.tools.tool_implementations.internet_search.internet_search_tool import (
+from zakk.tools.tool_implementations.internet_search.internet_search_tool import (
     InternetSearchTool,
 )
-from onyx.tools.tool_implementations.internet_search.models import (
+from zakk.tools.tool_implementations.internet_search.models import (
     InternetSearchResponseSummary,
 )
-from onyx.tools.tool_implementations.internet_search.utils import (
+from zakk.tools.tool_implementations.internet_search.utils import (
     internet_search_response_to_search_docs,
 )
-from onyx.tools.tool_implementations.search.search_tool import (
+from zakk.tools.tool_implementations.search.search_tool import (
     FINAL_CONTEXT_DOCUMENTS_ID,
 )
-from onyx.tools.tool_implementations.search.search_tool import (
+from zakk.tools.tool_implementations.search.search_tool import (
     SEARCH_RESPONSE_SUMMARY_ID,
 )
-from onyx.tools.tool_implementations.search.search_tool import SearchResponseSummary
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.tools.tool_implementations.search.search_tool import (
+from zakk.tools.tool_implementations.search.search_tool import SearchResponseSummary
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.tools.tool_implementations.search.search_tool import (
     SECTION_RELEVANCE_LIST_ID,
 )
-from onyx.tools.tool_runner import ToolCallFinalResult
-from onyx.utils.logger import setup_logger
-from onyx.utils.long_term_log import LongTermLogger
-from onyx.utils.telemetry import mt_cloud_telemetry
-from onyx.utils.timing import log_function_time
-from onyx.utils.timing import log_generator_function_time
+from zakk.tools.tool_runner import ToolCallFinalResult
+from zakk.utils.logger import setup_logger
+from zakk.utils.long_term_log import LongTermLogger
+from zakk.utils.telemetry import mt_cloud_telemetry
+from zakk.utils.timing import log_function_time
+from zakk.utils.timing import log_generator_function_time
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()
@@ -398,7 +398,7 @@ ChatPacket = (
     | LLMRelevanceFilterResponse
     | FinalUsedContextDocsResponse
     | ChatMessageDetail
-    | OnyxAnswerPiece
+    | ZakkAnswerPiece
     | AllCitations
     | CitationInfo
     | FileChatDisplay
@@ -1265,7 +1265,7 @@ def gather_stream_for_slack(
 
     answer = ""
     for packet in packets:
-        if isinstance(packet, OnyxAnswerPiece) and packet.answer_piece:
+        if isinstance(packet, ZakkAnswerPiece) and packet.answer_piece:
             answer += packet.answer_piece
         elif isinstance(packet, QADocsResponse):
             response.docs = packet

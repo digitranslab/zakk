@@ -1,4 +1,4 @@
-from onyx.agents.agent_search.kb_search.models import KGSteps
+from zakk.agents.agent_search.kb_search.models import KGSteps
 
 STEP_DESCRIPTIONS: dict[int, KGSteps] = {
     1: KGSteps(

@@ -7,7 +7,7 @@ from typing import Any
 from fastapi import HTTPException
 from fastapi import status
 
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_AUTHENTICATION_METHOD,
 )
 

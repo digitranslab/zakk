@@ -11,15 +11,15 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Session
 
-import onyx.db.document as dbdocument
-from onyx.db.entity_type import UNGROUNDED_SOURCE_NAME
-from onyx.db.models import Document
-from onyx.db.models import KGEntity
-from onyx.db.models import KGEntityExtractionStaging
-from onyx.db.models import KGEntityType
-from onyx.kg.models import KGGroundingType
-from onyx.kg.models import KGStage
-from onyx.kg.utils.formatting_utils import make_entity_id
+import zakk.db.document as dbdocument
+from zakk.db.entity_type import UNGROUNDED_SOURCE_NAME
+from zakk.db.models import Document
+from zakk.db.models import KGEntity
+from zakk.db.models import KGEntityExtractionStaging
+from zakk.db.models import KGEntityType
+from zakk.kg.models import KGGroundingType
+from zakk.kg.models import KGStage
+from zakk.kg.utils.formatting_utils import make_entity_id
 
 
 def upsert_staging_entity(

@@ -2,10 +2,10 @@ from sqlalchemy import and_
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.background.task_utils import QUERY_REPORT_NAME_PREFIX
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import FileType
-from onyx.db.models import FileRecord
+from zakk.background.task_utils import QUERY_REPORT_NAME_PREFIX
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import FileType
+from zakk.db.models import FileRecord
 
 
 def get_query_history_export_files(

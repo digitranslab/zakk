@@ -4,13 +4,13 @@ from uuid import UUID
 from pydantic import BaseModel
 from pydantic import Field
 
-from onyx.db.models import DocumentSet as DocumentSetDBModel
-from onyx.db.models import FederatedConnector__DocumentSet
-from onyx.server.documents.models import CCPairSummary
-from onyx.server.documents.models import ConnectorCredentialPairDescriptor
-from onyx.server.documents.models import ConnectorSnapshot
-from onyx.server.documents.models import CredentialSnapshot
-from onyx.server.federated.models import FederatedConnectorSummary
+from zakk.db.models import DocumentSet as DocumentSetDBModel
+from zakk.db.models import FederatedConnector__DocumentSet
+from zakk.server.documents.models import CCPairSummary
+from zakk.server.documents.models import ConnectorCredentialPairDescriptor
+from zakk.server.documents.models import ConnectorSnapshot
+from zakk.server.documents.models import CredentialSnapshot
+from zakk.server.federated.models import FederatedConnectorSummary
 
 
 class FederatedConnectorConfig(BaseModel):

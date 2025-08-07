@@ -1,12 +1,12 @@
-import { OnyxDocument } from "./search/interfaces";
+import { ZakkDocument } from "./search/interfaces";
 
 export function removeDuplicateDocs(
-  documents: OnyxDocument[],
+  documents: ZakkDocument[],
   agentic?: boolean,
   relevance?: any
 ) {
   const seen = new Set<string>();
-  const output: OnyxDocument[] = [];
+  const output: ZakkDocument[] = [];
   documents.forEach((document) => {
     if (
       document.document_id &&

@@ -12,7 +12,7 @@ from fastapi import Request
 from fastapi import Response
 
 from shared_configs.contextvars import CURRENT_TENANT_ID_CONTEXTVAR
-from shared_configs.contextvars import ONYX_REQUEST_ID_CONTEXTVAR
+from shared_configs.contextvars import ZAKK_REQUEST_ID_CONTEXTVAR
 
 
 def add_zakk_tenant_id_middleware(app: FastAPI, logger: logging.LoggerAdapter) -> None:
@@ -22,7 +22,7 @@ def add_zakk_tenant_id_middleware(app: FastAPI, logger: logging.LoggerAdapter) -
     ) -> Response:
         """Captures and sets the context var for the tenant."""
 
-        zakk_tenant_id = request.headers.get("X-Onyx-Tenant-ID")
+        zakk_tenant_id = request.headers.get("X-Zakk-Tenant-ID")
         if zakk_tenant_id:
             CURRENT_TENANT_ID_CONTEXTVAR.set(zakk_tenant_id)
         return await call_next(request)
@@ -43,11 +43,11 @@ def add_zakk_request_id_middleware(
         Total length is 12 chars.
         """
 
-        zakk_request_id = request.headers.get("X-Onyx-Request-ID")
+        zakk_request_id = request.headers.get("X-Zakk-Request-ID")
         if not zakk_request_id:
             zakk_request_id = make_randomized_zakk_request_id(prefix)
 
-        ONYX_REQUEST_ID_CONTEXTVAR.set(zakk_request_id)
+        ZAKK_REQUEST_ID_CONTEXTVAR.set(zakk_request_id)
         return await call_next(request)
 
 

@@ -1,7 +1,7 @@
 import {
-  OnyxDocument,
+  ZakkDocument,
   Filters,
-  SearchOnyxDocument,
+  SearchZakkDocument,
   StreamStopReason,
   SubQuestionPiece,
   SubQueryPiece,
@@ -84,7 +84,7 @@ export interface ChatSession {
 
 export interface SearchSession {
   search_session_id: string;
-  documents: SearchOnyxDocument[];
+  documents: SearchZakkDocument[];
   messages: BackendMessage[];
   description: string;
 }
@@ -96,7 +96,7 @@ export interface Message {
   type: "user" | "assistant" | "system" | "error";
   retrievalType?: RetrievalType;
   query?: string | null;
-  documents?: OnyxDocument[] | null;
+  documents?: ZakkDocument[] | null;
   citations?: CitationMap;
   files: FileDescriptor[];
   toolCall: ToolCallMetadata | null;
@@ -113,7 +113,7 @@ export interface Message {
 
   // Streaming only
   second_level_generating?: boolean;
-  agentic_docs?: OnyxDocument[] | null;
+  agentic_docs?: ZakkDocument[] | null;
   second_level_message?: string;
   second_level_subquestions?: SubQuestionDetail[] | null;
   isImprovement?: boolean | null;
@@ -142,7 +142,7 @@ export interface BackendMessage {
   latest_child_message: number | null;
   message: string;
   rephrased_query: string | null;
-  context_docs: { top_documents: OnyxDocument[] } | null;
+  context_docs: { top_documents: ZakkDocument[] } | null;
   time_sent: string;
   overridden_model: string;
   alternate_assistant_id: number | null;
@@ -178,7 +178,7 @@ export interface UserKnowledgeFilePacket {
 }
 
 export interface DocumentsResponse {
-  top_documents: OnyxDocument[];
+  top_documents: ZakkDocument[];
   rephrased_query: string | null;
   level?: number | null;
   level_question_num?: number | null;
@@ -239,7 +239,7 @@ export interface SubQuestionDetail extends BaseQuestionIdentifier {
   question: string;
   answer: string;
   sub_queries?: SubQueryDetail[] | null;
-  context_docs?: { top_documents: OnyxDocument[] } | null;
+  context_docs?: { top_documents: ZakkDocument[] } | null;
   is_complete?: boolean;
   is_stopped?: boolean;
   answer_streaming?: boolean;

@@ -7,7 +7,7 @@ from uuid import uuid4
 
 import pytest
 
-from onyx.connectors.file.connector import LocalFileConnector
+from zakk.connectors.file.connector import LocalFileConnector
 
 
 @pytest.fixture
@@ -29,9 +29,9 @@ def mock_filestore_record() -> MagicMock:
     return record
 
 
-@patch("onyx.connectors.file.connector.get_default_file_store")
+@patch("zakk.connectors.file.connector.get_default_file_store")
 @patch(
-    "onyx.file_processing.extract_file_text.get_unstructured_api_key", return_value=None
+    "zakk.file_processing.extract_file_text.get_unstructured_api_key", return_value=None
 )
 def test_single_text_file_with_metadata(
     mock_get_unstructured_api_key: MagicMock,
@@ -41,7 +41,7 @@ def test_single_text_file_with_metadata(
     mock_filestore_record: MagicMock,
 ) -> None:
     file_content = io.BytesIO(
-        b'#ONYX_METADATA={"link": "https://digi-trans.org", "file_display_name":"my display name", "tag_of_your_choice": "test-tag", \
+        b'#ZAKK_METADATA={"link": "https://digi-trans.org", "file_display_name":"my display name", "tag_of_your_choice": "test-tag", \
           "primary_owners": ["wenxi@digi-trans.org"], "secondary_owners": ["founders@digi-trans.org"], \
           "doc_updated_at": "2001-01-01T00:00:00Z"}\n'
         b"Test answer is 12345"
@@ -53,7 +53,7 @@ def test_single_text_file_with_metadata(
     mock_file_store.read_file.return_value = file_content
 
     with patch(
-        "onyx.connectors.file.connector.get_default_file_store",
+        "zakk.connectors.file.connector.get_default_file_store",
         return_value=mock_file_store,
     ):
         connector = LocalFileConnector(
@@ -75,7 +75,7 @@ def test_single_text_file_with_metadata(
 
 
 @patch(
-    "onyx.file_processing.extract_file_text.get_unstructured_api_key", return_value=None
+    "zakk.file_processing.extract_file_text.get_unstructured_api_key", return_value=None
 )
 def test_two_text_files_with_zip_metadata(
     mock_get_unstructured_api_key: MagicMock,
@@ -111,7 +111,7 @@ def test_two_text_files_with_zip_metadata(
     }
 
     with patch(
-        "onyx.connectors.file.connector.get_default_file_store",
+        "zakk.connectors.file.connector.get_default_file_store",
         return_value=mock_file_store,
     ):
         connector = LocalFileConnector(

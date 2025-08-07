@@ -5,19 +5,19 @@ from unittest.mock import patch
 
 import pytest
 
-from onyx.tools.models import DynamicSchemaInfo
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool_implementations.custom.custom_tool import (
+from zakk.tools.models import DynamicSchemaInfo
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool_implementations.custom.custom_tool import (
     build_custom_tools_from_openapi_schema_and_headers,
 )
-from onyx.tools.tool_implementations.custom.custom_tool import (
+from zakk.tools.tool_implementations.custom.custom_tool import (
     CUSTOM_TOOL_RESPONSE_ID,
 )
-from onyx.tools.tool_implementations.custom.custom_tool import CustomToolCallSummary
-from onyx.tools.tool_implementations.custom.custom_tool import (
+from zakk.tools.tool_implementations.custom.custom_tool import CustomToolCallSummary
+from zakk.tools.tool_implementations.custom.custom_tool import (
     validate_openapi_schema,
 )
-from onyx.utils.headers import HeaderItemDict
+from zakk.utils.headers import HeaderItemDict
 
 
 class TestCustomTool(unittest.TestCase):
@@ -82,7 +82,7 @@ class TestCustomTool(unittest.TestCase):
             chat_session_id=uuid.uuid4(), message_id=20
         )
 
-    @patch("onyx.tools.tool_implementations.custom.custom_tool.requests.request")
+    @patch("zakk.tools.tool_implementations.custom.custom_tool.requests.request")
     def test_custom_tool_run_get(self, mock_request: unittest.mock.MagicMock) -> None:
         """
         Test the GET method of a custom tool.
@@ -110,7 +110,7 @@ class TestCustomTool(unittest.TestCase):
             "Tool name in response does not match expected value",
         )
 
-    @patch("onyx.tools.tool_implementations.custom.custom_tool.requests.request")
+    @patch("zakk.tools.tool_implementations.custom.custom_tool.requests.request")
     def test_custom_tool_run_post(self, mock_request: unittest.mock.MagicMock) -> None:
         """
         Test the POST method of a custom tool.
@@ -140,7 +140,7 @@ class TestCustomTool(unittest.TestCase):
             "Tool name in response does not match expected value",
         )
 
-    @patch("onyx.tools.tool_implementations.custom.custom_tool.requests.request")
+    @patch("zakk.tools.tool_implementations.custom.custom_tool.requests.request")
     def test_custom_tool_with_headers(
         self, mock_request: unittest.mock.MagicMock
     ) -> None:
@@ -168,7 +168,7 @@ class TestCustomTool(unittest.TestCase):
             "GET", expected_url, json=None, headers=expected_headers
         )
 
-    @patch("onyx.tools.tool_implementations.custom.custom_tool.requests.request")
+    @patch("zakk.tools.tool_implementations.custom.custom_tool.requests.request")
     def test_custom_tool_with_empty_headers(
         self, mock_request: unittest.mock.MagicMock
     ) -> None:

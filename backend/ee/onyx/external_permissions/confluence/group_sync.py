@@ -1,15 +1,15 @@
 from collections.abc import Generator
 
-from ee.onyx.db.external_perm import ExternalUserGroup
-from ee.onyx.external_permissions.confluence.constants import ALL_CONF_EMAILS_GROUP_NAME
-from onyx.background.error_logging import emit_background_error
-from onyx.connectors.confluence.zakk_confluence import (
+from ee.zakk.db.external_perm import ExternalUserGroup
+from ee.zakk.external_permissions.confluence.constants import ALL_CONF_EMAILS_GROUP_NAME
+from zakk.background.error_logging import emit_background_error
+from zakk.connectors.confluence.zakk_confluence import (
     get_user_email_from_username__server,
 )
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.connectors.credentials_provider import OnyxDBCredentialsProvider
-from onyx.db.models import ConnectorCredentialPair
-from onyx.utils.logger import setup_logger
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.connectors.credentials_provider import ZakkDBCredentialsProvider
+from zakk.db.models import ConnectorCredentialPair
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -68,7 +68,7 @@ def confluence_group_sync(
     tenant_id: str,
     cc_pair: ConnectorCredentialPair,
 ) -> Generator[ExternalUserGroup, None, None]:
-    provider = OnyxDBCredentialsProvider(tenant_id, "confluence", cc_pair.credential_id)
+    provider = ZakkDBCredentialsProvider(tenant_id, "confluence", cc_pair.credential_id)
     is_cloud = cc_pair.connector.connector_specific_config.get("is_cloud", False)
     wiki_base: str = cc_pair.connector.connector_specific_config["wiki_base"]
     url = wiki_base.rstrip("/")

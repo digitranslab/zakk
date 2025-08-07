@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
-from onyx.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
-from onyx.agents.agent_search.shared_graph_utils.models import QueryRetrievalResult
-from onyx.context.search.models import InferenceSection
+from zakk.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
+from zakk.agents.agent_search.shared_graph_utils.models import QueryRetrievalResult
+from zakk.context.search.models import InferenceSection
 
 
 class QuestionRetrievalResult(BaseModel):

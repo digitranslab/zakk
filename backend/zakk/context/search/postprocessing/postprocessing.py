@@ -8,35 +8,35 @@ from langchain_core.messages import BaseMessage
 from langchain_core.messages import HumanMessage
 from langchain_core.messages import SystemMessage
 
-from onyx.chat.models import SectionRelevancePiece
-from onyx.configs.app_configs import BLURB_SIZE
-from onyx.configs.app_configs import IMAGE_ANALYSIS_SYSTEM_PROMPT
-from onyx.configs.chat_configs import DISABLE_LLM_DOC_RELEVANCE
-from onyx.configs.constants import RETURN_SEPARATOR
-from onyx.configs.llm_configs import get_search_time_image_analysis_enabled
-from onyx.configs.model_configs import CROSS_ENCODER_RANGE_MAX
-from onyx.configs.model_configs import CROSS_ENCODER_RANGE_MIN
-from onyx.context.search.enums import LLMEvaluationType
-from onyx.context.search.models import ChunkMetric
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import InferenceChunkUncleaned
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import MAX_METRICS_CONTENT
-from onyx.context.search.models import RerankingDetails
-from onyx.context.search.models import RerankMetricsContainer
-from onyx.context.search.models import SearchQuery
-from onyx.document_index.document_index_utils import (
+from zakk.chat.models import SectionRelevancePiece
+from zakk.configs.app_configs import BLURB_SIZE
+from zakk.configs.app_configs import IMAGE_ANALYSIS_SYSTEM_PROMPT
+from zakk.configs.chat_configs import DISABLE_LLM_DOC_RELEVANCE
+from zakk.configs.constants import RETURN_SEPARATOR
+from zakk.configs.llm_configs import get_search_time_image_analysis_enabled
+from zakk.configs.model_configs import CROSS_ENCODER_RANGE_MAX
+from zakk.configs.model_configs import CROSS_ENCODER_RANGE_MIN
+from zakk.context.search.enums import LLMEvaluationType
+from zakk.context.search.models import ChunkMetric
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import InferenceChunkUncleaned
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import MAX_METRICS_CONTENT
+from zakk.context.search.models import RerankingDetails
+from zakk.context.search.models import RerankMetricsContainer
+from zakk.context.search.models import SearchQuery
+from zakk.document_index.document_index_utils import (
     translate_boost_count_to_multiplier,
 )
-from onyx.file_store.file_store import get_default_file_store
-from onyx.llm.interfaces import LLM
-from onyx.llm.utils import message_to_string
-from onyx.natural_language_processing.search_nlp_models import RerankingModel
-from onyx.secondary_llm_flows.chunk_usefulness import llm_batch_eval_sections
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import FunctionCall
-from onyx.utils.threadpool_concurrency import run_functions_in_parallel
-from onyx.utils.timing import log_function_time
+from zakk.file_store.file_store import get_default_file_store
+from zakk.llm.interfaces import LLM
+from zakk.llm.utils import message_to_string
+from zakk.natural_language_processing.search_nlp_models import RerankingModel
+from zakk.secondary_llm_flows.chunk_usefulness import llm_batch_eval_sections
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import FunctionCall
+from zakk.utils.threadpool_concurrency import run_functions_in_parallel
+from zakk.utils.timing import log_function_time
 
 
 def update_image_sections_with_query(

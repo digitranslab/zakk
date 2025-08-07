@@ -7,48 +7,48 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from ee.onyx.server.query_and_chat.models import AgentAnswer
-from ee.onyx.server.query_and_chat.models import AgentSubQuery
-from ee.onyx.server.query_and_chat.models import AgentSubQuestion
-from ee.onyx.server.query_and_chat.models import BasicCreateChatMessageRequest
-from ee.onyx.server.query_and_chat.models import (
+from ee.zakk.server.query_and_chat.models import AgentAnswer
+from ee.zakk.server.query_and_chat.models import AgentSubQuery
+from ee.zakk.server.query_and_chat.models import AgentSubQuestion
+from ee.zakk.server.query_and_chat.models import BasicCreateChatMessageRequest
+from ee.zakk.server.query_and_chat.models import (
     BasicCreateChatMessageWithHistoryRequest,
 )
-from ee.onyx.server.query_and_chat.models import ChatBasicResponse
-from onyx.auth.users import current_user
-from onyx.chat.chat_utils import combine_message_thread
-from onyx.chat.chat_utils import create_chat_chain
-from onyx.chat.models import AgentAnswerPiece
-from onyx.chat.models import AllCitations
-from onyx.chat.models import ExtendedToolResponse
-from onyx.chat.models import FinalUsedContextDocsResponse
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import LLMRelevanceFilterResponse
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import QADocsResponse
-from onyx.chat.models import RefinedAnswerImprovement
-from onyx.chat.models import StreamingError
-from onyx.chat.models import SubQueryPiece
-from onyx.chat.models import SubQuestionIdentifier
-from onyx.chat.models import SubQuestionPiece
-from onyx.chat.process_message import ChatPacketStream
-from onyx.chat.process_message import stream_chat_message_objects
-from onyx.configs.chat_configs import CHAT_TARGET_CHUNK_PERCENTAGE
-from onyx.configs.constants import MessageType
-from onyx.context.search.models import OptionalSearchSetting
-from onyx.context.search.models import RetrievalDetails
-from onyx.context.search.models import SavedSearchDoc
-from onyx.db.chat import create_chat_session
-from onyx.db.chat import create_new_chat_message
-from onyx.db.chat import get_or_create_root_message
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.llm.factory import get_llms_for_persona
-from onyx.natural_language_processing.utils import get_tokenizer
-from onyx.secondary_llm_flows.query_expansion import thread_based_query_rephrase
-from onyx.server.query_and_chat.models import ChatMessageDetail
-from onyx.server.query_and_chat.models import CreateChatMessageRequest
-from onyx.utils.logger import setup_logger
+from ee.zakk.server.query_and_chat.models import ChatBasicResponse
+from zakk.auth.users import current_user
+from zakk.chat.chat_utils import combine_message_thread
+from zakk.chat.chat_utils import create_chat_chain
+from zakk.chat.models import AgentAnswerPiece
+from zakk.chat.models import AllCitations
+from zakk.chat.models import ExtendedToolResponse
+from zakk.chat.models import FinalUsedContextDocsResponse
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import LLMRelevanceFilterResponse
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import QADocsResponse
+from zakk.chat.models import RefinedAnswerImprovement
+from zakk.chat.models import StreamingError
+from zakk.chat.models import SubQueryPiece
+from zakk.chat.models import SubQuestionIdentifier
+from zakk.chat.models import SubQuestionPiece
+from zakk.chat.process_message import ChatPacketStream
+from zakk.chat.process_message import stream_chat_message_objects
+from zakk.configs.chat_configs import CHAT_TARGET_CHUNK_PERCENTAGE
+from zakk.configs.constants import MessageType
+from zakk.context.search.models import OptionalSearchSetting
+from zakk.context.search.models import RetrievalDetails
+from zakk.context.search.models import SavedSearchDoc
+from zakk.db.chat import create_chat_session
+from zakk.db.chat import create_new_chat_message
+from zakk.db.chat import get_or_create_root_message
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.llm.factory import get_llms_for_persona
+from zakk.natural_language_processing.utils import get_tokenizer
+from zakk.secondary_llm_flows.query_expansion import thread_based_query_rephrase
+from zakk.server.query_and_chat.models import ChatMessageDetail
+from zakk.server.query_and_chat.models import CreateChatMessageRequest
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -87,7 +87,7 @@ def _convert_packet_stream_to_response(
     agent_sub_queries: dict[tuple[int, int, int], AgentSubQuery] = {}
 
     for packet in packets:
-        if isinstance(packet, OnyxAnswerPiece) and packet.answer_piece:
+        if isinstance(packet, ZakkAnswerPiece) and packet.answer_piece:
             answer += packet.answer_piece
         elif isinstance(packet, QADocsResponse):
             response.top_documents = packet.top_documents

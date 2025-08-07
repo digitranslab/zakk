@@ -1,12 +1,12 @@
 from slack_sdk import WebClient
 from sqlalchemy.orm import Session
 
-from onyx.db.models import Prompt
-from onyx.db.models import SlackChannelConfig
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.utils.logger import OnyxLoggingAdapter
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_versioned_implementation
+from zakk.db.models import Prompt
+from zakk.db.models import SlackChannelConfig
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.utils.logger import ZakkLoggingAdapter
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_versioned_implementation
 
 logger = setup_logger()
 
@@ -16,14 +16,14 @@ def handle_standard_answers(
     receiver_ids: list[str] | None,
     slack_channel_config: SlackChannelConfig,
     prompt: Prompt | None,
-    logger: OnyxLoggingAdapter,
+    logger: ZakkLoggingAdapter,
     client: WebClient,
     db_session: Session,
 ) -> bool:
     """Returns whether one or more Standard Answer message blocks were
     emitted by the Slack bot"""
     versioned_handle_standard_answers = fetch_versioned_implementation(
-        "onyx.zakkbot.slack.handlers.handle_standard_answers",
+        "zakk.zakkbot.slack.handlers.handle_standard_answers",
         "_handle_standard_answers",
     )
     return versioned_handle_standard_answers(
@@ -42,7 +42,7 @@ def _handle_standard_answers(
     receiver_ids: list[str] | None,
     slack_channel_config: SlackChannelConfig,
     prompt: Prompt | None,
-    logger: OnyxLoggingAdapter,
+    logger: ZakkLoggingAdapter,
     client: WebClient,
     db_session: Session,
 ) -> bool:

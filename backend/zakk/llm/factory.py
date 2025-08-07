@@ -1,25 +1,25 @@
 from typing import Any
 
-from onyx.chat.models import PersonaOverrideConfig
-from onyx.configs.app_configs import DISABLE_GENERATIVE_AI
-from onyx.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
-from onyx.configs.model_configs import GEN_AI_TEMPERATURE
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.llm import fetch_default_provider
-from onyx.db.llm import fetch_default_vision_provider
-from onyx.db.llm import fetch_existing_llm_providers
-from onyx.db.llm import fetch_llm_provider_view
-from onyx.db.models import Persona
-from onyx.llm.chat_llm import DefaultMultiLLM
-from onyx.llm.exceptions import GenAIDisabledException
-from onyx.llm.interfaces import LLM
-from onyx.llm.override_models import LLMOverride
-from onyx.llm.utils import get_max_input_tokens_from_llm_provider
-from onyx.llm.utils import model_supports_image_input
-from onyx.server.manage.llm.models import LLMProviderView
-from onyx.utils.headers import build_llm_extra_headers
-from onyx.utils.logger import setup_logger
-from onyx.utils.long_term_log import LongTermLogger
+from zakk.chat.models import PersonaOverrideConfig
+from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
+from zakk.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
+from zakk.configs.model_configs import GEN_AI_TEMPERATURE
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.llm import fetch_default_provider
+from zakk.db.llm import fetch_default_vision_provider
+from zakk.db.llm import fetch_existing_llm_providers
+from zakk.db.llm import fetch_llm_provider_view
+from zakk.db.models import Persona
+from zakk.llm.chat_llm import DefaultMultiLLM
+from zakk.llm.exceptions import GenAIDisabledException
+from zakk.llm.interfaces import LLM
+from zakk.llm.override_models import LLMOverride
+from zakk.llm.utils import get_max_input_tokens_from_llm_provider
+from zakk.llm.utils import model_supports_image_input
+from zakk.server.manage.llm.models import LLMProviderView
+from zakk.utils.headers import build_llm_extra_headers
+from zakk.utils.logger import setup_logger
+from zakk.utils.long_term_log import LongTermLogger
 
 logger = setup_logger()
 

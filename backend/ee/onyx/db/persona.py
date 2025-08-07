@@ -2,11 +2,11 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import NotificationType
-from onyx.db.models import Persona__User
-from onyx.db.models import Persona__UserGroup
-from onyx.db.notification import create_notification
-from onyx.server.features.persona.models import PersonaSharedNotificationData
+from zakk.configs.constants import NotificationType
+from zakk.db.models import Persona__User
+from zakk.db.models import Persona__UserGroup
+from zakk.db.notification import create_notification
+from zakk.server.features.persona.models import PersonaSharedNotificationData
 
 
 def make_persona_private(

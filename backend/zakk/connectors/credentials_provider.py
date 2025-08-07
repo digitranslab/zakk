@@ -5,14 +5,14 @@ from typing import Any
 from redis.lock import Lock as RedisLock
 from sqlalchemy import select
 
-from onyx.connectors.interfaces import CredentialsProviderInterface
-from onyx.db.engine.sql_engine import get_session_with_tenant
-from onyx.db.models import Credential
-from onyx.redis.redis_pool import get_redis_client
+from zakk.connectors.interfaces import CredentialsProviderInterface
+from zakk.db.engine.sql_engine import get_session_with_tenant
+from zakk.db.models import Credential
+from zakk.redis.redis_pool import get_redis_client
 
 
-class OnyxDBCredentialsProvider(
-    CredentialsProviderInterface["OnyxDBCredentialsProvider"]
+class ZakkDBCredentialsProvider(
+    CredentialsProviderInterface["ZakkDBCredentialsProvider"]
 ):
     """Implementation to allow the connector to callback and update credentials in the db.
     Required in cases where credentials can rotate while the connector is running.
@@ -31,7 +31,7 @@ class OnyxDBCredentialsProvider(
         self.lock_key = f"da_lock:connector:{connector_name}:credential_{credential_id}"
         self._lock: RedisLock = self.redis_client.lock(self.lock_key, self.LOCK_TTL)
 
-    def __enter__(self) -> "OnyxDBCredentialsProvider":
+    def __enter__(self) -> "ZakkDBCredentialsProvider":
         acquired = self._lock.acquire(blocking_timeout=self.LOCK_TTL)
         if not acquired:
             raise RuntimeError(f"Could not acquire lock for key: {self.lock_key}")
@@ -91,8 +91,8 @@ class OnyxDBCredentialsProvider(
         return True
 
 
-class OnyxStaticCredentialsProvider(
-    CredentialsProviderInterface["OnyxStaticCredentialsProvider"]
+class ZakkStaticCredentialsProvider(
+    CredentialsProviderInterface["ZakkStaticCredentialsProvider"]
 ):
     """Implementation (a very simple one!) to handle static credentials."""
 
@@ -108,7 +108,7 @@ class OnyxStaticCredentialsProvider(
 
         self._provider_key = str(uuid.uuid4())
 
-    def __enter__(self) -> "OnyxStaticCredentialsProvider":
+    def __enter__(self) -> "ZakkStaticCredentialsProvider":
         return self
 
     def __exit__(

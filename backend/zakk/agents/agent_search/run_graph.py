@@ -6,37 +6,37 @@ from langchain_core.runnables.schema import CustomStreamEvent
 from langchain_core.runnables.schema import StreamEvent
 from langgraph.graph.state import CompiledStateGraph
 
-from onyx.agents.agent_search.basic.graph_builder import basic_graph_builder
-from onyx.agents.agent_search.basic.states import BasicInput
-from onyx.agents.agent_search.dc_search_analysis.graph_builder import (
+from zakk.agents.agent_search.basic.graph_builder import basic_graph_builder
+from zakk.agents.agent_search.basic.states import BasicInput
+from zakk.agents.agent_search.dc_search_analysis.graph_builder import (
     divide_and_conquer_graph_builder,
 )
-from onyx.agents.agent_search.dc_search_analysis.states import MainInput as DCMainInput
-from onyx.agents.agent_search.deep_search.main.graph_builder import (
+from zakk.agents.agent_search.dc_search_analysis.states import MainInput as DCMainInput
+from zakk.agents.agent_search.deep_search.main.graph_builder import (
     agent_search_graph_builder as agent_search_graph_builder,
 )
-from onyx.agents.agent_search.deep_search.main.states import (
+from zakk.agents.agent_search.deep_search.main.states import (
     MainInput as MainInput,
 )
-from onyx.agents.agent_search.kb_search.graph_builder import kb_graph_builder
-from onyx.agents.agent_search.kb_search.states import MainInput as KBMainInput
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.shared_graph_utils.utils import get_test_config
-from onyx.chat.models import AgentAnswerPiece
-from onyx.chat.models import AnswerPacket
-from onyx.chat.models import AnswerStream
-from onyx.chat.models import ExtendedToolResponse
-from onyx.chat.models import RefinedAnswerImprovement
-from onyx.chat.models import StreamingError
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import SubQueryPiece
-from onyx.chat.models import SubQuestionPiece
-from onyx.chat.models import ToolResponse
-from onyx.context.search.models import SearchRequest
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.llm.factory import get_default_llms
-from onyx.tools.tool_runner import ToolCallKickoff
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.kb_search.graph_builder import kb_graph_builder
+from zakk.agents.agent_search.kb_search.states import MainInput as KBMainInput
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.shared_graph_utils.utils import get_test_config
+from zakk.chat.models import AgentAnswerPiece
+from zakk.chat.models import AnswerPacket
+from zakk.chat.models import AnswerStream
+from zakk.chat.models import ExtendedToolResponse
+from zakk.chat.models import RefinedAnswerImprovement
+from zakk.chat.models import StreamingError
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import SubQueryPiece
+from zakk.chat.models import SubQuestionPiece
+from zakk.chat.models import ToolResponse
+from zakk.context.search.models import SearchRequest
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.llm.factory import get_default_llms
+from zakk.tools.tool_runner import ToolCallKickoff
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -190,7 +190,7 @@ if __name__ == "__main__":
             # query="What are the guiding principles behind the development of cockroachDB",
             # query="What are the temperatures in Munich, Hawaii, and New York?",
             # query="When was Washington born?",
-            # query="What is Onyx?",
+            # query="What is Zakk?",
             # query="What is the difference between astronomy and astrology?",
             query="Do a search to tell me what is the difference between astronomy and astrology?",
         )

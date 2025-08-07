@@ -15,11 +15,11 @@ test("LLM Ordering and Model Switching", async ({ page }) => {
 
   // Navigate to the chat page and verify URL
   await page.goto("http://localhost:3000/chat");
-  await page.waitForSelector("#onyx-chat-input-textarea", { timeout: 10000 });
+  await page.waitForSelector("#zakk-chat-input-textarea", { timeout: 10000 });
   await expect(page.url()).toBe("http://localhost:3000/chat");
 
   // Configure user settings: Set default model to o3 Mini
-  await page.locator("#onyx-user-dropdown").click();
+  await page.locator("#zakk-user-dropdown").click();
   await page.getByText("User Settings").click();
   await page.getByRole("combobox").nth(1).click();
   await page.getByLabel("o3 Mini", { exact: true }).click();
@@ -28,7 +28,7 @@ test("LLM Ordering and Model Switching", async ({ page }) => {
   await verifyCurrentModel(page, "o3 Mini");
   // Test Art Assistant: Should use its own model (GPT 4o)
   await page.reload();
-  await page.waitForSelector("#onyx-chat-input-textarea", { timeout: 10000 });
+  await page.waitForSelector("#zakk-chat-input-textarea", { timeout: 10000 });
   await navigateToAssistantInHistorySidebar(
     page,
     "[-3]",
@@ -65,7 +65,7 @@ test("LLM Ordering and Model Switching", async ({ page }) => {
   await page.getByRole("button", { name: "Create" }).click();
 
   // Verify custom assistant uses its specified model
-  await page.locator("#onyx-chat-input-textarea").fill("");
+  await page.locator("#zakk-chat-input-textarea").fill("");
   await verifyCurrentModel(page, "o3 Mini");
 
   // Ensure model persistence for custom assistant

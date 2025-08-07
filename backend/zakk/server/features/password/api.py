@@ -4,16 +4,16 @@ from fastapi import HTTPException
 from fastapi_users.exceptions import InvalidPasswordException
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_user
-from onyx.auth.users import get_user_manager
-from onyx.auth.users import User
-from onyx.auth.users import UserManager
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.users import get_user_by_email
-from onyx.server.features.password.models import ChangePasswordRequest
-from onyx.server.features.password.models import UserResetRequest
-from onyx.server.features.password.models import UserResetResponse
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_user
+from zakk.auth.users import get_user_manager
+from zakk.auth.users import User
+from zakk.auth.users import UserManager
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.users import get_user_by_email
+from zakk.server.features.password.models import ChangePasswordRequest
+from zakk.server.features.password.models import UserResetRequest
+from zakk.server.features.password.models import UserResetResponse
 
 router = APIRouter(prefix="/password")
 

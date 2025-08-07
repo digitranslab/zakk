@@ -18,33 +18,33 @@ from slack_sdk.models.blocks import SectionBlock
 from slack_sdk.models.metadata import Metadata
 from slack_sdk.socket_mode import SocketModeClient
 
-from onyx.configs.app_configs import DISABLE_TELEMETRY
-from onyx.configs.constants import ID_SEPARATOR
-from onyx.configs.constants import MessageType
-from onyx.configs.zakkbot_configs import DANSWER_BOT_FEEDBACK_VISIBILITY
-from onyx.configs.zakkbot_configs import DANSWER_BOT_MAX_QPM
-from onyx.configs.zakkbot_configs import DANSWER_BOT_MAX_WAIT_TIME
-from onyx.configs.zakkbot_configs import DANSWER_BOT_NUM_RETRIES
-from onyx.configs.zakkbot_configs import (
+from zakk.configs.app_configs import DISABLE_TELEMETRY
+from zakk.configs.constants import ID_SEPARATOR
+from zakk.configs.constants import MessageType
+from zakk.configs.zakkbot_configs import DANSWER_BOT_FEEDBACK_VISIBILITY
+from zakk.configs.zakkbot_configs import DANSWER_BOT_MAX_QPM
+from zakk.configs.zakkbot_configs import DANSWER_BOT_MAX_WAIT_TIME
+from zakk.configs.zakkbot_configs import DANSWER_BOT_NUM_RETRIES
+from zakk.configs.zakkbot_configs import (
     DANSWER_BOT_RESPONSE_LIMIT_PER_TIME_PERIOD,
 )
-from onyx.configs.zakkbot_configs import (
+from zakk.configs.zakkbot_configs import (
     DANSWER_BOT_RESPONSE_LIMIT_TIME_PERIOD_SECONDS,
 )
-from onyx.connectors.slack.utils import SlackTextCleaner
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.users import get_user_by_email
-from onyx.llm.exceptions import GenAIDisabledException
-from onyx.llm.factory import get_default_llms
-from onyx.llm.utils import dict_based_prompt_to_langchain_prompt
-from onyx.llm.utils import message_to_string
-from onyx.zakkbot.slack.constants import FeedbackVisibility
-from onyx.zakkbot.slack.models import ThreadMessage
-from onyx.prompts.miscellaneous_prompts import SLACK_LANGUAGE_REPHRASE_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
-from onyx.utils.text_processing import replace_whitespaces_w_space
+from zakk.connectors.slack.utils import SlackTextCleaner
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.users import get_user_by_email
+from zakk.llm.exceptions import GenAIDisabledException
+from zakk.llm.factory import get_default_llms
+from zakk.llm.utils import dict_based_prompt_to_langchain_prompt
+from zakk.llm.utils import message_to_string
+from zakk.zakkbot.slack.constants import FeedbackVisibility
+from zakk.zakkbot.slack.models import ThreadMessage
+from zakk.prompts.miscellaneous_prompts import SLACK_LANGUAGE_REPHRASE_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
+from zakk.utils.text_processing import replace_whitespaces_w_space
 from shared_configs.contextvars import CURRENT_TENANT_ID_CONTEXTVAR
 
 logger = setup_logger()
@@ -101,7 +101,7 @@ def check_message_limit() -> bool:
         logger.error(
             f"ZakkBot has reached the message limit {DANSWER_BOT_RESPONSE_LIMIT_PER_TIME_PERIOD}"
             f" for the time period {DANSWER_BOT_RESPONSE_LIMIT_TIME_PERIOD_SECONDS} seconds."
-            " These limits are configurable in backend/onyx/configs/zakkbot_configs.py"
+            " These limits are configurable in backend/zakk/configs/zakkbot_configs.py"
         )
         return False
     _DANSWER_BOT_MESSAGE_COUNT += 1
@@ -201,8 +201,8 @@ def _build_error_block(error_message: str) -> Block:
     the error without completely breaking
     """
     display_text = (
-        "There was an error displaying all of the Onyx answers."
-        f" Please let an admin or an onyx developer know. Error: {error_message}"
+        "There was an error displaying all of the Zakk answers."
+        f" Please let an admin or an zakk developer know. Error: {error_message}"
     )
     return SectionBlock(text=display_text)
 
@@ -596,7 +596,7 @@ def read_slack_thread(
                     # this will need to be updated to get the correct "answer" portion
                     message = reply["blocks"][1].get("text", {}).get("text")
             else:
-                # Other bots are not counted as the LLM response which only comes from Onyx
+                # Other bots are not counted as the LLM response which only comes from Zakk
                 message_type = MessageType.USER
                 bot_user_name = fetch_user_semantic_id_from_id(
                     reply.get("user"), client
@@ -639,7 +639,7 @@ def slack_usage_report(action: str, sender_id: str | None, client: WebClient) ->
     optional_telemetry(
         record_type=RecordType.USAGE,
         data={"action": action},
-        user_id=str(zakk_user.id) if zakk_user else "Non-Onyx-Or-No-Auth-User",
+        user_id=str(zakk_user.id) if zakk_user else "Non-Zakk-Or-No-Auth-User",
     )
 
 

@@ -4,15 +4,15 @@ from uuid import UUID
 from pydantic import BaseModel
 from pydantic import Field
 
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.db.models import Persona
-from onyx.db.models import PersonaLabel
-from onyx.db.models import Prompt
-from onyx.db.models import StarterMessage
-from onyx.server.features.document_set.models import DocumentSetSummary
-from onyx.server.features.tool.models import ToolSnapshot
-from onyx.server.models import MinimalUserSnapshot
-from onyx.utils.logger import setup_logger
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.db.models import Persona
+from zakk.db.models import PersonaLabel
+from zakk.db.models import Prompt
+from zakk.db.models import StarterMessage
+from zakk.server.features.document_set.models import DocumentSetSummary
+from zakk.server.features.tool.models import ToolSnapshot
+from zakk.server.models import MinimalUserSnapshot
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

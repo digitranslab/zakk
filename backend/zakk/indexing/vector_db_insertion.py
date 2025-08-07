@@ -4,13 +4,13 @@ from http import HTTPStatus
 
 import httpx
 
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import DocumentFailure
-from onyx.document_index.interfaces import DocumentIndex
-from onyx.document_index.interfaces import DocumentInsertionRecord
-from onyx.document_index.interfaces import IndexBatchParams
-from onyx.indexing.models import DocMetadataAwareIndexChunk
-from onyx.utils.logger import setup_logger
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import DocumentFailure
+from zakk.document_index.interfaces import DocumentIndex
+from zakk.document_index.interfaces import DocumentInsertionRecord
+from zakk.document_index.interfaces import IndexBatchParams
+from zakk.indexing.models import DocMetadataAwareIndexChunk
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

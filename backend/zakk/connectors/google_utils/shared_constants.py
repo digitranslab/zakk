@@ -1,6 +1,6 @@
 from enum import Enum as PyEnum
 
-from onyx.configs.constants import DocumentSource
+from zakk.configs.constants import DocumentSource
 
 # NOTE: do not need https://www.googleapis.com/auth/documents.readonly
 # this is counted under `/auth/drive.readonly`
@@ -45,8 +45,8 @@ MISSING_SCOPES_ERROR_STR = "client not authorized for any of the scopes requeste
 
 # Documentation and error messages
 SCOPE_DOC_URL = "https://docs.digi-trans.org/connectors/google_drive/overview"
-ONYX_SCOPE_INSTRUCTIONS = (
-    "You have upgraded Onyx without updating the Google Auth scopes. "
+ZAKK_SCOPE_INSTRUCTIONS = (
+    "You have upgraded Zakk without updating the Google Auth scopes. "
     f"Please refer to the documentation to learn how to update the scopes: {SCOPE_DOC_URL}"
 )
 

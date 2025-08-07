@@ -12,17 +12,17 @@ from pydantic import BaseModel
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_user
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.interfaces import OAuthConnector
-from onyx.db.credentials import create_credential
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.redis.redis_pool import get_redis_client
-from onyx.server.documents.models import CredentialBase
-from onyx.utils.logger import setup_logger
-from onyx.utils.subclasses import find_all_subclasses_in_dir
+from zakk.auth.users import current_user
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.interfaces import OAuthConnector
+from zakk.db.credentials import create_credential
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.redis.redis_pool import get_redis_client
+from zakk.server.documents.models import CredentialBase
+from zakk.utils.logger import setup_logger
+from zakk.utils.subclasses import find_all_subclasses_in_dir
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()
@@ -45,7 +45,7 @@ def _discover_oauth_connectors() -> dict[DocumentSource, type[OAuthConnector]]:
         return _OAUTH_CONNECTORS
 
     oauth_connectors = find_all_subclasses_in_dir(
-        cast(type[OAuthConnector], OAuthConnector), "onyx.connectors"
+        cast(type[OAuthConnector], OAuthConnector), "zakk.connectors"
     )
 
     _OAUTH_CONNECTORS = {cls.oauth_id(): cls for cls in oauth_connectors}

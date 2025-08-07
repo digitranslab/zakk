@@ -26,14 +26,14 @@ from PIL import Image
 from pypdf import PdfReader
 from pypdf.errors import PdfStreamError
 
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import ZAKK_METADATA_FILENAME
-from onyx.configs.llm_configs import get_image_extraction_and_analysis_enabled
-from onyx.file_processing.html_utils import parse_html_page_basic
-from onyx.file_processing.unstructured import get_unstructured_api_key
-from onyx.file_processing.unstructured import unstructured_to_text
-from onyx.file_store.file_store import FileStore
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import ZAKK_METADATA_FILENAME
+from zakk.configs.llm_configs import get_image_extraction_and_analysis_enabled
+from zakk.file_processing.html_utils import parse_html_page_basic
+from zakk.file_processing.unstructured import get_unstructured_api_key
+from zakk.file_processing.unstructured import unstructured_to_text
+from zakk.file_store.file_store import FileStore
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -89,7 +89,7 @@ KNOWN_OPENPYXL_BUGS = [
 ]
 
 
-class OnyxExtensionType(IntFlag):
+class ZakkExtensionType(IntFlag):
     Plain = auto()
     Document = auto()
     Multimedia = auto()
@@ -109,16 +109,16 @@ def is_valid_media_type(media_type: str) -> bool:
     return media_type in IMAGE_MEDIA_TYPES
 
 
-def is_accepted_file_ext(ext: str, ext_type: OnyxExtensionType) -> bool:
-    if ext_type & OnyxExtensionType.Plain:
+def is_accepted_file_ext(ext: str, ext_type: ZakkExtensionType) -> bool:
+    if ext_type & ZakkExtensionType.Plain:
         if ext in ACCEPTED_PLAIN_TEXT_FILE_EXTENSIONS:
             return True
 
-    if ext_type & OnyxExtensionType.Document:
+    if ext_type & ZakkExtensionType.Document:
         if ext in ACCEPTED_DOCUMENT_FILE_EXTENSIONS:
             return True
 
-    if ext_type & OnyxExtensionType.Multimedia:
+    if ext_type & ZakkExtensionType.Multimedia:
         if ext in ACCEPTED_IMAGE_FILE_EXTENSIONS:
             return True
 
@@ -176,12 +176,12 @@ def load_files_from_zip(
 def _extract_zakk_metadata(line: str) -> dict | None:
     """
     Example: first line has:
-        <!-- ONYX_METADATA={"title": "..."} -->
+        <!-- ZAKK_METADATA={"title": "..."} -->
       or
-        #ONYX_METADATA={"title":"..."}
+        #ZAKK_METADATA={"title":"..."}
     """
-    html_comment_pattern = r"<!--\s*ONYX_METADATA=\{(.*?)\}\s*-->"
-    hashtag_pattern = r"#ONYX_METADATA=\{(.*?)\}"
+    html_comment_pattern = r"<!--\s*ZAKK_METADATA=\{(.*?)\}\s*-->"
+    hashtag_pattern = r"#ZAKK_METADATA=\{(.*?)\}"
 
     html_comment_match = re.search(html_comment_pattern, line)
     hashtag_match = re.search(hashtag_pattern, line)
@@ -206,7 +206,7 @@ def read_text_file(
     ignore_zakk_metadata: bool = True,
 ) -> tuple[str, dict]:
     """
-    For plain text files. Optionally extracts Onyx metadata from the first line.
+    For plain text files. Optionally extracts Zakk metadata from the first line.
     """
     metadata = {}
     file_content_raw = ""
@@ -493,7 +493,7 @@ def extract_file_text(
             extension = get_file_ext(file_name)
 
         if is_accepted_file_ext(
-            extension, OnyxExtensionType.Plain | OnyxExtensionType.Document
+            extension, ZakkExtensionType.Plain | ZakkExtensionType.Document
         ):
             func = extension_to_function.get(extension, file_io_to_text)
             file.seek(0)

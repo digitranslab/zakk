@@ -3,8 +3,8 @@ import time
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.gitbook.connector import GitbookConnector
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.gitbook.connector import GitbookConnector
 
 
 @pytest.fixture

@@ -31,7 +31,7 @@ from model_server.constants import EmbeddingModelTextType
 from model_server.constants import EmbeddingProvider
 from model_server.utils import pass_aws_key
 from model_server.utils import simple_log_function_time
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import API_BASED_EMBEDDING_TIMEOUT
 from shared_configs.configs import INDEXING_ONLY
 from shared_configs.configs import OPENAI_EMBEDDING_TIMEOUT
@@ -171,7 +171,7 @@ class CloudEmbedding:
 
         final_embeddings: list[Embedding] = []
         for text_batch in batch_list(texts, _COHERE_MAX_INPUT_LEN):
-            # Does not use the same tokenizer as the Onyx API server but it's approximately the same
+            # Does not use the same tokenizer as the Zakk API server but it's approximately the same
             # empirically it's only off by a very few tokens so it's not a big deal
             response = await client.embed(
                 texts=text_batch,

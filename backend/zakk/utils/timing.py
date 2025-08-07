@@ -7,9 +7,9 @@ from typing import Any
 from typing import cast
 from typing import TypeVar
 
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
 
 logger = setup_logger()
 

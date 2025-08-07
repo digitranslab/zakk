@@ -1,21 +1,21 @@
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.external_perm import fetch_external_groups_for_user
-from ee.onyx.db.external_perm import fetch_public_external_group_ids
-from ee.onyx.db.user_group import fetch_user_groups_for_documents
-from ee.onyx.db.user_group import fetch_user_groups_for_user
-from ee.onyx.external_permissions.sync_params import get_source_perm_sync_config
-from onyx.access.access import (
+from ee.zakk.db.external_perm import fetch_external_groups_for_user
+from ee.zakk.db.external_perm import fetch_public_external_group_ids
+from ee.zakk.db.user_group import fetch_user_groups_for_documents
+from ee.zakk.db.user_group import fetch_user_groups_for_user
+from ee.zakk.external_permissions.sync_params import get_source_perm_sync_config
+from zakk.access.access import (
     _get_access_for_documents as get_access_for_documents_without_groups,
 )
-from onyx.access.access import _get_acl_for_user as get_acl_for_user_without_groups
-from onyx.access.models import DocumentAccess
-from onyx.access.utils import prefix_external_group
-from onyx.access.utils import prefix_user_group
-from onyx.db.document import get_document_sources
-from onyx.db.document import get_documents_by_ids
-from onyx.db.models import User
-from onyx.utils.logger import setup_logger
+from zakk.access.access import _get_acl_for_user as get_acl_for_user_without_groups
+from zakk.access.models import DocumentAccess
+from zakk.access.utils import prefix_external_group
+from zakk.access.utils import prefix_user_group
+from zakk.db.document import get_document_sources
+from zakk.db.document import get_documents_by_ids
+from zakk.db.models import User
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()
@@ -95,7 +95,7 @@ def _get_access_for_documents(
         )
 
         # If the document is determined to be "public" externally (through a SYNC connector)
-        # then it's given the same access level as if it were marked public within Onyx
+        # then it's given the same access level as if it were marked public within Zakk
         # If its censored, then it's public anywhere during the search and then permissions are
         # applied after the search
         is_public_anywhere = (
@@ -122,7 +122,7 @@ def _get_acl_for_user(user: User | None, db_session: Session) -> set[str]:
     user should have access to a document if at least one entry in the document's ACL
     matches one entry in the returned set.
 
-    NOTE: is imported in onyx.access.access by `fetch_versioned_implementation`
+    NOTE: is imported in zakk.access.access by `fetch_versioned_implementation`
     DO NOT REMOVE."""
     db_user_groups = fetch_user_groups_for_user(db_session, user.id) if user else []
     prefixed_user_groups = [

@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from onyx.db.models import Tool
+from zakk.db.models import Tool
 
 
 class ToolSnapshot(BaseModel):

@@ -1,13 +1,13 @@
 from fastapi import APIRouter
 
-from ee.onyx.server.tenants.admin_api import router as admin_router
-from ee.onyx.server.tenants.anonymous_users_api import router as anonymous_users_router
-from ee.onyx.server.tenants.billing_api import router as billing_router
-from ee.onyx.server.tenants.team_membership_api import router as team_membership_router
-from ee.onyx.server.tenants.tenant_management_api import (
+from ee.zakk.server.tenants.admin_api import router as admin_router
+from ee.zakk.server.tenants.anonymous_users_api import router as anonymous_users_router
+from ee.zakk.server.tenants.billing_api import router as billing_router
+from ee.zakk.server.tenants.team_membership_api import router as team_membership_router
+from ee.zakk.server.tenants.tenant_management_api import (
     router as tenant_management_router,
 )
-from ee.onyx.server.tenants.user_invitations_api import (
+from ee.zakk.server.tenants.user_invitations_api import (
     router as user_invitations_router,
 )
 

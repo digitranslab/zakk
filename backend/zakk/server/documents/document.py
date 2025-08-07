@@ -4,20 +4,20 @@ from fastapi import HTTPException
 from fastapi import Query
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_user
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.preprocessing.access_filters import (
+from zakk.auth.users import current_user
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.preprocessing.access_filters import (
     build_access_filters_for_user,
 )
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.search_settings import get_current_search_settings
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.interfaces import VespaChunkRequest
-from onyx.natural_language_processing.utils import get_tokenizer
-from onyx.prompts.prompt_utils import build_doc_context_str
-from onyx.server.documents.models import ChunkInfo
-from onyx.server.documents.models import DocumentInfo
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.search_settings import get_current_search_settings
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.interfaces import VespaChunkRequest
+from zakk.natural_language_processing.utils import get_tokenizer
+from zakk.prompts.prompt_utils import build_doc_context_str
+from zakk.server.documents.models import ChunkInfo
+from zakk.server.documents.models import DocumentInfo
 
 
 router = APIRouter(prefix="/document")

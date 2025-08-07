@@ -5,18 +5,18 @@ from io import BytesIO
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import FileOrigin
-from onyx.connectors.interfaces import BaseConnector
-from onyx.connectors.interfaces import CheckpointedConnector
-from onyx.connectors.models import ConnectorCheckpoint
-from onyx.db.engine.time_utils import get_db_current_time
-from onyx.db.index_attempt import get_index_attempt
-from onyx.db.index_attempt import get_recent_completed_attempts_for_cc_pair
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexingStatus
-from onyx.file_store.file_store import get_default_file_store
-from onyx.utils.logger import setup_logger
-from onyx.utils.object_size_check import deep_getsizeof
+from zakk.configs.constants import FileOrigin
+from zakk.connectors.interfaces import BaseConnector
+from zakk.connectors.interfaces import CheckpointedConnector
+from zakk.connectors.models import ConnectorCheckpoint
+from zakk.db.engine.time_utils import get_db_current_time
+from zakk.db.index_attempt import get_index_attempt
+from zakk.db.index_attempt import get_recent_completed_attempts_for_cc_pair
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexingStatus
+from zakk.file_store.file_store import get_default_file_store
+from zakk.utils.logger import setup_logger
+from zakk.utils.object_size_check import deep_getsizeof
 
 logger = setup_logger()
 

@@ -7,7 +7,7 @@ from google.oauth2.service_account import Credentials as ServiceAccountCredentia
 from googleapiclient.discovery import build  # type: ignore
 from googleapiclient.discovery import Resource  # type: ignore
 
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

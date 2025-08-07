@@ -9,26 +9,26 @@ import requests
 from pydantic import BaseModel
 from retry import retry
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.app_configs import NOTION_CONNECTOR_DISABLE_RECURSIVE_PAGE_LOOKUP
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.rate_limit_wrapper import (
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.app_configs import NOTION_CONNECTOR_DISABLE_RECURSIVE_PAGE_LOOKUP
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.rate_limit_wrapper import (
     rl_requests,
 )
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.utils.batching import batch_generator
-from onyx.utils.logger import setup_logger
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.utils.batching import batch_generator
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -124,7 +124,7 @@ class NotionConnector(LoadConnector, PollConnector):
                 logger.error(
                     f"Unable to access block with ID '{block_id}'. "
                     f"This is likely due to the block not being shared "
-                    f"with the Onyx integration. Exact exception:\n\n{e}"
+                    f"with the Zakk integration. Exact exception:\n\n{e}"
                 )
             else:
                 logger.exception(
@@ -202,7 +202,7 @@ class NotionConnector(LoadConnector, PollConnector):
                 logger.error(
                     f"Unable to access database with ID '{database_id}'. "
                     f"This is likely due to the database not being shared "
-                    f"with the Onyx integration. Exact exception:\n{e}"
+                    f"with the Zakk integration. Exact exception:\n{e}"
                 )
                 return {"results": [], "next_cursor": None}
             logger.exception(f"Error fetching database - {res.json()}")
@@ -346,7 +346,7 @@ class NotionConnector(LoadConnector, PollConnector):
                     logger.warning(
                         f"Skipping 'ai_block' ('{result_block_id}') for base block '{base_block_id}': "
                         f"Notion API does not currently support reading AI blocks (as of 24/02/09) "
-                        f"(discussion: https://github.com/digitranslab/onyx/issues/1053)"
+                        f"(discussion: https://github.com/digitranslab/zakk/issues/1053)"
                     )
                     continue
 
@@ -354,7 +354,7 @@ class NotionConnector(LoadConnector, PollConnector):
                     logger.warning(
                         f"Skipping unsupported block type '{result_type}' "
                         f"('{result_block_id}') for base block '{base_block_id}': "
-                        f"(discussion: https://github.com/digitranslab/onyx/issues/1230)"
+                        f"(discussion: https://github.com/digitranslab/zakk/issues/1230)"
                     )
                     continue
 
@@ -362,7 +362,7 @@ class NotionConnector(LoadConnector, PollConnector):
                     logger.warning(
                         f"Skipping 'external_object_instance_page' ('{result_block_id}') for base block '{base_block_id}': "
                         f"Notion API does not currently support reading external blocks (as of 24/07/03) "
-                        f"(discussion: https://github.com/digitranslab/onyx/issues/1761)"
+                        f"(discussion: https://github.com/digitranslab/zakk/issues/1761)"
                     )
                     continue
 

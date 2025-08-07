@@ -1,5 +1,5 @@
 import React from "react";
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import { ResultIcon, SeeMoreBlock } from "@/components/chat/sources/SourceCard";
 import { openDocument } from "@/lib/search/utils";
 import { buildDocumentSummaryDisplay } from "@/components/search/DocumentDisplay";
@@ -8,19 +8,19 @@ import { truncateString } from "@/lib/utils";
 import { FileResponse } from "../my-documents/DocumentsContext";
 
 interface SourcesDisplayProps {
-  documents: OnyxDocument[];
+  documents: ZakkDocument[];
   toggleDocumentSelection: () => void;
   animateEntrance?: boolean;
   threeCols?: boolean;
   hideDocumentDisplay?: boolean;
   docSidebarToggled?: boolean;
-  setPresentingDocument: (document: OnyxDocument) => void;
+  setPresentingDocument: (document: ZakkDocument) => void;
 }
 
 export const SourceCard: React.FC<{
-  document: OnyxDocument;
+  document: ZakkDocument;
   hideDocumentDisplay?: boolean;
-  setPresentingDocument: (document: OnyxDocument) => void;
+  setPresentingDocument: (document: ZakkDocument) => void;
 }> = ({ document, hideDocumentDisplay = false, setPresentingDocument }) => {
   const truncatedtext = document.match_highlights[0]
     ? document.match_highlights[0].slice(0, 80)
@@ -68,7 +68,7 @@ export const SourceCard: React.FC<{
 export const FileSourceCard: React.FC<{
   document: FileResponse;
   setPresentingDocument: (document: FileResponse) => void;
-  relevantDocument: OnyxDocument | undefined;
+  relevantDocument: ZakkDocument | undefined;
 }> = ({ document, setPresentingDocument, relevantDocument }) => {
   const openDocument = () => {
     if (document.link_url) {
@@ -118,7 +118,7 @@ export const FileSourceCard: React.FC<{
 export const FileSourceCardInResults: React.FC<{
   document: FileResponse;
   setPresentingDocument: (document: FileResponse) => void;
-  relevantDocument: OnyxDocument | undefined;
+  relevantDocument: ZakkDocument | undefined;
 }> = ({ document, setPresentingDocument, relevantDocument }) => {
   const openDocument = () => {
     if (document.link_url) {

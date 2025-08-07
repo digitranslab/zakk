@@ -2,16 +2,16 @@ import re
 from typing import Any
 from typing import cast
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.connectors.salesforce.zakk_salesforce import ZakkSalesforce
-from onyx.connectors.salesforce.sqlite_functions import ZakkSalesforceSQLite
-from onyx.connectors.salesforce.utils import SalesforceObject
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import time_str_to_utc
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.connectors.salesforce.zakk_salesforce import ZakkSalesforce
+from zakk.connectors.salesforce.sqlite_functions import ZakkSalesforceSQLite
+from zakk.connectors.salesforce.utils import SalesforceObject
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

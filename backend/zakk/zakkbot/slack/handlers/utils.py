@@ -1,8 +1,8 @@
 from slack_sdk import WebClient
 
-from onyx.chat.models import ThreadMessage
-from onyx.configs.constants import MessageType
-from onyx.zakkbot.slack.utils import respond_in_thread_or_channel
+from zakk.chat.models import ThreadMessage
+from zakk.configs.constants import MessageType
+from zakk.zakkbot.slack.utils import respond_in_thread_or_channel
 
 
 def slackify_message_thread(messages: list[ThreadMessage]) -> str:

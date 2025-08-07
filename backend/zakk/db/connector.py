@@ -9,18 +9,18 @@ from sqlalchemy import select
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DEFAULT_PRUNING_FREQ
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import InputType
-from onyx.db.enums import IndexingMode
-from onyx.db.models import Connector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import IndexAttempt
-from onyx.kg.models import KGConnectorData
-from onyx.server.documents.models import ConnectorBase
-from onyx.server.documents.models import ObjectCreationIdResponse
-from onyx.server.models import StatusResponse
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import DEFAULT_PRUNING_FREQ
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import InputType
+from zakk.db.enums import IndexingMode
+from zakk.db.models import Connector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import IndexAttempt
+from zakk.kg.models import KGConnectorData
+from zakk.server.documents.models import ConnectorBase
+from zakk.server.documents.models import ObjectCreationIdResponse
+from zakk.server.models import StatusResponse
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

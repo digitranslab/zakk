@@ -32,7 +32,7 @@ S3_BUCKET_FROM_CONFIG=$(remove_comments "$CONFIG_FILE" | jq -r '.S3Bucket // emp
 if [ -n "$S3_BUCKET_FROM_CONFIG" ]; then
     S3_BUCKET="$S3_BUCKET_FROM_CONFIG"
 else
-    S3_BUCKET="${S3_BUCKET:-onyx-ecs-fargate-configs}"
+    S3_BUCKET="${S3_BUCKET:-zakk-ecs-fargate-configs}"
 fi
 
 INFRA_ORDER=(
@@ -187,7 +187,7 @@ deploy_services_stacks() {
     done
 }
 
-echo "Starting deployment of Onyx to ECS Fargate Cluster..."
+echo "Starting deployment of Zakk to ECS Fargate Cluster..."
 deploy_infra_stacks
 deploy_services_stacks
 

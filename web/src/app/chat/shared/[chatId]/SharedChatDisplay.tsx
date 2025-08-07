@@ -13,9 +13,9 @@ import { AgenticMessage } from "../../message/AgenticMessage";
 import { Callout } from "@/components/ui/callout";
 import { useContext, useEffect, useState } from "react";
 import { SettingsContext } from "@/components/settings/SettingsProvider";
-import { OnyxInitializingLoader } from "@/components/OnyxInitializingLoader";
+import { ZakkInitializingLoader } from "@/components/ZakkInitializingLoader";
 import { Persona } from "@/app/admin/assistants/interfaces";
-import { MinimalOnyxDocument } from "@/lib/search/interfaces";
+import { MinimalZakkDocument } from "@/lib/search/interfaces";
 import TextView from "@/components/chat/TextView";
 import { DocumentResults } from "../../documentSidebar/DocumentResults";
 import { Modal } from "@/components/Modal";
@@ -23,7 +23,7 @@ import FunctionalHeader from "@/components/chat/Header";
 import FixedLogo from "@/components/logo/FixedLogo";
 import Link from "next/link";
 
-function BackToOnyxButton({
+function BackToZakkButton({
   documentSidebarVisible,
 }: {
   documentSidebarVisible: boolean;
@@ -34,7 +34,7 @@ function BackToOnyxButton({
     <div className="absolute bottom-0 bg-background w-full flex border-t border-border py-4">
       <div className="mx-auto">
         <Link href="/chat">
-          Back to {enterpriseSettings?.application_name || "Onyx Chat"}
+          Back to {enterpriseSettings?.application_name || "Zakk Chat"}
         </Link>
       </div>
       <div
@@ -65,7 +65,7 @@ export function SharedChatDisplay({
     useState<number | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [presentingDocument, setPresentingDocument] =
-    useState<MinimalOnyxDocument | null>(null);
+    useState<MinimalZakkDocument | null>(null);
 
   const toggleDocumentSidebar = () => {
     setDocumentSidebarVisible(!documentSidebarVisible);
@@ -83,7 +83,7 @@ export function SharedChatDisplay({
             Did not find a shared chat with the specified ID.
           </Callout>
         </div>
-        <BackToOnyxButton documentSidebarVisible={documentSidebarVisible} />
+        <BackToZakkButton documentSidebarVisible={documentSidebarVisible} />
       </div>
     );
   }
@@ -102,7 +102,7 @@ export function SharedChatDisplay({
             No messages found in shared chat.
           </Callout>
         </div>
-        <BackToOnyxButton documentSidebarVisible={documentSidebarVisible} />
+        <BackToZakkButton documentSidebarVisible={documentSidebarVisible} />
       </div>
     );
   }
@@ -395,7 +395,7 @@ export function SharedChatDisplay({
                 ) : (
                   <div className="grow flex-0 h-screen w-full flex items-center justify-center">
                     <div className="mb-[33vh]">
-                      <OnyxInitializingLoader />
+                      <ZakkInitializingLoader />
                     </div>
                   </div>
                 )}
@@ -417,7 +417,7 @@ export function SharedChatDisplay({
           </div>
 
           <FixedLogo backgroundToggled={false} />
-          <BackToOnyxButton documentSidebarVisible={documentSidebarVisible} />
+          <BackToZakkButton documentSidebarVisible={documentSidebarVisible} />
         </div>
       </div>
     </>

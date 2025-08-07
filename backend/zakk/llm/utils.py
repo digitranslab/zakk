@@ -31,30 +31,30 @@ from litellm.exceptions import RateLimitError  # type: ignore
 from litellm.exceptions import Timeout  # type: ignore
 from litellm.exceptions import UnprocessableEntityError  # type: ignore
 
-from onyx.configs.app_configs import LITELLM_CUSTOM_ERROR_MESSAGE_MAPPINGS
-from onyx.configs.app_configs import MAX_TOKENS_FOR_FULL_INCLUSION
-from onyx.configs.app_configs import USE_CHUNK_SUMMARY
-from onyx.configs.app_configs import USE_DOCUMENT_SUMMARY
-from onyx.configs.constants import MessageType
-from onyx.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
-from onyx.configs.model_configs import GEN_AI_MAX_TOKENS
-from onyx.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
-from onyx.configs.model_configs import GEN_AI_NUM_RESERVED_OUTPUT_TOKENS
-from onyx.file_processing.extract_file_text import read_pdf_file
-from onyx.file_store.models import ChatFileType
-from onyx.file_store.models import InMemoryChatFile
-from onyx.llm.interfaces import LLM
-from onyx.prompts.chat_prompts import CONTEXTUAL_RAG_TOKEN_ESTIMATE
-from onyx.prompts.chat_prompts import DOCUMENT_SUMMARY_TOKEN_ESTIMATE
-from onyx.prompts.constants import CODE_BLOCK_PAT
-from onyx.utils.b64 import get_image_type
-from onyx.utils.b64 import get_image_type_from_bytes
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import LITELLM_CUSTOM_ERROR_MESSAGE_MAPPINGS
+from zakk.configs.app_configs import MAX_TOKENS_FOR_FULL_INCLUSION
+from zakk.configs.app_configs import USE_CHUNK_SUMMARY
+from zakk.configs.app_configs import USE_DOCUMENT_SUMMARY
+from zakk.configs.constants import MessageType
+from zakk.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
+from zakk.configs.model_configs import GEN_AI_MAX_TOKENS
+from zakk.configs.model_configs import GEN_AI_MODEL_FALLBACK_MAX_TOKENS
+from zakk.configs.model_configs import GEN_AI_NUM_RESERVED_OUTPUT_TOKENS
+from zakk.file_processing.extract_file_text import read_pdf_file
+from zakk.file_store.models import ChatFileType
+from zakk.file_store.models import InMemoryChatFile
+from zakk.llm.interfaces import LLM
+from zakk.prompts.chat_prompts import CONTEXTUAL_RAG_TOKEN_ESTIMATE
+from zakk.prompts.chat_prompts import DOCUMENT_SUMMARY_TOKEN_ESTIMATE
+from zakk.prompts.constants import CODE_BLOCK_PAT
+from zakk.utils.b64 import get_image_type
+from zakk.utils.b64 import get_image_type_from_bytes
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import LOG_LEVEL
 
 
 if TYPE_CHECKING:
-    from onyx.server.manage.llm.models import LLMProviderView
+    from zakk.server.manage.llm.models import LLMProviderView
 
 
 logger = setup_logger()

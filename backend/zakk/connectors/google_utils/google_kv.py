@@ -8,46 +8,46 @@ from google.oauth2.credentials import Credentials as OAuthCredentials  # type: i
 from google_auth_oauthlib.flow import InstalledAppFlow  # type: ignore
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import KV_CRED_KEY
-from onyx.configs.constants import KV_GMAIL_CRED_KEY
-from onyx.configs.constants import KV_GMAIL_SERVICE_ACCOUNT_KEY
-from onyx.configs.constants import KV_GOOGLE_DRIVE_CRED_KEY
-from onyx.configs.constants import KV_GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY
-from onyx.connectors.google_utils.resources import get_drive_service
-from onyx.connectors.google_utils.resources import get_gmail_service
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import KV_CRED_KEY
+from zakk.configs.constants import KV_GMAIL_CRED_KEY
+from zakk.configs.constants import KV_GMAIL_SERVICE_ACCOUNT_KEY
+from zakk.configs.constants import KV_GOOGLE_DRIVE_CRED_KEY
+from zakk.configs.constants import KV_GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY
+from zakk.connectors.google_utils.resources import get_drive_service
+from zakk.connectors.google_utils.resources import get_gmail_service
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_AUTHENTICATION_METHOD,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_DICT_SERVICE_ACCOUNT_KEY,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_DICT_TOKEN_KEY,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_PRIMARY_ADMIN_KEY,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     GOOGLE_SCOPES,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     GoogleOAuthAuthenticationMethod,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     MISSING_SCOPES_ERROR_STR,
 )
-from onyx.connectors.google_utils.shared_constants import (
-    ONYX_SCOPE_INSTRUCTIONS,
+from zakk.connectors.google_utils.shared_constants import (
+    ZAKK_SCOPE_INSTRUCTIONS,
 )
-from onyx.db.credentials import update_credential_json
-from onyx.db.models import User
-from onyx.key_value_store.factory import get_kv_store
-from onyx.server.documents.models import CredentialBase
-from onyx.server.documents.models import GoogleAppCredentials
-from onyx.server.documents.models import GoogleServiceAccountKey
-from onyx.utils.logger import setup_logger
+from zakk.db.credentials import update_credential_json
+from zakk.db.models import User
+from zakk.key_value_store.factory import get_kv_store
+from zakk.server.documents.models import CredentialBase
+from zakk.server.documents.models import GoogleAppCredentials
+from zakk.server.documents.models import GoogleServiceAccountKey
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -120,7 +120,7 @@ def update_credential_access_tokens(
         email = _get_current_oauth_user(creds, source)
     except Exception as e:
         if MISSING_SCOPES_ERROR_STR in str(e):
-            raise PermissionError(ONYX_SCOPE_INSTRUCTIONS) from e
+            raise PermissionError(ZAKK_SCOPE_INSTRUCTIONS) from e
         raise e
 
     new_creds_dict = {

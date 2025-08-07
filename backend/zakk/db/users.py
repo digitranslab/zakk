@@ -12,16 +12,16 @@ from sqlalchemy.sql import expression
 from sqlalchemy.sql.elements import ColumnElement
 from sqlalchemy.sql.elements import KeyedColumnElement
 
-from onyx.auth.invited_users import get_invited_users
-from onyx.auth.invited_users import write_invited_users
-from onyx.auth.schemas import UserRole
-from onyx.db.api_key import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
-from onyx.db.models import DocumentSet__User
-from onyx.db.models import Persona__User
-from onyx.db.models import SamlAccount
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.auth.invited_users import get_invited_users
+from zakk.auth.invited_users import write_invited_users
+from zakk.auth.schemas import UserRole
+from zakk.db.api_key import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
+from zakk.db.models import DocumentSet__User
+from zakk.db.models import Persona__User
+from zakk.db.models import SamlAccount
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 
 
 def validate_user_role_update(
@@ -43,20 +43,20 @@ def validate_user_role_update(
     if current_role == UserRole.SLACK_USER:
         raise HTTPException(
             status_code=400,
-            detail="To change a Slack User's role, they must first login to Onyx via the web app.",
+            detail="To change a Slack User's role, they must first login to Zakk via the web app.",
         )
 
     if current_role == UserRole.EXT_PERM_USER:
         # This shouldn't happen, but just in case
         raise HTTPException(
             status_code=400,
-            detail="To change an External Permissioned User's role, they must first login to Onyx via the web app.",
+            detail="To change an External Permissioned User's role, they must first login to Zakk via the web app.",
         )
 
     if current_role == UserRole.LIMITED:
         raise HTTPException(
             status_code=400,
-            detail="To change a Limited User's role, they must first login to Onyx via the web app.",
+            detail="To change a Limited User's role, they must first login to Zakk via the web app.",
         )
 
     if explicit_override:
@@ -85,7 +85,7 @@ def validate_user_role_update(
             status_code=400,
             detail=(
                 "A user cannot be set to a Slack User role. "
-                "This role is automatically assigned to users who only use Onyx via Slack."
+                "This role is automatically assigned to users who only use Zakk via Slack."
             ),
         )
 
@@ -319,7 +319,7 @@ def delete_user_from_db(
         db_session.delete(oauth_account)
 
     fetch_ee_implementation_or_noop(
-        "onyx.db.external_perm",
+        "zakk.db.external_perm",
         "delete_user__ext_group_for_user__no_commit",
     )(
         db_session=db_session,

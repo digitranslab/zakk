@@ -42,44 +42,44 @@ from sqlalchemy.types import LargeBinary
 from sqlalchemy.types import TypeDecorator
 from sqlalchemy import PrimaryKeyConstraint
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.chat_configs import NUM_POSTPROCESSED_RESULTS
-from onyx.configs.constants import (
+from zakk.auth.schemas import UserRole
+from zakk.configs.chat_configs import NUM_POSTPROCESSED_RESULTS
+from zakk.configs.constants import (
     DEFAULT_BOOST,
     FederatedConnectorSource,
     MilestoneRecordType,
 )
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import MessageType
-from onyx.db.enums import (
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import MessageType
+from zakk.db.enums import (
     AccessType,
     EmbeddingPrecision,
     IndexingMode,
     SyncType,
     SyncStatus,
 )
-from onyx.configs.constants import NotificationType
-from onyx.configs.constants import SearchFeedbackType
-from onyx.configs.constants import TokenRateLimitScope
-from onyx.connectors.models import InputType
-from onyx.db.enums import ChatSessionSharedStatus
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import IndexingStatus
-from onyx.db.enums import IndexModelStatus
-from onyx.db.enums import TaskStatus
-from onyx.db.pydantic_type import PydanticType
-from onyx.kg.models import KGEntityTypeAttributes
-from onyx.utils.logger import setup_logger
-from onyx.utils.special_types import JSON_ro
-from onyx.file_store.models import FileDescriptor
-from onyx.llm.override_models import LLMOverride
-from onyx.llm.override_models import PromptOverride
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.kg.models import KGStage
-from onyx.utils.encryption import decrypt_bytes_to_string
-from onyx.utils.encryption import encrypt_string_to_bytes
-from onyx.utils.headers import HeaderItemDict
+from zakk.configs.constants import NotificationType
+from zakk.configs.constants import SearchFeedbackType
+from zakk.configs.constants import TokenRateLimitScope
+from zakk.connectors.models import InputType
+from zakk.db.enums import ChatSessionSharedStatus
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import IndexingStatus
+from zakk.db.enums import IndexModelStatus
+from zakk.db.enums import TaskStatus
+from zakk.db.pydantic_type import PydanticType
+from zakk.kg.models import KGEntityTypeAttributes
+from zakk.utils.logger import setup_logger
+from zakk.utils.special_types import JSON_ro
+from zakk.file_store.models import FileDescriptor
+from zakk.llm.override_models import LLMOverride
+from zakk.llm.override_models import PromptOverride
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.kg.models import KGStage
+from zakk.utils.encryption import decrypt_bytes_to_string
+from zakk.utils.encryption import encrypt_string_to_bytes
+from zakk.utils.headers import HeaderItemDict
 from shared_configs.enums import EmbeddingProvider
 from shared_configs.enums import RerankerProvider
 
@@ -536,7 +536,7 @@ class Document(Base):
     # NOTE: if more sensitive data is added here for display, make sure to add user/group permission
 
     # this should correspond to the ID of the document
-    # (as is passed around in Onyx)
+    # (as is passed around in Zakk)
     id: Mapped[str] = mapped_column(NullFilteredString, primary_key=True)
     from_ingestion_api: Mapped[bool] = mapped_column(
         Boolean, default=False, nullable=True
@@ -573,7 +573,7 @@ class Document(Base):
         DateTime(timezone=True), nullable=True, index=True
     )
     # The following are not attached to User because the account/email may not be known
-    # within Onyx
+    # within Zakk
     # Something like the document creator
     primary_owners: Mapped[list[str] | None] = mapped_column(
         postgresql.ARRAY(String), nullable=True
@@ -1240,7 +1240,7 @@ class ChunkStats(Base):
     # NOTE: if more sensitive data is added here for display, make sure to add user/group permission
 
     # this should correspond to the ID of the document
-    # (as is passed around in Onyx)x
+    # (as is passed around in Zakk)x
     id: Mapped[str] = mapped_column(
         NullFilteredString,
         primary_key=True,
@@ -2862,11 +2862,11 @@ class AgentSearchMetrics(Base):
 Enterprise Edition Models
 ************************************************************************
 
-These models are only used in Enterprise Edition only features in Onyx.
+These models are only used in Enterprise Edition only features in Zakk.
 They are kept here to simplify the codebase and avoid having different assumptions
-on the shape of data being passed around between the MIT and EE versions of Onyx.
+on the shape of data being passed around between the MIT and EE versions of Zakk.
 
-In the MIT version of Onyx, assume these tables are always empty.
+In the MIT version of Zakk, assume these tables are always empty.
 """
 
 
@@ -3130,7 +3130,7 @@ class User__ExternalUserGroupId(Base):
     """Maps user info both internal and external to the name of the external group
     This maps the user to all of their external groups so that the external group name can be
     attached to the ACL list matching during query time. User level permissions can be handled by
-    directly adding the Onyx user to the doc ACL list"""
+    directly adding the Zakk user to the doc ACL list"""
 
     __tablename__ = "user__external_user_group_id"
 

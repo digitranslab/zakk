@@ -6,14 +6,14 @@ from sqlalchemy import select
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.constants import AuthType
-from onyx.db.models import InputPrompt
-from onyx.db.models import InputPrompt__User
-from onyx.db.models import User
-from onyx.server.features.input_prompt.models import InputPromptSnapshot
-from onyx.server.manage.models import UserInfo
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.constants import AuthType
+from zakk.db.models import InputPrompt
+from zakk.db.models import InputPrompt__User
+from zakk.db.models import User
+from zakk.server.features.input_prompt.models import InputPromptSnapshot
+from zakk.server.manage.models import UserInfo
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

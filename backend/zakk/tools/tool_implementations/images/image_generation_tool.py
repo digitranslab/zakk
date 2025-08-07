@@ -8,27 +8,27 @@ import requests
 from litellm import image_generation  # type: ignore
 from pydantic import BaseModel
 
-from onyx.chat.chat_utils import combine_message_chain
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.configs.app_configs import IMAGE_MODEL_NAME
-from onyx.configs.model_configs import GEN_AI_HISTORY_CUTOFF
-from onyx.configs.tool_configs import IMAGE_GENERATION_OUTPUT_FORMAT
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.llm.utils import build_content_with_imgs
-from onyx.llm.utils import message_to_string
-from onyx.llm.utils import model_supports_image_input
-from onyx.prompts.constants import GENERAL_SEP_PAT
-from onyx.tools.message import ToolCallSummary
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool import Tool
-from onyx.tools.tool_implementations.images.prompt import (
+from zakk.chat.chat_utils import combine_message_chain
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.configs.app_configs import IMAGE_MODEL_NAME
+from zakk.configs.model_configs import GEN_AI_HISTORY_CUTOFF
+from zakk.configs.tool_configs import IMAGE_GENERATION_OUTPUT_FORMAT
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.llm.utils import build_content_with_imgs
+from zakk.llm.utils import message_to_string
+from zakk.llm.utils import model_supports_image_input
+from zakk.prompts.constants import GENERAL_SEP_PAT
+from zakk.tools.message import ToolCallSummary
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool import Tool
+from zakk.tools.tool_implementations.images.prompt import (
     build_image_generation_user_prompt,
 )
-from onyx.utils.headers import build_llm_extra_headers
-from onyx.utils.logger import setup_logger
-from onyx.utils.special_types import JSON_ro
-from onyx.utils.threadpool_concurrency import run_functions_tuples_in_parallel
+from zakk.utils.headers import build_llm_extra_headers
+from zakk.utils.logger import setup_logger
+from zakk.utils.special_types import JSON_ro
+from zakk.utils.threadpool_concurrency import run_functions_tuples_in_parallel
 
 
 logger = setup_logger()

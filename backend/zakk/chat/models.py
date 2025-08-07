@@ -13,22 +13,22 @@ from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
 
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import MessageType
-from onyx.context.search.enums import QueryFlow
-from onyx.context.search.enums import RecencyBiasSetting
-from onyx.context.search.enums import SearchType
-from onyx.context.search.models import RetrievalDocs
-from onyx.db.models import SearchDoc as DbSearchDoc
-from onyx.file_store.models import FileDescriptor
-from onyx.llm.override_models import PromptOverride
-from onyx.tools.models import ToolCallFinalResult
-from onyx.tools.models import ToolCallKickoff
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool_implementations.custom.base_tool_types import ToolResultType
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import MessageType
+from zakk.context.search.enums import QueryFlow
+from zakk.context.search.enums import RecencyBiasSetting
+from zakk.context.search.enums import SearchType
+from zakk.context.search.models import RetrievalDocs
+from zakk.db.models import SearchDoc as DbSearchDoc
+from zakk.file_store.models import FileDescriptor
+from zakk.llm.override_models import PromptOverride
+from zakk.tools.models import ToolCallFinalResult
+from zakk.tools.models import ToolCallKickoff
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool_implementations.custom.base_tool_types import ToolResultType
 
 if TYPE_CHECKING:
-    from onyx.db.models import Prompt
+    from zakk.db.models import Prompt
 
 
 class LlmDoc(BaseModel):
@@ -157,7 +157,7 @@ class DocumentRelevance(BaseModel):
     relevance_summaries: dict[str, RelevanceAnalysis]
 
 
-class OnyxAnswerPiece(BaseModel):
+class ZakkAnswerPiece(BaseModel):
     # A small piece of a complete answer. Used for streaming back answers.
     answer_piece: str | None  # if None, specifies the end of an Answer
 
@@ -198,7 +198,7 @@ class StreamingError(BaseModel):
     stack_trace: str | None = None
 
 
-class OnyxAnswer(BaseModel):
+class ZakkAnswer(BaseModel):
     answer: str | None
 
 
@@ -261,7 +261,7 @@ class PersonaOverrideConfig(BaseModel):
 
 
 AnswerQuestionPossibleReturn = (
-    OnyxAnswerPiece
+    ZakkAnswerPiece
     | CitationInfo
     | FileChatDisplay
     | CustomToolResponse
@@ -393,7 +393,7 @@ AnswerPacket = (
 
 
 ResponsePart = (
-    OnyxAnswerPiece
+    ZakkAnswerPiece
     | CitationInfo
     | ToolCallKickoff
     | ToolResponse

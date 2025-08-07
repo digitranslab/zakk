@@ -14,28 +14,28 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DISABLE_AUTH
-from onyx.configs.constants import DocumentSource
-from onyx.db.connector import fetch_connector_by_id
-from onyx.db.credentials import fetch_credential_by_id
-from onyx.db.credentials import fetch_credential_by_id_for_user
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.models import Connector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Credential
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexingStatus
-from onyx.db.models import SearchSettings
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.db.models import UserFile
-from onyx.db.models import UserGroup__ConnectorCredentialPair
-from onyx.db.models import UserRole
-from onyx.server.models import StatusResponse
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.configs.app_configs import DISABLE_AUTH
+from zakk.configs.constants import DocumentSource
+from zakk.db.connector import fetch_connector_by_id
+from zakk.db.credentials import fetch_credential_by_id
+from zakk.db.credentials import fetch_credential_by_id_for_user
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.models import Connector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Credential
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexingStatus
+from zakk.db.models import SearchSettings
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.db.models import UserFile
+from zakk.db.models import UserGroup__ConnectorCredentialPair
+from zakk.db.models import UserRole
+from zakk.server.models import StatusResponse
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 
 logger = setup_logger()
 
@@ -510,7 +510,7 @@ def add_credential_to_connector(
 
     if access_type == AccessType.SYNC:
         if not fetch_ee_implementation_or_noop(
-            "onyx.external_permissions.sync_params",
+            "zakk.external_permissions.sync_params",
             "check_if_valid_sync_source",
             noop_return_value=True,
         )(connector.source):
@@ -607,7 +607,7 @@ def remove_credential_from_connector(
 
     if association is not None:
         fetch_ee_implementation_or_noop(
-            "onyx.db.external_perm",
+            "zakk.db.external_perm",
             "delete_user__ext_group_for_cc_pair__no_commit",
         )(
             db_session=db_session,

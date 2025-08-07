@@ -10,22 +10,22 @@ from pydantic import Field
 from pydantic import field_validator
 from pydantic import model_validator
 
-from onyx.auth.schemas import UserRole
-from onyx.configs.app_configs import TRACK_EXTERNAL_IDP_EXPIRY
-from onyx.configs.constants import AuthType
-from onyx.context.search.models import SavedSearchSettings
-from onyx.db.models import AllowedAnswerFilters
-from onyx.db.models import ChannelConfig
-from onyx.db.models import SlackBot as SlackAppModel
-from onyx.db.models import SlackChannelConfig as SlackChannelConfigModel
-from onyx.db.models import StandardAnswer as StandardAnswerModel
-from onyx.db.models import StandardAnswerCategory as StandardAnswerCategoryModel
-from onyx.db.models import User
-from onyx.zakkbot.slack.config import VALID_SLACK_FILTERS
-from onyx.server.features.persona.models import FullPersonaSnapshot
-from onyx.server.features.persona.models import PersonaSnapshot
-from onyx.server.models import FullUserSnapshot
-from onyx.server.models import InvitedUserSnapshot
+from zakk.auth.schemas import UserRole
+from zakk.configs.app_configs import TRACK_EXTERNAL_IDP_EXPIRY
+from zakk.configs.constants import AuthType
+from zakk.context.search.models import SavedSearchSettings
+from zakk.db.models import AllowedAnswerFilters
+from zakk.db.models import ChannelConfig
+from zakk.db.models import SlackBot as SlackAppModel
+from zakk.db.models import SlackChannelConfig as SlackChannelConfigModel
+from zakk.db.models import StandardAnswer as StandardAnswerModel
+from zakk.db.models import StandardAnswerCategory as StandardAnswerCategoryModel
+from zakk.db.models import User
+from zakk.zakkbot.slack.config import VALID_SLACK_FILTERS
+from zakk.server.features.persona.models import FullPersonaSnapshot
+from zakk.server.features.persona.models import PersonaSnapshot
+from zakk.server.models import FullUserSnapshot
+from zakk.server.models import InvitedUserSnapshot
 
 
 if TYPE_CHECKING:

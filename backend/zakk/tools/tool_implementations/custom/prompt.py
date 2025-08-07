@@ -1,8 +1,8 @@
 from langchain_core.messages import HumanMessage
 
-from onyx.file_store.models import ChatFileType
-from onyx.file_store.models import InMemoryChatFile
-from onyx.llm.utils import build_content_with_imgs
+from zakk.file_store.models import ChatFileType
+from zakk.file_store.models import InMemoryChatFile
+from zakk.llm.utils import build_content_with_imgs
 
 
 CUSTOM_IMG_GENERATION_SUMMARY_PROMPT = """

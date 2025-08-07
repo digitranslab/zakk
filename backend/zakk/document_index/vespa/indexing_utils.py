@@ -11,50 +11,50 @@ from http import HTTPStatus
 import httpx
 from retry import retry
 
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     get_experts_stores_representations,
 )
-from onyx.document_index.document_index_utils import get_uuid_from_chunk
-from onyx.document_index.document_index_utils import get_uuid_from_chunk_info_old
-from onyx.document_index.interfaces import MinimalDocumentIndexingInfo
-from onyx.document_index.vespa.shared_utils.utils import remove_invalid_unicode_chars
-from onyx.document_index.vespa.shared_utils.utils import (
+from zakk.document_index.document_index_utils import get_uuid_from_chunk
+from zakk.document_index.document_index_utils import get_uuid_from_chunk_info_old
+from zakk.document_index.interfaces import MinimalDocumentIndexingInfo
+from zakk.document_index.vespa.shared_utils.utils import remove_invalid_unicode_chars
+from zakk.document_index.vespa.shared_utils.utils import (
     replace_invalid_doc_id_characters,
 )
-from onyx.document_index.vespa_constants import ACCESS_CONTROL_LIST
-from onyx.document_index.vespa_constants import AGGREGATED_CHUNK_BOOST_FACTOR
-from onyx.document_index.vespa_constants import BLURB
-from onyx.document_index.vespa_constants import BOOST
-from onyx.document_index.vespa_constants import CHUNK_CONTEXT
-from onyx.document_index.vespa_constants import CHUNK_ID
-from onyx.document_index.vespa_constants import CONTENT
-from onyx.document_index.vespa_constants import CONTENT_SUMMARY
-from onyx.document_index.vespa_constants import DOC_SUMMARY
-from onyx.document_index.vespa_constants import DOC_UPDATED_AT
-from onyx.document_index.vespa_constants import DOCUMENT_ID
-from onyx.document_index.vespa_constants import DOCUMENT_ID_ENDPOINT
-from onyx.document_index.vespa_constants import DOCUMENT_SETS
-from onyx.document_index.vespa_constants import EMBEDDINGS
-from onyx.document_index.vespa_constants import IMAGE_FILE_NAME
-from onyx.document_index.vespa_constants import LARGE_CHUNK_REFERENCE_IDS
-from onyx.document_index.vespa_constants import METADATA
-from onyx.document_index.vespa_constants import METADATA_LIST
-from onyx.document_index.vespa_constants import METADATA_SUFFIX
-from onyx.document_index.vespa_constants import NUM_THREADS
-from onyx.document_index.vespa_constants import PRIMARY_OWNERS
-from onyx.document_index.vespa_constants import SECONDARY_OWNERS
-from onyx.document_index.vespa_constants import SECTION_CONTINUATION
-from onyx.document_index.vespa_constants import SEMANTIC_IDENTIFIER
-from onyx.document_index.vespa_constants import SKIP_TITLE_EMBEDDING
-from onyx.document_index.vespa_constants import SOURCE_LINKS
-from onyx.document_index.vespa_constants import SOURCE_TYPE
-from onyx.document_index.vespa_constants import TENANT_ID
-from onyx.document_index.vespa_constants import TITLE
-from onyx.document_index.vespa_constants import TITLE_EMBEDDING
-from onyx.document_index.vespa_constants import USER_FILE
-from onyx.document_index.vespa_constants import USER_FOLDER
-from onyx.indexing.models import DocMetadataAwareIndexChunk
-from onyx.utils.logger import setup_logger
+from zakk.document_index.vespa_constants import ACCESS_CONTROL_LIST
+from zakk.document_index.vespa_constants import AGGREGATED_CHUNK_BOOST_FACTOR
+from zakk.document_index.vespa_constants import BLURB
+from zakk.document_index.vespa_constants import BOOST
+from zakk.document_index.vespa_constants import CHUNK_CONTEXT
+from zakk.document_index.vespa_constants import CHUNK_ID
+from zakk.document_index.vespa_constants import CONTENT
+from zakk.document_index.vespa_constants import CONTENT_SUMMARY
+from zakk.document_index.vespa_constants import DOC_SUMMARY
+from zakk.document_index.vespa_constants import DOC_UPDATED_AT
+from zakk.document_index.vespa_constants import DOCUMENT_ID
+from zakk.document_index.vespa_constants import DOCUMENT_ID_ENDPOINT
+from zakk.document_index.vespa_constants import DOCUMENT_SETS
+from zakk.document_index.vespa_constants import EMBEDDINGS
+from zakk.document_index.vespa_constants import IMAGE_FILE_NAME
+from zakk.document_index.vespa_constants import LARGE_CHUNK_REFERENCE_IDS
+from zakk.document_index.vespa_constants import METADATA
+from zakk.document_index.vespa_constants import METADATA_LIST
+from zakk.document_index.vespa_constants import METADATA_SUFFIX
+from zakk.document_index.vespa_constants import NUM_THREADS
+from zakk.document_index.vespa_constants import PRIMARY_OWNERS
+from zakk.document_index.vespa_constants import SECONDARY_OWNERS
+from zakk.document_index.vespa_constants import SECTION_CONTINUATION
+from zakk.document_index.vespa_constants import SEMANTIC_IDENTIFIER
+from zakk.document_index.vespa_constants import SKIP_TITLE_EMBEDDING
+from zakk.document_index.vespa_constants import SOURCE_LINKS
+from zakk.document_index.vespa_constants import SOURCE_TYPE
+from zakk.document_index.vespa_constants import TENANT_ID
+from zakk.document_index.vespa_constants import TITLE
+from zakk.document_index.vespa_constants import TITLE_EMBEDDING
+from zakk.document_index.vespa_constants import USER_FILE
+from zakk.document_index.vespa_constants import USER_FOLDER
+from zakk.indexing.models import DocMetadataAwareIndexChunk
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

@@ -11,19 +11,19 @@ from unittest.mock import patch
 import pytest
 from requests.exceptions import HTTPError
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.confluence.connector import ConfluenceCheckpoint
-from onyx.connectors.confluence.connector import ConfluenceConnector
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import SlimDocument
-from tests.unit.onyx.connectors.utils import load_everything_from_checkpoint_connector
-from tests.unit.onyx.connectors.utils import (
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.confluence.connector import ConfluenceCheckpoint
+from zakk.connectors.confluence.connector import ConfluenceConnector
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import SlimDocument
+from tests.unit.zakk.connectors.utils import load_everything_from_checkpoint_connector
+from tests.unit.zakk.connectors.utils import (
     load_everything_from_checkpoint_connector_from_checkpoint,
 )
 
@@ -67,7 +67,7 @@ def confluence_connector(
     )
     # Initialize the client directly
     connector._confluence_client = mock_confluence_client
-    with patch("onyx.connectors.confluence.connector._SLIM_DOC_BATCH_SIZE", 2):
+    with patch("zakk.connectors.confluence.connector._SLIM_DOC_BATCH_SIZE", 2):
         yield connector
 
 
@@ -261,7 +261,7 @@ def test_load_from_checkpoint_with_page_processing_error(
             )
 
     with patch(
-        "onyx.connectors.confluence.connector.ConfluenceConnector._convert_page_to_document",
+        "zakk.connectors.confluence.connector.ConfluenceConnector._convert_page_to_document",
         side_effect=mock_convert_side_effect,
     ):
         # Call load_from_checkpoint

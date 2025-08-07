@@ -7,12 +7,12 @@ from typing import cast
 from pydantic import BaseModel
 from pydantic import model_validator
 
-from onyx.access.models import ExternalAccess
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import INDEX_SEPARATOR
-from onyx.configs.constants import RETURN_SEPARATOR
-from onyx.db.enums import IndexModelStatus
-from onyx.utils.text_processing import make_url_compatible
+from zakk.access.models import ExternalAccess
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import INDEX_SEPARATOR
+from zakk.configs.constants import RETURN_SEPARATOR
+from zakk.db.enums import IndexModelStatus
+from zakk.utils.text_processing import make_url_compatible
 
 
 class InputType(str, Enum):
@@ -155,7 +155,7 @@ class BasicExpertInfo(BaseModel):
 
 
 class DocumentBase(BaseModel):
-    """Used for Onyx ingestion api, the ID is inferred before use if not provided"""
+    """Used for Zakk ingestion api, the ID is inferred before use if not provided"""
 
     id: str | None = None
     sections: list[TextSection | ImageSection]
@@ -241,7 +241,7 @@ class DocumentBase(BaseModel):
 
 
 class Document(DocumentBase):
-    """Used for Onyx ingestion api, the ID is required"""
+    """Used for Zakk ingestion api, the ID is required"""
 
     id: str
     source: DocumentSource
@@ -369,7 +369,7 @@ class ConnectorStopSignal(Exception):
     """A custom exception used to signal a stop in processing."""
 
 
-class OnyxMetadata(BaseModel):
+class ZakkMetadata(BaseModel):
     # Note that doc_id cannot be overriden here as it may cause issues
     # with the display functionalities in the UI. Ask @chris if clarification is needed.
     source_type: DocumentSource | None = None

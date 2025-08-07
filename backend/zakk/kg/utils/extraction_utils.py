@@ -2,41 +2,41 @@ import json
 
 from langchain_core.messages import HumanMessage
 
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import OnyxCallTypes
-from onyx.configs.kg_configs import KG_METADATA_TRACKING_THRESHOLD
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.entities import get_kg_entity_by_document
-from onyx.db.entity_type import get_entity_types
-from onyx.db.kg_config import KGConfigSettings
-from onyx.db.models import Document
-from onyx.db.models import KGEntityType
-from onyx.db.models import KGRelationshipType
-from onyx.db.tag import get_structured_tags_for_document
-from onyx.kg.models import KGAttributeEntityOption
-from onyx.kg.models import KGAttributeTrackInfo
-from onyx.kg.models import KGAttributeTrackType
-from onyx.kg.models import KGChunkFormat
-from onyx.kg.models import KGClassificationInstructions
-from onyx.kg.models import KGClassificationResult
-from onyx.kg.models import KGDocumentDeepExtractionResults
-from onyx.kg.models import KGEnhancedDocumentMetadata
-from onyx.kg.models import KGImpliedExtractionResults
-from onyx.kg.models import KGMetadataContent
-from onyx.kg.utils.formatting_utils import extract_email
-from onyx.kg.utils.formatting_utils import get_entity_type
-from onyx.kg.utils.formatting_utils import kg_email_processing
-from onyx.kg.utils.formatting_utils import make_entity_id
-from onyx.kg.utils.formatting_utils import make_relationship_id
-from onyx.kg.utils.formatting_utils import make_relationship_type_id
-from onyx.kg.vespa.vespa_interactions import get_document_vespa_contents
-from onyx.llm.factory import get_default_llms
-from onyx.llm.utils import message_to_string
-from onyx.prompts.kg_prompts import CALL_CHUNK_PREPROCESSING_PROMPT
-from onyx.prompts.kg_prompts import CALL_DOCUMENT_CLASSIFICATION_PROMPT
-from onyx.prompts.kg_prompts import GENERAL_CHUNK_PREPROCESSING_PROMPT
-from onyx.prompts.kg_prompts import MASTER_EXTRACTION_PROMPT
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import ZakkCallTypes
+from zakk.configs.kg_configs import KG_METADATA_TRACKING_THRESHOLD
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.entities import get_kg_entity_by_document
+from zakk.db.entity_type import get_entity_types
+from zakk.db.kg_config import KGConfigSettings
+from zakk.db.models import Document
+from zakk.db.models import KGEntityType
+from zakk.db.models import KGRelationshipType
+from zakk.db.tag import get_structured_tags_for_document
+from zakk.kg.models import KGAttributeEntityOption
+from zakk.kg.models import KGAttributeTrackInfo
+from zakk.kg.models import KGAttributeTrackType
+from zakk.kg.models import KGChunkFormat
+from zakk.kg.models import KGClassificationInstructions
+from zakk.kg.models import KGClassificationResult
+from zakk.kg.models import KGDocumentDeepExtractionResults
+from zakk.kg.models import KGEnhancedDocumentMetadata
+from zakk.kg.models import KGImpliedExtractionResults
+from zakk.kg.models import KGMetadataContent
+from zakk.kg.utils.formatting_utils import extract_email
+from zakk.kg.utils.formatting_utils import get_entity_type
+from zakk.kg.utils.formatting_utils import kg_email_processing
+from zakk.kg.utils.formatting_utils import make_entity_id
+from zakk.kg.utils.formatting_utils import make_relationship_id
+from zakk.kg.utils.formatting_utils import make_relationship_type_id
+from zakk.kg.vespa.vespa_interactions import get_document_vespa_contents
+from zakk.llm.factory import get_default_llms
+from zakk.llm.utils import message_to_string
+from zakk.prompts.kg_prompts import CALL_CHUNK_PREPROCESSING_PROMPT
+from zakk.prompts.kg_prompts import CALL_DOCUMENT_CLASSIFICATION_PROMPT
+from zakk.prompts.kg_prompts import GENERAL_CHUNK_PREPROCESSING_PROMPT
+from zakk.prompts.kg_prompts import MASTER_EXTRACTION_PROMPT
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -196,7 +196,7 @@ def kg_implied_extraction(
     # Chunk treatment variables
 
     document_is_from_call = document_entity_type.lower() in (
-        call_type.value.lower() for call_type in OnyxCallTypes
+        call_type.value.lower() for call_type in ZakkCallTypes
     )
 
     # Get core entity
@@ -390,7 +390,7 @@ def kg_classify_document(
     # currently, classification is only done for calls
     # TODO: add support (or use same prompt and format) for non-call documents
     entity_type = get_entity_type(document_entity)
-    if entity_type not in (call_type.value for call_type in OnyxCallTypes):
+    if entity_type not in (call_type.value for call_type in ZakkCallTypes):
         return None
 
     # prepare prompt
@@ -454,7 +454,7 @@ def kg_deep_extract_chunks(
     # currently, calls are treated differently
     # TODO: either treat some other documents differently too, or ideally all the same way
     entity_type = get_entity_type(document_entity)
-    is_call = entity_type in (call_type.value for call_type in OnyxCallTypes)
+    is_call = entity_type in (call_type.value for call_type in ZakkCallTypes)
 
     content = "\n".join(chunk.content for chunk in chunk_batch)
 

@@ -1,6 +1,6 @@
 import abc
 
-from onyx.utils.special_types import JSON_ro
+from zakk.utils.special_types import JSON_ro
 
 
 class KvKeyNotFoundError(Exception):

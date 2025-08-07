@@ -17,7 +17,7 @@ INDEXING_REQUEST_ID_CONTEXTVAR: contextvars.ContextVar[str | None] = (
 )
 
 # set by every route in the API server
-ONYX_REQUEST_ID_CONTEXTVAR: contextvars.ContextVar[str | None] = contextvars.ContextVar(
+ZAKK_REQUEST_ID_CONTEXTVAR: contextvars.ContextVar[str | None] = contextvars.ContextVar(
     "zakk_request_id", default=None
 )
 

@@ -1,7 +1,7 @@
 import re
 
-from onyx.db.kg_config import KGConfigSettings
-from onyx.kg.models import KGPerson
+from zakk.db.kg_config import KGConfigSettings
+from zakk.kg.models import KGPerson
 
 
 def format_entity_id(entity_id_name: str) -> str:

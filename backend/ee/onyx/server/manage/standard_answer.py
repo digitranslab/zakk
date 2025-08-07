@@ -3,22 +3,22 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.standard_answer import fetch_standard_answer
-from ee.onyx.db.standard_answer import fetch_standard_answer_categories
-from ee.onyx.db.standard_answer import fetch_standard_answer_category
-from ee.onyx.db.standard_answer import fetch_standard_answers
-from ee.onyx.db.standard_answer import insert_standard_answer
-from ee.onyx.db.standard_answer import insert_standard_answer_category
-from ee.onyx.db.standard_answer import remove_standard_answer
-from ee.onyx.db.standard_answer import update_standard_answer
-from ee.onyx.db.standard_answer import update_standard_answer_category
-from onyx.auth.users import current_admin_user
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.server.manage.models import StandardAnswer
-from onyx.server.manage.models import StandardAnswerCategory
-from onyx.server.manage.models import StandardAnswerCategoryCreationRequest
-from onyx.server.manage.models import StandardAnswerCreationRequest
+from ee.zakk.db.standard_answer import fetch_standard_answer
+from ee.zakk.db.standard_answer import fetch_standard_answer_categories
+from ee.zakk.db.standard_answer import fetch_standard_answer_category
+from ee.zakk.db.standard_answer import fetch_standard_answers
+from ee.zakk.db.standard_answer import insert_standard_answer
+from ee.zakk.db.standard_answer import insert_standard_answer_category
+from ee.zakk.db.standard_answer import remove_standard_answer
+from ee.zakk.db.standard_answer import update_standard_answer
+from ee.zakk.db.standard_answer import update_standard_answer_category
+from zakk.auth.users import current_admin_user
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.server.manage.models import StandardAnswer
+from zakk.server.manage.models import StandardAnswerCategory
+from zakk.server.manage.models import StandardAnswerCategoryCreationRequest
+from zakk.server.manage.models import StandardAnswerCreationRequest
 
 router = APIRouter(prefix="/manage")
 

@@ -7,21 +7,21 @@ from enum import Enum
 from googleapiclient.discovery import Resource  # type: ignore
 from googleapiclient.errors import HttpError  # type: ignore
 
-from onyx.connectors.google_drive.constants import DRIVE_FOLDER_TYPE
-from onyx.connectors.google_drive.constants import DRIVE_SHORTCUT_TYPE
-from onyx.connectors.google_drive.models import DriveRetrievalStage
-from onyx.connectors.google_drive.models import GoogleDriveFileType
-from onyx.connectors.google_drive.models import RetrievedDriveFile
-from onyx.connectors.google_utils.google_utils import execute_paginated_retrieval
-from onyx.connectors.google_utils.google_utils import (
+from zakk.connectors.google_drive.constants import DRIVE_FOLDER_TYPE
+from zakk.connectors.google_drive.constants import DRIVE_SHORTCUT_TYPE
+from zakk.connectors.google_drive.models import DriveRetrievalStage
+from zakk.connectors.google_drive.models import GoogleDriveFileType
+from zakk.connectors.google_drive.models import RetrievedDriveFile
+from zakk.connectors.google_utils.google_utils import execute_paginated_retrieval
+from zakk.connectors.google_utils.google_utils import (
     execute_paginated_retrieval_with_max_pages,
 )
-from onyx.connectors.google_utils.google_utils import GoogleFields
-from onyx.connectors.google_utils.google_utils import ORDER_BY_KEY
-from onyx.connectors.google_utils.google_utils import PAGE_TOKEN_KEY
-from onyx.connectors.google_utils.resources import GoogleDriveService
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.utils.logger import setup_logger
+from zakk.connectors.google_utils.google_utils import GoogleFields
+from zakk.connectors.google_utils.google_utils import ORDER_BY_KEY
+from zakk.connectors.google_utils.google_utils import PAGE_TOKEN_KEY
+from zakk.connectors.google_utils.resources import GoogleDriveService
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

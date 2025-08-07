@@ -4,13 +4,13 @@ from enum import Enum
 
 from langgraph.types import Send
 
-from onyx.agents.agent_search.kb_search.states import KGAnswerStrategy
-from onyx.agents.agent_search.kb_search.states import KGSearchType
-from onyx.agents.agent_search.kb_search.states import KGSourceDivisionType
-from onyx.agents.agent_search.kb_search.states import MainState
-from onyx.agents.agent_search.kb_search.states import ResearchObjectInput
-from onyx.configs.kg_configs import KG_MAX_DECOMPOSITION_SEGMENTS
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.kb_search.states import KGAnswerStrategy
+from zakk.agents.agent_search.kb_search.states import KGSearchType
+from zakk.agents.agent_search.kb_search.states import KGSourceDivisionType
+from zakk.agents.agent_search.kb_search.states import MainState
+from zakk.agents.agent_search.kb_search.states import ResearchObjectInput
+from zakk.configs.kg_configs import KG_MAX_DECOMPOSITION_SEGMENTS
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

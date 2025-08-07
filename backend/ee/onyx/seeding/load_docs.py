@@ -5,13 +5,13 @@ from typing import List
 
 from cohere import Client
 
-from ee.onyx.configs.app_configs import COHERE_DEFAULT_API_KEY
+from ee.zakk.configs.app_configs import COHERE_DEFAULT_API_KEY
 
 Embedding = List[float]
 
 
 def load_processed_docs(cohere_enabled: bool) -> list[dict]:
-    base_path = os.path.join(os.getcwd(), "onyx", "seeding")
+    base_path = os.path.join(os.getcwd(), "zakk", "seeding")
 
     if cohere_enabled and COHERE_DEFAULT_API_KEY:
         initial_docs_path = os.path.join(base_path, "initial_docs_cohere.json")

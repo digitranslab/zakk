@@ -5,37 +5,37 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_user
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import MessageType
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import SearchDoc
-from onyx.context.search.preprocessing.access_filters import (
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_user
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import MessageType
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import SearchDoc
+from zakk.context.search.preprocessing.access_filters import (
     build_access_filters_for_user,
 )
-from onyx.context.search.utils import chunks_or_sections_to_search_docs
-from onyx.db.chat import get_chat_messages_by_session
-from onyx.db.chat import get_chat_session_by_id
-from onyx.db.chat import get_chat_sessions_by_user
-from onyx.db.chat import get_search_docs_for_chat_message
-from onyx.db.chat import get_valid_messages_from_query_sessions
-from onyx.db.chat import translate_db_message_to_chat_message_detail
-from onyx.db.chat import translate_db_search_doc_to_server_search_doc
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.search_settings import get_current_search_settings
-from onyx.db.tag import find_tags
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.vespa.index import VespaIndex
-from onyx.server.query_and_chat.models import AdminSearchRequest
-from onyx.server.query_and_chat.models import AdminSearchResponse
-from onyx.server.query_and_chat.models import ChatSessionDetails
-from onyx.server.query_and_chat.models import ChatSessionsResponse
-from onyx.server.query_and_chat.models import SearchSessionDetailResponse
-from onyx.server.query_and_chat.models import SourceTag
-from onyx.server.query_and_chat.models import TagResponse
-from onyx.utils.logger import setup_logger
+from zakk.context.search.utils import chunks_or_sections_to_search_docs
+from zakk.db.chat import get_chat_messages_by_session
+from zakk.db.chat import get_chat_session_by_id
+from zakk.db.chat import get_chat_sessions_by_user
+from zakk.db.chat import get_search_docs_for_chat_message
+from zakk.db.chat import get_valid_messages_from_query_sessions
+from zakk.db.chat import translate_db_message_to_chat_message_detail
+from zakk.db.chat import translate_db_search_doc_to_server_search_doc
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.search_settings import get_current_search_settings
+from zakk.db.tag import find_tags
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.vespa.index import VespaIndex
+from zakk.server.query_and_chat.models import AdminSearchRequest
+from zakk.server.query_and_chat.models import AdminSearchResponse
+from zakk.server.query_and_chat.models import ChatSessionDetails
+from zakk.server.query_and_chat.models import ChatSessionsResponse
+from zakk.server.query_and_chat.models import SearchSessionDetailResponse
+from zakk.server.query_and_chat.models import SourceTag
+from zakk.server.query_and_chat.models import TagResponse
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()

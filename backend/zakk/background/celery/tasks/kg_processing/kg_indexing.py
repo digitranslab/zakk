@@ -1,12 +1,12 @@
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.apps.client import celery_app
-from onyx.background.celery.tasks.kg_processing.utils import is_kg_processing_blocked
-from onyx.background.celery.tasks.kg_processing.utils import (
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.apps.client import celery_app
+from zakk.background.celery.tasks.kg_processing.utils import is_kg_processing_blocked
+from zakk.background.celery.tasks.kg_processing.utils import (
     is_kg_processing_requirements_met,
 )
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
 
 
 def try_creating_kg_processing_task(
@@ -22,12 +22,12 @@ def try_creating_kg_processing_task(
 
         # Send the KG processing task
         result = celery_app.send_task(
-            OnyxCeleryTask.KG_PROCESSING,
+            ZakkCeleryTask.KG_PROCESSING,
             kwargs=dict(
                 tenant_id=tenant_id,
             ),
-            queue=OnyxCeleryQueues.KG_PROCESSING,
-            priority=OnyxCeleryPriority.MEDIUM,
+            queue=ZakkCeleryQueues.KG_PROCESSING,
+            priority=ZakkCeleryPriority.MEDIUM,
         )
 
         if not result:
@@ -56,14 +56,14 @@ def try_creating_kg_source_reset_task(
 
         # Send the KG source reset task
         result = celery_app.send_task(
-            OnyxCeleryTask.KG_RESET_SOURCE_INDEX,
+            ZakkCeleryTask.KG_RESET_SOURCE_INDEX,
             kwargs=dict(
                 tenant_id=tenant_id,
                 source_name=source_name,
                 index_name=index_name,
             ),
-            queue=OnyxCeleryQueues.KG_PROCESSING,
-            priority=OnyxCeleryPriority.MEDIUM,
+            queue=ZakkCeleryQueues.KG_PROCESSING,
+            priority=ZakkCeleryPriority.MEDIUM,
         )
 
         if not result:

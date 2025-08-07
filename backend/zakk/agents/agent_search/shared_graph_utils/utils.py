@@ -15,75 +15,75 @@ from langchain_core.messages import HumanMessage
 from langgraph.types import StreamWriter
 from sqlalchemy.orm import Session
 
-from onyx.agents.agent_search.models import GraphConfig
-from onyx.agents.agent_search.models import GraphInputs
-from onyx.agents.agent_search.models import GraphPersistence
-from onyx.agents.agent_search.models import GraphSearchConfig
-from onyx.agents.agent_search.models import GraphTooling
-from onyx.agents.agent_search.shared_graph_utils.models import BaseMessage_Content
-from onyx.agents.agent_search.shared_graph_utils.models import (
+from zakk.agents.agent_search.models import GraphConfig
+from zakk.agents.agent_search.models import GraphInputs
+from zakk.agents.agent_search.models import GraphPersistence
+from zakk.agents.agent_search.models import GraphSearchConfig
+from zakk.agents.agent_search.models import GraphTooling
+from zakk.agents.agent_search.shared_graph_utils.models import BaseMessage_Content
+from zakk.agents.agent_search.shared_graph_utils.models import (
     EntityRelationshipTermExtraction,
 )
-from onyx.agents.agent_search.shared_graph_utils.models import PersonaPromptExpressions
-from onyx.agents.agent_search.shared_graph_utils.models import (
+from zakk.agents.agent_search.shared_graph_utils.models import PersonaPromptExpressions
+from zakk.agents.agent_search.shared_graph_utils.models import (
     StructuredSubquestionDocuments,
 )
-from onyx.agents.agent_search.shared_graph_utils.models import SubQuestionAnswerResults
-from onyx.agents.agent_search.shared_graph_utils.operators import (
+from zakk.agents.agent_search.shared_graph_utils.models import SubQuestionAnswerResults
+from zakk.agents.agent_search.shared_graph_utils.operators import (
     dedup_inference_section_list,
 )
-from onyx.chat.models import AnswerPacket
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import CitationConfig
-from onyx.chat.models import DocumentPruningConfig
-from onyx.chat.models import PromptConfig
-from onyx.chat.models import SectionRelevancePiece
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.models import StreamType
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.configs.agent_configs import AGENT_MAX_TOKENS_HISTORY_SUMMARY
-from onyx.configs.agent_configs import (
+from zakk.chat.models import AnswerPacket
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import CitationConfig
+from zakk.chat.models import DocumentPruningConfig
+from zakk.chat.models import PromptConfig
+from zakk.chat.models import SectionRelevancePiece
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.models import StreamType
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.configs.agent_configs import AGENT_MAX_TOKENS_HISTORY_SUMMARY
+from zakk.configs.agent_configs import (
     AGENT_TIMEOUT_CONNECT_LLM_HISTORY_SUMMARY_GENERATION,
 )
-from onyx.configs.agent_configs import AGENT_TIMEOUT_LLM_HISTORY_SUMMARY_GENERATION
-from onyx.configs.chat_configs import CHAT_TARGET_CHUNK_PERCENTAGE
-from onyx.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
-from onyx.configs.constants import DEFAULT_PERSONA_ID
-from onyx.configs.constants import DISPATCH_SEP_CHAR
-from onyx.configs.constants import FORMAT_DOCS_SEPARATOR
-from onyx.context.search.enums import LLMEvaluationType
-from onyx.context.search.models import InferenceSection
-from onyx.context.search.models import RetrievalDetails
-from onyx.context.search.models import SearchRequest
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.persona import get_persona_by_id
-from onyx.db.persona import Persona
-from onyx.llm.chat_llm import LLMRateLimitError
-from onyx.llm.chat_llm import LLMTimeoutError
-from onyx.llm.interfaces import LLM
-from onyx.llm.interfaces import LLMConfig
-from onyx.prompts.agent_search import (
+from zakk.configs.agent_configs import AGENT_TIMEOUT_LLM_HISTORY_SUMMARY_GENERATION
+from zakk.configs.chat_configs import CHAT_TARGET_CHUNK_PERCENTAGE
+from zakk.configs.chat_configs import MAX_CHUNKS_FED_TO_CHAT
+from zakk.configs.constants import DEFAULT_PERSONA_ID
+from zakk.configs.constants import DISPATCH_SEP_CHAR
+from zakk.configs.constants import FORMAT_DOCS_SEPARATOR
+from zakk.context.search.enums import LLMEvaluationType
+from zakk.context.search.models import InferenceSection
+from zakk.context.search.models import RetrievalDetails
+from zakk.context.search.models import SearchRequest
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.persona import get_persona_by_id
+from zakk.db.persona import Persona
+from zakk.llm.chat_llm import LLMRateLimitError
+from zakk.llm.chat_llm import LLMTimeoutError
+from zakk.llm.interfaces import LLM
+from zakk.llm.interfaces import LLMConfig
+from zakk.prompts.agent_search import (
     ASSISTANT_SYSTEM_PROMPT_DEFAULT,
 )
-from onyx.prompts.agent_search import (
+from zakk.prompts.agent_search import (
     ASSISTANT_SYSTEM_PROMPT_PERSONA,
 )
-from onyx.prompts.agent_search import (
+from zakk.prompts.agent_search import (
     HISTORY_CONTEXT_SUMMARY_PROMPT,
 )
-from onyx.prompts.prompt_utils import handle_zakk_date_awareness
-from onyx.tools.force import ForceUseTool
-from onyx.tools.models import SearchToolOverrideKwargs
-from onyx.tools.tool_constructor import SearchToolConfig
-from onyx.tools.tool_implementations.search.search_tool import (
+from zakk.prompts.prompt_utils import handle_zakk_date_awareness
+from zakk.tools.force import ForceUseTool
+from zakk.tools.models import SearchToolOverrideKwargs
+from zakk.tools.tool_constructor import SearchToolConfig
+from zakk.tools.tool_implementations.search.search_tool import (
     SEARCH_RESPONSE_SUMMARY_ID,
 )
-from onyx.tools.tool_implementations.search.search_tool import SearchResponseSummary
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.tools.utils import explicit_tool_calling_supported
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import run_with_timeout
+from zakk.tools.tool_implementations.search.search_tool import SearchResponseSummary
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.tools.utils import explicit_tool_calling_supported
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import run_with_timeout
 
 logger = setup_logger()
 
@@ -238,12 +238,12 @@ def get_test_config(
     )
 
     chat_session_id = (
-        os.environ.get("ONYX_AS_CHAT_SESSION_ID")
+        os.environ.get("ZAKK_AS_CHAT_SESSION_ID")
         or "00000000-0000-0000-0000-000000000000"
     )
     assert (
         chat_session_id is not None
-    ), "ONYX_AS_CHAT_SESSION_ID must be set for backend tests"
+    ), "ZAKK_AS_CHAT_SESSION_ID must be set for backend tests"
     graph_persistence = GraphPersistence(
         db_session=db_session,
         chat_session_id=UUID(chat_session_id),

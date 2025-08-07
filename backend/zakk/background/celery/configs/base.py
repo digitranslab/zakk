@@ -1,19 +1,19 @@
 # docs: https://docs.celeryq.dev/en/stable/userguide/configuration.html
 import urllib.parse
 
-from onyx.configs.app_configs import CELERY_BROKER_POOL_LIMIT
-from onyx.configs.app_configs import CELERY_RESULT_EXPIRES
-from onyx.configs.app_configs import REDIS_DB_NUMBER_CELERY
-from onyx.configs.app_configs import REDIS_DB_NUMBER_CELERY_RESULT_BACKEND
-from onyx.configs.app_configs import REDIS_HEALTH_CHECK_INTERVAL
-from onyx.configs.app_configs import REDIS_HOST
-from onyx.configs.app_configs import REDIS_PASSWORD
-from onyx.configs.app_configs import REDIS_PORT
-from onyx.configs.app_configs import REDIS_SSL
-from onyx.configs.app_configs import REDIS_SSL_CA_CERTS
-from onyx.configs.app_configs import REDIS_SSL_CERT_REQS
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import REDIS_SOCKET_KEEPALIVE_OPTIONS
+from zakk.configs.app_configs import CELERY_BROKER_POOL_LIMIT
+from zakk.configs.app_configs import CELERY_RESULT_EXPIRES
+from zakk.configs.app_configs import REDIS_DB_NUMBER_CELERY
+from zakk.configs.app_configs import REDIS_DB_NUMBER_CELERY_RESULT_BACKEND
+from zakk.configs.app_configs import REDIS_HEALTH_CHECK_INTERVAL
+from zakk.configs.app_configs import REDIS_HOST
+from zakk.configs.app_configs import REDIS_PASSWORD
+from zakk.configs.app_configs import REDIS_PORT
+from zakk.configs.app_configs import REDIS_SSL
+from zakk.configs.app_configs import REDIS_SSL_CA_CERTS
+from zakk.configs.app_configs import REDIS_SSL_CERT_REQS
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import REDIS_SOCKET_KEEPALIVE_OPTIONS
 
 CELERY_SEPARATOR = ":"
 
@@ -41,7 +41,7 @@ broker_pool_limit = CELERY_BROKER_POOL_LIMIT
 # redis broker settings
 # https://docs.celeryq.dev/projects/kombu/en/stable/reference/kombu.transport.redis.html
 broker_transport_options = {
-    "priority_steps": list(range(len(OnyxCeleryPriority))),
+    "priority_steps": list(range(len(ZakkCeleryPriority))),
     "sep": CELERY_SEPARATOR,
     "queue_order_strategy": "priority",
     "retry_on_timeout": True,
@@ -60,7 +60,7 @@ redis_retry_on_timeout = True
 redis_backend_health_check_interval = REDIS_HEALTH_CHECK_INTERVAL
 
 
-task_default_priority = OnyxCeleryPriority.MEDIUM
+task_default_priority = ZakkCeleryPriority.MEDIUM
 task_acks_late = True
 
 # region Task result backend settings

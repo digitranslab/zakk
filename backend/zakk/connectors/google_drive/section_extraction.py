@@ -2,8 +2,8 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from onyx.connectors.google_utils.resources import GoogleDocsService
-from onyx.connectors.models import TextSection
+from zakk.connectors.google_utils.resources import GoogleDocsService
+from zakk.connectors.models import TextSection
 
 HEADING_DELIMITER = "\n"
 

@@ -9,22 +9,22 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_user
-from onyx.chat.process_message import stream_chat_message_objects
-from onyx.configs.constants import MessageType
-from onyx.context.search.models import RetrievalDetails
-from onyx.db.chat import create_new_chat_message
-from onyx.db.chat import get_chat_message
-from onyx.db.chat import get_chat_messages_by_session
-from onyx.db.chat import get_chat_session_by_id
-from onyx.db.chat import get_or_create_root_message
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import ChatMessage
-from onyx.db.models import User
-from onyx.server.query_and_chat.models import ChatMessageDetail
-from onyx.server.query_and_chat.models import CreateChatMessageRequest
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
-from onyx.utils.logger import setup_logger
+from zakk.auth.users import current_user
+from zakk.chat.process_message import stream_chat_message_objects
+from zakk.configs.constants import MessageType
+from zakk.context.search.models import RetrievalDetails
+from zakk.db.chat import create_new_chat_message
+from zakk.db.chat import get_chat_message
+from zakk.db.chat import get_chat_messages_by_session
+from zakk.db.chat import get_chat_session_by_id
+from zakk.db.chat import get_or_create_root_message
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import ChatMessage
+from zakk.db.models import User
+from zakk.server.query_and_chat.models import ChatMessageDetail
+from zakk.server.query_and_chat.models import CreateChatMessageRequest
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.utils.logger import setup_logger
 
 
 logger = setup_logger()

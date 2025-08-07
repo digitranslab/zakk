@@ -1,4 +1,4 @@
-import { MinimalOnyxDocument, OnyxDocument } from "@/lib/search/interfaces";
+import { MinimalZakkDocument, ZakkDocument } from "@/lib/search/interfaces";
 import { ChatDocumentDisplay } from "./ChatDocumentDisplay";
 import { removeDuplicateDocs } from "@/lib/documentUtils";
 import { ChatFileType, Message } from "../interfaces";
@@ -18,8 +18,8 @@ interface DocumentResultsProps {
   humanMessage: Message | null;
   closeSidebar: () => void;
   selectedMessage: Message | null;
-  selectedDocuments: OnyxDocument[] | null;
-  toggleDocumentSelection: (document: OnyxDocument) => void;
+  selectedDocuments: ZakkDocument[] | null;
+  toggleDocumentSelection: (document: ZakkDocument) => void;
   clearSelectedDocuments: () => void;
   selectedDocumentTokens: number;
   maxTokens: number;
@@ -27,7 +27,7 @@ interface DocumentResultsProps {
   isOpen: boolean;
   isSharedChat?: boolean;
   modal: boolean;
-  setPresentingDocument: Dispatch<SetStateAction<MinimalOnyxDocument | null>>;
+  setPresentingDocument: Dispatch<SetStateAction<MinimalZakkDocument | null>>;
   removeHeader?: boolean;
 }
 
@@ -85,7 +85,7 @@ export const DocumentResults = forwardRef<HTMLDivElement, DocumentResultsProps>(
     return (
       <>
         <div
-          id="onyx-chat-sidebar"
+          id="zakk-chat-sidebar"
           className={`relative -mb-8 bg-background max-w-full ${
             !modal
               ? "border-l border-t h-[105vh]  border-sidebar-border dark:border-neutral-700"

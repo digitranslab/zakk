@@ -1,4 +1,4 @@
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import { useState } from "react";
 import { FileResponse } from "./my-documents/DocumentsContext";
 
@@ -22,13 +22,13 @@ export function useDocumentSelection(): [
   FileResponse[],
   (file: FileResponse) => void,
   (file: FileResponse) => void,
-  OnyxDocument[],
-  (document: OnyxDocument) => void,
+  ZakkDocument[],
+  (document: ZakkDocument) => void,
   () => void,
   number,
 ] {
   const [selectedFiles, setSelectedFiles] = useState<FileResponse[]>([]);
-  const [selectedDocuments, setSelectedDocuments] = useState<OnyxDocument[]>(
+  const [selectedDocuments, setSelectedDocuments] = useState<ZakkDocument[]>(
     []
   );
   const removeSelectedFile = (file: FileResponse) => {
@@ -51,7 +51,7 @@ export function useDocumentSelection(): [
   );
   const documentIdToLength = new Map<string, number>();
 
-  function toggleDocumentSelection(document: OnyxDocument) {
+  function toggleDocumentSelection(document: ZakkDocument) {
     const documentId = document.document_id;
     const isAdding = !selectedDocumentIds.includes(documentId);
     if (!isAdding) {

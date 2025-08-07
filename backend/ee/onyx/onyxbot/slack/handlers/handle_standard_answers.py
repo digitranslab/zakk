@@ -5,27 +5,27 @@ from slack_sdk.models.blocks import ButtonElement
 from slack_sdk.models.blocks import SectionBlock
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.standard_answer import fetch_standard_answer_categories_by_names
-from ee.onyx.db.standard_answer import find_matching_standard_answers
-from onyx.configs.constants import MessageType
-from onyx.configs.zakkbot_configs import DANSWER_REACT_EMOJI
-from onyx.db.chat import create_chat_session
-from onyx.db.chat import create_new_chat_message
-from onyx.db.chat import get_chat_messages_by_sessions
-from onyx.db.chat import get_chat_sessions_by_slack_thread_id
-from onyx.db.chat import get_or_create_root_message
-from onyx.db.models import Prompt
-from onyx.db.models import SlackChannelConfig
-from onyx.db.models import StandardAnswer as StandardAnswerModel
-from onyx.zakkbot.slack.blocks import get_restate_blocks
-from onyx.zakkbot.slack.constants import GENERATE_ANSWER_BUTTON_ACTION_ID
-from onyx.zakkbot.slack.handlers.utils import send_team_member_message
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.zakkbot.slack.utils import respond_in_thread_or_channel
-from onyx.zakkbot.slack.utils import update_emote_react
-from onyx.server.manage.models import StandardAnswer as PydanticStandardAnswer
-from onyx.utils.logger import OnyxLoggingAdapter
-from onyx.utils.logger import setup_logger
+from ee.zakk.db.standard_answer import fetch_standard_answer_categories_by_names
+from ee.zakk.db.standard_answer import find_matching_standard_answers
+from zakk.configs.constants import MessageType
+from zakk.configs.zakkbot_configs import DANSWER_REACT_EMOJI
+from zakk.db.chat import create_chat_session
+from zakk.db.chat import create_new_chat_message
+from zakk.db.chat import get_chat_messages_by_sessions
+from zakk.db.chat import get_chat_sessions_by_slack_thread_id
+from zakk.db.chat import get_or_create_root_message
+from zakk.db.models import Prompt
+from zakk.db.models import SlackChannelConfig
+from zakk.db.models import StandardAnswer as StandardAnswerModel
+from zakk.zakkbot.slack.blocks import get_restate_blocks
+from zakk.zakkbot.slack.constants import GENERATE_ANSWER_BUTTON_ACTION_ID
+from zakk.zakkbot.slack.handlers.utils import send_team_member_message
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.zakkbot.slack.utils import respond_in_thread_or_channel
+from zakk.zakkbot.slack.utils import update_emote_react
+from zakk.server.manage.models import StandardAnswer as PydanticStandardAnswer
+from zakk.utils.logger import ZakkLoggingAdapter
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -82,7 +82,7 @@ def _handle_standard_answers(
     receiver_ids: list[str] | None,
     slack_channel_config: SlackChannelConfig,
     prompt: Prompt | None,
-    logger: OnyxLoggingAdapter,
+    logger: ZakkLoggingAdapter,
     client: WebClient,
     db_session: Session,
 ) -> bool:
@@ -220,7 +220,7 @@ def _handle_standard_answers(
                 client=client,
                 channel=message_info.channel_to_respond,
                 receiver_ids=receiver_ids,
-                text="Hello! Onyx has some results for you!",
+                text="Hello! Zakk has some results for you!",
                 blocks=all_blocks,
                 thread_ts=message_info.msg_to_respond,
                 unfurl=False,

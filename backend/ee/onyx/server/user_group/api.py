@@ -4,22 +4,22 @@ from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from ee.onyx.db.user_group import fetch_user_groups
-from ee.onyx.db.user_group import fetch_user_groups_for_user
-from ee.onyx.db.user_group import insert_user_group
-from ee.onyx.db.user_group import prepare_user_group_for_deletion
-from ee.onyx.db.user_group import update_user_curator_relationship
-from ee.onyx.db.user_group import update_user_group
-from ee.onyx.server.user_group.models import SetCuratorRequest
-from ee.onyx.server.user_group.models import UserGroup
-from ee.onyx.server.user_group.models import UserGroupCreate
-from ee.onyx.server.user_group.models import UserGroupUpdate
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.db.models import UserRole
-from onyx.utils.logger import setup_logger
+from ee.zakk.db.user_group import fetch_user_groups
+from ee.zakk.db.user_group import fetch_user_groups_for_user
+from ee.zakk.db.user_group import insert_user_group
+from ee.zakk.db.user_group import prepare_user_group_for_deletion
+from ee.zakk.db.user_group import update_user_curator_relationship
+from ee.zakk.db.user_group import update_user_group
+from ee.zakk.server.user_group.models import SetCuratorRequest
+from ee.zakk.server.user_group.models import UserGroup
+from ee.zakk.server.user_group.models import UserGroupCreate
+from ee.zakk.server.user_group.models import UserGroupUpdate
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.db.models import UserRole
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

@@ -1,4 +1,4 @@
-name: Release Onyx Helm Charts
+name: Release Zakk Helm Charts
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
       - name: Add Required Helm Repositories
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add onyx-vespa https://digitranslab.github.io/vespa-helm-charts
+          helm repo add zakk-vespa https://digitranslab.github.io/vespa-helm-charts
           helm repo update
 
       - name: Run chart-releaser

@@ -3,9 +3,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
 
-from onyx.configs.constants import MilestoneRecordType
-from onyx.db.models import Milestone
-from onyx.db.models import User
+from zakk.configs.constants import MilestoneRecordType
+from zakk.db.models import Milestone
+from zakk.db.models import User
 
 
 USER_ASSISTANT_PREFIX = "user_assistants_used_"

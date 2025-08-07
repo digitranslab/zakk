@@ -14,56 +14,56 @@ from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 from tenacity import RetryError
 
-from onyx.access.access import get_access_for_document
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.tasks.shared.RetryDocumentIndex import RetryDocumentIndex
-from onyx.background.celery.tasks.shared.tasks import LIGHT_SOFT_TIME_LIMIT
-from onyx.background.celery.tasks.shared.tasks import LIGHT_TIME_LIMIT
-from onyx.background.celery.tasks.shared.tasks import OnyxCeleryTaskCompletionStatus
-from onyx.background.celery.tasks.vespa.document_sync import DOCUMENT_SYNC_FENCE_KEY
-from onyx.background.celery.tasks.vespa.document_sync import get_document_sync_payload
-from onyx.background.celery.tasks.vespa.document_sync import get_document_sync_remaining
-from onyx.background.celery.tasks.vespa.document_sync import reset_document_sync
-from onyx.background.celery.tasks.vespa.document_sync import (
+from zakk.access.access import get_access_for_document
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.tasks.shared.RetryDocumentIndex import RetryDocumentIndex
+from zakk.background.celery.tasks.shared.tasks import LIGHT_SOFT_TIME_LIMIT
+from zakk.background.celery.tasks.shared.tasks import LIGHT_TIME_LIMIT
+from zakk.background.celery.tasks.shared.tasks import ZakkCeleryTaskCompletionStatus
+from zakk.background.celery.tasks.vespa.document_sync import DOCUMENT_SYNC_FENCE_KEY
+from zakk.background.celery.tasks.vespa.document_sync import get_document_sync_payload
+from zakk.background.celery.tasks.vespa.document_sync import get_document_sync_remaining
+from zakk.background.celery.tasks.vespa.document_sync import reset_document_sync
+from zakk.background.celery.tasks.vespa.document_sync import (
     try_generate_stale_document_sync_tasks,
 )
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.app_configs import VESPA_SYNC_MAX_TASKS
-from onyx.configs.constants import CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.document import get_document
-from onyx.db.document import mark_document_as_synced
-from onyx.db.document_set import delete_document_set
-from onyx.db.document_set import fetch_document_sets
-from onyx.db.document_set import fetch_document_sets_for_document
-from onyx.db.document_set import get_document_set_by_id
-from onyx.db.document_set import mark_document_set_as_synced
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import SyncStatus
-from onyx.db.enums import SyncType
-from onyx.db.models import DocumentSet
-from onyx.db.models import UserGroup
-from onyx.db.search_settings import get_active_search_settings
-from onyx.db.sync_record import cleanup_sync_records
-from onyx.db.sync_record import insert_sync_record
-from onyx.db.sync_record import update_sync_record_status
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.interfaces import VespaDocumentFields
-from onyx.httpx.httpx_pool import HttpxPool
-from onyx.redis.redis_document_set import RedisDocumentSet
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import get_redis_replica_client
-from onyx.redis.redis_pool import redis_lock_dump
-from onyx.redis.redis_usergroup import RedisUserGroup
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import fetch_versioned_implementation
-from onyx.utils.variable_functionality import (
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.app_configs import VESPA_SYNC_MAX_TASKS
+from zakk.configs.constants import CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.document import get_document
+from zakk.db.document import mark_document_as_synced
+from zakk.db.document_set import delete_document_set
+from zakk.db.document_set import fetch_document_sets
+from zakk.db.document_set import fetch_document_sets_for_document
+from zakk.db.document_set import get_document_set_by_id
+from zakk.db.document_set import mark_document_set_as_synced
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import SyncStatus
+from zakk.db.enums import SyncType
+from zakk.db.models import DocumentSet
+from zakk.db.models import UserGroup
+from zakk.db.search_settings import get_active_search_settings
+from zakk.db.sync_record import cleanup_sync_records
+from zakk.db.sync_record import insert_sync_record
+from zakk.db.sync_record import update_sync_record_status
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.interfaces import VespaDocumentFields
+from zakk.httpx.httpx_pool import HttpxPool
+from zakk.redis.redis_document_set import RedisDocumentSet
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import get_redis_replica_client
+from zakk.redis.redis_pool import redis_lock_dump
+from zakk.redis.redis_usergroup import RedisUserGroup
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import fetch_versioned_implementation
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
-from onyx.utils.variable_functionality import global_version
-from onyx.utils.variable_functionality import noop_fallback
+from zakk.utils.variable_functionality import global_version
+from zakk.utils.variable_functionality import noop_fallback
 
 logger = setup_logger()
 
@@ -71,7 +71,7 @@ logger = setup_logger()
 # celery auto associates tasks created inside another task,
 # which bloats the result metadata considerably. trail=False prevents this.
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
+    name=ZakkCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     trail=False,
@@ -91,7 +91,7 @@ def check_for_vespa_sync_task(self: Task, *, tenant_id: str) -> bool | None:
     r_replica = get_redis_replica_client()
 
     lock_beat: RedisLock = r.lock(
-        OnyxRedisLocks.CHECK_VESPA_SYNC_BEAT_LOCK,
+        ZakkRedisLocks.CHECK_VESPA_SYNC_BEAT_LOCK,
         timeout=CELERY_VESPA_SYNC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -131,7 +131,7 @@ def check_for_vespa_sync_task(self: Task, *, tenant_id: str) -> bool | None:
         if global_version.is_ee_version():
             try:
                 fetch_user_groups = fetch_versioned_implementation(
-                    "onyx.db.user_group", "fetch_user_groups"
+                    "zakk.db.user_group", "fetch_user_groups"
                 )
             except ModuleNotFoundError:
                 # Always exceptions on the MIT version, which is expected
@@ -158,12 +158,12 @@ def check_for_vespa_sync_task(self: Task, *, tenant_id: str) -> bool | None:
 
         # 3/3: FINALIZE
         lock_beat.reacquire()
-        keys = cast(set[Any], r_replica.smembers(OnyxRedisConstants.ACTIVE_FENCES))
+        keys = cast(set[Any], r_replica.smembers(ZakkRedisConstants.ACTIVE_FENCES))
         for key in keys:
             key_bytes = cast(bytes, key)
 
             if not r.exists(key_bytes):
-                r.srem(OnyxRedisConstants.ACTIVE_FENCES, key_bytes)
+                r.srem(ZakkRedisConstants.ACTIVE_FENCES, key_bytes)
                 continue
 
             key_str = key_bytes.decode("utf-8")
@@ -178,7 +178,7 @@ def check_for_vespa_sync_task(self: Task, *, tenant_id: str) -> bool | None:
             elif key_str.startswith(RedisUserGroup.FENCE_PREFIX):
                 monitor_usergroup_taskset = (
                     fetch_versioned_implementation_with_fallback(
-                        "onyx.background.celery.tasks.vespa.tasks",
+                        "zakk.background.celery.tasks.vespa.tasks",
                         "monitor_usergroup_taskset",
                         noop_fallback,
                     )
@@ -302,7 +302,7 @@ def try_generate_user_group_sync_tasks(
     # race condition with the monitor/cleanup function if we use a cached result!
     fetch_user_group = cast(
         Callable[[Session, int], UserGroup | None],
-        fetch_versioned_implementation("onyx.db.user_group", "fetch_user_group"),
+        fetch_versioned_implementation("zakk.db.user_group", "fetch_user_group"),
     )
 
     usergroup = fetch_user_group(db_session, usergroup_id)
@@ -445,7 +445,7 @@ def monitor_document_set_taskset(
 
 
 @shared_task(
-    name=OnyxCeleryTask.VESPA_METADATA_SYNC_TASK,
+    name=ZakkCeleryTask.VESPA_METADATA_SYNC_TASK,
     bind=True,
     soft_time_limit=LIGHT_SOFT_TIME_LIMIT,
     time_limit=LIGHT_TIME_LIMIT,
@@ -454,7 +454,7 @@ def monitor_document_set_taskset(
 def vespa_metadata_sync_task(self: Task, document_id: str, *, tenant_id: str) -> bool:
     start = time.monotonic()
 
-    completion_status = OnyxCeleryTaskCompletionStatus.UNDEFINED
+    completion_status = ZakkCeleryTaskCompletionStatus.UNDEFINED
 
     try:
         with get_session_with_current_tenant() as db_session:
@@ -475,7 +475,7 @@ def vespa_metadata_sync_task(self: Task, document_id: str, *, tenant_id: str) ->
                     f"action=no_operation "
                     f"elapsed={elapsed:.2f}"
                 )
-                completion_status = OnyxCeleryTaskCompletionStatus.SKIPPED
+                completion_status = ZakkCeleryTaskCompletionStatus.SKIPPED
             else:
                 # document set sync
                 doc_sets = fetch_document_sets_for_document(document_id, db_session)
@@ -514,10 +514,10 @@ def vespa_metadata_sync_task(self: Task, document_id: str, *, tenant_id: str) ->
                     f"chunks={chunks_affected} "
                     f"elapsed={elapsed:.2f}"
                 )
-                completion_status = OnyxCeleryTaskCompletionStatus.SUCCEEDED
+                completion_status = ZakkCeleryTaskCompletionStatus.SUCCEEDED
     except SoftTimeLimitExceeded:
         task_logger.info(f"SoftTimeLimitExceeded exception. doc={document_id}")
-        completion_status = OnyxCeleryTaskCompletionStatus.SOFT_TIME_LIMIT
+        completion_status = ZakkCeleryTaskCompletionStatus.SOFT_TIME_LIMIT
     except Exception as ex:
         e: Exception | None = None
         while True:
@@ -541,7 +541,7 @@ def vespa_metadata_sync_task(self: Task, document_id: str, *, tenant_id: str) ->
                         f"status={e.response.status_code}"
                     )
                 completion_status = (
-                    OnyxCeleryTaskCompletionStatus.NON_RETRYABLE_EXCEPTION
+                    ZakkCeleryTaskCompletionStatus.NON_RETRYABLE_EXCEPTION
                 )
                 break
 
@@ -549,13 +549,13 @@ def vespa_metadata_sync_task(self: Task, document_id: str, *, tenant_id: str) ->
                 f"vespa_metadata_sync_task exceptioned: doc={document_id}"
             )
 
-            completion_status = OnyxCeleryTaskCompletionStatus.RETRYABLE_EXCEPTION
+            completion_status = ZakkCeleryTaskCompletionStatus.RETRYABLE_EXCEPTION
             if (
                 self.max_retries is not None
                 and self.request.retries >= self.max_retries
             ):
                 completion_status = (
-                    OnyxCeleryTaskCompletionStatus.NON_RETRYABLE_EXCEPTION
+                    ZakkCeleryTaskCompletionStatus.NON_RETRYABLE_EXCEPTION
                 )
 
             # Exponential backoff from 2^4 to 2^6 ... i.e. 16, 32, 64
@@ -567,4 +567,4 @@ def vespa_metadata_sync_task(self: Task, document_id: str, *, tenant_id: str) ->
             f"vespa_metadata_sync_task completed: status={completion_status.value} doc={document_id}"
         )
 
-    return completion_status == OnyxCeleryTaskCompletionStatus.SUCCEEDED
+    return completion_status == ZakkCeleryTaskCompletionStatus.SUCCEEDED

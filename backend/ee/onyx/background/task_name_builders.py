@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from onyx.configs.constants import OnyxCeleryTask
+from zakk.configs.constants import ZakkCeleryTask
 
 
-QUERY_HISTORY_TASK_NAME_PREFIX = OnyxCeleryTask.EXPORT_QUERY_HISTORY_TASK
+QUERY_HISTORY_TASK_NAME_PREFIX = ZakkCeleryTask.EXPORT_QUERY_HISTORY_TASK
 
 
 def name_chat_ttl_task(

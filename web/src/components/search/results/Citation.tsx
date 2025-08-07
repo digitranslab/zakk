@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { CompactDocumentCard, CompactQuestionCard } from "../DocumentDisplay";
-import { LoadedOnyxDocument, OnyxDocument } from "@/lib/search/interfaces";
+import { LoadedZakkDocument, ZakkDocument } from "@/lib/search/interfaces";
 import {
   Tooltip,
   TooltipContent,
@@ -12,8 +12,8 @@ import { SubQuestionDetail } from "@/app/chat/interfaces";
 import { getFileIconFromFileNameAndLink } from "@/lib/assistantIconUtils";
 
 export interface DocumentCardProps {
-  document: LoadedOnyxDocument;
-  updatePresentingDocument: (document: OnyxDocument) => void;
+  document: LoadedZakkDocument;
+  updatePresentingDocument: (document: ZakkDocument) => void;
   icon?: React.ReactNode;
   url?: string;
 }

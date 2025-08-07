@@ -2,14 +2,14 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from ee.onyx.external_permissions.confluence.group_sync import confluence_group_sync
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import InputType
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.models import Connector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Credential
+from ee.zakk.external_permissions.confluence.group_sync import confluence_group_sync
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import InputType
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.models import Connector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Credential
 from shared_configs.contextvars import get_current_tenant_id
 from tests.daily.connectors.confluence.models import ExternalUserGroupSet
 
@@ -70,7 +70,7 @@ _EXPECTED_CONFLUENCE_GROUPS = [
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
-        id="All_Confluence_Users_Found_By_Onyx",
+        id="All_Confluence_Users_Found_By_Zakk",
         user_emails={
             "chris@digi-trans.org",
             "hagen@danswer.ai",

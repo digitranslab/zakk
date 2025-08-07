@@ -6,10 +6,10 @@ from fastapi import Request
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 
-from onyx.configs.app_configs import AUTH_RATE_LIMITING_ENABLED
-from onyx.configs.app_configs import RATE_LIMIT_MAX_REQUESTS
-from onyx.configs.app_configs import RATE_LIMIT_WINDOW_SECONDS
-from onyx.redis.redis_pool import get_async_redis_connection
+from zakk.configs.app_configs import AUTH_RATE_LIMITING_ENABLED
+from zakk.configs.app_configs import RATE_LIMIT_MAX_REQUESTS
+from zakk.configs.app_configs import RATE_LIMIT_WINDOW_SECONDS
+from zakk.redis.redis_pool import get_async_redis_connection
 
 
 async def setup_auth_limiter() -> None:

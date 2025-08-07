@@ -15,85 +15,85 @@ from redis.lock import Lock as RedisLock
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.celery_utils import httpx_init_vespa_pool
-from onyx.background.celery.tasks.beat_schedule import CLOUD_BEAT_MULTIPLIER_DEFAULT
-from onyx.background.celery.tasks.docprocessing.heartbeat import start_heartbeat
-from onyx.background.celery.tasks.docprocessing.heartbeat import stop_heartbeat
-from onyx.background.celery.tasks.docprocessing.utils import IndexingCallback
-from onyx.background.celery.tasks.docprocessing.utils import is_in_repeated_error_state
-from onyx.background.celery.tasks.docprocessing.utils import should_index
-from onyx.background.celery.tasks.docprocessing.utils import (
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.celery_utils import httpx_init_vespa_pool
+from zakk.background.celery.tasks.beat_schedule import CLOUD_BEAT_MULTIPLIER_DEFAULT
+from zakk.background.celery.tasks.docprocessing.heartbeat import start_heartbeat
+from zakk.background.celery.tasks.docprocessing.heartbeat import stop_heartbeat
+from zakk.background.celery.tasks.docprocessing.utils import IndexingCallback
+from zakk.background.celery.tasks.docprocessing.utils import is_in_repeated_error_state
+from zakk.background.celery.tasks.docprocessing.utils import should_index
+from zakk.background.celery.tasks.docprocessing.utils import (
     try_creating_docfetching_task,
 )
-from onyx.background.celery.tasks.models import DocProcessingContext
-from onyx.background.indexing.checkpointing_utils import cleanup_checkpoint
-from onyx.background.indexing.checkpointing_utils import (
+from zakk.background.celery.tasks.models import DocProcessingContext
+from zakk.background.indexing.checkpointing_utils import cleanup_checkpoint
+from zakk.background.indexing.checkpointing_utils import (
     get_index_attempts_with_old_checkpoints,
 )
-from onyx.configs.app_configs import MANAGED_VESPA
-from onyx.configs.app_configs import VESPA_CLOUD_CERT_PATH
-from onyx.configs.app_configs import VESPA_CLOUD_KEY_PATH
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import CELERY_INDEXING_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.configs.constants import OnyxRedisSignals
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import Document
-from onyx.connectors.models import IndexAttemptMetadata
-from onyx.db.connector import mark_ccpair_with_indexing_trigger
-from onyx.db.connector_credential_pair import ConnectorType
-from onyx.db.connector_credential_pair import (
+from zakk.configs.app_configs import MANAGED_VESPA
+from zakk.configs.app_configs import VESPA_CLOUD_CERT_PATH
+from zakk.configs.app_configs import VESPA_CLOUD_KEY_PATH
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import CELERY_INDEXING_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.configs.constants import ZakkRedisSignals
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import Document
+from zakk.connectors.models import IndexAttemptMetadata
+from zakk.db.connector import mark_ccpair_with_indexing_trigger
+from zakk.db.connector_credential_pair import ConnectorType
+from zakk.db.connector_credential_pair import (
     fetch_indexable_connector_credential_pair_ids,
 )
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.connector_credential_pair import set_cc_pair_repeated_error_state
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.time_utils import get_db_current_time
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import IndexingMode
-from onyx.db.enums import IndexingStatus
-from onyx.db.index_attempt import create_index_attempt_error
-from onyx.db.index_attempt import get_index_attempt
-from onyx.db.index_attempt import get_index_attempt_errors_for_cc_pair
-from onyx.db.index_attempt import IndexAttemptError
-from onyx.db.index_attempt import mark_attempt_canceled
-from onyx.db.index_attempt import mark_attempt_failed
-from onyx.db.index_attempt import mark_attempt_partially_succeeded
-from onyx.db.index_attempt import mark_attempt_succeeded
-from onyx.db.indexing_coordination import CoordinationStatus
-from onyx.db.indexing_coordination import IndexingCoordination
-from onyx.db.models import IndexAttempt
-from onyx.db.search_settings import get_active_search_settings_list
-from onyx.db.search_settings import get_current_search_settings
-from onyx.db.swap_index import check_and_perform_index_swap
-from onyx.document_index.factory import get_default_document_index
-from onyx.file_store.document_batch_storage import DocumentBatchStorage
-from onyx.file_store.document_batch_storage import get_document_batch_storage
-from onyx.httpx.httpx_pool import HttpxPool
-from onyx.indexing.embedder import DefaultIndexingEmbedder
-from onyx.indexing.indexing_pipeline import run_indexing_pipeline
-from onyx.natural_language_processing.search_nlp_models import EmbeddingModel
-from onyx.natural_language_processing.search_nlp_models import (
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.connector_credential_pair import set_cc_pair_repeated_error_state
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.time_utils import get_db_current_time
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import IndexingMode
+from zakk.db.enums import IndexingStatus
+from zakk.db.index_attempt import create_index_attempt_error
+from zakk.db.index_attempt import get_index_attempt
+from zakk.db.index_attempt import get_index_attempt_errors_for_cc_pair
+from zakk.db.index_attempt import IndexAttemptError
+from zakk.db.index_attempt import mark_attempt_canceled
+from zakk.db.index_attempt import mark_attempt_failed
+from zakk.db.index_attempt import mark_attempt_partially_succeeded
+from zakk.db.index_attempt import mark_attempt_succeeded
+from zakk.db.indexing_coordination import CoordinationStatus
+from zakk.db.indexing_coordination import IndexingCoordination
+from zakk.db.models import IndexAttempt
+from zakk.db.search_settings import get_active_search_settings_list
+from zakk.db.search_settings import get_current_search_settings
+from zakk.db.swap_index import check_and_perform_index_swap
+from zakk.document_index.factory import get_default_document_index
+from zakk.file_store.document_batch_storage import DocumentBatchStorage
+from zakk.file_store.document_batch_storage import get_document_batch_storage
+from zakk.httpx.httpx_pool import HttpxPool
+from zakk.indexing.embedder import DefaultIndexingEmbedder
+from zakk.indexing.indexing_pipeline import run_indexing_pipeline
+from zakk.natural_language_processing.search_nlp_models import EmbeddingModel
+from zakk.natural_language_processing.search_nlp_models import (
     InformationContentClassificationModel,
 )
-from onyx.natural_language_processing.search_nlp_models import warm_up_bi_encoder
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import get_redis_replica_client
-from onyx.redis.redis_pool import redis_lock_dump
-from onyx.redis.redis_pool import SCAN_ITER_COUNT_DEFAULT
-from onyx.redis.redis_utils import is_fence
-from onyx.server.runtime.zakk_runtime import ZakkRuntime
-from onyx.utils.logger import setup_logger
-from onyx.utils.logger import TaskAttemptSingleton
-from onyx.utils.middleware import make_randomized_zakk_request_id
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
+from zakk.natural_language_processing.search_nlp_models import warm_up_bi_encoder
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import get_redis_replica_client
+from zakk.redis.redis_pool import redis_lock_dump
+from zakk.redis.redis_pool import SCAN_ITER_COUNT_DEFAULT
+from zakk.redis.redis_utils import is_fence
+from zakk.server.runtime.zakk_runtime import ZakkRuntime
+from zakk.utils.logger import setup_logger
+from zakk.utils.logger import TaskAttemptSingleton
+from zakk.utils.middleware import make_randomized_zakk_request_id
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
 from shared_configs.configs import INDEXING_MODEL_SERVER_HOST
 from shared_configs.configs import INDEXING_MODEL_SERVER_PORT
 from shared_configs.configs import MULTI_TENANT
@@ -485,7 +485,7 @@ def _resolve_indexing_entity_errors(
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_INDEXING,
+    name=ZakkCeleryTask.CHECK_FOR_INDEXING,
     soft_time_limit=300,
     bind=True,
 )
@@ -495,7 +495,7 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
 
     This task is the entrypoint for the full "indexing pipeline", which is composed
     of two tasks: "docfetching" and "docprocessing". More details in
-    the docfetching task (OnyxCeleryTask.CONNECTOR_DOC_FETCHING_TASK).
+    the docfetching task (ZakkCeleryTask.CONNECTOR_DOC_FETCHING_TASK).
 
     For cc pairs that should be indexed (see should_index()), this task
     calls try_creating_docfetching_task, which creates a docfetching task.
@@ -516,7 +516,7 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
     # redis_client_celery: Redis = self.app.broker_connection().channel().client  # type: ignore
 
     lock_beat: RedisLock = redis_client.lock(
-        OnyxRedisLocks.CHECK_INDEXING_BEAT_LOCK,
+        ZakkRedisLocks.CHECK_INDEXING_BEAT_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -529,7 +529,7 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
 
         # SPECIAL 0/3: sync lookup table for active fences
         # we want to run this less frequently than the overall task
-        if not redis_client.exists(OnyxRedisSignals.BLOCK_BUILD_FENCE_LOOKUP_TABLE):
+        if not redis_client.exists(ZakkRedisSignals.BLOCK_BUILD_FENCE_LOOKUP_TABLE):
             # build a lookup table of existing fences
             # this is just a migration concern and should be unnecessary once
             # lookup tables are rolled out
@@ -537,13 +537,13 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
                 count=SCAN_ITER_COUNT_DEFAULT
             ):
                 if is_fence(key_bytes) and not redis_client.sismember(
-                    OnyxRedisConstants.ACTIVE_FENCES, key_bytes
+                    ZakkRedisConstants.ACTIVE_FENCES, key_bytes
                 ):
                     logger.warning(f"Adding {key_bytes} to the lookup table.")
-                    redis_client.sadd(OnyxRedisConstants.ACTIVE_FENCES, key_bytes)
+                    redis_client.sadd(ZakkRedisConstants.ACTIVE_FENCES, key_bytes)
 
             redis_client.set(
-                OnyxRedisSignals.BLOCK_BUILD_FENCE_LOOKUP_TABLE,
+                ZakkRedisSignals.BLOCK_BUILD_FENCE_LOOKUP_TABLE,
                 1,
                 ex=ZakkRuntime.get_build_fence_lookup_table_interval(),
             )
@@ -775,7 +775,7 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
 
         lock_beat.reacquire()
         # we want to run this less frequently than the overall task
-        if not redis_client.exists(OnyxRedisSignals.BLOCK_VALIDATE_INDEXING_FENCES):
+        if not redis_client.exists(ZakkRedisSignals.BLOCK_VALIDATE_INDEXING_FENCES):
             # Check for orphaned index attempts that have Celery task IDs but no actual running tasks
             # This can happen if workers crash or tasks are terminated unexpectedly
             # We reuse the same Redis signal name for backwards compatibility
@@ -787,7 +787,7 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
                 )
 
             redis_client.set(
-                OnyxRedisSignals.BLOCK_VALIDATE_INDEXING_FENCES,
+                ZakkRedisSignals.BLOCK_VALIDATE_INDEXING_FENCES,
                 1,
                 ex=_get_fence_validation_block_expiration(),
             )
@@ -841,7 +841,7 @@ def check_for_indexing(self: Task, *, tenant_id: str) -> int | None:
 
 # primary
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_CHECKPOINT_CLEANUP,
+    name=ZakkCeleryTask.CHECK_FOR_CHECKPOINT_CLEANUP,
     soft_time_limit=300,
     bind=True,
 )
@@ -850,7 +850,7 @@ def check_for_checkpoint_cleanup(self: Task, *, tenant_id: str) -> None:
     locked = False
     redis_client = get_redis_client(tenant_id=tenant_id)
     lock: RedisLock = redis_client.lock(
-        OnyxRedisLocks.CHECK_CHECKPOINT_CLEANUP_BEAT_LOCK,
+        ZakkRedisLocks.CHECK_CHECKPOINT_CLEANUP_BEAT_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -867,13 +867,13 @@ def check_for_checkpoint_cleanup(self: Task, *, tenant_id: str) -> None:
                     f"Cleaning up checkpoint for index attempt {attempt.id}"
                 )
                 self.app.send_task(
-                    OnyxCeleryTask.CLEANUP_CHECKPOINT,
+                    ZakkCeleryTask.CLEANUP_CHECKPOINT,
                     kwargs={
                         "index_attempt_id": attempt.id,
                         "tenant_id": tenant_id,
                     },
-                    queue=OnyxCeleryQueues.CHECKPOINT_CLEANUP,
-                    priority=OnyxCeleryPriority.MEDIUM,
+                    queue=ZakkCeleryQueues.CHECKPOINT_CLEANUP,
+                    priority=ZakkCeleryPriority.MEDIUM,
                 )
     except Exception:
         task_logger.exception("Unexpected exception during checkpoint cleanup")
@@ -891,7 +891,7 @@ def check_for_checkpoint_cleanup(self: Task, *, tenant_id: str) -> None:
 
 # light worker
 @shared_task(
-    name=OnyxCeleryTask.CLEANUP_CHECKPOINT,
+    name=ZakkCeleryTask.CLEANUP_CHECKPOINT,
     bind=True,
 )
 def cleanup_checkpoint_task(
@@ -997,7 +997,7 @@ def _resolve_indexing_document_errors(
 
 
 @shared_task(
-    name=OnyxCeleryTask.DOCPROCESSING_TASK,
+    name=ZakkCeleryTask.DOCPROCESSING_TASK,
     bind=True,
 )
 def docprocessing_task(

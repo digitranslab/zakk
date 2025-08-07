@@ -11,15 +11,15 @@ from sqlalchemy import inspect
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import PostgresAdvisoryLocks
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import PostgresAdvisoryLocks
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
 
 
 @shared_task(
-    name=OnyxCeleryTask.KOMBU_MESSAGE_CLEANUP_TASK,
+    name=ZakkCeleryTask.KOMBU_MESSAGE_CLEANUP_TASK,
     soft_time_limit=JOB_TIMEOUT,
     bind=True,
     base=AbortableTask,

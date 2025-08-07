@@ -7,14 +7,14 @@ THERE IS NO USERGROUP <-> DOCUMENT PERMISSION MAPPING
 
 from slack_sdk import WebClient
 
-from ee.onyx.db.external_perm import ExternalUserGroup
-from ee.onyx.external_permissions.slack.utils import fetch_user_id_to_email_map
-from onyx.connectors.credentials_provider import OnyxDBCredentialsProvider
-from onyx.connectors.slack.connector import SlackConnector
-from onyx.connectors.slack.utils import make_paginated_slack_api_call
-from onyx.db.models import ConnectorCredentialPair
-from onyx.redis.redis_pool import get_redis_client
-from onyx.utils.logger import setup_logger
+from ee.zakk.db.external_perm import ExternalUserGroup
+from ee.zakk.external_permissions.slack.utils import fetch_user_id_to_email_map
+from zakk.connectors.credentials_provider import ZakkDBCredentialsProvider
+from zakk.connectors.slack.connector import SlackConnector
+from zakk.connectors.slack.utils import make_paginated_slack_api_call
+from zakk.db.models import ConnectorCredentialPair
+from zakk.redis.redis_pool import get_redis_client
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -61,7 +61,7 @@ def slack_group_sync(
     """NOTE: not used atm. All channel access is done at the
     individual user level. Leaving in for now in case we need it later."""
 
-    provider = OnyxDBCredentialsProvider(tenant_id, "slack", cc_pair.credential.id)
+    provider = ZakkDBCredentialsProvider(tenant_id, "slack", cc_pair.credential.id)
     r = get_redis_client(tenant_id=tenant_id)
     slack_client = SlackConnector.make_slack_web_client(
         provider.get_provider_key(),

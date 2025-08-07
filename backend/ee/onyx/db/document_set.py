@@ -2,13 +2,13 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import DocumentSet
-from onyx.db.models import DocumentSet__ConnectorCredentialPair
-from onyx.db.models import DocumentSet__User
-from onyx.db.models import DocumentSet__UserGroup
-from onyx.db.models import User__UserGroup
-from onyx.db.models import UserGroup
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import DocumentSet
+from zakk.db.models import DocumentSet__ConnectorCredentialPair
+from zakk.db.models import DocumentSet__User
+from zakk.db.models import DocumentSet__UserGroup
+from zakk.db.models import User__UserGroup
+from zakk.db.models import UserGroup
 
 
 def make_doc_set_private(

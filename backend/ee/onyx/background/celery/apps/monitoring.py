@@ -1,7 +1,7 @@
-from onyx.background.celery.apps.monitoring import celery_app
+from zakk.background.celery.apps.monitoring import celery_app
 
 celery_app.autodiscover_tasks(
     [
-        "ee.onyx.background.celery.tasks.tenant_provisioning",
+        "ee.zakk.background.celery.tasks.tenant_provisioning",
     ]
 )

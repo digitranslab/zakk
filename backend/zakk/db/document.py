@@ -22,39 +22,39 @@ from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import null
 
-from onyx.agents.agent_search.kb_search.models import KGEntityDocInfo
-from onyx.configs.constants import DEFAULT_BOOST
-from onyx.configs.constants import DocumentSource
-from onyx.configs.kg_configs import KG_SIMPLE_ANSWER_MAX_DISPLAYED_SOURCES
-from onyx.db.chunk import delete_chunk_stats_by_connector_credential_pair__no_commit
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.entities import delete_from_kg_entities__no_commit
-from onyx.db.entities import delete_from_kg_entities_extraction_staging__no_commit
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.feedback import delete_document_feedback_for_documents__no_commit
-from onyx.db.models import Connector
-from onyx.db.models import ConnectorCredentialPair
-from onyx.db.models import Credential
-from onyx.db.models import Document
-from onyx.db.models import Document as DbDocument
-from onyx.db.models import DocumentByConnectorCredentialPair
-from onyx.db.models import KGEntity
-from onyx.db.models import KGRelationship
-from onyx.db.models import User
-from onyx.db.relationships import delete_from_kg_relationships__no_commit
-from onyx.db.relationships import (
+from zakk.agents.agent_search.kb_search.models import KGEntityDocInfo
+from zakk.configs.constants import DEFAULT_BOOST
+from zakk.configs.constants import DocumentSource
+from zakk.configs.kg_configs import KG_SIMPLE_ANSWER_MAX_DISPLAYED_SOURCES
+from zakk.db.chunk import delete_chunk_stats_by_connector_credential_pair__no_commit
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.entities import delete_from_kg_entities__no_commit
+from zakk.db.entities import delete_from_kg_entities_extraction_staging__no_commit
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.feedback import delete_document_feedback_for_documents__no_commit
+from zakk.db.models import Connector
+from zakk.db.models import ConnectorCredentialPair
+from zakk.db.models import Credential
+from zakk.db.models import Document
+from zakk.db.models import Document as DbDocument
+from zakk.db.models import DocumentByConnectorCredentialPair
+from zakk.db.models import KGEntity
+from zakk.db.models import KGRelationship
+from zakk.db.models import User
+from zakk.db.relationships import delete_from_kg_relationships__no_commit
+from zakk.db.relationships import (
     delete_from_kg_relationships_extraction_staging__no_commit,
 )
-from onyx.db.tag import delete_document_tags_for_documents__no_commit
-from onyx.db.utils import DocumentRow
-from onyx.db.utils import model_to_dict
-from onyx.db.utils import SortOrder
-from onyx.document_index.interfaces import DocumentMetadata
-from onyx.kg.models import KGStage
-from onyx.server.documents.models import ConnectorCredentialPairIdentifier
-from onyx.utils.logger import setup_logger
+from zakk.db.tag import delete_document_tags_for_documents__no_commit
+from zakk.db.utils import DocumentRow
+from zakk.db.utils import model_to_dict
+from zakk.db.utils import SortOrder
+from zakk.document_index.interfaces import DocumentMetadata
+from zakk.kg.models import KGStage
+from zakk.server.documents.models import ConnectorCredentialPairIdentifier
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -325,7 +325,7 @@ def get_access_info_for_documents(
     of the associated cc pairs are intending to make the document globally public.
     Returns the list where each element contains:
     - Document ID (which is also the ID of the DocumentByConnectorCredentialPair)
-    - List of emails of Onyx users with direct access to the doc (includes a "None" element if
+    - List of emails of Zakk users with direct access to the doc (includes a "None" element if
       the connector was set up by an admin when auth was off
     - bool for whether the document is public (the document later can also be marked public by
       automatic permission sync step)

@@ -21,63 +21,63 @@ import requests  # type: ignore
 from pydantic import BaseModel
 from retry import retry
 
-from onyx.agents.agent_search.shared_graph_utils.models import QueryExpansionType
-from onyx.configs.chat_configs import DOC_TIME_DECAY
-from onyx.configs.chat_configs import NUM_RETURNED_HITS
-from onyx.configs.chat_configs import TITLE_CONTENT_RATIO
-from onyx.configs.chat_configs import VESPA_SEARCHER_THREADS
-from onyx.configs.constants import KV_REINDEX_KEY
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import InferenceChunkUncleaned
-from onyx.db.enums import EmbeddingPrecision
-from onyx.document_index.document_index_utils import get_document_chunk_ids
-from onyx.document_index.document_index_utils import get_uuid_from_chunk_info
-from onyx.document_index.interfaces import DocumentIndex
-from onyx.document_index.interfaces import DocumentInsertionRecord
-from onyx.document_index.interfaces import EnrichedDocumentIndexingInfo
-from onyx.document_index.interfaces import IndexBatchParams
-from onyx.document_index.interfaces import MinimalDocumentIndexingInfo
-from onyx.document_index.interfaces import UpdateRequest
-from onyx.document_index.interfaces import VespaChunkRequest
-from onyx.document_index.interfaces import VespaDocumentFields
-from onyx.document_index.interfaces import VespaDocumentUserFields
-from onyx.document_index.vespa.chunk_retrieval import batch_search_api_retrieval
-from onyx.document_index.vespa.chunk_retrieval import (
+from zakk.agents.agent_search.shared_graph_utils.models import QueryExpansionType
+from zakk.configs.chat_configs import DOC_TIME_DECAY
+from zakk.configs.chat_configs import NUM_RETURNED_HITS
+from zakk.configs.chat_configs import TITLE_CONTENT_RATIO
+from zakk.configs.chat_configs import VESPA_SEARCHER_THREADS
+from zakk.configs.constants import KV_REINDEX_KEY
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import InferenceChunkUncleaned
+from zakk.db.enums import EmbeddingPrecision
+from zakk.document_index.document_index_utils import get_document_chunk_ids
+from zakk.document_index.document_index_utils import get_uuid_from_chunk_info
+from zakk.document_index.interfaces import DocumentIndex
+from zakk.document_index.interfaces import DocumentInsertionRecord
+from zakk.document_index.interfaces import EnrichedDocumentIndexingInfo
+from zakk.document_index.interfaces import IndexBatchParams
+from zakk.document_index.interfaces import MinimalDocumentIndexingInfo
+from zakk.document_index.interfaces import UpdateRequest
+from zakk.document_index.interfaces import VespaChunkRequest
+from zakk.document_index.interfaces import VespaDocumentFields
+from zakk.document_index.interfaces import VespaDocumentUserFields
+from zakk.document_index.vespa.chunk_retrieval import batch_search_api_retrieval
+from zakk.document_index.vespa.chunk_retrieval import (
     parallel_visit_api_retrieval,
 )
-from onyx.document_index.vespa.chunk_retrieval import query_vespa
-from onyx.document_index.vespa.deletion import delete_vespa_chunks
-from onyx.document_index.vespa.indexing_utils import BaseHTTPXClientContext
-from onyx.document_index.vespa.indexing_utils import batch_index_vespa_chunks
-from onyx.document_index.vespa.indexing_utils import check_for_final_chunk_existence
-from onyx.document_index.vespa.indexing_utils import clean_chunk_id_copy
-from onyx.document_index.vespa.indexing_utils import GlobalHTTPXClientContext
-from onyx.document_index.vespa.indexing_utils import TemporaryHTTPXClientContext
-from onyx.document_index.vespa.shared_utils.utils import get_vespa_http_client
-from onyx.document_index.vespa.shared_utils.utils import (
+from zakk.document_index.vespa.chunk_retrieval import query_vespa
+from zakk.document_index.vespa.deletion import delete_vespa_chunks
+from zakk.document_index.vespa.indexing_utils import BaseHTTPXClientContext
+from zakk.document_index.vespa.indexing_utils import batch_index_vespa_chunks
+from zakk.document_index.vespa.indexing_utils import check_for_final_chunk_existence
+from zakk.document_index.vespa.indexing_utils import clean_chunk_id_copy
+from zakk.document_index.vespa.indexing_utils import GlobalHTTPXClientContext
+from zakk.document_index.vespa.indexing_utils import TemporaryHTTPXClientContext
+from zakk.document_index.vespa.shared_utils.utils import get_vespa_http_client
+from zakk.document_index.vespa.shared_utils.utils import (
     replace_invalid_doc_id_characters,
 )
-from onyx.document_index.vespa.shared_utils.vespa_request_builders import (
+from zakk.document_index.vespa.shared_utils.vespa_request_builders import (
     build_vespa_filters,
 )
-from onyx.document_index.vespa_constants import ACCESS_CONTROL_LIST
-from onyx.document_index.vespa_constants import BATCH_SIZE
-from onyx.document_index.vespa_constants import BOOST
-from onyx.document_index.vespa_constants import CONTENT_SUMMARY
-from onyx.document_index.vespa_constants import DOCUMENT_ID_ENDPOINT
-from onyx.document_index.vespa_constants import DOCUMENT_SETS
-from onyx.document_index.vespa_constants import HIDDEN
-from onyx.document_index.vespa_constants import NUM_THREADS
-from onyx.document_index.vespa_constants import USER_FILE
-from onyx.document_index.vespa_constants import USER_FOLDER
-from onyx.document_index.vespa_constants import VESPA_APPLICATION_ENDPOINT
-from onyx.document_index.vespa_constants import VESPA_TIMEOUT
-from onyx.document_index.vespa_constants import YQL_BASE
-from onyx.indexing.models import DocMetadataAwareIndexChunk
-from onyx.key_value_store.factory import get_shared_kv_store
-from onyx.kg.utils.formatting_utils import split_relationship_id
-from onyx.utils.batching import batch_generator
-from onyx.utils.logger import setup_logger
+from zakk.document_index.vespa_constants import ACCESS_CONTROL_LIST
+from zakk.document_index.vespa_constants import BATCH_SIZE
+from zakk.document_index.vespa_constants import BOOST
+from zakk.document_index.vespa_constants import CONTENT_SUMMARY
+from zakk.document_index.vespa_constants import DOCUMENT_ID_ENDPOINT
+from zakk.document_index.vespa_constants import DOCUMENT_SETS
+from zakk.document_index.vespa_constants import HIDDEN
+from zakk.document_index.vespa_constants import NUM_THREADS
+from zakk.document_index.vespa_constants import USER_FILE
+from zakk.document_index.vespa_constants import USER_FOLDER
+from zakk.document_index.vespa_constants import VESPA_APPLICATION_ENDPOINT
+from zakk.document_index.vespa_constants import VESPA_TIMEOUT
+from zakk.document_index.vespa_constants import YQL_BASE
+from zakk.indexing.models import DocMetadataAwareIndexChunk
+from zakk.key_value_store.factory import get_shared_kv_store
+from zakk.kg.utils.formatting_utils import split_relationship_id
+from zakk.utils.batching import batch_generator
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import MULTI_TENANT
 from shared_configs.model_server_models import Embedding
 
@@ -239,7 +239,7 @@ class VespaIndex(DocumentIndex):
         logger.notice(f"Deploying Vespa application package to {deploy_url}")
 
         vespa_schema_path = os.path.join(
-            os.getcwd(), "onyx", "document_index", "vespa", "app_config"
+            os.getcwd(), "zakk", "document_index", "vespa", "app_config"
         )
         schema_jinja_file = os.path.join(
             vespa_schema_path, "schemas", VespaIndex.VESPA_SCHEMA_JINJA_FILENAME
@@ -321,10 +321,10 @@ class VespaIndex(DocumentIndex):
         response = requests.post(deploy_url, headers=headers, data=zip_file)
         if response.status_code != 200:
             logger.error(
-                f"Failed to prepare Vespa Onyx Index. Response: {response.text}"
+                f"Failed to prepare Vespa Zakk Index. Response: {response.text}"
             )
             raise RuntimeError(
-                f"Failed to prepare Vespa Onyx Index. Response: {response.text}"
+                f"Failed to prepare Vespa Zakk Index. Response: {response.text}"
             )
 
     @staticmethod
@@ -340,7 +340,7 @@ class VespaIndex(DocumentIndex):
         logger.info(f"Deploying Vespa application package to {deploy_url}")
 
         vespa_schema_path = os.path.join(
-            os.getcwd(), "onyx", "document_index", "vespa", "app_config"
+            os.getcwd(), "zakk", "document_index", "vespa", "app_config"
         )
         schema_jinja_file = os.path.join(
             vespa_schema_path, "schemas", VespaIndex.VESPA_SCHEMA_JINJA_FILENAME
@@ -419,7 +419,7 @@ class VespaIndex(DocumentIndex):
 
         if response.status_code != 200:
             raise RuntimeError(
-                f"Failed to prepare Vespa Onyx Indexes. Response: {response.text}"
+                f"Failed to prepare Vespa Zakk Indexes. Response: {response.text}"
             )
 
     def index(

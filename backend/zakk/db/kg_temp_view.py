@@ -4,12 +4,12 @@ from sqlalchemy import text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 
-from onyx.agents.agent_search.kb_search.models import KGViewNames
-from onyx.configs.app_configs import DB_READONLY_USER
-from onyx.configs.kg_configs import KG_TEMP_ALLOWED_DOCS_VIEW_NAME_PREFIX
-from onyx.configs.kg_configs import KG_TEMP_KG_ENTITIES_VIEW_NAME_PREFIX
-from onyx.configs.kg_configs import KG_TEMP_KG_RELATIONSHIPS_VIEW_NAME_PREFIX
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.agents.agent_search.kb_search.models import KGViewNames
+from zakk.configs.app_configs import DB_READONLY_USER
+from zakk.configs.kg_configs import KG_TEMP_ALLOWED_DOCS_VIEW_NAME_PREFIX
+from zakk.configs.kg_configs import KG_TEMP_KG_ENTITIES_VIEW_NAME_PREFIX
+from zakk.configs.kg_configs import KG_TEMP_KG_RELATIONSHIPS_VIEW_NAME_PREFIX
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
 
 
 Base = declarative_base()

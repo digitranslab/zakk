@@ -1,9 +1,9 @@
 import os
 
-INPUT_PROMPT_YAML = "./onyx/seeding/input_prompts.yaml"
-PROMPTS_YAML = "./onyx/seeding/prompts.yaml"
-PERSONAS_YAML = "./onyx/seeding/personas.yaml"
-USER_FOLDERS_YAML = "./onyx/seeding/user_folders.yaml"
+INPUT_PROMPT_YAML = "./zakk/seeding/input_prompts.yaml"
+PROMPTS_YAML = "./zakk/seeding/prompts.yaml"
+PERSONAS_YAML = "./zakk/seeding/personas.yaml"
+USER_FOLDERS_YAML = "./zakk/seeding/user_folders.yaml"
 NUM_RETURNED_HITS = 50
 # Used for LLM filtering and reranking
 # We want this to be approximately the number of results we want to show on the first page

@@ -2,10 +2,10 @@
 # system. Many new users do not understand the design/capabilities of the system and will ask
 # questions that are unanswerable such as aggregations or user specific questions that the system
 # cannot handle, this is used to identify those cases
-from onyx.prompts.constants import ANSWERABLE_PAT
-from onyx.prompts.constants import GENERAL_SEP_PAT
-from onyx.prompts.constants import QUESTION_PAT
-from onyx.prompts.constants import THOUGHT_PAT
+from zakk.prompts.constants import ANSWERABLE_PAT
+from zakk.prompts.constants import GENERAL_SEP_PAT
+from zakk.prompts.constants import QUESTION_PAT
+from zakk.prompts.constants import THOUGHT_PAT
 
 
 ANSWERABLE_PROMPT = f"""
@@ -32,10 +32,10 @@ Slack channel the user is referring to.
 {ANSWERABLE_PAT.upper()} False
 ```
 
-{QUESTION_PAT.upper()} Onyx is unreachable.
+{QUESTION_PAT.upper()} Zakk is unreachable.
 ```
-{THOUGHT_PAT.upper()} The system searches documents related to Onyx being unreachable. \
-Assuming the documents from search contains situations where Onyx is not reachable and \
+{THOUGHT_PAT.upper()} The system searches documents related to Zakk being unreachable. \
+Assuming the documents from search contains situations where Zakk is not reachable and \
 contains a fix, the query may be answerable.
 {ANSWERABLE_PAT.upper()} True
 ```

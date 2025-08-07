@@ -5,13 +5,13 @@ from datetime import timezone
 
 import httpx
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.mock_connector.connector import MockConnectorCheckpoint
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import EntityFailure
-from onyx.connectors.models import InputType
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import IndexingStatus
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.mock_connector.connector import MockConnectorCheckpoint
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import EntityFailure
+from zakk.connectors.models import InputType
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import IndexingStatus
 from tests.integration.common_utils.constants import MOCK_CONNECTOR_SERVER_HOST
 from tests.integration.common_utils.constants import MOCK_CONNECTOR_SERVER_PORT
 from tests.integration.common_utils.managers.cc_pair import CCPairManager

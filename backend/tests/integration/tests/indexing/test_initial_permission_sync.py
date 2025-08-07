@@ -4,15 +4,15 @@ import uuid
 import httpx
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.mock_connector.connector import EXTERNAL_USER_EMAILS
-from onyx.connectors.mock_connector.connector import EXTERNAL_USER_GROUP_IDS
-from onyx.connectors.mock_connector.connector import MockConnectorCheckpoint
-from onyx.connectors.models import InputType
-from onyx.db.document import get_documents_by_ids
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import AccessType
-from onyx.db.enums import IndexingStatus
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.mock_connector.connector import EXTERNAL_USER_EMAILS
+from zakk.connectors.mock_connector.connector import EXTERNAL_USER_GROUP_IDS
+from zakk.connectors.mock_connector.connector import MockConnectorCheckpoint
+from zakk.connectors.models import InputType
+from zakk.db.document import get_documents_by_ids
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import AccessType
+from zakk.db.enums import IndexingStatus
 from tests.integration.common_utils.constants import MOCK_CONNECTOR_SERVER_HOST
 from tests.integration.common_utils.constants import MOCK_CONNECTOR_SERVER_PORT
 from tests.integration.common_utils.managers.cc_pair import CCPairManager

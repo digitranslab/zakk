@@ -15,13 +15,13 @@ from sqlalchemy.sql import select
 from sqlalchemy.sql.expression import literal
 from sqlalchemy.sql.expression import UnaryExpression
 
-from ee.onyx.background.task_name_builders import QUERY_HISTORY_TASK_NAME_PREFIX
-from onyx.configs.constants import QAFeedbackType
-from onyx.db.models import ChatMessage
-from onyx.db.models import ChatMessageFeedback
-from onyx.db.models import ChatSession
-from onyx.db.models import TaskQueueState
-from onyx.db.tasks import get_all_tasks_with_prefix
+from ee.zakk.background.task_name_builders import QUERY_HISTORY_TASK_NAME_PREFIX
+from zakk.configs.constants import QAFeedbackType
+from zakk.db.models import ChatMessage
+from zakk.db.models import ChatMessageFeedback
+from zakk.db.models import ChatSession
+from zakk.db.models import TaskQueueState
+from zakk.db.tasks import get_all_tasks_with_prefix
 
 
 def _build_filter_conditions(

@@ -3,12 +3,12 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 from pydantic import Field
 
-from onyx.llm.utils import get_max_input_tokens
-from onyx.llm.utils import model_supports_image_input
+from zakk.llm.utils import get_max_input_tokens
+from zakk.llm.utils import model_supports_image_input
 
 
 if TYPE_CHECKING:
-    from onyx.db.models import (
+    from zakk.db.models import (
         LLMProvider as LLMProviderModel,
         ModelConfiguration as ModelConfigurationModel,
     )

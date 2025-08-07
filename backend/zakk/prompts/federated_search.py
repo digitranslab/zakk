@@ -1,4 +1,4 @@
-from onyx.configs.app_configs import MAX_SLACK_QUERY_EXPANSIONS
+from zakk.configs.app_configs import MAX_SLACK_QUERY_EXPANSIONS
 
 # TODO: maybe ask it to generate in and from filters, and fuzzy match them later
 SLACK_QUERY_EXPANSION_PROMPT = f"""

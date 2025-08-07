@@ -88,7 +88,7 @@ import { useDocumentsContext } from "@/app/chat/my-documents/DocumentsContext";
 
 import { SEARCH_TOOL_ID } from "@/app/chat/tools/constants";
 import TextView from "@/components/chat/TextView";
-import { MinimalOnyxDocument } from "@/lib/search/interfaces";
+import { MinimalZakkDocument } from "@/lib/search/interfaces";
 import { MAX_CHARACTERS_PERSONA_DESCRIPTION } from "@/lib/constants";
 
 function findSearchTool(tools: ToolSnapshot[]) {
@@ -155,7 +155,7 @@ export function AssistantEditor({
   ];
 
   const [presentingDocument, setPresentingDocument] =
-    useState<MinimalOnyxDocument | null>(null);
+    useState<MinimalZakkDocument | null>(null);
   const [filePickerModalOpen, setFilePickerModalOpen] = useState(false);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 

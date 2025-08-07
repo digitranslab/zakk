@@ -76,7 +76,7 @@ POSTGRES_UNKNOWN_APP_NAME = "unknown"
 SSL_CERT_FILE = "bundle.pem"
 # API Keys
 DANSWER_API_KEY_PREFIX = "API_KEY__"
-DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN = "onyxapikey.ai"
+DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN = "zakkapikey.ai"
 UNNAMED_KEY_PLACEHOLDER = "Unnamed"
 
 # Key-Value store keys
@@ -140,7 +140,7 @@ DANSWER_REDIS_FUNCTION_LOCK_PREFIX = "da_function_lock:"
 
 
 class DocumentSource(str, Enum):
-    # Special case, document passed in via Onyx APIs without specifying a source type
+    # Special case, document passed in via Zakk APIs without specifying a source type
     INGESTION_API = "ingestion_api"
     SLACK = "slack"
     WEB = "web"
@@ -383,7 +383,7 @@ class ZakkRedisLocks:
     KG_PROCESSING_LOCK = "da_lock:kg_processing"
 
 
-class OnyxRedisSignals:
+class ZakkRedisSignals:
     BLOCK_VALIDATE_INDEXING_FENCES = "signal:block_validate_indexing_fences"
     BLOCK_VALIDATE_EXTERNAL_GROUP_SYNC_FENCES = (
         "signal:block_validate_external_group_sync_fences"

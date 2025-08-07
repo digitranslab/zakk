@@ -9,31 +9,31 @@ from urllib.parse import quote
 
 from pydantic import Field
 
-from onyx.configs.app_configs import EGNYTE_CLIENT_ID
-from onyx.configs.app_configs import EGNYTE_CLIENT_SECRET
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.configs.app_configs import EGNYTE_CLIENT_ID
+from zakk.configs.app_configs import EGNYTE_CLIENT_SECRET
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     get_oauth_callback_uri,
 )
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import OAuthConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import detect_encoding
-from onyx.file_processing.extract_file_text import extract_file_text
-from onyx.file_processing.extract_file_text import get_file_ext
-from onyx.file_processing.extract_file_text import is_accepted_file_ext
-from onyx.file_processing.extract_file_text import is_text_file_extension
-from onyx.file_processing.extract_file_text import OnyxExtensionType
-from onyx.file_processing.extract_file_text import read_text_file
-from onyx.utils.logger import setup_logger
-from onyx.utils.retry_wrapper import request_with_retries
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import OAuthConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import detect_encoding
+from zakk.file_processing.extract_file_text import extract_file_text
+from zakk.file_processing.extract_file_text import get_file_ext
+from zakk.file_processing.extract_file_text import is_accepted_file_ext
+from zakk.file_processing.extract_file_text import is_text_file_extension
+from zakk.file_processing.extract_file_text import ZakkExtensionType
+from zakk.file_processing.extract_file_text import read_text_file
+from zakk.utils.logger import setup_logger
+from zakk.utils.retry_wrapper import request_with_retries
 
 
 logger = setup_logger()
@@ -71,7 +71,7 @@ def _process_egnyte_file(
     file_name = file_metadata["name"]
     extension = get_file_ext(file_name)
     if not is_accepted_file_ext(
-        extension, OnyxExtensionType.Plain | OnyxExtensionType.Document
+        extension, ZakkExtensionType.Plain | ZakkExtensionType.Document
     ):
         logger.warning(f"Skipping file '{file_name}' with extension '{extension}'")
         return None

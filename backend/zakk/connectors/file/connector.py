@@ -5,24 +5,24 @@ from pathlib import Path
 from typing import Any
 from typing import IO
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import FileOrigin
-from onyx.connectors.cross_connector_utils.miscellaneous_utils import (
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import FileOrigin
+from zakk.connectors.cross_connector_utils.miscellaneous_utils import (
     process_zakk_metadata,
 )
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.models import Document
-from onyx.connectors.models import ImageSection
-from onyx.connectors.models import TextSection
-from onyx.file_processing.extract_file_text import extract_text_and_images
-from onyx.file_processing.extract_file_text import get_file_ext
-from onyx.file_processing.extract_file_text import is_accepted_file_ext
-from onyx.file_processing.extract_file_text import OnyxExtensionType
-from onyx.file_processing.image_utils import store_image_and_create_section
-from onyx.file_store.file_store import get_default_file_store
-from onyx.utils.logger import setup_logger
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.models import Document
+from zakk.connectors.models import ImageSection
+from zakk.connectors.models import TextSection
+from zakk.file_processing.extract_file_text import extract_text_and_images
+from zakk.file_processing.extract_file_text import get_file_ext
+from zakk.file_processing.extract_file_text import is_accepted_file_ext
+from zakk.file_processing.extract_file_text import ZakkExtensionType
+from zakk.file_processing.image_utils import store_image_and_create_section
+from zakk.file_store.file_store import get_default_file_store
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 
@@ -84,7 +84,7 @@ def _process_file(
     # Get file extension and determine file type
     extension = get_file_ext(file_name)
 
-    if not is_accepted_file_ext(extension, OnyxExtensionType.All):
+    if not is_accepted_file_ext(extension, ZakkExtensionType.All):
         logger.warning(
             f"Skipping file '{file_name}' with unrecognized extension '{extension}'"
         )
@@ -150,7 +150,7 @@ def _process_file(
         pdf_pass=pdf_pass,
     )
 
-    # Each file may have file-specific ONYX_METADATA https://docs.digi-trans.org/connectors/file
+    # Each file may have file-specific ZAKK_METADATA https://docs.digi-trans.org/connectors/file
     # If so, we should add it to any metadata processed so far
     if extraction_result.metadata:
         logger.debug(

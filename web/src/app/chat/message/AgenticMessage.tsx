@@ -11,7 +11,7 @@ import React, {
   useState,
 } from "react";
 import ReactMarkdown from "react-markdown";
-import { OnyxDocument } from "@/lib/search/interfaces";
+import { ZakkDocument } from "@/lib/search/interfaces";
 import remarkGfm from "remark-gfm";
 import { CopyButton } from "@/components/CopyButton";
 import {
@@ -96,7 +96,7 @@ export const AgenticMessage = ({
   isGenerating: boolean;
   docSidebarToggled?: boolean;
   secondLevelSubquestions?: SubQuestionDetail[] | null;
-  agenticDocs?: OnyxDocument[] | null;
+  agenticDocs?: ZakkDocument[] | null;
   secondLevelGenerating?: boolean;
   secondLevelAssistantMessage?: string;
   subQuestions: SubQuestionDetail[] | null;
@@ -106,20 +106,20 @@ export const AgenticMessage = ({
   otherMessagesCanSwitchTo?: number[];
   onMessageSelection?: (messageId: number) => void;
   toggleDocumentSelection?: (second: boolean) => void;
-  docs?: OnyxDocument[] | null;
+  docs?: ZakkDocument[] | null;
   alternativeAssistant?: MinimalPersonaSnapshot | null;
   currentPersona: MinimalPersonaSnapshot;
   messageId: number | null;
   content: string | JSX.Element;
   files?: FileDescriptor[];
   query?: string;
-  citedDocuments?: [string, OnyxDocument][] | null;
+  citedDocuments?: [string, ZakkDocument][] | null;
   toolCall?: ToolCallMetadata | null;
   isComplete?: boolean;
   handleFeedback?: (feedbackType: FeedbackType) => void;
   overriddenModel?: string;
   regenerate?: (modelOverRide: LlmDescriptor) => Promise<void>;
-  setPresentingDocument?: (document: OnyxDocument) => void;
+  setPresentingDocument?: (document: ZakkDocument) => void;
   error?: string | null;
 }) => {
   const [lastKnownContentLength, setLastKnownContentLength] = useState(0);
@@ -405,7 +405,7 @@ export const AgenticMessage = ({
 
   return (
     <div
-      id="onyx-ai-message"
+      id="zakk-ai-message"
       ref={trackedElementRef}
       className={`py-5 ml-4 lg:px-5 relative flex flex-col`}
     >

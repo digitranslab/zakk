@@ -15,7 +15,7 @@ import {
   SendIcon,
   StopGeneratingIcon,
 } from "@/components/icons/icons";
-import { OnyxDocument, SourceMetadata } from "@/lib/search/interfaces";
+import { ZakkDocument, SourceMetadata } from "@/lib/search/interfaces";
 import { AssistantIcon } from "@/components/assistants/AssistantIcon";
 import {
   Tooltip,
@@ -174,7 +174,7 @@ interface ChatInputBarProps {
   toggleDocSelection: () => void;
   removeDocs: () => void;
   showConfigureAPIKey: () => void;
-  selectedDocuments: OnyxDocument[];
+  selectedDocuments: ZakkDocument[];
   message: string;
   setMessage: (message: string) => void;
   stopGenerating: () => void;
@@ -485,7 +485,7 @@ export function ChatInputBar({
   }, [selectedFiles, currentMessageFiles, currentMessageFileIds]);
 
   return (
-    <div id="onyx-chat-input">
+    <div id="zakk-chat-input">
       <div className="flex  justify-center mx-auto">
         <div
           className="
@@ -631,7 +631,7 @@ export function ChatInputBar({
               onKeyDownCapture={handleKeyDown}
               onChange={handleInputChange}
               ref={textAreaRef}
-              id="onyx-chat-input-textarea"
+              id="zakk-chat-input-textarea"
               className={`
                 m-0
                 w-full
@@ -884,7 +884,7 @@ export function ChatInputBar({
                   />
                 )}
                 <button
-                  id="onyx-chat-input-send-button"
+                  id="zakk-chat-input-send-button"
                   className={`cursor-pointer ${
                     chatState == "streaming" ||
                     chatState == "toolBuilding" ||

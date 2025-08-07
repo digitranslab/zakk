@@ -12,9 +12,9 @@ export function ZakkBotChart({
   timeRange: DateRangePickerValue;
 }) {
   const {
-    data: onyxBotAnalyticsData,
+    data: zakkBotAnalyticsData,
     isLoading: isZakkBotAnalyticsLoading,
-    error: onyxBotAnalyticsError,
+    error: zakkBotAnalyticsError,
   } = useZakkBotAnalytics(timeRange);
 
   let chart;
@@ -25,9 +25,9 @@ export function ZakkBotChart({
       </div>
     );
   } else if (
-    !onyxBotAnalyticsData ||
-    onyxBotAnalyticsData[0] == undefined ||
-    onyxBotAnalyticsError
+    !zakkBotAnalyticsData ||
+    zakkBotAnalyticsData[0] == undefined ||
+    zakkBotAnalyticsError
   ) {
     chart = (
       <div className="h-80 text-red-600 text-bold flex flex-col">
@@ -36,13 +36,13 @@ export function ZakkBotChart({
     );
   } else {
     const initialDate =
-      timeRange.from || new Date(onyxBotAnalyticsData[0].date);
+      timeRange.from || new Date(zakkBotAnalyticsData[0].date);
     const dateRange = getDatesList(initialDate);
 
     const dateToZakkBotAnalytics = new Map(
-      onyxBotAnalyticsData.map((onyxBotAnalyticsEntry) => [
-        onyxBotAnalyticsEntry.date,
-        onyxBotAnalyticsEntry,
+      zakkBotAnalyticsData.map((zakkBotAnalyticsEntry) => [
+        zakkBotAnalyticsEntry.date,
+        zakkBotAnalyticsEntry,
       ])
     );
 
@@ -50,12 +50,12 @@ export function ZakkBotChart({
       <AreaChartDisplay
         className="mt-4"
         data={dateRange.map((dateStr) => {
-          const onyxBotAnalyticsForDate = dateToZakkBotAnalytics.get(dateStr);
+          const zakkBotAnalyticsForDate = dateToZakkBotAnalytics.get(dateStr);
           return {
             Day: dateStr,
-            "Total Queries": onyxBotAnalyticsForDate?.total_queries || 0,
+            "Total Queries": zakkBotAnalyticsForDate?.total_queries || 0,
             "Automatically Resolved":
-              onyxBotAnalyticsForDate?.auto_resolved || 0,
+              zakkBotAnalyticsForDate?.auto_resolved || 0,
           };
         })}
         categories={["Total Queries", "Automatically Resolved"]}

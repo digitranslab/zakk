@@ -1,16 +1,16 @@
 from langchain.schema.messages import HumanMessage
 
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import PromptConfig
-from onyx.configs.chat_configs import LANGUAGE_HINT
-from onyx.context.search.models import InferenceChunk
-from onyx.db.search_settings import get_multilingual_expansion
-from onyx.llm.utils import message_to_prompt_and_imgs
-from onyx.prompts.direct_qa_prompts import CONTEXT_BLOCK
-from onyx.prompts.direct_qa_prompts import HISTORY_BLOCK
-from onyx.prompts.direct_qa_prompts import JSON_PROMPT
-from onyx.prompts.prompt_utils import build_complete_context_str
-from onyx.prompts.prompt_utils import handle_zakk_date_awareness
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import PromptConfig
+from zakk.configs.chat_configs import LANGUAGE_HINT
+from zakk.context.search.models import InferenceChunk
+from zakk.db.search_settings import get_multilingual_expansion
+from zakk.llm.utils import message_to_prompt_and_imgs
+from zakk.prompts.direct_qa_prompts import CONTEXT_BLOCK
+from zakk.prompts.direct_qa_prompts import HISTORY_BLOCK
+from zakk.prompts.direct_qa_prompts import JSON_PROMPT
+from zakk.prompts.prompt_utils import build_complete_context_str
+from zakk.prompts.prompt_utils import handle_zakk_date_awareness
 
 
 def _build_strong_llm_quotes_prompt(

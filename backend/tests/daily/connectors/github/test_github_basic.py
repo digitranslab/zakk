@@ -3,8 +3,8 @@ import time
 
 import pytest
 
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.github.connector import GithubConnector
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.github.connector import GithubConnector
 from tests.daily.connectors.utils import load_all_docs_from_checkpoint_connector
 
 

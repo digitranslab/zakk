@@ -5,15 +5,15 @@ from typing import Generic
 from typing import TYPE_CHECKING
 from typing import TypeVar
 
-from onyx.llm.interfaces import LLM
-from onyx.llm.models import PreviousMessage
-from onyx.utils.special_types import JSON_ro
+from zakk.llm.interfaces import LLM
+from zakk.llm.models import PreviousMessage
+from zakk.utils.special_types import JSON_ro
 
 
 if TYPE_CHECKING:
-    from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-    from onyx.tools.message import ToolCallSummary
-    from onyx.tools.models import ToolResponse
+    from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+    from zakk.tools.message import ToolCallSummary
+    from zakk.tools.models import ToolResponse
 
 
 OVERRIDE_T = TypeVar("OVERRIDE_T")

@@ -3,11 +3,11 @@ from abc import abstractmethod
 from typing import Any
 from typing import Dict
 
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.models import SearchQuery
-from onyx.federated_connectors.models import CredentialField
-from onyx.federated_connectors.models import EntityField
-from onyx.federated_connectors.models import OAuthResult
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.models import SearchQuery
+from zakk.federated_connectors.models import CredentialField
+from zakk.federated_connectors.models import EntityField
+from zakk.federated_connectors.models import OAuthResult
 
 
 class FederatedConnector(ABC):

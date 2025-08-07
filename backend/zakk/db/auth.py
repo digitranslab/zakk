@@ -15,14 +15,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session
 
-from onyx.auth.schemas import UserRole
-from onyx.db.api_key import get_api_key_email_pattern
-from onyx.db.engine.async_sql_engine import get_async_session
-from onyx.db.engine.async_sql_engine import get_async_session_context_manager
-from onyx.db.models import AccessToken
-from onyx.db.models import OAuthAccount
-from onyx.db.models import User
-from onyx.utils.variable_functionality import (
+from zakk.auth.schemas import UserRole
+from zakk.db.api_key import get_api_key_email_pattern
+from zakk.db.engine.async_sql_engine import get_async_session
+from zakk.db.engine.async_sql_engine import get_async_session_context_manager
+from zakk.db.models import AccessToken
+from zakk.db.models import OAuthAccount
+from zakk.db.models import User
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
 
@@ -34,7 +34,7 @@ def get_default_admin_user_emails() -> list[str]:
     Only used in the EE version. For MIT, just return empty list."""
     get_default_admin_user_emails_fn: Callable[[], list[str]] = (
         fetch_versioned_implementation_with_fallback(
-            "onyx.auth.users", "get_default_admin_user_emails_", lambda: list[str]()
+            "zakk.auth.users", "get_default_admin_user_emails_", lambda: list[str]()
         )
     )
     return get_default_admin_user_emails_fn()

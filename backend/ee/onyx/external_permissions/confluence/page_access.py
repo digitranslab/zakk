@@ -1,11 +1,11 @@
 from typing import Any
 
-from onyx.access.models import ExternalAccess
-from onyx.connectors.confluence.zakk_confluence import (
+from zakk.access.models import ExternalAccess
+from zakk.connectors.confluence.zakk_confluence import (
     get_user_email_from_username__server,
 )
-from onyx.connectors.confluence.zakk_confluence import ZakkConfluence
-from onyx.utils.logger import setup_logger
+from zakk.connectors.confluence.zakk_confluence import ZakkConfluence
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

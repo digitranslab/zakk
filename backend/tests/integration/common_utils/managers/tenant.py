@@ -4,9 +4,9 @@ from datetime import timedelta
 import jwt
 import requests
 
-from onyx.server.manage.models import AllUsersResponse
-from onyx.server.models import FullUserSnapshot
-from onyx.server.models import InvitedUserSnapshot
+from zakk.server.manage.models import AllUsersResponse
+from zakk.server.models import FullUserSnapshot
+from zakk.server.models import InvitedUserSnapshot
 from tests.integration.common_utils.constants import API_SERVER_URL
 from tests.integration.common_utils.constants import GENERAL_HEADERS
 from tests.integration.common_utils.test_models import DATestUser

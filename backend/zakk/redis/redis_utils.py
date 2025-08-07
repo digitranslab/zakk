@@ -1,9 +1,9 @@
-from onyx.redis.redis_connector_delete import RedisConnectorDelete
-from onyx.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
-from onyx.redis.redis_connector_index import RedisConnectorIndex
-from onyx.redis.redis_connector_prune import RedisConnectorPrune
-from onyx.redis.redis_document_set import RedisDocumentSet
-from onyx.redis.redis_usergroup import RedisUserGroup
+from zakk.redis.redis_connector_delete import RedisConnectorDelete
+from zakk.redis.redis_connector_doc_perm_sync import RedisConnectorPermissionSync
+from zakk.redis.redis_connector_index import RedisConnectorIndex
+from zakk.redis.redis_connector_prune import RedisConnectorPrune
+from zakk.redis.redis_document_set import RedisDocumentSet
+from zakk.redis.redis_usergroup import RedisUserGroup
 
 
 def is_fence(key_bytes: bytes) -> bool:

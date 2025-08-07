@@ -11,32 +11,32 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ee.onyx.server.oauth.api_router import router
-from onyx.auth.users import current_admin_user
-from onyx.configs.app_configs import DEV_MODE
-from onyx.configs.app_configs import OAUTH_GOOGLE_DRIVE_CLIENT_ID
-from onyx.configs.app_configs import OAUTH_GOOGLE_DRIVE_CLIENT_SECRET
-from onyx.configs.app_configs import WEB_DOMAIN
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.google_utils.google_auth import get_google_oauth_creds
-from onyx.connectors.google_utils.google_auth import sanitize_oauth_credentials
-from onyx.connectors.google_utils.shared_constants import (
+from ee.zakk.server.oauth.api_router import router
+from zakk.auth.users import current_admin_user
+from zakk.configs.app_configs import DEV_MODE
+from zakk.configs.app_configs import OAUTH_GOOGLE_DRIVE_CLIENT_ID
+from zakk.configs.app_configs import OAUTH_GOOGLE_DRIVE_CLIENT_SECRET
+from zakk.configs.app_configs import WEB_DOMAIN
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.google_utils.google_auth import get_google_oauth_creds
+from zakk.connectors.google_utils.google_auth import sanitize_oauth_credentials
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_AUTHENTICATION_METHOD,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_DICT_TOKEN_KEY,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     DB_CREDENTIALS_PRIMARY_ADMIN_KEY,
 )
-from onyx.connectors.google_utils.shared_constants import (
+from zakk.connectors.google_utils.shared_constants import (
     GoogleOAuthAuthenticationMethod,
 )
-from onyx.db.credentials import create_credential
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.redis.redis_pool import get_redis_client
-from onyx.server.documents.models import CredentialBase
+from zakk.db.credentials import create_credential
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.redis.redis_pool import get_redis_client
+from zakk.server.documents.models import CredentialBase
 from shared_configs.contextvars import get_current_tenant_id
 
 

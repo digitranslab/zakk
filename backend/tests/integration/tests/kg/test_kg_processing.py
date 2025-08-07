@@ -2,33 +2,33 @@ import time
 
 import pytest
 
-from onyx.background.celery.tasks.kg_processing.kg_indexing import (
+from zakk.background.celery.tasks.kg_processing.kg_indexing import (
     try_creating_kg_processing_task,
 )
-from onyx.background.celery.tasks.kg_processing.utils import (
+from zakk.background.celery.tasks.kg_processing.utils import (
     is_kg_processing_blocked,
 )
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.models import InputType
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.kg_config import get_kg_config_settings
-from onyx.db.kg_config import set_kg_config_settings
-from onyx.db.models import Connector
-from onyx.db.models import Document
-from onyx.db.models import KGEntity
-from onyx.db.models import KGEntityExtractionStaging
-from onyx.db.models import KGEntityType
-from onyx.db.models import KGRelationship
-from onyx.db.models import KGRelationshipExtractionStaging
-from onyx.db.models import KGStage
-from onyx.kg.models import KGAttributeEntityOption
-from onyx.kg.models import KGAttributeImplicationProperty
-from onyx.kg.models import KGAttributeProperty
-from onyx.kg.models import KGAttributeTrackInfo
-from onyx.kg.models import KGAttributeTrackType
-from onyx.kg.models import KGEntityTypeAttributes
-from onyx.kg.models import KGEntityTypeDefinition
-from onyx.kg.models import KGGroundingType
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.models import InputType
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.kg_config import get_kg_config_settings
+from zakk.db.kg_config import set_kg_config_settings
+from zakk.db.models import Connector
+from zakk.db.models import Document
+from zakk.db.models import KGEntity
+from zakk.db.models import KGEntityExtractionStaging
+from zakk.db.models import KGEntityType
+from zakk.db.models import KGRelationship
+from zakk.db.models import KGRelationshipExtractionStaging
+from zakk.db.models import KGStage
+from zakk.kg.models import KGAttributeEntityOption
+from zakk.kg.models import KGAttributeImplicationProperty
+from zakk.kg.models import KGAttributeProperty
+from zakk.kg.models import KGAttributeTrackInfo
+from zakk.kg.models import KGAttributeTrackType
+from zakk.kg.models import KGEntityTypeAttributes
+from zakk.kg.models import KGEntityTypeDefinition
+from zakk.kg.models import KGGroundingType
 from shared_configs.contextvars import get_current_tenant_id
 from tests.integration.common_utils.managers.api_key import APIKeyManager
 from tests.integration.common_utils.managers.cc_pair import CCPairManager
@@ -48,7 +48,7 @@ def reset_for_test() -> None:
     kg_config_settings.KG_EXPOSED = True
     kg_config_settings.KG_ENABLED = True
     kg_config_settings.KG_VENDOR = "Test"
-    kg_config_settings.KG_VENDOR_DOMAINS = ["onyx-test.com.app", "tester.ai"]
+    kg_config_settings.KG_VENDOR_DOMAINS = ["zakk-test.com.app", "tester.ai"]
     kg_config_settings.KG_IGNORE_EMAIL_DOMAINS = ["gmail.com"]
     kg_config_settings.KG_COVERAGE_START = "2020-01-01"
     set_kg_config_settings(kg_config_settings)
@@ -58,7 +58,7 @@ def reset_for_test() -> None:
 def kg_test_docs() -> tuple[list[str], int, list[KGEntityType]]:
 
     # create admin user
-    admin_user: DATestUser = UserManager.create(email="admin@onyx-test.com.app")
+    admin_user: DATestUser = UserManager.create(email="admin@zakk-test.com.app")
 
     # create a minimal file connector
     cc_pair = CCPairManager.create_from_scratch(

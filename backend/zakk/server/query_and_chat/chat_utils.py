@@ -1,5 +1,5 @@
-from onyx.file_store.models import ChatFileType
-from onyx.utils.file_types import UploadMimeTypes
+from zakk.file_store.models import ChatFileType
+from zakk.utils.file_types import UploadMimeTypes
 
 
 def mime_type_to_chat_file_type(mime_type: str | None) -> ChatFileType:

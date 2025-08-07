@@ -4,15 +4,15 @@ from pydantic import BaseModel
 from pydantic import model_validator
 from sqlalchemy.orm import Session
 
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.context.search.models import RerankingDetails
-from onyx.db.models import Persona
-from onyx.file_store.utils import InMemoryChatFile
-from onyx.kg.models import KGConfigSettings
-from onyx.llm.interfaces import LLM
-from onyx.tools.force import ForceUseTool
-from onyx.tools.tool import Tool
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.context.search.models import RerankingDetails
+from zakk.db.models import Persona
+from zakk.file_store.utils import InMemoryChatFile
+from zakk.kg.models import KGConfigSettings
+from zakk.llm.interfaces import LLM
+from zakk.tools.force import ForceUseTool
+from zakk.tools.tool import Tool
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
 
 
 class GraphInputs(BaseModel):

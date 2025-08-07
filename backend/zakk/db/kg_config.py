@@ -1,9 +1,9 @@
-from onyx.configs.constants import KV_KG_CONFIG_KEY
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.kg.models import KGConfigSettings
-from onyx.server.kg.models import EnableKGConfigRequest
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import KV_KG_CONFIG_KEY
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.kg.models import KGConfigSettings
+from zakk.server.kg.models import EnableKGConfigRequest
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

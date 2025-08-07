@@ -8,36 +8,36 @@ from retry import retry
 from slack_sdk import WebClient
 from slack_sdk.models.blocks import SectionBlock
 
-from onyx.chat.chat_utils import prepare_chat_message_request
-from onyx.chat.models import ChatZakkBotResponse
-from onyx.chat.process_message import gather_stream_for_slack
-from onyx.chat.process_message import stream_chat_message_objects
-from onyx.configs.app_configs import DISABLE_GENERATIVE_AI
-from onyx.configs.constants import DEFAULT_PERSONA_ID
-from onyx.configs.zakkbot_configs import DANSWER_BOT_DISABLE_DOCS_ONLY_ANSWER
-from onyx.configs.zakkbot_configs import DANSWER_BOT_DISPLAY_ERROR_MSGS
-from onyx.configs.zakkbot_configs import DANSWER_BOT_NUM_RETRIES
-from onyx.configs.zakkbot_configs import DANSWER_FOLLOWUP_EMOJI
-from onyx.configs.zakkbot_configs import DANSWER_REACT_EMOJI
-from onyx.configs.zakkbot_configs import MAX_THREAD_CONTEXT_PERCENTAGE
-from onyx.context.search.enums import OptionalSearchSetting
-from onyx.context.search.models import BaseFilters
-from onyx.context.search.models import RetrievalDetails
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import SlackChannelConfig
-from onyx.db.models import User
-from onyx.db.persona import get_persona_by_id
-from onyx.db.persona import persona_has_search_tool
-from onyx.db.users import get_user_by_email
-from onyx.zakkbot.slack.blocks import build_slack_response_blocks
-from onyx.zakkbot.slack.handlers.utils import send_team_member_message
-from onyx.zakkbot.slack.handlers.utils import slackify_message_thread
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.zakkbot.slack.utils import respond_in_thread_or_channel
-from onyx.zakkbot.slack.utils import SlackRateLimiter
-from onyx.zakkbot.slack.utils import update_emote_react
-from onyx.server.query_and_chat.models import CreateChatMessageRequest
-from onyx.utils.logger import OnyxLoggingAdapter
+from zakk.chat.chat_utils import prepare_chat_message_request
+from zakk.chat.models import ChatZakkBotResponse
+from zakk.chat.process_message import gather_stream_for_slack
+from zakk.chat.process_message import stream_chat_message_objects
+from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
+from zakk.configs.constants import DEFAULT_PERSONA_ID
+from zakk.configs.zakkbot_configs import DANSWER_BOT_DISABLE_DOCS_ONLY_ANSWER
+from zakk.configs.zakkbot_configs import DANSWER_BOT_DISPLAY_ERROR_MSGS
+from zakk.configs.zakkbot_configs import DANSWER_BOT_NUM_RETRIES
+from zakk.configs.zakkbot_configs import DANSWER_FOLLOWUP_EMOJI
+from zakk.configs.zakkbot_configs import DANSWER_REACT_EMOJI
+from zakk.configs.zakkbot_configs import MAX_THREAD_CONTEXT_PERCENTAGE
+from zakk.context.search.enums import OptionalSearchSetting
+from zakk.context.search.models import BaseFilters
+from zakk.context.search.models import RetrievalDetails
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import SlackChannelConfig
+from zakk.db.models import User
+from zakk.db.persona import get_persona_by_id
+from zakk.db.persona import persona_has_search_tool
+from zakk.db.users import get_user_by_email
+from zakk.zakkbot.slack.blocks import build_slack_response_blocks
+from zakk.zakkbot.slack.handlers.utils import send_team_member_message
+from zakk.zakkbot.slack.handlers.utils import slackify_message_thread
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.zakkbot.slack.utils import respond_in_thread_or_channel
+from zakk.zakkbot.slack.utils import SlackRateLimiter
+from zakk.zakkbot.slack.utils import update_emote_react
+from zakk.server.query_and_chat.models import CreateChatMessageRequest
+from zakk.utils.logger import ZakkLoggingAdapter
 
 srl = SlackRateLimiter()
 
@@ -69,7 +69,7 @@ def handle_regular_answer(
     receiver_ids: list[str] | None,
     client: WebClient,
     channel: str,
-    logger: OnyxLoggingAdapter,
+    logger: ZakkLoggingAdapter,
     feedback_reminder_id: str | None,
     num_retries: int = DANSWER_BOT_NUM_RETRIES,
     thread_context_percent: float = MAX_THREAD_CONTEXT_PERCENTAGE,
@@ -85,16 +85,16 @@ def handle_regular_answer(
 
     # Capture whether response mode for channel is ephemeral. Even if the channel is set
     # to respond with an ephemeral message, we still send as non-ephemeral if
-    # the message is a dm with the Onyx bot.
+    # the message is a dm with the Zakk bot.
     send_as_ephemeral = (
         slack_channel_config.channel_config.get("is_ephemeral", False)
         and not message_info.is_bot_dm
     )
 
     # If the channel mis configured to respond with an ephemeral message,
-    # or the message is a dm to the Onyx bot, we should use the proper onyx user from the email.
-    # This will make documents privately accessible to the user available to Onyx Bot answers.
-    # Otherwise - if not ephemeral or DM to Onyx Bot - we must use None as the user to restrict
+    # or the message is a dm to the Zakk bot, we should use the proper zakk user from the email.
+    # This will make documents privately accessible to the user available to Zakk Bot answers.
+    # Otherwise - if not ephemeral or DM to Zakk Bot - we must use None as the user to restrict
     # to public docs.
 
     user = None
@@ -165,7 +165,7 @@ def handle_regular_answer(
     bypass_acl = False
 
     if not message_ts_to_respond_to and not is_bot_msg:
-        # if the message is not "/onyx" command, then it should have a message ts to respond to
+        # if the message is not "/zakk" command, then it should have a message ts to respond to
         raise RuntimeError(
             "No message timestamp to respond to in `handle_message`. This should never happen."
         )
@@ -279,10 +279,10 @@ def handle_regular_answer(
                 client=client,
                 channel=channel,
                 receiver_ids=target_receiver_ids,
-                text="Hello! Onyx has some results for you!",
+                text="Hello! Zakk has some results for you!",
                 blocks=[
                     SectionBlock(
-                        text="Onyx is down for maintenance.\nWe're working hard on recharging the AI!"
+                        text="Zakk is down for maintenance.\nWe're working hard on recharging the AI!"
                     )
                 ],
                 thread_ts=target_thread_ts,
@@ -429,7 +429,7 @@ def handle_regular_answer(
             client=client,
             channel=channel,
             receiver_ids=target_receiver_ids,
-            text="Hello! Onyx has some results for you!",
+            text="Hello! Zakk has some results for you!",
             blocks=all_blocks,
             thread_ts=target_thread_ts,
             # don't unfurl, since otherwise we will have 5+ previews which makes the message very long
@@ -439,7 +439,7 @@ def handle_regular_answer(
 
         # For DM (ephemeral message), we need to create a thread via a normal message so the user can see
         # the ephemeral message. This also will give the user a notification which ephemeral message does not.
-        # if there is no message_ts_to_respond_to, and we have made it this far, then this is a /onyx message
+        # if there is no message_ts_to_respond_to, and we have made it this far, then this is a /zakk message
         # so we shouldn't send_team_member_message
         if (
             target_receiver_ids

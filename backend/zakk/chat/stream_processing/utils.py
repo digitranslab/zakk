@@ -2,8 +2,8 @@ from collections.abc import Sequence
 
 from pydantic import BaseModel
 
-from onyx.chat.models import LlmDoc
-from onyx.context.search.models import InferenceChunk
+from zakk.chat.models import LlmDoc
+from zakk.context.search.models import InferenceChunk
 
 
 class DocumentIdOrderMapping(BaseModel):

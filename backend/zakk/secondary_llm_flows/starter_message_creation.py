@@ -6,24 +6,24 @@ from typing import List
 from litellm import get_supported_openai_params
 from sqlalchemy.orm import Session
 
-from onyx.configs.chat_configs import NUM_PERSONA_PROMPT_GENERATION_CHUNKS
-from onyx.context.search.models import IndexFilters
-from onyx.context.search.models import InferenceChunk
-from onyx.context.search.postprocessing.postprocessing import cleanup_chunks
-from onyx.context.search.preprocessing.access_filters import (
+from zakk.configs.chat_configs import NUM_PERSONA_PROMPT_GENERATION_CHUNKS
+from zakk.context.search.models import IndexFilters
+from zakk.context.search.models import InferenceChunk
+from zakk.context.search.postprocessing.postprocessing import cleanup_chunks
+from zakk.context.search.preprocessing.access_filters import (
     build_access_filters_for_user,
 )
-from onyx.db.document_set import get_document_sets_by_ids
-from onyx.db.models import StarterMessageModel as StarterMessage
-from onyx.db.models import User
-from onyx.db.search_settings import get_active_search_settings
-from onyx.document_index.factory import get_default_document_index
-from onyx.llm.factory import get_default_llms
-from onyx.prompts.starter_messages import format_persona_starter_message_prompt
-from onyx.prompts.starter_messages import PERSONA_CATEGORY_GENERATION_PROMPT
-from onyx.utils.logger import setup_logger
-from onyx.utils.threadpool_concurrency import FunctionCall
-from onyx.utils.threadpool_concurrency import run_functions_in_parallel
+from zakk.db.document_set import get_document_sets_by_ids
+from zakk.db.models import StarterMessageModel as StarterMessage
+from zakk.db.models import User
+from zakk.db.search_settings import get_active_search_settings
+from zakk.document_index.factory import get_default_document_index
+from zakk.llm.factory import get_default_llms
+from zakk.prompts.starter_messages import format_persona_starter_message_prompt
+from zakk.prompts.starter_messages import PERSONA_CATEGORY_GENERATION_PROMPT
+from zakk.utils.logger import setup_logger
+from zakk.utils.threadpool_concurrency import FunctionCall
+from zakk.utils.threadpool_concurrency import run_functions_in_parallel
 
 logger = setup_logger()
 

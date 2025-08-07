@@ -3,8 +3,8 @@ from datetime import datetime
 from pydantic import ConfigDict
 from pydantic.main import BaseModel
 
-from onyx.db.models import KGEntityType
-from onyx.kg.models import KGConfigSettings
+from zakk.db.models import KGEntityType
+from zakk.kg.models import KGConfigSettings
 
 
 class KGConfig(BaseModel):

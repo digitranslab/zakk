@@ -5,22 +5,22 @@ from celery import Task
 from celery.exceptions import SoftTimeLimitExceeded
 from redis.lock import Lock as RedisLock
 
-from ee.onyx.server.tenants.product_gating import get_gated_tenants
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.tasks.beat_schedule import BEAT_EXPIRES_DEFAULT
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import ONYX_CLOUD_TENANT_ID
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.db.engine.tenant_utils import get_all_tenant_ids
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import redis_lock_dump
+from ee.zakk.server.tenants.product_gating import get_gated_tenants
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.tasks.beat_schedule import BEAT_EXPIRES_DEFAULT
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZAKK_CLOUD_TENANT_ID
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.db.engine.tenant_utils import get_all_tenant_ids
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import redis_lock_dump
 from shared_configs.configs import IGNORED_SYNCING_TENANT_LIST
 
 
 @shared_task(
-    name=OnyxCeleryTask.CLOUD_BEAT_TASK_GENERATOR,
+    name=ZakkCeleryTask.CLOUD_BEAT_TASK_GENERATOR,
     ignore_result=True,
     trail=False,
     bind=True,
@@ -28,17 +28,17 @@ from shared_configs.configs import IGNORED_SYNCING_TENANT_LIST
 def cloud_beat_task_generator(
     self: Task,
     task_name: str,
-    queue: str = OnyxCeleryTask.DEFAULT,
-    priority: int = OnyxCeleryPriority.MEDIUM,
+    queue: str = ZakkCeleryTask.DEFAULT,
+    priority: int = ZakkCeleryPriority.MEDIUM,
     expires: int = BEAT_EXPIRES_DEFAULT,
 ) -> bool | None:
     """a lightweight task used to kick off individual beat tasks per tenant."""
     time_start = time.monotonic()
 
-    redis_client = get_redis_client(tenant_id=ONYX_CLOUD_TENANT_ID)
+    redis_client = get_redis_client(tenant_id=ZAKK_CLOUD_TENANT_ID)
 
     lock_beat: RedisLock = redis_client.lock(
-        f"{OnyxRedisLocks.CLOUD_BEAT_TASK_GENERATOR_LOCK}:{task_name}",
+        f"{ZakkRedisLocks.CLOUD_BEAT_TASK_GENERATOR_LOCK}:{task_name}",
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 

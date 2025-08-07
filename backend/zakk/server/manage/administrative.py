@@ -8,36 +8,36 @@ from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.background.celery.versioned_apps.client import app as client_app
-from onyx.configs.app_configs import GENERATIVE_MODEL_ACCESS_CHECK_FREQ
-from onyx.configs.constants import DocumentSource
-from onyx.configs.constants import KV_GEN_AI_KEY_CHECK_TIME
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.db.connector_credential_pair import get_connector_credential_pair_for_user
-from onyx.db.connector_credential_pair import (
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.background.celery.versioned_apps.client import app as client_app
+from zakk.configs.app_configs import GENERATIVE_MODEL_ACCESS_CHECK_FREQ
+from zakk.configs.constants import DocumentSource
+from zakk.configs.constants import KV_GEN_AI_KEY_CHECK_TIME
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.db.connector_credential_pair import get_connector_credential_pair_for_user
+from zakk.db.connector_credential_pair import (
     update_connector_credential_pair_from_id,
 )
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.feedback import fetch_docs_ranked_by_boost_for_user
-from onyx.db.feedback import update_document_boost_for_user
-from onyx.db.feedback import update_document_hidden_for_user
-from onyx.db.index_attempt import cancel_indexing_attempts_for_ccpair
-from onyx.db.models import User
-from onyx.file_store.file_store import get_default_file_store
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.llm.factory import get_default_llms
-from onyx.llm.utils import test_llm
-from onyx.server.documents.models import ConnectorCredentialPairIdentifier
-from onyx.server.manage.models import BoostDoc
-from onyx.server.manage.models import BoostUpdateRequest
-from onyx.server.manage.models import HiddenUpdateRequest
-from onyx.server.models import StatusResponse
-from onyx.utils.logger import setup_logger
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.feedback import fetch_docs_ranked_by_boost_for_user
+from zakk.db.feedback import update_document_boost_for_user
+from zakk.db.feedback import update_document_hidden_for_user
+from zakk.db.index_attempt import cancel_indexing_attempts_for_ccpair
+from zakk.db.models import User
+from zakk.file_store.file_store import get_default_file_store
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.llm.factory import get_default_llms
+from zakk.llm.utils import test_llm
+from zakk.server.documents.models import ConnectorCredentialPairIdentifier
+from zakk.server.manage.models import BoostDoc
+from zakk.server.manage.models import BoostUpdateRequest
+from zakk.server.manage.models import HiddenUpdateRequest
+from zakk.server.models import StatusResponse
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 router = APIRouter(prefix="/manage")
@@ -193,8 +193,8 @@ def create_deletion_attempt_for_connector_id(
 
     # run the beat task to pick up this deletion from the db immediately
     client_app.send_task(
-        OnyxCeleryTask.CHECK_FOR_CONNECTOR_DELETION,
-        priority=OnyxCeleryPriority.HIGH,
+        ZakkCeleryTask.CHECK_FOR_CONNECTOR_DELETION,
+        priority=ZakkCeleryPriority.HIGH,
         kwargs={"tenant_id": tenant_id},
     )
 

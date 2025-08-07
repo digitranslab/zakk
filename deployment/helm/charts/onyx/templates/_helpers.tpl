@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "onyx-stack.name" -}}
+{{- define "zakk-stack.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "onyx-stack.fullname" -}}
+{{- define "zakk-stack.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "onyx-stack.chart" -}}
+{{- define "zakk-stack.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "onyx-stack.labels" -}}
-helm.sh/chart: {{ include "onyx-stack.chart" . }}
-{{ include "onyx-stack.selectorLabels" . }}
+{{- define "zakk-stack.labels" -}}
+helm.sh/chart: {{ include "zakk-stack.chart" . }}
+{{ include "zakk-stack.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "onyx-stack.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "onyx-stack.name" . }}
+{{- define "zakk-stack.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "zakk-stack.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "onyx-stack.serviceAccountName" -}}
+{{- define "zakk-stack.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "onyx-stack.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "zakk-stack.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
@@ -64,19 +64,19 @@ Create the name of the service account to use
 {{/*
 Set secret name
 */}}
-{{- define "onyx-stack.secretName" -}}
-{{- default (default "onyx-secrets" .Values.auth.secretName) .Values.auth.existingSecret }}
+{{- define "zakk-stack.secretName" -}}
+{{- default (default "zakk-secrets" .Values.auth.secretName) .Values.auth.existingSecret }}
 {{- end }}
 
 {{/*
 Create env vars from secrets
 */}}
-{{- define "onyx-stack.envSecrets" -}}
+{{- define "zakk-stack.envSecrets" -}}
     {{- range $name, $key := .Values.auth.secretKeys }}
 - name: {{ $name | upper | replace "-" "_" | quote }}
   valueFrom:
     secretKeyRef:
-      name: {{ include "onyx-stack.secretName" $ }}
+      name: {{ include "zakk-stack.secretName" $ }}
       key: {{ default $name $key }}
     {{- end }}
 {{- end }}

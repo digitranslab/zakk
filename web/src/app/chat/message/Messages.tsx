@@ -18,9 +18,9 @@ import React, {
 } from "react";
 import ReactMarkdown from "react-markdown";
 import {
-  OnyxDocument,
-  FilteredOnyxDocument,
-  MinimalOnyxDocument,
+  ZakkDocument,
+  FilteredZakkDocument,
+  MinimalZakkDocument,
 } from "@/lib/search/interfaces";
 import { SearchSummary, UserKnowledgeFiles } from "./SearchSummary";
 import { SkippedSearch } from "./SkippedSearch";
@@ -96,7 +96,7 @@ function FileDisplay({
 }: {
   files: FileDescriptor[];
   alignBubble?: boolean;
-  setPresentingDocument: (document: MinimalOnyxDocument) => void;
+  setPresentingDocument: (document: MinimalZakkDocument) => void;
 }) {
   const [close, setClose] = useState(true);
   const [expandedKnowledge, setExpandedKnowledge] = useState(false);
@@ -111,7 +111,7 @@ function FileDisplay({
     <>
       {textFiles && textFiles.length > 0 && (
         <div
-          id="onyx-file"
+          id="zakk-file"
           className={` ${alignBubble && "ml-auto"} mt-2 auto mb-4`}
         >
           <div className="flex flex-col gap-2">
@@ -131,7 +131,7 @@ function FileDisplay({
 
       {imageFiles && imageFiles.length > 0 && (
         <div
-          id="onyx-image"
+          id="zakk-image"
           className={` ${alignBubble && "ml-auto"} mt-2 auto mb-4`}
         >
           <div className="flex flex-col gap-2">
@@ -180,7 +180,7 @@ function FileResponseDisplay({
 }: {
   files: FileResponse[];
   alignBubble?: boolean;
-  setPresentingDocument: (document: MinimalOnyxDocument) => void;
+  setPresentingDocument: (document: MinimalZakkDocument) => void;
 }) {
   if (!files || files.length === 0) {
     return null;
@@ -188,7 +188,7 @@ function FileResponseDisplay({
 
   return (
     <div
-      id="onyx-file-response"
+      id="zakk-file-response"
       className={`${alignBubble && "ml-auto"} mt-2 auto mb-4`}
     >
       <div className="flex flex-col gap-2">
@@ -251,16 +251,16 @@ export const AIMessage = ({
   continueGenerating?: () => void;
   otherMessagesCanSwitchTo?: number[];
   onMessageSelection?: (messageId: number) => void;
-  selectedDocuments?: OnyxDocument[] | null;
+  selectedDocuments?: ZakkDocument[] | null;
   toggleDocumentSelection?: () => void;
-  docs?: OnyxDocument[] | null;
+  docs?: ZakkDocument[] | null;
   alternativeAssistant?: MinimalPersonaSnapshot | null;
   currentPersona: MinimalPersonaSnapshot;
   messageId: number | null;
   content: string | JSX.Element;
   files?: FileDescriptor[];
   query?: string;
-  citedDocuments?: [string, OnyxDocument][] | null;
+  citedDocuments?: [string, ZakkDocument][] | null;
   toolCall?: ToolCallMetadata | null;
   isComplete?: boolean;
   documentSidebarVisible?: boolean;
@@ -271,7 +271,7 @@ export const AIMessage = ({
   retrievalDisabled?: boolean;
   overriddenModel?: string;
   regenerate?: (modelOverRide: LlmDescriptor) => Promise<void>;
-  setPresentingDocument: (document: MinimalOnyxDocument) => void;
+  setPresentingDocument: (document: MinimalZakkDocument) => void;
   removePadding?: boolean;
 }) => {
   const toolCallGenerating = toolCall && !toolCall.tool_result;
@@ -380,7 +380,7 @@ export const AIMessage = ({
     content = trimIncompleteCodeSection(content);
   }
 
-  let filteredDocs: FilteredOnyxDocument[] = [];
+  let filteredDocs: FilteredZakkDocument[] = [];
 
   if (docs) {
     filteredDocs = docs
@@ -393,7 +393,7 @@ export const AIMessage = ({
       .filter((doc) => {
         return citedDocumentIds.includes(doc.document_id);
       })
-      .map((doc: OnyxDocument, ind: number) => {
+      .map((doc: ZakkDocument, ind: number) => {
         return {
           ...doc,
           included: selectedDocumentIds.includes(doc.document_id),
@@ -497,7 +497,7 @@ export const AIMessage = ({
 
   return (
     <div
-      id={isComplete ? "onyx-ai-message" : undefined}
+      id={isComplete ? "zakk-ai-message" : undefined}
       ref={trackedElementRef}
       className={`py-5  ml-4 lg:px-5 relative flex
         
@@ -612,7 +612,7 @@ export const AIMessage = ({
                                 docs.length > 0 &&
                                 docs
                                   .slice(0, 2)
-                                  .map((doc: OnyxDocument, ind: number) => (
+                                  .map((doc: ZakkDocument, ind: number) => (
                                     <SourceCard
                                       document={doc}
                                       key={ind}
@@ -978,7 +978,7 @@ export const HumanMessage = ({
   onMessageSelection?: (messageId: number) => void;
   stopGenerating?: () => void;
   disableSwitchingForStreaming?: boolean;
-  setPresentingDocument: (document: MinimalOnyxDocument) => void;
+  setPresentingDocument: (document: MinimalZakkDocument) => void;
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -1019,7 +1019,7 @@ export const HumanMessage = ({
 
   return (
     <div
-      id="onyx-human-message"
+      id="zakk-human-message"
       className="pt-5 pb-1 w-full lg:px-5 flex -mr-6 relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

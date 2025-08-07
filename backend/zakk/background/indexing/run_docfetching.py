@@ -9,74 +9,74 @@ from datetime import timezone
 from celery import Celery
 from sqlalchemy.orm import Session
 
-from onyx.access.access import source_should_fetch_permissions_during_indexing
-from onyx.background.indexing.checkpointing_utils import check_checkpoint_size
-from onyx.background.indexing.checkpointing_utils import get_latest_valid_checkpoint
-from onyx.background.indexing.checkpointing_utils import save_checkpoint
-from onyx.background.indexing.memory_tracer import MemoryTracer
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.app_configs import INDEXING_SIZE_WARNING_THRESHOLD
-from onyx.configs.app_configs import INDEXING_TRACER_INTERVAL
-from onyx.configs.app_configs import INTEGRATION_TESTS_MODE
-from onyx.configs.app_configs import LEAVE_CONNECTOR_ACTIVE_ON_INITIALIZATION_FAILURE
-from onyx.configs.app_configs import MAX_FILE_SIZE_BYTES
-from onyx.configs.app_configs import POLL_CONNECTOR_OFFSET
-from onyx.configs.constants import MilestoneRecordType
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.connectors.connector_runner import ConnectorRunner
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.factory import instantiate_connector
-from onyx.connectors.interfaces import CheckpointedConnector
-from onyx.connectors.models import ConnectorFailure
-from onyx.connectors.models import ConnectorStopSignal
-from onyx.connectors.models import DocExtractionContext
-from onyx.connectors.models import Document
-from onyx.connectors.models import IndexAttemptMetadata
-from onyx.connectors.models import TextSection
-from onyx.db.connector import mark_cc_pair_as_permissions_synced
-from onyx.db.connector import mark_ccpair_with_indexing_trigger
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.connector_credential_pair import get_last_successful_attempt_poll_range_end
-from onyx.db.connector_credential_pair import update_connector_credential_pair
-from onyx.db.constants import CONNECTOR_VALIDATION_ERROR_MESSAGE_PREFIX
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import AccessType
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import IndexingStatus
-from onyx.db.enums import IndexModelStatus
-from onyx.db.index_attempt import create_index_attempt_error
-from onyx.db.index_attempt import get_index_attempt
-from onyx.db.index_attempt import get_index_attempt_errors_for_cc_pair
-from onyx.db.index_attempt import get_recent_completed_attempts_for_cc_pair
-from onyx.db.index_attempt import mark_attempt_canceled
-from onyx.db.index_attempt import mark_attempt_failed
-from onyx.db.index_attempt import mark_attempt_partially_succeeded
-from onyx.db.index_attempt import mark_attempt_succeeded
-from onyx.db.index_attempt import transition_attempt_to_in_progress
-from onyx.db.index_attempt import update_docs_indexed
-from onyx.db.indexing_coordination import IndexingCoordination
-from onyx.db.models import IndexAttempt
-from onyx.db.models import IndexAttemptError
-from onyx.document_index.factory import get_default_document_index
-from onyx.file_store.document_batch_storage import DocumentBatchStorage
-from onyx.file_store.document_batch_storage import get_document_batch_storage
-from onyx.httpx.httpx_pool import HttpxPool
-from onyx.indexing.embedder import DefaultIndexingEmbedder
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.indexing.indexing_pipeline import run_indexing_pipeline
-from onyx.natural_language_processing.search_nlp_models import (
+from zakk.access.access import source_should_fetch_permissions_during_indexing
+from zakk.background.indexing.checkpointing_utils import check_checkpoint_size
+from zakk.background.indexing.checkpointing_utils import get_latest_valid_checkpoint
+from zakk.background.indexing.checkpointing_utils import save_checkpoint
+from zakk.background.indexing.memory_tracer import MemoryTracer
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.app_configs import INDEXING_SIZE_WARNING_THRESHOLD
+from zakk.configs.app_configs import INDEXING_TRACER_INTERVAL
+from zakk.configs.app_configs import INTEGRATION_TESTS_MODE
+from zakk.configs.app_configs import LEAVE_CONNECTOR_ACTIVE_ON_INITIALIZATION_FAILURE
+from zakk.configs.app_configs import MAX_FILE_SIZE_BYTES
+from zakk.configs.app_configs import POLL_CONNECTOR_OFFSET
+from zakk.configs.constants import MilestoneRecordType
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.connectors.connector_runner import ConnectorRunner
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.factory import instantiate_connector
+from zakk.connectors.interfaces import CheckpointedConnector
+from zakk.connectors.models import ConnectorFailure
+from zakk.connectors.models import ConnectorStopSignal
+from zakk.connectors.models import DocExtractionContext
+from zakk.connectors.models import Document
+from zakk.connectors.models import IndexAttemptMetadata
+from zakk.connectors.models import TextSection
+from zakk.db.connector import mark_cc_pair_as_permissions_synced
+from zakk.db.connector import mark_ccpair_with_indexing_trigger
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.connector_credential_pair import get_last_successful_attempt_poll_range_end
+from zakk.db.connector_credential_pair import update_connector_credential_pair
+from zakk.db.constants import CONNECTOR_VALIDATION_ERROR_MESSAGE_PREFIX
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import AccessType
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import IndexingStatus
+from zakk.db.enums import IndexModelStatus
+from zakk.db.index_attempt import create_index_attempt_error
+from zakk.db.index_attempt import get_index_attempt
+from zakk.db.index_attempt import get_index_attempt_errors_for_cc_pair
+from zakk.db.index_attempt import get_recent_completed_attempts_for_cc_pair
+from zakk.db.index_attempt import mark_attempt_canceled
+from zakk.db.index_attempt import mark_attempt_failed
+from zakk.db.index_attempt import mark_attempt_partially_succeeded
+from zakk.db.index_attempt import mark_attempt_succeeded
+from zakk.db.index_attempt import transition_attempt_to_in_progress
+from zakk.db.index_attempt import update_docs_indexed
+from zakk.db.indexing_coordination import IndexingCoordination
+from zakk.db.models import IndexAttempt
+from zakk.db.models import IndexAttemptError
+from zakk.document_index.factory import get_default_document_index
+from zakk.file_store.document_batch_storage import DocumentBatchStorage
+from zakk.file_store.document_batch_storage import get_document_batch_storage
+from zakk.httpx.httpx_pool import HttpxPool
+from zakk.indexing.embedder import DefaultIndexingEmbedder
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.indexing.indexing_pipeline import run_indexing_pipeline
+from zakk.natural_language_processing.search_nlp_models import (
     InformationContentClassificationModel,
 )
-from onyx.utils.logger import setup_logger
-from onyx.utils.logger import TaskAttemptSingleton
-from onyx.utils.middleware import make_randomized_zakk_request_id
-from onyx.utils.telemetry import create_milestone_and_report
-from onyx.utils.telemetry import optional_telemetry
-from onyx.utils.telemetry import RecordType
-from onyx.utils.variable_functionality import global_version
+from zakk.utils.logger import setup_logger
+from zakk.utils.logger import TaskAttemptSingleton
+from zakk.utils.middleware import make_randomized_zakk_request_id
+from zakk.utils.telemetry import create_milestone_and_report
+from zakk.utils.telemetry import optional_telemetry
+from zakk.utils.telemetry import RecordType
+from zakk.utils.variable_functionality import global_version
 from shared_configs.configs import MULTI_TENANT
 
 logger = setup_logger(propagate=False)
@@ -1185,10 +1185,10 @@ def connector_document_extraction(
 
                 # Queue document processing task
                 app.send_task(
-                    OnyxCeleryTask.DOCPROCESSING_TASK,
+                    ZakkCeleryTask.DOCPROCESSING_TASK,
                     kwargs=processing_batch_data,
-                    queue=OnyxCeleryQueues.DOCPROCESSING,
-                    priority=OnyxCeleryPriority.MEDIUM,
+                    queue=ZakkCeleryQueues.DOCPROCESSING,
+                    priority=ZakkCeleryPriority.MEDIUM,
                 )
 
                 batch_num += 1
@@ -1355,15 +1355,15 @@ def reissue_old_batches(
             raise RuntimeError(f"Batch {batch_id} is not for cc pair {cc_pair_id}")
 
         app.send_task(
-            OnyxCeleryTask.DOCPROCESSING_TASK,
+            ZakkCeleryTask.DOCPROCESSING_TASK,
             kwargs={
                 "index_attempt_id": index_attempt_id,
                 "cc_pair_id": cc_pair_id,
                 "tenant_id": tenant_id,
                 "batch_num": path_info.batch_num,  # use same batch num as previously
             },
-            queue=OnyxCeleryQueues.DOCPROCESSING,
-            priority=OnyxCeleryPriority.MEDIUM,
+            queue=ZakkCeleryQueues.DOCPROCESSING,
+            priority=ZakkCeleryPriority.MEDIUM,
         )
     recent_batches = most_recent_attempt.completed_batches if most_recent_attempt else 0
     # resume from the batch num of the last attempt. This should be one more

@@ -13,52 +13,52 @@ from redis import Redis
 from redis.lock import Lock as RedisLock
 from sqlalchemy.orm import Session
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.celery_redis import celery_get_queue_length
-from onyx.background.celery.celery_redis import celery_get_queued_task_ids
-from onyx.configs.app_configs import JOB_TIMEOUT
-from onyx.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
-from onyx.configs.constants import OnyxCeleryQueues
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.configs.constants import OnyxRedisConstants
-from onyx.configs.constants import OnyxRedisLocks
-from onyx.configs.constants import OnyxRedisSignals
-from onyx.db.connector import fetch_connector_by_id
-from onyx.db.connector_credential_pair import add_deletion_failure_message
-from onyx.db.connector_credential_pair import (
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.celery_redis import celery_get_queue_length
+from zakk.background.celery.celery_redis import celery_get_queued_task_ids
+from zakk.configs.app_configs import JOB_TIMEOUT
+from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
+from zakk.configs.constants import ZakkCeleryQueues
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.configs.constants import ZakkRedisConstants
+from zakk.configs.constants import ZakkRedisLocks
+from zakk.configs.constants import ZakkRedisSignals
+from zakk.db.connector import fetch_connector_by_id
+from zakk.db.connector_credential_pair import add_deletion_failure_message
+from zakk.db.connector_credential_pair import (
     delete_connector_credential_pair__no_commit,
 )
-from onyx.db.connector_credential_pair import (
+from zakk.db.connector_credential_pair import (
     delete_userfiles_for_cc_pair__no_commit,
 )
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.connector_credential_pair import get_connector_credential_pairs
-from onyx.db.document import (
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.connector_credential_pair import get_connector_credential_pairs
+from zakk.db.document import (
     delete_all_documents_by_connector_credential_pair__no_commit,
 )
-from onyx.db.document import get_document_ids_for_connector_credential_pair
-from onyx.db.document_set import delete_document_set_cc_pair_relationship__no_commit
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import ConnectorCredentialPairStatus
-from onyx.db.enums import IndexingStatus
-from onyx.db.enums import SyncStatus
-from onyx.db.enums import SyncType
-from onyx.db.index_attempt import delete_index_attempts
-from onyx.db.index_attempt import get_recent_attempts_for_cc_pair
-from onyx.db.search_settings import get_all_search_settings
-from onyx.db.sync_record import cleanup_sync_records
-from onyx.db.sync_record import insert_sync_record
-from onyx.db.sync_record import update_sync_record_status
-from onyx.db.tag import delete_orphan_tags__no_commit
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_connector_delete import RedisConnectorDelete
-from onyx.redis.redis_connector_delete import RedisConnectorDeletePayload
-from onyx.redis.redis_pool import get_redis_client
-from onyx.redis.redis_pool import get_redis_replica_client
-from onyx.utils.variable_functionality import (
+from zakk.db.document import get_document_ids_for_connector_credential_pair
+from zakk.db.document_set import delete_document_set_cc_pair_relationship__no_commit
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import ConnectorCredentialPairStatus
+from zakk.db.enums import IndexingStatus
+from zakk.db.enums import SyncStatus
+from zakk.db.enums import SyncType
+from zakk.db.index_attempt import delete_index_attempts
+from zakk.db.index_attempt import get_recent_attempts_for_cc_pair
+from zakk.db.search_settings import get_all_search_settings
+from zakk.db.sync_record import cleanup_sync_records
+from zakk.db.sync_record import insert_sync_record
+from zakk.db.sync_record import update_sync_record_status
+from zakk.db.tag import delete_orphan_tags__no_commit
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_connector_delete import RedisConnectorDelete
+from zakk.redis.redis_connector_delete import RedisConnectorDeletePayload
+from zakk.redis.redis_pool import get_redis_client
+from zakk.redis.redis_pool import get_redis_replica_client
+from zakk.utils.variable_functionality import (
     fetch_versioned_implementation_with_fallback,
 )
-from onyx.utils.variable_functionality import noop_fallback
+from zakk.utils.variable_functionality import noop_fallback
 
 
 class TaskDependencyError(RuntimeError):
@@ -120,7 +120,7 @@ def revoke_tasks_blocking_deletion(
 
 
 @shared_task(
-    name=OnyxCeleryTask.CHECK_FOR_CONNECTOR_DELETION,
+    name=ZakkCeleryTask.CHECK_FOR_CONNECTOR_DELETION,
     ignore_result=True,
     soft_time_limit=JOB_TIMEOUT,
     trail=False,
@@ -132,7 +132,7 @@ def check_for_connector_deletion_task(self: Task, *, tenant_id: str) -> bool | N
     r_celery: Redis = self.app.broker_connection().channel().client  # type: ignore
 
     lock_beat: RedisLock = r.lock(
-        OnyxRedisLocks.CHECK_CONNECTOR_DELETION_BEAT_LOCK,
+        ZakkRedisLocks.CHECK_CONNECTOR_DELETION_BEAT_LOCK,
         timeout=CELERY_GENERIC_BEAT_LOCK_TIMEOUT,
     )
 
@@ -143,7 +143,7 @@ def check_for_connector_deletion_task(self: Task, *, tenant_id: str) -> bool | N
     try:
         # we want to run this less frequently than the overall task
         lock_beat.reacquire()
-        if not r.exists(OnyxRedisSignals.BLOCK_VALIDATE_CONNECTOR_DELETION_FENCES):
+        if not r.exists(ZakkRedisSignals.BLOCK_VALIDATE_CONNECTOR_DELETION_FENCES):
             # clear fences that don't have associated celery tasks in progress
             try:
                 validate_connector_deletion_fences(
@@ -154,7 +154,7 @@ def check_for_connector_deletion_task(self: Task, *, tenant_id: str) -> bool | N
                     "Exception while validating connector deletion fences"
                 )
 
-            r.set(OnyxRedisSignals.BLOCK_VALIDATE_CONNECTOR_DELETION_FENCES, 1, ex=300)
+            r.set(ZakkRedisSignals.BLOCK_VALIDATE_CONNECTOR_DELETION_FENCES, 1, ex=300)
 
         # collect cc_pair_ids
         cc_pair_ids: list[int] = []
@@ -210,12 +210,12 @@ def check_for_connector_deletion_task(self: Task, *, tenant_id: str) -> bool | N
                     redis_connector.stop.set_fence(False)
 
         lock_beat.reacquire()
-        keys = cast(set[Any], r_replica.smembers(OnyxRedisConstants.ACTIVE_FENCES))
+        keys = cast(set[Any], r_replica.smembers(ZakkRedisConstants.ACTIVE_FENCES))
         for key in keys:
             key_bytes = cast(bytes, key)
 
             if not r.exists(key_bytes):
-                r.srem(OnyxRedisConstants.ACTIVE_FENCES, key_bytes)
+                r.srem(ZakkRedisConstants.ACTIVE_FENCES, key_bytes)
                 continue
 
             key_str = key_bytes.decode("utf-8")
@@ -458,7 +458,7 @@ def monitor_connector_deletion_taskset(
 
             # user groups
             cleanup_user_groups = fetch_versioned_implementation_with_fallback(
-                "onyx.db.user_group",
+                "zakk.db.user_group",
                 "delete_user_group_cc_pair_relationship__no_commit",
                 noop_fallback,
             )
@@ -563,17 +563,17 @@ def validate_connector_deletion_fences(
     # validating until the queue is small
     CONNECTION_DELETION_VALIDATION_MAX_QUEUE_LEN = 1024
 
-    queue_len = celery_get_queue_length(OnyxCeleryQueues.CONNECTOR_DELETION, r_celery)
+    queue_len = celery_get_queue_length(ZakkCeleryQueues.CONNECTOR_DELETION, r_celery)
     if queue_len > CONNECTION_DELETION_VALIDATION_MAX_QUEUE_LEN:
         return
 
     queued_upsert_tasks = celery_get_queued_task_ids(
-        OnyxCeleryQueues.CONNECTOR_DELETION, r_celery
+        ZakkCeleryQueues.CONNECTOR_DELETION, r_celery
     )
 
     # validate all existing connector deletion jobs
     lock_beat.reacquire()
-    keys = cast(set[Any], r_replica.smembers(OnyxRedisConstants.ACTIVE_FENCES))
+    keys = cast(set[Any], r_replica.smembers(ZakkRedisConstants.ACTIVE_FENCES))
     for key in keys:
         key_bytes = cast(bytes, key)
         key_str = key_bytes.decode("utf-8")

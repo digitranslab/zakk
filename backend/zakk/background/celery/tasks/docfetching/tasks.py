@@ -10,33 +10,33 @@ from celery import Celery
 from celery import shared_task
 from celery import Task
 
-from onyx.background.celery.apps.app_base import task_logger
-from onyx.background.celery.memory_monitoring import emit_process_memory
-from onyx.background.celery.tasks.docprocessing.heartbeat import start_heartbeat
-from onyx.background.celery.tasks.docprocessing.heartbeat import stop_heartbeat
-from onyx.background.celery.tasks.docprocessing.tasks import ConnectorIndexingLogBuilder
-from onyx.background.celery.tasks.docprocessing.utils import IndexingCallback
-from onyx.background.celery.tasks.models import DocProcessingContext
-from onyx.background.celery.tasks.models import IndexingWatchdogTerminalStatus
-from onyx.background.celery.tasks.models import SimpleJobResult
-from onyx.background.indexing.job_client import SimpleJob
-from onyx.background.indexing.job_client import SimpleJobClient
-from onyx.background.indexing.job_client import SimpleJobException
-from onyx.background.indexing.run_docfetching import run_indexing_entrypoint
-from onyx.configs.constants import CELERY_INDEXING_WATCHDOG_CONNECTOR_TIMEOUT
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.db.connector_credential_pair import get_connector_credential_pair_from_id
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.enums import IndexingStatus
-from onyx.db.index_attempt import get_index_attempt
-from onyx.db.index_attempt import mark_attempt_canceled
-from onyx.db.index_attempt import mark_attempt_failed
-from onyx.db.indexing_coordination import IndexingCoordination
-from onyx.redis.redis_connector import RedisConnector
-from onyx.redis.redis_connector_index import RedisConnectorIndex
-from onyx.utils.logger import setup_logger
-from onyx.utils.variable_functionality import global_version
+from zakk.background.celery.apps.app_base import task_logger
+from zakk.background.celery.memory_monitoring import emit_process_memory
+from zakk.background.celery.tasks.docprocessing.heartbeat import start_heartbeat
+from zakk.background.celery.tasks.docprocessing.heartbeat import stop_heartbeat
+from zakk.background.celery.tasks.docprocessing.tasks import ConnectorIndexingLogBuilder
+from zakk.background.celery.tasks.docprocessing.utils import IndexingCallback
+from zakk.background.celery.tasks.models import DocProcessingContext
+from zakk.background.celery.tasks.models import IndexingWatchdogTerminalStatus
+from zakk.background.celery.tasks.models import SimpleJobResult
+from zakk.background.indexing.job_client import SimpleJob
+from zakk.background.indexing.job_client import SimpleJobClient
+from zakk.background.indexing.job_client import SimpleJobException
+from zakk.background.indexing.run_docfetching import run_indexing_entrypoint
+from zakk.configs.constants import CELERY_INDEXING_WATCHDOG_CONNECTOR_TIMEOUT
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.db.connector_credential_pair import get_connector_credential_pair_from_id
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.enums import IndexingStatus
+from zakk.db.index_attempt import get_index_attempt
+from zakk.db.index_attempt import mark_attempt_canceled
+from zakk.db.index_attempt import mark_attempt_failed
+from zakk.db.indexing_coordination import IndexingCoordination
+from zakk.redis.redis_connector import RedisConnector
+from zakk.redis.redis_connector_index import RedisConnectorIndex
+from zakk.utils.logger import setup_logger
+from zakk.utils.variable_functionality import global_version
 from shared_configs.configs import SENTRY_DSN
 
 logger = setup_logger()
@@ -306,7 +306,7 @@ def process_job_result(
 
 
 @shared_task(
-    name=OnyxCeleryTask.CONNECTOR_DOC_FETCHING_TASK,
+    name=ZakkCeleryTask.CONNECTOR_DOC_FETCHING_TASK,
     bind=True,
     acks_late=False,
     track_started=True,
@@ -328,8 +328,8 @@ def docfetching_proxy_task(
 
     1)  determines parameters of the indexing attempt (which connector indexing function to run,
         start and end time, from prev checkpoint or not), then run that connector. Specifically,
-        connectors are responsible for reading data from an outside source and converting it to Onyx documents.
-        At the moment these two steps (reading external data and converting to an Onyx document)
+        connectors are responsible for reading data from an outside source and converting it to Zakk documents.
+        At the moment these two steps (reading external data and converting to an Zakk document)
         are not parallelized in most connectors; that's a subject for future work.
 
     Each document batch produced by step 1 is stored in the file store, and a docprocessing task is spawned

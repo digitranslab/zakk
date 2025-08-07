@@ -7,13 +7,13 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import FederatedConnectorSource
-from onyx.db.models import DocumentSet
-from onyx.db.models import FederatedConnector
-from onyx.db.models import FederatedConnector__DocumentSet
-from onyx.db.models import FederatedConnectorOAuthToken
-from onyx.federated_connectors.factory import get_federated_connector
-from onyx.utils.logger import setup_logger
+from zakk.configs.constants import FederatedConnectorSource
+from zakk.db.models import DocumentSet
+from zakk.db.models import FederatedConnector
+from zakk.db.models import FederatedConnector__DocumentSet
+from zakk.db.models import FederatedConnectorOAuthToken
+from zakk.federated_connectors.factory import get_federated_connector
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

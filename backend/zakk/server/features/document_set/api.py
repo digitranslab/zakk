@@ -4,25 +4,25 @@ from fastapi import HTTPException
 from fastapi import Query
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_user
-from onyx.background.celery.versioned_apps.client import app as client_app
-from onyx.configs.constants import OnyxCeleryPriority
-from onyx.configs.constants import OnyxCeleryTask
-from onyx.db.document_set import check_document_sets_are_public
-from onyx.db.document_set import fetch_all_document_sets_for_user
-from onyx.db.document_set import get_document_set_by_id
-from onyx.db.document_set import insert_document_set
-from onyx.db.document_set import mark_document_set_as_to_be_deleted
-from onyx.db.document_set import update_document_set
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import User
-from onyx.server.features.document_set.models import CheckDocSetPublicRequest
-from onyx.server.features.document_set.models import CheckDocSetPublicResponse
-from onyx.server.features.document_set.models import DocumentSetCreationRequest
-from onyx.server.features.document_set.models import DocumentSetSummary
-from onyx.server.features.document_set.models import DocumentSetUpdateRequest
-from onyx.utils.variable_functionality import fetch_ee_implementation_or_noop
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_user
+from zakk.background.celery.versioned_apps.client import app as client_app
+from zakk.configs.constants import ZakkCeleryPriority
+from zakk.configs.constants import ZakkCeleryTask
+from zakk.db.document_set import check_document_sets_are_public
+from zakk.db.document_set import fetch_all_document_sets_for_user
+from zakk.db.document_set import get_document_set_by_id
+from zakk.db.document_set import insert_document_set
+from zakk.db.document_set import mark_document_set_as_to_be_deleted
+from zakk.db.document_set import update_document_set
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import User
+from zakk.server.features.document_set.models import CheckDocSetPublicRequest
+from zakk.server.features.document_set.models import CheckDocSetPublicResponse
+from zakk.server.features.document_set.models import DocumentSetCreationRequest
+from zakk.server.features.document_set.models import DocumentSetSummary
+from zakk.server.features.document_set.models import DocumentSetUpdateRequest
+from zakk.utils.variable_functionality import fetch_ee_implementation_or_noop
 from shared_configs.contextvars import get_current_tenant_id
 
 
@@ -37,7 +37,7 @@ def create_document_set(
     tenant_id: str = Depends(get_current_tenant_id),
 ) -> int:
     fetch_ee_implementation_or_noop(
-        "onyx.db.user_group", "validate_object_creation_for_user", None
+        "zakk.db.user_group", "validate_object_creation_for_user", None
     )(
         db_session=db_session,
         user=user,
@@ -55,9 +55,9 @@ def create_document_set(
         raise HTTPException(status_code=400, detail=str(e))
 
     client_app.send_task(
-        OnyxCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
+        ZakkCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
         kwargs={"tenant_id": tenant_id},
-        priority=OnyxCeleryPriority.HIGH,
+        priority=ZakkCeleryPriority.HIGH,
     )
 
     return document_set_db_model.id
@@ -78,7 +78,7 @@ def patch_document_set(
         )
 
     fetch_ee_implementation_or_noop(
-        "onyx.db.user_group", "validate_object_creation_for_user", None
+        "zakk.db.user_group", "validate_object_creation_for_user", None
     )(
         db_session=db_session,
         user=user,
@@ -96,9 +96,9 @@ def patch_document_set(
         raise HTTPException(status_code=400, detail=str(e))
 
     client_app.send_task(
-        OnyxCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
+        ZakkCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
         kwargs={"tenant_id": tenant_id},
-        priority=OnyxCeleryPriority.HIGH,
+        priority=ZakkCeleryPriority.HIGH,
     )
 
 
@@ -120,7 +120,7 @@ def delete_document_set(
     # `validate_object_creation_for_user` is poorly named, but this
     # is the right function to use here
     fetch_ee_implementation_or_noop(
-        "onyx.db.user_group", "validate_object_creation_for_user", None
+        "zakk.db.user_group", "validate_object_creation_for_user", None
     )(
         db_session=db_session,
         user=user,
@@ -138,9 +138,9 @@ def delete_document_set(
         raise HTTPException(status_code=400, detail=str(e))
 
     client_app.send_task(
-        OnyxCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
+        ZakkCeleryTask.CHECK_FOR_VESPA_SYNC_TASK,
         kwargs={"tenant_id": tenant_id},
-        priority=OnyxCeleryPriority.HIGH,
+        priority=ZakkCeleryPriority.HIGH,
     )
 
 

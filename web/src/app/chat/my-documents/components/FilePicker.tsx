@@ -38,7 +38,7 @@ import { usePopup } from "@/components/admin/connectors/Popup";
 import { getFormattedDateTime } from "@/lib/dateUtils";
 import { FileUploadSection } from "../[id]/components/upload/FileUploadSection";
 import { truncateString } from "@/lib/utils";
-import { MinimalOnyxDocument } from "@/lib/search/interfaces";
+import { MinimalZakkDocument } from "@/lib/search/interfaces";
 import { getFileIconFromFileNameAndLink } from "@/lib/assistantIconUtils";
 import { TokenDisplay } from "@/components/TokenDisplay";
 
@@ -280,7 +280,7 @@ export interface FilePickerModalProps {
     selectedFolders: FolderResponse[]
   ) => void;
   buttonContent: string;
-  setPresentingDocument: (onyxDocument: MinimalOnyxDocument) => void;
+  setPresentingDocument: (zakkDocument: MinimalZakkDocument) => void;
 }
 
 // Define a model descriptor interface

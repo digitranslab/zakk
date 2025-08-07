@@ -2,61 +2,61 @@ import time
 
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import DISABLE_INDEX_UPDATE_ON_SWAP
-from onyx.configs.app_configs import MANAGED_VESPA
-from onyx.configs.app_configs import VESPA_NUM_ATTEMPTS_ON_STARTUP
-from onyx.configs.constants import KV_REINDEX_KEY
-from onyx.configs.constants import KV_SEARCH_SETTINGS
-from onyx.configs.embedding_configs import SUPPORTED_EMBEDDING_MODELS
-from onyx.configs.embedding_configs import SupportedEmbeddingModel
-from onyx.configs.model_configs import FAST_GEN_AI_MODEL_VERSION
-from onyx.configs.model_configs import GEN_AI_API_KEY
-from onyx.configs.model_configs import GEN_AI_MODEL_VERSION
-from onyx.context.search.models import SavedSearchSettings
-from onyx.context.search.retrieval.search_runner import (
+from zakk.configs.app_configs import DISABLE_INDEX_UPDATE_ON_SWAP
+from zakk.configs.app_configs import MANAGED_VESPA
+from zakk.configs.app_configs import VESPA_NUM_ATTEMPTS_ON_STARTUP
+from zakk.configs.constants import KV_REINDEX_KEY
+from zakk.configs.constants import KV_SEARCH_SETTINGS
+from zakk.configs.embedding_configs import SUPPORTED_EMBEDDING_MODELS
+from zakk.configs.embedding_configs import SupportedEmbeddingModel
+from zakk.configs.model_configs import FAST_GEN_AI_MODEL_VERSION
+from zakk.configs.model_configs import GEN_AI_API_KEY
+from zakk.configs.model_configs import GEN_AI_MODEL_VERSION
+from zakk.context.search.models import SavedSearchSettings
+from zakk.context.search.retrieval.search_runner import (
     download_nltk_data,
 )
-from onyx.db.connector import check_connectors_exist
-from onyx.db.connector import create_initial_default_connector
-from onyx.db.connector_credential_pair import associate_default_cc_pair
-from onyx.db.connector_credential_pair import get_connector_credential_pairs
-from onyx.db.connector_credential_pair import resync_cc_pair
-from onyx.db.credentials import create_initial_public_credential
-from onyx.db.document import check_docs_exist
-from onyx.db.enums import EmbeddingPrecision
-from onyx.db.index_attempt import cancel_indexing_attempts_past_model
-from onyx.db.index_attempt import expire_index_attempts
-from onyx.db.llm import fetch_default_provider
-from onyx.db.llm import update_default_provider
-from onyx.db.llm import upsert_llm_provider
-from onyx.db.persona import delete_old_default_personas
-from onyx.db.search_settings import get_active_search_settings
-from onyx.db.search_settings import get_current_search_settings
-from onyx.db.search_settings import get_secondary_search_settings
-from onyx.db.search_settings import update_current_search_settings
-from onyx.db.search_settings import update_secondary_search_settings
-from onyx.db.swap_index import check_and_perform_index_swap
-from onyx.document_index.factory import get_default_document_index
-from onyx.document_index.interfaces import DocumentIndex
-from onyx.document_index.vespa.index import VespaIndex
-from onyx.indexing.models import IndexingSetting
-from onyx.key_value_store.factory import get_kv_store
-from onyx.key_value_store.interface import KvKeyNotFoundError
-from onyx.llm.llm_provider_options import OPEN_AI_MODEL_NAMES
-from onyx.natural_language_processing.search_nlp_models import EmbeddingModel
-from onyx.natural_language_processing.search_nlp_models import warm_up_bi_encoder
-from onyx.natural_language_processing.search_nlp_models import warm_up_cross_encoder
-from onyx.seeding.load_docs import seed_initial_documents
-from onyx.seeding.load_yamls import load_chat_yamls
-from onyx.server.manage.llm.models import LLMProviderUpsertRequest
-from onyx.server.manage.llm.models import ModelConfigurationUpsertRequest
-from onyx.server.settings.store import load_settings
-from onyx.server.settings.store import store_settings
-from onyx.tools.built_in_tools import auto_add_search_tool_to_personas
-from onyx.tools.built_in_tools import load_builtin_tools
-from onyx.tools.built_in_tools import refresh_built_in_tools_cache
-from onyx.utils.gpu_utils import gpu_status_request
-from onyx.utils.logger import setup_logger
+from zakk.db.connector import check_connectors_exist
+from zakk.db.connector import create_initial_default_connector
+from zakk.db.connector_credential_pair import associate_default_cc_pair
+from zakk.db.connector_credential_pair import get_connector_credential_pairs
+from zakk.db.connector_credential_pair import resync_cc_pair
+from zakk.db.credentials import create_initial_public_credential
+from zakk.db.document import check_docs_exist
+from zakk.db.enums import EmbeddingPrecision
+from zakk.db.index_attempt import cancel_indexing_attempts_past_model
+from zakk.db.index_attempt import expire_index_attempts
+from zakk.db.llm import fetch_default_provider
+from zakk.db.llm import update_default_provider
+from zakk.db.llm import upsert_llm_provider
+from zakk.db.persona import delete_old_default_personas
+from zakk.db.search_settings import get_active_search_settings
+from zakk.db.search_settings import get_current_search_settings
+from zakk.db.search_settings import get_secondary_search_settings
+from zakk.db.search_settings import update_current_search_settings
+from zakk.db.search_settings import update_secondary_search_settings
+from zakk.db.swap_index import check_and_perform_index_swap
+from zakk.document_index.factory import get_default_document_index
+from zakk.document_index.interfaces import DocumentIndex
+from zakk.document_index.vespa.index import VespaIndex
+from zakk.indexing.models import IndexingSetting
+from zakk.key_value_store.factory import get_kv_store
+from zakk.key_value_store.interface import KvKeyNotFoundError
+from zakk.llm.llm_provider_options import OPEN_AI_MODEL_NAMES
+from zakk.natural_language_processing.search_nlp_models import EmbeddingModel
+from zakk.natural_language_processing.search_nlp_models import warm_up_bi_encoder
+from zakk.natural_language_processing.search_nlp_models import warm_up_cross_encoder
+from zakk.seeding.load_docs import seed_initial_documents
+from zakk.seeding.load_yamls import load_chat_yamls
+from zakk.server.manage.llm.models import LLMProviderUpsertRequest
+from zakk.server.manage.llm.models import ModelConfigurationUpsertRequest
+from zakk.server.settings.store import load_settings
+from zakk.server.settings.store import store_settings
+from zakk.tools.built_in_tools import auto_add_search_tool_to_personas
+from zakk.tools.built_in_tools import load_builtin_tools
+from zakk.tools.built_in_tools import refresh_built_in_tools_cache
+from zakk.utils.gpu_utils import gpu_status_request
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import ALT_INDEX_SUFFIX
 from shared_configs.configs import MODEL_SERVER_HOST
 from shared_configs.configs import MODEL_SERVER_PORT
@@ -66,11 +66,11 @@ from shared_configs.configs import MULTI_TENANT
 logger = setup_logger()
 
 
-def setup_onyx(
+def setup_zakk(
     db_session: Session, tenant_id: str, cohere_enabled: bool = False
 ) -> None:
     """
-    Setup Onyx for a particular tenant. In the Single Tenant case, it will set it up for the default schema
+    Setup Zakk for a particular tenant. In the Single Tenant case, it will set it up for the default schema
     on server startup. In the MT case, it will be called when the tenant is created.
 
     The Tenant Service calls the tenants/create endpoint which runs this.
@@ -358,7 +358,7 @@ def update_default_multipass_indexing(db_session: Session) -> None:
         )
 
 
-def setup_multitenant_onyx() -> None:
+def setup_multitenant_zakk() -> None:
     # For Managed Vespa, the schema is sent over via the Vespa Console manually.
     if not MANAGED_VESPA:
         setup_vespa_multitenant(SUPPORTED_EMBEDDING_MODELS)

@@ -14,29 +14,29 @@ from langchain_core.messages import ToolCallChunk
 from pytest_mock import MockerFixture
 from sqlalchemy.orm import Session
 
-from onyx.chat.answer import Answer
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.models import PromptConfig
-from onyx.chat.models import StreamStopInfo
-from onyx.chat.models import StreamStopReason
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.chat.prompt_builder.answer_prompt_builder import default_build_system_message
-from onyx.chat.prompt_builder.answer_prompt_builder import default_build_user_message
-from onyx.context.search.models import RerankingDetails
-from onyx.llm.interfaces import LLM
-from onyx.tools.force import ForceUseTool
-from onyx.tools.models import ToolCallFinalResult
-from onyx.tools.models import ToolCallKickoff
-from onyx.tools.models import ToolResponse
-from onyx.tools.tool_implementations.search_like_tool_utils import (
+from zakk.chat.answer import Answer
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.models import PromptConfig
+from zakk.chat.models import StreamStopInfo
+from zakk.chat.models import StreamStopReason
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.chat.prompt_builder.answer_prompt_builder import default_build_system_message
+from zakk.chat.prompt_builder.answer_prompt_builder import default_build_user_message
+from zakk.context.search.models import RerankingDetails
+from zakk.llm.interfaces import LLM
+from zakk.tools.force import ForceUseTool
+from zakk.tools.models import ToolCallFinalResult
+from zakk.tools.models import ToolCallKickoff
+from zakk.tools.models import ToolResponse
+from zakk.tools.tool_implementations.search_like_tool_utils import (
     FINAL_CONTEXT_DOCUMENTS_ID,
 )
 from shared_configs.enums import RerankerProvider
-from tests.unit.onyx.chat.conftest import DEFAULT_SEARCH_ARGS
-from tests.unit.onyx.chat.conftest import QUERY
+from tests.unit.zakk.chat.conftest import DEFAULT_SEARCH_ARGS
+from tests.unit.zakk.chat.conftest import QUERY
 
 
 @pytest.fixture
@@ -47,7 +47,7 @@ def answer_instance(
     mocker: MockerFixture,
 ) -> Answer:
     mocker.patch(
-        "onyx.chat.answer.fast_gpu_status_request",
+        "zakk.chat.answer.fast_gpu_status_request",
         return_value=True,
     )
     return _answer_fixture_impl(mock_llm, answer_style_config, prompt_config, mocker)
@@ -102,13 +102,13 @@ def test_basic_answer(answer_instance: Answer, mocker: MockerFixture) -> None:
 
     output = list(answer_instance.processed_streamed_output)
     assert len(output) == 2
-    assert isinstance(output[0], OnyxAnswerPiece)
-    assert isinstance(output[1], OnyxAnswerPiece)
+    assert isinstance(output[0], ZakkAnswerPiece)
+    assert isinstance(output[1], ZakkAnswerPiece)
 
     full_answer = "".join(
         piece.answer_piece
         for piece in output
-        if isinstance(piece, OnyxAnswerPiece) and piece.answer_piece is not None
+        if isinstance(piece, ZakkAnswerPiece) and piece.answer_piece is not None
     )
     assert full_answer == "This is a mock answer."
 
@@ -208,13 +208,13 @@ def test_answer_with_search_call(
         tool_args=expected_tool_args,
         tool_result=[json.loads(doc.model_dump_json()) for doc in mock_search_results],
     )
-    assert output[3] == OnyxAnswerPiece(answer_piece="Based on the search results, ")
+    assert output[3] == ZakkAnswerPiece(answer_piece="Based on the search results, ")
     expected_citation = CitationInfo(citation_num=1, document_id="doc1")
     assert output[4] == expected_citation
-    assert output[5] == OnyxAnswerPiece(
+    assert output[5] == ZakkAnswerPiece(
         answer_piece="the answer is abc[[1]](https://example.com/doc1). "
     )
-    assert output[6] == OnyxAnswerPiece(answer_piece="This is some other stuff.")
+    assert output[6] == ZakkAnswerPiece(answer_piece="This is some other stuff.")
 
     expected_answer = (
         "Based on the search results, "
@@ -224,7 +224,7 @@ def test_answer_with_search_call(
     full_answer = "".join(
         piece.answer_piece
         for piece in output
-        if isinstance(piece, OnyxAnswerPiece) and piece.answer_piece is not None
+        if isinstance(piece, ZakkAnswerPiece) and piece.answer_piece is not None
     )
     assert full_answer == expected_answer
 
@@ -299,13 +299,13 @@ def test_answer_with_search_no_tool_calling(
         tool_args=DEFAULT_SEARCH_ARGS,
         tool_result=[json.loads(doc.model_dump_json()) for doc in mock_search_results],
     )
-    assert output[3] == OnyxAnswerPiece(answer_piece="Based on the search results, ")
+    assert output[3] == ZakkAnswerPiece(answer_piece="Based on the search results, ")
     expected_citation = CitationInfo(citation_num=1, document_id="doc1")
     assert output[4] == expected_citation
-    assert output[5] == OnyxAnswerPiece(
+    assert output[5] == ZakkAnswerPiece(
         answer_piece="the answer is abc[[1]](https://example.com/doc1). "
     )
-    assert output[6] == OnyxAnswerPiece(answer_piece="This is some other stuff.")
+    assert output[6] == ZakkAnswerPiece(answer_piece="This is some other stuff.")
 
     expected_answer = (
         "Based on the search results, "
@@ -363,8 +363,8 @@ def test_is_cancelled(answer_instance: Answer) -> None:
             connection_status["connected"] = False
 
     assert len(output) == 3
-    assert output[0] == OnyxAnswerPiece(answer_piece="This is the ")
-    assert output[1] == OnyxAnswerPiece(answer_piece="first part.")
+    assert output[0] == ZakkAnswerPiece(answer_piece="This is the ")
+    assert output[1] == ZakkAnswerPiece(answer_piece="first part.")
     assert output[2] == StreamStopInfo(stop_reason=StreamStopReason.CANCELLED)
 
     # Verify that the stream was cancelled
@@ -395,7 +395,7 @@ def test_no_slow_reranking(
     mocker: MockerFixture,
 ) -> None:
     mocker.patch(
-        "onyx.chat.answer.fast_gpu_status_request",
+        "zakk.chat.answer.fast_gpu_status_request",
         return_value=gpu_enabled,
     )
     rerank_settings = (

@@ -9,58 +9,58 @@ from pydantic import BaseModel
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from onyx.auth.users import current_admin_user
-from onyx.auth.users import current_chat_accessible_user
-from onyx.auth.users import current_curator_or_admin_user
-from onyx.auth.users import current_limited_user
-from onyx.auth.users import current_user
-from onyx.configs.constants import FileOrigin
-from onyx.configs.constants import MilestoneRecordType
-from onyx.configs.constants import NotificationType
-from onyx.db.engine.sql_engine import get_session
-from onyx.db.models import StarterMessageModel as StarterMessage
-from onyx.db.models import User
-from onyx.db.notification import create_notification
-from onyx.db.persona import create_assistant_label
-from onyx.db.persona import create_update_persona
-from onyx.db.persona import delete_persona_label
-from onyx.db.persona import get_assistant_labels
-from onyx.db.persona import get_minimal_persona_snapshots_for_user
-from onyx.db.persona import get_persona_by_id
-from onyx.db.persona import get_persona_snapshots_for_user
-from onyx.db.persona import mark_persona_as_deleted
-from onyx.db.persona import mark_persona_as_not_deleted
-from onyx.db.persona import update_all_personas_display_priority
-from onyx.db.persona import update_persona_is_default
-from onyx.db.persona import update_persona_label
-from onyx.db.persona import update_persona_public_status
-from onyx.db.persona import update_persona_shared_users
-from onyx.db.persona import update_persona_visibility
-from onyx.db.prompts import build_prompt_name_from_persona_name
-from onyx.db.prompts import upsert_prompt
-from onyx.file_store.file_store import get_default_file_store
-from onyx.file_store.models import ChatFileType
-from onyx.secondary_llm_flows.starter_message_creation import (
+from zakk.auth.users import current_admin_user
+from zakk.auth.users import current_chat_accessible_user
+from zakk.auth.users import current_curator_or_admin_user
+from zakk.auth.users import current_limited_user
+from zakk.auth.users import current_user
+from zakk.configs.constants import FileOrigin
+from zakk.configs.constants import MilestoneRecordType
+from zakk.configs.constants import NotificationType
+from zakk.db.engine.sql_engine import get_session
+from zakk.db.models import StarterMessageModel as StarterMessage
+from zakk.db.models import User
+from zakk.db.notification import create_notification
+from zakk.db.persona import create_assistant_label
+from zakk.db.persona import create_update_persona
+from zakk.db.persona import delete_persona_label
+from zakk.db.persona import get_assistant_labels
+from zakk.db.persona import get_minimal_persona_snapshots_for_user
+from zakk.db.persona import get_persona_by_id
+from zakk.db.persona import get_persona_snapshots_for_user
+from zakk.db.persona import mark_persona_as_deleted
+from zakk.db.persona import mark_persona_as_not_deleted
+from zakk.db.persona import update_all_personas_display_priority
+from zakk.db.persona import update_persona_is_default
+from zakk.db.persona import update_persona_label
+from zakk.db.persona import update_persona_public_status
+from zakk.db.persona import update_persona_shared_users
+from zakk.db.persona import update_persona_visibility
+from zakk.db.prompts import build_prompt_name_from_persona_name
+from zakk.db.prompts import upsert_prompt
+from zakk.file_store.file_store import get_default_file_store
+from zakk.file_store.models import ChatFileType
+from zakk.secondary_llm_flows.starter_message_creation import (
     generate_starter_messages,
 )
-from onyx.server.features.persona.models import FullPersonaSnapshot
-from onyx.server.features.persona.models import GenerateStarterMessageRequest
-from onyx.server.features.persona.models import ImageGenerationToolStatus
-from onyx.server.features.persona.models import MinimalPersonaSnapshot
-from onyx.server.features.persona.models import PersonaLabelCreate
-from onyx.server.features.persona.models import PersonaLabelResponse
-from onyx.server.features.persona.models import PersonaSharedNotificationData
-from onyx.server.features.persona.models import PersonaSnapshot
-from onyx.server.features.persona.models import PersonaUpsertRequest
-from onyx.server.features.persona.models import PromptSnapshot
-from onyx.server.models import DisplayPriorityRequest
-from onyx.server.settings.store import load_settings
-from onyx.tools.tool_implementations.images.image_generation_tool import (
+from zakk.server.features.persona.models import FullPersonaSnapshot
+from zakk.server.features.persona.models import GenerateStarterMessageRequest
+from zakk.server.features.persona.models import ImageGenerationToolStatus
+from zakk.server.features.persona.models import MinimalPersonaSnapshot
+from zakk.server.features.persona.models import PersonaLabelCreate
+from zakk.server.features.persona.models import PersonaLabelResponse
+from zakk.server.features.persona.models import PersonaSharedNotificationData
+from zakk.server.features.persona.models import PersonaSnapshot
+from zakk.server.features.persona.models import PersonaUpsertRequest
+from zakk.server.features.persona.models import PromptSnapshot
+from zakk.server.models import DisplayPriorityRequest
+from zakk.server.settings.store import load_settings
+from zakk.tools.tool_implementations.images.image_generation_tool import (
     ImageGenerationTool,
 )
-from onyx.tools.utils import is_image_generation_available
-from onyx.utils.logger import setup_logger
-from onyx.utils.telemetry import create_milestone_and_report
+from zakk.tools.utils import is_image_generation_available
+from zakk.utils.logger import setup_logger
+from zakk.utils.telemetry import create_milestone_and_report
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()

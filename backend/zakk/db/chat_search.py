@@ -11,8 +11,8 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import ColumnClause
 
-from onyx.db.models import ChatMessage
-from onyx.db.models import ChatSession
+from zakk.db.models import ChatMessage
+from zakk.db.models import ChatSession
 
 
 def search_chat_sessions(

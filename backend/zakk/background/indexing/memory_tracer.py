@@ -1,6 +1,6 @@
 import tracemalloc
 
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

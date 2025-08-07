@@ -5,10 +5,10 @@ from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
-from onyx.db.enums import SyncStatus
-from onyx.db.enums import SyncType
-from onyx.db.models import SyncRecord
-from onyx.utils.logger import setup_logger
+from zakk.db.enums import SyncStatus
+from zakk.db.enums import SyncType
+from zakk.db.models import SyncRecord
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

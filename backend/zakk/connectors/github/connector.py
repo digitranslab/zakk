@@ -19,28 +19,28 @@ from github.PullRequest import PullRequest
 from pydantic import BaseModel
 from typing_extensions import override
 
-from onyx.access.models import ExternalAccess
-from onyx.configs.app_configs import GITHUB_CONNECTOR_BASE_URL
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.connector_runner import ConnectorRunner
-from onyx.connectors.exceptions import ConnectorValidationError
-from onyx.connectors.exceptions import CredentialExpiredError
-from onyx.connectors.exceptions import InsufficientPermissionsError
-from onyx.connectors.exceptions import UnexpectedValidationError
-from onyx.connectors.github.models import SerializedRepository
-from onyx.connectors.github.rate_limit_utils import sleep_after_rate_limit_exception
-from onyx.connectors.github.utils import deserialize_repository
-from onyx.connectors.github.utils import get_external_access_permission
-from onyx.connectors.interfaces import CheckpointedConnectorWithPermSync
-from onyx.connectors.interfaces import CheckpointOutput
-from onyx.connectors.interfaces import ConnectorCheckpoint
-from onyx.connectors.interfaces import ConnectorFailure
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentFailure
-from onyx.connectors.models import TextSection
-from onyx.utils.logger import setup_logger
+from zakk.access.models import ExternalAccess
+from zakk.configs.app_configs import GITHUB_CONNECTOR_BASE_URL
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.connector_runner import ConnectorRunner
+from zakk.connectors.exceptions import ConnectorValidationError
+from zakk.connectors.exceptions import CredentialExpiredError
+from zakk.connectors.exceptions import InsufficientPermissionsError
+from zakk.connectors.exceptions import UnexpectedValidationError
+from zakk.connectors.github.models import SerializedRepository
+from zakk.connectors.github.rate_limit_utils import sleep_after_rate_limit_exception
+from zakk.connectors.github.utils import deserialize_repository
+from zakk.connectors.github.utils import get_external_access_permission
+from zakk.connectors.interfaces import CheckpointedConnectorWithPermSync
+from zakk.connectors.interfaces import CheckpointOutput
+from zakk.connectors.interfaces import ConnectorCheckpoint
+from zakk.connectors.interfaces import ConnectorFailure
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentFailure
+from zakk.connectors.models import TextSection
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

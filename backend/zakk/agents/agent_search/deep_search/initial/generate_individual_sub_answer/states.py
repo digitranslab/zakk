@@ -3,17 +3,17 @@ from typing import Annotated
 
 from pydantic import BaseModel
 
-from onyx.agents.agent_search.core_state import SubgraphCoreState
-from onyx.agents.agent_search.deep_search.main.states import LoggerUpdate
-from onyx.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
-from onyx.agents.agent_search.shared_graph_utils.models import QueryRetrievalResult
-from onyx.agents.agent_search.shared_graph_utils.models import (
+from zakk.agents.agent_search.core_state import SubgraphCoreState
+from zakk.agents.agent_search.deep_search.main.states import LoggerUpdate
+from zakk.agents.agent_search.shared_graph_utils.models import AgentChunkRetrievalStats
+from zakk.agents.agent_search.shared_graph_utils.models import QueryRetrievalResult
+from zakk.agents.agent_search.shared_graph_utils.models import (
     SubQuestionAnswerResults,
 )
-from onyx.agents.agent_search.shared_graph_utils.operators import (
+from zakk.agents.agent_search.shared_graph_utils.operators import (
     dedup_inference_sections,
 )
-from onyx.context.search.models import InferenceSection
+from zakk.context.search.models import InferenceSection
 
 
 ## Update States

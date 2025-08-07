@@ -5,13 +5,13 @@ from typing import List
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import StreamWriter
 
-from onyx.agents.agent_search.dc_search_analysis.states import MainState
-from onyx.agents.agent_search.dc_search_analysis.states import (
+from zakk.agents.agent_search.dc_search_analysis.states import MainState
+from zakk.agents.agent_search.dc_search_analysis.states import (
     ObjectResearchInformationUpdate,
 )
-from onyx.agents.agent_search.shared_graph_utils.utils import write_custom_event
-from onyx.chat.models import AgentAnswerPiece
-from onyx.utils.logger import setup_logger
+from zakk.agents.agent_search.shared_graph_utils.utils import write_custom_event
+from zakk.chat.models import AgentAnswerPiece
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

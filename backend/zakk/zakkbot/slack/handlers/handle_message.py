@@ -3,25 +3,25 @@ import datetime
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from onyx.configs.zakkbot_configs import DANSWER_BOT_FEEDBACK_REMINDER
-from onyx.configs.zakkbot_configs import DANSWER_REACT_EMOJI
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.models import SlackChannelConfig
-from onyx.db.users import add_slack_user_if_not_exists
-from onyx.zakkbot.slack.blocks import get_feedback_reminder_blocks
-from onyx.zakkbot.slack.handlers.handle_regular_answer import (
+from zakk.configs.zakkbot_configs import DANSWER_BOT_FEEDBACK_REMINDER
+from zakk.configs.zakkbot_configs import DANSWER_REACT_EMOJI
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.models import SlackChannelConfig
+from zakk.db.users import add_slack_user_if_not_exists
+from zakk.zakkbot.slack.blocks import get_feedback_reminder_blocks
+from zakk.zakkbot.slack.handlers.handle_regular_answer import (
     handle_regular_answer,
 )
-from onyx.zakkbot.slack.handlers.handle_standard_answers import (
+from zakk.zakkbot.slack.handlers.handle_standard_answers import (
     handle_standard_answers,
 )
-from onyx.zakkbot.slack.models import SlackMessageInfo
-from onyx.zakkbot.slack.utils import fetch_slack_user_ids_from_emails
-from onyx.zakkbot.slack.utils import fetch_user_ids_from_groups
-from onyx.zakkbot.slack.utils import respond_in_thread_or_channel
-from onyx.zakkbot.slack.utils import slack_usage_report
-from onyx.zakkbot.slack.utils import update_emote_react
-from onyx.utils.logger import setup_logger
+from zakk.zakkbot.slack.models import SlackMessageInfo
+from zakk.zakkbot.slack.utils import fetch_slack_user_ids_from_emails
+from zakk.zakkbot.slack.utils import fetch_user_ids_from_groups
+from zakk.zakkbot.slack.utils import respond_in_thread_or_channel
+from zakk.zakkbot.slack.utils import slack_usage_report
+from zakk.zakkbot.slack.utils import update_emote_react
+from zakk.utils.logger import setup_logger
 from shared_configs.configs import SLACK_CHANNEL_ID
 
 logger_base = setup_logger()
@@ -115,7 +115,7 @@ def handle_message(
     Returns True if need to respond with an additional message to the user(s) after this
     function is finished. True indicates an unexpected failure that needs to be communicated
     Query thrown out by filters due to config does not count as a failure that should be notified
-    Onyx failing to answer/retrieve docs does count and should be notified
+    Zakk failing to answer/retrieve docs does count and should be notified
     """
     channel = message_info.channel_to_respond
 

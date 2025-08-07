@@ -6,22 +6,22 @@ from typing import Optional
 
 import requests
 
-from onyx.configs.app_configs import INDEX_BATCH_SIZE
-from onyx.configs.constants import DocumentSource
-from onyx.connectors.cross_connector_utils.rate_limit_wrapper import (
+from zakk.configs.app_configs import INDEX_BATCH_SIZE
+from zakk.configs.constants import DocumentSource
+from zakk.connectors.cross_connector_utils.rate_limit_wrapper import (
     rate_limit_builder,
 )
-from onyx.connectors.document360.utils import flatten_child_categories
-from onyx.connectors.interfaces import GenerateDocumentsOutput
-from onyx.connectors.interfaces import LoadConnector
-from onyx.connectors.interfaces import PollConnector
-from onyx.connectors.interfaces import SecondsSinceUnixEpoch
-from onyx.connectors.models import BasicExpertInfo
-from onyx.connectors.models import ConnectorMissingCredentialError
-from onyx.connectors.models import Document
-from onyx.connectors.models import TextSection
-from onyx.file_processing.html_utils import parse_html_page_basic
-from onyx.utils.retry_wrapper import retry_builder
+from zakk.connectors.document360.utils import flatten_child_categories
+from zakk.connectors.interfaces import GenerateDocumentsOutput
+from zakk.connectors.interfaces import LoadConnector
+from zakk.connectors.interfaces import PollConnector
+from zakk.connectors.interfaces import SecondsSinceUnixEpoch
+from zakk.connectors.models import BasicExpertInfo
+from zakk.connectors.models import ConnectorMissingCredentialError
+from zakk.connectors.models import Document
+from zakk.connectors.models import TextSection
+from zakk.file_processing.html_utils import parse_html_page_basic
+from zakk.utils.retry_wrapper import retry_builder
 
 # Limitations and Potential Improvements
 # 1. The "Categories themselves contain potentially relevant information" but they're not pulled in

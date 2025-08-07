@@ -82,7 +82,7 @@ def test_send_message_simple_with_history_buffered() -> None:
 
     req = {}
     req["chat_session_id"] = chat_session_id
-    req["message"] = "What does onyx do?"
+    req["message"] = "What does zakk do?"
     req["use_agentic_search"] = True
 
     response = requests.post(

@@ -10,8 +10,8 @@ from jira.resources import CustomFieldOption
 from jira.resources import Issue
 from jira.resources import User
 
-from onyx.connectors.models import BasicExpertInfo
-from onyx.utils.logger import setup_logger
+from zakk.connectors.models import BasicExpertInfo
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

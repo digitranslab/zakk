@@ -1,4 +1,4 @@
-<!-- ONYX_METADATA={"link": "https://github.com/digitranslab/onyx/blob/main/web/README.md"} -->
+<!-- ZAKK_METADATA={"link": "https://github.com/digitranslab/zakk/blob/main/web/README.md"} -->
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

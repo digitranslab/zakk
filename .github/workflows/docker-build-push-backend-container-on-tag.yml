@@ -150,7 +150,7 @@ jobs:
           TRIVY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         with:
-          # To run locally: trivy image --severity HIGH,CRITICAL onyxdotapp/onyx-backend
+          # To run locally: trivy image --severity HIGH,CRITICAL digitranslab/zakk-backend
           image-ref: docker.io/${{ env.REGISTRY_IMAGE }}:${{ github.ref_name }}
           severity: "CRITICAL,HIGH"
           trivyignores: ./backend/.trivyignore

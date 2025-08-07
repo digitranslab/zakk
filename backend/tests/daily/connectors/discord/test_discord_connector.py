@@ -6,9 +6,9 @@ from typing import Any
 
 import pytest
 
-from onyx.connectors.discord.connector import DiscordConnector
-from onyx.connectors.models import Document
-from onyx.connectors.models import DocumentSource
+from zakk.connectors.discord.connector import DiscordConnector
+from zakk.connectors.models import Document
+from zakk.connectors.models import DocumentSource
 
 
 def load_test_data(file_name: str = "test_discord_data.json") -> dict[str, Any]:

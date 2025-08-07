@@ -1,5 +1,5 @@
-from onyx.auth.schemas import UserRole
-from onyx.server.models import FullUserSnapshot
+from zakk.auth.schemas import UserRole
+from zakk.server.models import FullUserSnapshot
 from tests.integration.common_utils.managers.user import UserManager
 from tests.integration.common_utils.test_models import DATestUser
 

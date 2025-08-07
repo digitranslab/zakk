@@ -2,17 +2,17 @@ from typing import cast
 
 from sqlalchemy.orm import Session
 
-from onyx.configs.constants import DocumentSource
-from onyx.db.entity_type import KGEntityType
-from onyx.db.kg_config import get_kg_config_settings
-from onyx.db.kg_config import validate_kg_settings
-from onyx.kg.models import KGAttributeEntityOption
-from onyx.kg.models import KGAttributeImplicationProperty
-from onyx.kg.models import KGAttributeProperty
-from onyx.kg.models import KGEntityTypeAttributes
-from onyx.kg.models import KGEntityTypeClassificationInfo
-from onyx.kg.models import KGEntityTypeDefinition
-from onyx.kg.models import KGGroundingType
+from zakk.configs.constants import DocumentSource
+from zakk.db.entity_type import KGEntityType
+from zakk.db.kg_config import get_kg_config_settings
+from zakk.db.kg_config import validate_kg_settings
+from zakk.kg.models import KGAttributeEntityOption
+from zakk.kg.models import KGAttributeImplicationProperty
+from zakk.kg.models import KGAttributeProperty
+from zakk.kg.models import KGEntityTypeAttributes
+from zakk.kg.models import KGEntityTypeClassificationInfo
+from zakk.kg.models import KGEntityTypeDefinition
+from zakk.kg.models import KGGroundingType
 
 
 def get_default_entity_types(vendor_name: str) -> dict[str, KGEntityTypeDefinition]:

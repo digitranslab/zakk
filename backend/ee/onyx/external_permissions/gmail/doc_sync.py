@@ -2,14 +2,14 @@ from collections.abc import Generator
 from datetime import datetime
 from datetime import timezone
 
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsFunction
-from ee.onyx.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
-from onyx.access.models import DocExternalAccess
-from onyx.connectors.gmail.connector import GmailConnector
-from onyx.connectors.interfaces import GenerateSlimDocumentOutput
-from onyx.db.models import ConnectorCredentialPair
-from onyx.indexing.indexing_heartbeat import IndexingHeartbeatInterface
-from onyx.utils.logger import setup_logger
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsFunction
+from ee.zakk.external_permissions.perm_sync_types import FetchAllDocumentsIdsFunction
+from zakk.access.models import DocExternalAccess
+from zakk.connectors.gmail.connector import GmailConnector
+from zakk.connectors.interfaces import GenerateSlimDocumentOutput
+from zakk.db.models import ConnectorCredentialPair
+from zakk.indexing.indexing_heartbeat import IndexingHeartbeatInterface
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

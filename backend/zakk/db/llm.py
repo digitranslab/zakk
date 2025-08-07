@@ -5,22 +5,22 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import selectinload
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import AUTH_TYPE
-from onyx.configs.constants import AuthType
-from onyx.db.models import CloudEmbeddingProvider as CloudEmbeddingProviderModel
-from onyx.db.models import DocumentSet
-from onyx.db.models import LLMProvider as LLMProviderModel
-from onyx.db.models import LLMProvider__UserGroup
-from onyx.db.models import ModelConfiguration
-from onyx.db.models import SearchSettings
-from onyx.db.models import Tool as ToolModel
-from onyx.db.models import User
-from onyx.db.models import User__UserGroup
-from onyx.llm.utils import model_supports_image_input
-from onyx.server.manage.embedding.models import CloudEmbeddingProvider
-from onyx.server.manage.embedding.models import CloudEmbeddingProviderCreationRequest
-from onyx.server.manage.llm.models import LLMProviderUpsertRequest
-from onyx.server.manage.llm.models import LLMProviderView
+from zakk.configs.app_configs import AUTH_TYPE
+from zakk.configs.constants import AuthType
+from zakk.db.models import CloudEmbeddingProvider as CloudEmbeddingProviderModel
+from zakk.db.models import DocumentSet
+from zakk.db.models import LLMProvider as LLMProviderModel
+from zakk.db.models import LLMProvider__UserGroup
+from zakk.db.models import ModelConfiguration
+from zakk.db.models import SearchSettings
+from zakk.db.models import Tool as ToolModel
+from zakk.db.models import User
+from zakk.db.models import User__UserGroup
+from zakk.llm.utils import model_supports_image_input
+from zakk.server.manage.embedding.models import CloudEmbeddingProvider
+from zakk.server.manage.embedding.models import CloudEmbeddingProviderCreationRequest
+from zakk.server.manage.llm.models import LLMProviderUpsertRequest
+from zakk.server.manage.llm.models import LLMProviderView
 from shared_configs.enums import EmbeddingProvider
 
 

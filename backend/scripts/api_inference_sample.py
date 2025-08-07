@@ -1,5 +1,5 @@
 # This file is used to demonstrate how to use the backend APIs directly
-# In this case, the equivalent of asking a question in Onyx Chat in a new chat session
+# In this case, the equivalent of asking a question in Zakk Chat in a new chat session
 import argparse
 import json
 import os
@@ -65,20 +65,20 @@ def process_question(zakk_url: str, question: str, api_key: str | None) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Sample API Usage")
     parser.add_argument(
-        "--onyx-url",
+        "--zakk-url",
         type=str,
         default="http://localhost:80",
-        help="Onyx URL, should point to Onyx nginx.",
+        help="Zakk URL, should point to Zakk nginx.",
     )
     parser.add_argument(
         "--test-question",
         type=str,
-        default="What is Onyx?",
+        default="What is Zakk?",
         help="Test question for new Chat Session.",
     )
 
     # Not needed if Auth is disabled
-    # Or for Onyx MIT API key must be replaced with session cookie
+    # Or for Zakk MIT API key must be replaced with session cookie
     api_key = os.environ.get("DANSWER_API_KEY")
 
     args = parser.parse_args()

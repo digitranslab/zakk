@@ -14,26 +14,26 @@ from botocore.exceptions import ClientError
 from mypy_boto3_s3 import S3Client
 from sqlalchemy.orm import Session
 
-from onyx.configs.app_configs import AWS_REGION_NAME
-from onyx.configs.app_configs import S3_AWS_ACCESS_KEY_ID
-from onyx.configs.app_configs import S3_AWS_SECRET_ACCESS_KEY
-from onyx.configs.app_configs import S3_ENDPOINT_URL
-from onyx.configs.app_configs import S3_FILE_STORE_BUCKET_NAME
-from onyx.configs.app_configs import S3_FILE_STORE_PREFIX
-from onyx.configs.app_configs import S3_VERIFY_SSL
-from onyx.configs.constants import FileOrigin
-from onyx.db.engine.sql_engine import get_session_with_current_tenant
-from onyx.db.engine.sql_engine import get_session_with_current_tenant_if_none
-from onyx.db.file_record import delete_filerecord_by_file_id
-from onyx.db.file_record import get_filerecord_by_file_id
-from onyx.db.file_record import get_filerecord_by_file_id_optional
-from onyx.db.file_record import get_filerecord_by_prefix
-from onyx.db.file_record import upsert_filerecord
-from onyx.db.models import FileRecord
-from onyx.db.models import FileRecord as FileStoreModel
-from onyx.file_store.s3_key_utils import generate_s3_key
-from onyx.utils.file import FileWithMimeType
-from onyx.utils.logger import setup_logger
+from zakk.configs.app_configs import AWS_REGION_NAME
+from zakk.configs.app_configs import S3_AWS_ACCESS_KEY_ID
+from zakk.configs.app_configs import S3_AWS_SECRET_ACCESS_KEY
+from zakk.configs.app_configs import S3_ENDPOINT_URL
+from zakk.configs.app_configs import S3_FILE_STORE_BUCKET_NAME
+from zakk.configs.app_configs import S3_FILE_STORE_PREFIX
+from zakk.configs.app_configs import S3_VERIFY_SSL
+from zakk.configs.constants import FileOrigin
+from zakk.db.engine.sql_engine import get_session_with_current_tenant
+from zakk.db.engine.sql_engine import get_session_with_current_tenant_if_none
+from zakk.db.file_record import delete_filerecord_by_file_id
+from zakk.db.file_record import get_filerecord_by_file_id
+from zakk.db.file_record import get_filerecord_by_file_id_optional
+from zakk.db.file_record import get_filerecord_by_prefix
+from zakk.db.file_record import upsert_filerecord
+from zakk.db.models import FileRecord
+from zakk.db.models import FileRecord as FileStoreModel
+from zakk.file_store.s3_key_utils import generate_s3_key
+from zakk.utils.file import FileWithMimeType
+from zakk.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
 
 logger = setup_logger()
@@ -170,7 +170,7 @@ class S3BackedFileStore(FileStore):
         self._aws_secret_access_key = aws_secret_access_key
         self._aws_region_name = aws_region_name or "us-east-2"
         self._s3_endpoint_url = s3_endpoint_url
-        self._s3_prefix = s3_prefix or "onyx-files"
+        self._s3_prefix = s3_prefix or "zakk-files"
         self._s3_verify_ssl = s3_verify_ssl
 
     def _get_s3_client(self) -> S3Client:
@@ -542,7 +542,7 @@ def get_default_file_store() -> FileStore:
 
     AWS S3:
     - S3_FILE_STORE_BUCKET_NAME=<bucket-name>
-    - S3_FILE_STORE_PREFIX=<prefix> (optional, defaults to 'onyx-files')
+    - S3_FILE_STORE_PREFIX=<prefix> (optional, defaults to 'zakk-files')
     - AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY (or use IAM roles)
     - AWS_REGION_NAME=<region> (optional, defaults to 'us-east-2')
 

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from onyx.configs.constants import DocumentSource
-from onyx.context.search.models import SavedSearchDoc
+from zakk.configs.constants import DocumentSource
+from zakk.context.search.models import SavedSearchDoc
 
 
 class GroundTruth(BaseModel):

@@ -2,16 +2,16 @@ from datetime import datetime
 
 import pytest
 
-from onyx.chat.models import CitationInfo
-from onyx.chat.models import LlmDoc
-from onyx.chat.models import OnyxAnswerPiece
-from onyx.chat.stream_processing.citation_processing import CitationProcessor
-from onyx.chat.stream_processing.utils import DocumentIdOrderMapping
-from onyx.configs.constants import DocumentSource
+from zakk.chat.models import CitationInfo
+from zakk.chat.models import LlmDoc
+from zakk.chat.models import ZakkAnswerPiece
+from zakk.chat.stream_processing.citation_processing import CitationProcessor
+from zakk.chat.stream_processing.utils import DocumentIdOrderMapping
+from zakk.configs.constants import DocumentSource
 
 
 """
-This module contains tests for the citation extraction functionality in Onyx.
+This module contains tests for the citation extraction functionality in Zakk.
 
 The tests focus on the `extract_citations_from_stream` function, which processes
 a stream of tokens and extracts citations, replacing them with properly formatted
@@ -77,7 +77,7 @@ def process_text(
         stop_stream=None,
     )
 
-    result: list[OnyxAnswerPiece | CitationInfo] = []
+    result: list[ZakkAnswerPiece | CitationInfo] = []
     for token in tokens:
         result.extend(processor.process_token(token))
     result.extend(processor.process_token(None))
@@ -85,7 +85,7 @@ def process_text(
     final_answer_text = ""
     citations = []
     for piece in result:
-        if isinstance(piece, OnyxAnswerPiece):
+        if isinstance(piece, ZakkAnswerPiece):
             final_answer_text += piece.answer_piece or ""
         elif isinstance(piece, CitationInfo):
             citations.append(piece)

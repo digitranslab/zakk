@@ -3,13 +3,13 @@ from datetime import datetime
 
 from langgraph.types import Send
 
-from onyx.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
+from zakk.agents.agent_search.deep_search.initial.generate_individual_sub_answer.states import (
     SubQuestionAnsweringInput,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalInput,
 )
-from onyx.utils.logger import setup_logger
+from zakk.utils.logger import setup_logger
 
 logger = setup_logger()
 

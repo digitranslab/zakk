@@ -4,13 +4,13 @@ from langchain_core.runnables.config import RunnableConfig
 from langgraph.types import Command
 from langgraph.types import Send
 
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     DocVerificationInput,
 )
-from onyx.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
+from zakk.agents.agent_search.deep_search.shared.expanded_retrieval.states import (
     ExpandedRetrievalState,
 )
-from onyx.configs.agent_configs import AGENT_MAX_VERIFICATION_HITS
+from zakk.configs.agent_configs import AGENT_MAX_VERIFICATION_HITS
 
 
 def kickoff_verification(

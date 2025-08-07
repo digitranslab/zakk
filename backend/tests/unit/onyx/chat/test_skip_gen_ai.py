@@ -7,14 +7,14 @@ from langchain_core.messages import HumanMessage
 from pytest_mock import MockerFixture
 from sqlalchemy.orm import Session
 
-from onyx.chat.answer import Answer
-from onyx.chat.models import AnswerStyleConfig
-from onyx.chat.models import PromptConfig
-from onyx.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
-from onyx.llm.interfaces import LLM
-from onyx.llm.utils import get_max_input_tokens
-from onyx.tools.force import ForceUseTool
-from onyx.tools.tool_implementations.search.search_tool import SearchTool
+from zakk.chat.answer import Answer
+from zakk.chat.models import AnswerStyleConfig
+from zakk.chat.models import PromptConfig
+from zakk.chat.prompt_builder.answer_prompt_builder import AnswerPromptBuilder
+from zakk.llm.interfaces import LLM
+from zakk.llm.utils import get_max_input_tokens
+from zakk.tools.force import ForceUseTool
+from zakk.tools.tool_implementations.search.search_tool import SearchTool
 from tests.regression.answer_quality.run_qa import _process_and_write_query_results
 
 
@@ -39,7 +39,7 @@ def test_skip_gen_ai_answer_generation_flag(
     mocker: MockerFixture,
 ) -> None:
     mocker.patch(
-        "onyx.chat.answer.fast_gpu_status_request",
+        "zakk.chat.answer.fast_gpu_status_request",
         return_value=True,
     )
 
