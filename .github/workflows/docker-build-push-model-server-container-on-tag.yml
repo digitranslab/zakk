@@ -93,8 +93,9 @@ jobs:
             DANSWER_VERSION=${{ github.ref_name }}
           outputs: type=registry
           provenance: false
-          cache-from: type=s3,prefix=cache/${{ github.repository }}/${{ env.DEPLOYMENT }}/model-server-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
-          cache-to: type=s3,prefix=cache/${{ github.repository }}/${{ env.DEPLOYMENT }}/model-server-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
+          # Using GitHub's built-in cache instead of S3
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 #           no-cache: true
 
   build-arm64:
@@ -141,8 +142,9 @@ jobs:
             DANSWER_VERSION=${{ github.ref_name }}
           outputs: type=registry
           provenance: false
-          cache-from: type=s3,prefix=cache/${{ github.repository }}/${{ env.DEPLOYMENT }}/model-server-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
-          cache-to: type=s3,prefix=cache/${{ github.repository }}/${{ env.DEPLOYMENT }}/model-server-${{ env.PLATFORM_PAIR }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
+          # Using GitHub's built-in cache instead of S3
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   merge-and-scan:
     needs: [build-amd64, build-arm64, check_model_server_changes]
