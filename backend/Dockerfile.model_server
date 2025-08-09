@@ -13,13 +13,24 @@ ENV ZAKK_VERSION=${ZAKK_VERSION} \
 
 RUN echo "ZAKK_VERSION: ${ZAKK_VERSION}"
 
+# Install only essential packages and clean up immediately
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        g++ \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY ./requirements/model_server.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir --upgrade \
         --retries 5 \
         --timeout 30 \
-        -r /tmp/requirements.txt
+        -r /tmp/requirements.txt && \
+    # Clean up pip cache immediately
+    rm -rf ~/.cache/pip
 
-# Clean up package manager cache
+# Remove unnecessary packages and clean up
 RUN apt-get remove -y --allow-remove-essential perl-base && \ 
     apt-get autoremove -y && \
     apt-get clean && \
@@ -30,7 +41,9 @@ COPY ./download_models.py /tmp/download_models.py
 
 # Pre-downloading models for setups with limited egress
 # Download tokenizers and models using the script
-RUN python /tmp/download_models.py
+RUN python /tmp/download_models.py && \
+    # Clean up the script after use
+    rm /tmp/download_models.py
 
 # In case the user has volumes mounted to /root/.cache/huggingface that they've downloaded while
 # running Zakk, don't overwrite it with the built in cache folder

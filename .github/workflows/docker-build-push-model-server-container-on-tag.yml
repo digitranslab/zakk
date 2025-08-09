@@ -41,13 +41,27 @@ jobs:
           df -h
           free -h
           
+          echo "=== Aggressive system cleanup ==="
+          sudo apt-get clean
+          sudo apt-get autoremove -y
+          sudo rm -rf /var/lib/apt/lists/*
+          
           echo "=== Aggressive Docker cleanup ==="
           docker system prune -af --volumes
           docker builder prune -af
+          docker image prune -af
           
-          echo "=== Clear GitHub Actions cache ==="
+          echo "=== Clear all caches ==="
           rm -rf ~/.cache/pip
           rm -rf ~/.cache/huggingface
+          rm -rf ~/.cache/npm
+          rm -rf ~/.cache/yarn
+          rm -rf ~/.cache/go
+          rm -rf ~/.cache/cargo
+          
+          echo "=== Clear temporary files ==="
+          sudo find /tmp -type f -atime +1 -delete 2>/dev/null || true
+          sudo find /var/tmp -type f -atime +1 -delete 2>/dev/null || true
           
           echo "=== Post-cleanup disk space ==="
           df -h
@@ -78,11 +92,11 @@ jobs:
             DANSWER_VERSION=${{ github.ref_name }}
           outputs: type=registry
           provenance: false
-          # Reduced cache usage to save disk space
+          # Force no-cache to prevent disk space issues
+          no-cache: true
+          # Minimal cache usage if needed
           cache-from: type=gha
           cache-to: type=gha,mode=min
-          # Enable no-cache if disk space is critical
-          no-cache: false
 
       - name: Post-build cleanup
         run: |
@@ -93,6 +107,7 @@ jobs:
           echo "=== Final cleanup ==="
           docker system prune -af --volumes
           docker builder prune -af
+          docker image prune -af
 
   build-arm64:
     needs: [check_model_server_changes]
@@ -111,13 +126,27 @@ jobs:
           df -h
           free -h
           
+          echo "=== Aggressive system cleanup ==="
+          sudo apt-get clean
+          sudo apt-get autoremove -y
+          sudo rm -rf /var/lib/apt/lists/*
+          
           echo "=== Aggressive Docker cleanup ==="
           docker system prune -af --volumes
           docker builder prune -af
+          docker image prune -af
           
-          echo "=== Clear GitHub Actions cache ==="
+          echo "=== Clear all caches ==="
           rm -rf ~/.cache/pip
           rm -rf ~/.cache/huggingface
+          rm -rf ~/.cache/npm
+          rm -rf ~/.cache/yarn
+          rm -rf ~/.cache/go
+          rm -rf ~/.cache/cargo
+          
+          echo "=== Clear temporary files ==="
+          sudo find /tmp -type f -atime +1 -delete 2>/dev/null || true
+          sudo find /var/tmp -type f -atime +1 -delete 2>/dev/null || true
           
           echo "=== Post-cleanup disk space ==="
           df -h
@@ -148,7 +177,9 @@ jobs:
             DANSWER_VERSION=${{ github.ref_name }}
           outputs: type=registry
           provenance: false
-          # Reduced cache usage to save disk space
+          # Force no-cache to prevent disk space issues
+          no-cache: true
+          # Minimal cache usage if needed
           cache-from: type=gha
           cache-to: type=gha,mode=min
 
@@ -161,6 +192,7 @@ jobs:
           echo "=== Final cleanup ==="
           docker system prune -af --volumes
           docker builder prune -af
+          docker image prune -af
 
   merge-and-scan:
     needs: [build-amd64, build-arm64, check_model_server_changes]
@@ -190,7 +222,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         env:
           TRIVY_DB_REPOSITORY: "public.ecr.aws/aquasecurity/trivy-db:2"
-          TRIVY_JAVA_DB_REPOSITORY: "public.ecr.aws/aquasecurity/trivy-java-db:1"
+          TRIVY_JAVA_DB_REPOSITORY: "public.ecr.aws/aquasecurity/trivy-db:1"
           TRIVY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         with:
