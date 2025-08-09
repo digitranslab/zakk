@@ -60,7 +60,7 @@ def generate_document_entries() -> str:
         )
         # Add alt index
         document_entries.append(
-            f'            <document type="{model.index_name}__danswer_alt_index" mode="index" />'
+            f'            <document type="{model.index_name}__zakk_alt_index" mode="index" />'
         )
 
     return "\n".join(document_entries)
@@ -95,7 +95,7 @@ def main() -> None:
     parser.add_argument(
         "--template",
         help="The Jinja template to use for schemas",
-        default="zakk/document_index/vespa/app_config/schemas/danswer_chunk.sd.jinja",
+        default="zakk/document_index/vespa/app_config/schemas/zakk_chunk.sd.jinja",
     )
     parser.add_argument(
         "--cloud-services-template",
@@ -130,7 +130,7 @@ def main() -> None:
             output_path,
         )
         write_schema(
-            model.index_name + "__danswer_alt_index",
+            model.index_name + "__zakk_alt_index",
             model.dim,
             model.embedding_precision,
             template,

@@ -8,7 +8,7 @@ from langchain_core.messages import BaseMessage
 from pydantic import BaseModel
 
 from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
-from zakk.configs.app_configs import LOG_DANSWER_MODEL_INTERACTIONS
+from zakk.configs.app_configs import LOG_ZAKK_MODEL_INTERACTIONS
 from zakk.configs.app_configs import LOG_INDIVIDUAL_MODEL_TOKENS
 from zakk.utils.logger import setup_logger
 
@@ -83,7 +83,7 @@ class LLM(abc.ABC):
     def _precall(self, prompt: LanguageModelInput) -> None:
         if DISABLE_GENERATIVE_AI:
             raise Exception("Generative AI is disabled")
-        if LOG_DANSWER_MODEL_INTERACTIONS:
+        if LOG_ZAKK_MODEL_INTERACTIONS:
             log_prompt(prompt)
 
     def invoke(

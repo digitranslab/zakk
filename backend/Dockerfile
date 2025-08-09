@@ -1,9 +1,9 @@
 FROM python:3.11.7-slim-bookworm
 
-LABEL com.danswer.maintainer="founders@digi-trans.org"
-LABEL com.danswer.description="This image is the web/frontend container of Zakk which \
+LABEL com.zakk.maintainer="founders@digi-trans.org"
+LABEL com.zakk.description="This image is the web/frontend container of Zakk which \
 contains code for both the Community and Enterprise editions of Zakk. If you do not \
-have a contract or agreement with DanswerAI, you are not permitted to use the Enterprise \
+have a contract or agreement with ZakkAI, you are not permitted to use the Enterprise \
 Edition features outside of personal development or testing purposes. Please reach out to \
 founders@digi-trans.org for more information. Please visit https://github.com/digitranslab/zakk"
 
@@ -11,7 +11,7 @@ founders@digi-trans.org for more information. Please visit https://github.com/di
 ARG ZAKK_VERSION=0.0.0-dev
 # DO_NOT_TRACK is used to disable telemetry for Unstructured
 ENV ZAKK_VERSION=${ZAKK_VERSION} \
-    DANSWER_RUNNING_IN_DOCKER="true" \
+    ZAKK_RUNNING_IN_DOCKER="true" \
     DO_NOT_TRACK="true"
 
 

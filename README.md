@@ -24,7 +24,7 @@
 </a>
 </p>
 
-<strong>[Zakk](https://www.digi-trans.org/)</strong> (formerly Danswer) is the AI platform connected to your company's docs, apps, and people.
+<strong>[Zakk](https://www.digi-trans.org/)</strong> (formerly Zakk) is the AI platform connected to your company's docs, apps, and people.
 Zakk provides a feature rich Chat interface and plugs into any LLM of your choice.
 Keep knowledge and access controls sync-ed across over 40 connectors like Google Drive, Slack, Confluence, Salesforce, etc.
 Create custom AI agents with unique prompts, knowledge, and actions that the agents can take.

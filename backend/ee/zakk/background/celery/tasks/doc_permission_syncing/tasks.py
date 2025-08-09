@@ -35,7 +35,7 @@ from zakk.configs.app_configs import JOB_TIMEOUT
 from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
 from zakk.configs.constants import CELERY_PERMISSIONS_SYNC_LOCK_TIMEOUT
 from zakk.configs.constants import CELERY_TASK_WAIT_FOR_FENCE_TIMEOUT
-from zakk.configs.constants import DANSWER_REDIS_FUNCTION_LOCK_PREFIX
+from zakk.configs.constants import ZAKK_REDIS_FUNCTION_LOCK_PREFIX
 from zakk.configs.constants import DocumentSource
 from zakk.configs.constants import ZakkCeleryPriority
 from zakk.configs.constants import ZakkCeleryQueues
@@ -275,7 +275,7 @@ def try_creating_permissions_sync_task(
     redis_connector = RedisConnector(tenant_id, cc_pair_id)
 
     lock: RedisLock = r.lock(
-        DANSWER_REDIS_FUNCTION_LOCK_PREFIX + "try_generate_permissions_sync_tasks",
+        ZAKK_REDIS_FUNCTION_LOCK_PREFIX + "try_generate_permissions_sync_tasks",
         timeout=LOCK_TIMEOUT,
     )
 

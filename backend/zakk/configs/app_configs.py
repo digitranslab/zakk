@@ -155,7 +155,7 @@ TRACK_EXTERNAL_IDP_EXPIRY = (
 #####
 # DB Configs
 #####
-DOCUMENT_INDEX_NAME = "danswer_index"
+DOCUMENT_INDEX_NAME = "zakk_index"
 # Vespa is now the default document index store for both keyword and vector
 DOCUMENT_INDEX_TYPE = os.environ.get(
     "DOCUMENT_INDEX_TYPE", DocumentIndexType.COMBINED.value
@@ -625,8 +625,8 @@ LOG_ALL_MODEL_INTERACTIONS = (
     os.environ.get("LOG_ALL_MODEL_INTERACTIONS", "").lower() == "true"
 )
 # Logs Zakk only model interactions like prompts, responses, messages etc.
-LOG_DANSWER_MODEL_INTERACTIONS = (
-    os.environ.get("LOG_DANSWER_MODEL_INTERACTIONS", "").lower() == "true"
+LOG_ZAKK_MODEL_INTERACTIONS = (
+    os.environ.get("LOG_ZAKK_MODEL_INTERACTIONS", "").lower() == "true"
 )
 LOG_INDIVIDUAL_MODEL_TOKENS = (
     os.environ.get("LOG_INDIVIDUAL_MODEL_TOKENS", "").lower() == "true"
@@ -692,7 +692,7 @@ MAX_FEDERATED_CHUNKS = int(
 # NOTE: this should only be enabled if you have purchased an enterprise license.
 # if you're interested in an enterprise license, please reach out to us at
 # founders@digi-trans.org OR message Chris Weaver or Yuhong Sun in the Zakk
-# Slack community (https://join.slack.com/t/danswer/shared_invite/zt-1w76msxmd-HJHLe3KNFIAIzk_0dSOKaQ)
+# Slack community (https://join.slack.com/t/zakk/shared_invite/zt-1w76msxmd-HJHLe3KNFIAIzk_0dSOKaQ)
 ENTERPRISE_EDITION_ENABLED = (
     os.environ.get("ENABLE_PAID_ENTERPRISE_EDITION_FEATURES", "").lower() == "true"
 )

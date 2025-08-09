@@ -14,11 +14,11 @@ from zakk.chat.process_message import gather_stream_for_slack
 from zakk.chat.process_message import stream_chat_message_objects
 from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
 from zakk.configs.constants import DEFAULT_PERSONA_ID
-from zakk.configs.zakkbot_configs import DANSWER_BOT_DISABLE_DOCS_ONLY_ANSWER
-from zakk.configs.zakkbot_configs import DANSWER_BOT_DISPLAY_ERROR_MSGS
-from zakk.configs.zakkbot_configs import DANSWER_BOT_NUM_RETRIES
-from zakk.configs.zakkbot_configs import DANSWER_FOLLOWUP_EMOJI
-from zakk.configs.zakkbot_configs import DANSWER_REACT_EMOJI
+from zakk.configs.zakkbot_configs import ZAKK_BOT_DISABLE_DOCS_ONLY_ANSWER
+from zakk.configs.zakkbot_configs import ZAKK_BOT_DISPLAY_ERROR_MSGS
+from zakk.configs.zakkbot_configs import ZAKK_BOT_NUM_RETRIES
+from zakk.configs.zakkbot_configs import ZAKK_FOLLOWUP_EMOJI
+from zakk.configs.zakkbot_configs import ZAKK_REACT_EMOJI
 from zakk.configs.zakkbot_configs import MAX_THREAD_CONTEXT_PERCENTAGE
 from zakk.context.search.enums import OptionalSearchSetting
 from zakk.context.search.models import BaseFilters
@@ -71,10 +71,10 @@ def handle_regular_answer(
     channel: str,
     logger: ZakkLoggingAdapter,
     feedback_reminder_id: str | None,
-    num_retries: int = DANSWER_BOT_NUM_RETRIES,
+    num_retries: int = ZAKK_BOT_NUM_RETRIES,
     thread_context_percent: float = MAX_THREAD_CONTEXT_PERCENTAGE,
-    should_respond_with_error_msgs: bool = DANSWER_BOT_DISPLAY_ERROR_MSGS,
-    disable_docs_only_answer: bool = DANSWER_BOT_DISABLE_DOCS_ONLY_ANSWER,
+    should_respond_with_error_msgs: bool = ZAKK_BOT_DISPLAY_ERROR_MSGS,
+    disable_docs_only_answer: bool = ZAKK_BOT_DISABLE_DOCS_ONLY_ANSWER,
 ) -> bool:
     channel_conf = slack_channel_config.channel_config
 
@@ -262,7 +262,7 @@ def handle_regular_answer(
 
         # In case of failures, don't keep the reaction there permanently
         update_emote_react(
-            emoji=DANSWER_REACT_EMOJI,
+            emoji=ZAKK_REACT_EMOJI,
             channel=message_info.channel_to_respond,
             message_ts=message_info.msg_to_respond,
             remove=True,
@@ -317,7 +317,7 @@ def handle_regular_answer(
 
     # Got an answer at this point, can remove reaction and give results
     update_emote_react(
-        emoji=DANSWER_REACT_EMOJI,
+        emoji=ZAKK_REACT_EMOJI,
         channel=message_info.channel_to_respond,
         message_ts=message_info.msg_to_respond,
         remove=True,
@@ -329,7 +329,7 @@ def handle_regular_answer(
             "Answer was evaluated to be invalid, throwing it away without responding."
         )
         update_emote_react(
-            emoji=DANSWER_FOLLOWUP_EMOJI,
+            emoji=ZAKK_FOLLOWUP_EMOJI,
             channel=message_info.channel_to_respond,
             message_ts=message_info.msg_to_respond,
             remove=False,
@@ -366,7 +366,7 @@ def handle_regular_answer(
     if not answer.answer and disable_docs_only_answer:
         logger.notice(
             "Unable to find answer - not responding since the "
-            "`DANSWER_BOT_DISABLE_DOCS_ONLY_ANSWER` env variable is set"
+            "`ZAKK_BOT_DISABLE_DOCS_ONLY_ANSWER` env variable is set"
         )
         return True
 

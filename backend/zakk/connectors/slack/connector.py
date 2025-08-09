@@ -283,7 +283,7 @@ def default_msg_filter(message: MessageType) -> SlackMessageFilterReason | None:
     # Don't keep messages from bots
     if message.get("bot_id") or message.get("app_id"):
         bot_profile_name = message.get("bot_profile", {}).get("name")
-        if bot_profile_name == "DanswerBot Testing":
+        if bot_profile_name == "ZakkBot Testing":
             return None
         return SlackMessageFilterReason.BOT
 

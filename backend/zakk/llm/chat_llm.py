@@ -25,7 +25,7 @@ from langchain_core.messages.tool import ToolCallChunk
 from langchain_core.messages.tool import ToolMessage
 from langchain_core.prompt_values import PromptValue
 
-from zakk.configs.app_configs import LOG_DANSWER_MODEL_INTERACTIONS
+from zakk.configs.app_configs import LOG_ZAKK_MODEL_INTERACTIONS
 from zakk.configs.app_configs import MOCK_LLM_RESPONSE
 from zakk.configs.chat_configs import QA_TIMEOUT
 from zakk.configs.model_configs import (
@@ -464,7 +464,7 @@ class DefaultMultiLLM(LLM):
         timeout_override: int | None = None,
         max_tokens: int | None = None,
     ) -> BaseMessage:
-        if LOG_DANSWER_MODEL_INTERACTIONS:
+        if LOG_ZAKK_MODEL_INTERACTIONS:
             self.log_model_configs()
 
         response = cast(
@@ -497,7 +497,7 @@ class DefaultMultiLLM(LLM):
         timeout_override: int | None = None,
         max_tokens: int | None = None,
     ) -> Iterator[BaseMessage]:
-        if LOG_DANSWER_MODEL_INTERACTIONS:
+        if LOG_ZAKK_MODEL_INTERACTIONS:
             self.log_model_configs()
 
         if DISABLE_LITELLM_STREAMING:
@@ -551,7 +551,7 @@ class DefaultMultiLLM(LLM):
         if output:
             self._record_result(prompt, output)
 
-        if LOG_DANSWER_MODEL_INTERACTIONS and output:
+        if LOG_ZAKK_MODEL_INTERACTIONS and output:
             content = output.content or ""
             if isinstance(output, AIMessage):
                 if content:

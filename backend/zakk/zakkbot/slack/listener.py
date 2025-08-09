@@ -31,8 +31,8 @@ from zakk.configs.app_configs import POD_NAME
 from zakk.configs.app_configs import POD_NAMESPACE
 from zakk.configs.constants import MessageType
 from zakk.configs.constants import ZakkRedisLocks
-from zakk.configs.zakkbot_configs import DANSWER_BOT_REPHRASE_MESSAGE
-from zakk.configs.zakkbot_configs import DANSWER_BOT_RESPOND_EVERY_CHANNEL
+from zakk.configs.zakkbot_configs import ZAKK_BOT_REPHRASE_MESSAGE
+from zakk.configs.zakkbot_configs import ZAKK_BOT_RESPOND_EVERY_CHANNEL
 from zakk.configs.zakkbot_configs import NOTIFY_SLACKBOT_NO_ANSWER
 from zakk.connectors.slack.utils import expert_info_from_slack_id
 from zakk.context.search.retrieval.search_runner import (
@@ -821,7 +821,7 @@ def build_request_details(
 
         msg = remove_zakk_bot_tag(tenant_id, msg, client=client.web_client)
 
-        if DANSWER_BOT_REPHRASE_MESSAGE:
+        if ZAKK_BOT_REPHRASE_MESSAGE:
             logger.info(f"Rephrasing Slack message. Original message: {msg}")
             try:
                 msg = rephrase_slack_message(msg)
@@ -921,7 +921,7 @@ def apologize_for_fail(
 def process_message(
     req: SocketModeRequest,
     client: TenantSocketModeClient,
-    respond_every_channel: bool = DANSWER_BOT_RESPOND_EVERY_CHANNEL,
+    respond_every_channel: bool = ZAKK_BOT_RESPOND_EVERY_CHANNEL,
     notify_no_answer: bool = NOTIFY_SLACKBOT_NO_ANSWER,
 ) -> None:
     tenant_id = get_current_tenant_id()

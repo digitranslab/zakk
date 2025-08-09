@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ee.zakk.db.standard_answer import fetch_standard_answer_categories_by_names
 from ee.zakk.db.standard_answer import find_matching_standard_answers
 from zakk.configs.constants import MessageType
-from zakk.configs.zakkbot_configs import DANSWER_REACT_EMOJI
+from zakk.configs.zakkbot_configs import ZAKK_REACT_EMOJI
 from zakk.db.chat import create_chat_session
 from zakk.db.chat import create_new_chat_message
 from zakk.db.chat import get_chat_messages_by_sessions
@@ -197,7 +197,7 @@ def _handle_standard_answers(
         db_session.commit()
 
         update_emote_react(
-            emoji=DANSWER_REACT_EMOJI,
+            emoji=ZAKK_REACT_EMOJI,
             channel=message_info.channel_to_respond,
             message_ts=message_info.msg_to_respond,
             remove=True,

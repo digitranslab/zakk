@@ -28,7 +28,7 @@ from zakk.configs.app_configs import JOB_TIMEOUT
 from zakk.configs.constants import CELERY_GENERIC_BEAT_LOCK_TIMEOUT
 from zakk.configs.constants import CELERY_PRUNING_LOCK_TIMEOUT
 from zakk.configs.constants import CELERY_TASK_WAIT_FOR_FENCE_TIMEOUT
-from zakk.configs.constants import DANSWER_REDIS_FUNCTION_LOCK_PREFIX
+from zakk.configs.constants import ZAKK_REDIS_FUNCTION_LOCK_PREFIX
 from zakk.configs.constants import ZakkCeleryPriority
 from zakk.configs.constants import ZakkCeleryQueues
 from zakk.configs.constants import ZakkCeleryTask
@@ -287,7 +287,7 @@ def try_creating_prune_generator_task(
     # we need to serialize starting pruning since it can be triggered either via
     # celery beat or manually (API call)
     lock: RedisLock = r.lock(
-        DANSWER_REDIS_FUNCTION_LOCK_PREFIX + "try_creating_prune_generator_task",
+        ZAKK_REDIS_FUNCTION_LOCK_PREFIX + "try_creating_prune_generator_task",
         timeout=LOCK_TIMEOUT,
     )
 

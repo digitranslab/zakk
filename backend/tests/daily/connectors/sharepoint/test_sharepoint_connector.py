@@ -203,7 +203,7 @@ def test_sharepoint_connector_poll(
 ) -> None:
     # Initialize connector with the base site URL
     connector = SharepointConnector(
-        sites=["https://danswerai.sharepoint.com/sites/sharepoint-tests"]
+        sites=["https://zakkai.sharepoint.com/sites/sharepoint-tests"]
     )
 
     # Load credentials
@@ -235,7 +235,7 @@ def test_sharepoint_connector_pages(
 ) -> None:
     # Initialize connector with the base site URL
     connector = SharepointConnector(
-        sites=["https://danswerai.sharepoint.com/sites/sharepoint-tests-pages"]
+        sites=["https://zakkai.sharepoint.com/sites/sharepoint-tests-pages"]
     )
 
     # Load credentials

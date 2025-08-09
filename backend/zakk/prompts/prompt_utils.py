@@ -19,7 +19,7 @@ from zakk.utils.logger import setup_logger
 logger = setup_logger()
 
 
-_DANSWER_DATETIME_REPLACEMENT_PAT = "[[CURRENT_DATETIME]]"
+_ZAKK_DATETIME_REPLACEMENT_PAT = "[[CURRENT_DATETIME]]"
 _BASIC_TIME_STR = "The current date is {datetime_info}."
 
 
@@ -55,13 +55,13 @@ def handle_zakk_date_awareness(
     This can later be expanded to support other tags.
     """
 
-    if _DANSWER_DATETIME_REPLACEMENT_PAT in prompt_str:
+    if _ZAKK_DATETIME_REPLACEMENT_PAT in prompt_str:
         return prompt_str.replace(
-            _DANSWER_DATETIME_REPLACEMENT_PAT,
+            _ZAKK_DATETIME_REPLACEMENT_PAT,
             get_current_llm_day_time(full_sentence=False, include_day_of_week=True),
         )
     any_tag_present = any(
-        _DANSWER_DATETIME_REPLACEMENT_PAT in text
+        _ZAKK_DATETIME_REPLACEMENT_PAT in text
         for text in [prompt_str, prompt_config.system_prompt, prompt_config.task_prompt]
     )
     if add_additional_info_if_no_tag and not any_tag_present:

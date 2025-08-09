@@ -15,7 +15,7 @@ from sqlalchemy.sql.elements import KeyedColumnElement
 from zakk.auth.invited_users import get_invited_users
 from zakk.auth.invited_users import write_invited_users
 from zakk.auth.schemas import UserRole
-from zakk.db.api_key import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
+from zakk.db.api_key import ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN
 from zakk.db.models import DocumentSet__User
 from zakk.db.models import Persona__User
 from zakk.db.models import SamlAccount
@@ -149,7 +149,7 @@ def _get_accepted_user_where_clause(
     is_active_col: KeyedColumnElement[Any] = User.__table__.c.is_active
 
     where_clause: list[ColumnElement[bool]] = [
-        expression.not_(email_col.endswith(DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN))
+        expression.not_(email_col.endswith(ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN))
     ]
 
     if not include_external:

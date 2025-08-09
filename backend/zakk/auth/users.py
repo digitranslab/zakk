@@ -84,8 +84,8 @@ from zakk.configs.app_configs import VALID_EMAIL_DOMAINS
 from zakk.configs.app_configs import WEB_DOMAIN
 from zakk.configs.constants import ANONYMOUS_USER_COOKIE_NAME
 from zakk.configs.constants import AuthType
-from zakk.configs.constants import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
-from zakk.configs.constants import DANSWER_API_KEY_PREFIX
+from zakk.configs.constants import ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN
+from zakk.configs.constants import ZAKK_API_KEY_PREFIX
 from zakk.configs.constants import FASTAPI_USERS_AUTH_COOKIE_NAME
 from zakk.configs.constants import MilestoneRecordType
 from zakk.configs.constants import ZakkRedisLocks
@@ -142,9 +142,9 @@ def verify_auth_setting() -> None:
 
 
 def get_display_email(email: str | None, space_less: bool = False) -> str:
-    if email and email.endswith(DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN):
+    if email and email.endswith(ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN):
         name = email.split("@")[0]
-        if name == DANSWER_API_KEY_PREFIX + UNNAMED_KEY_PLACEHOLDER:
+        if name == ZAKK_API_KEY_PREFIX + UNNAMED_KEY_PLACEHOLDER:
             return "Unnamed API Key"
 
         if space_less:

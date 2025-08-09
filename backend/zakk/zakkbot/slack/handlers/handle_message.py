@@ -3,8 +3,8 @@ import datetime
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-from zakk.configs.zakkbot_configs import DANSWER_BOT_FEEDBACK_REMINDER
-from zakk.configs.zakkbot_configs import DANSWER_REACT_EMOJI
+from zakk.configs.zakkbot_configs import ZAKK_BOT_FEEDBACK_REMINDER
+from zakk.configs.zakkbot_configs import ZAKK_REACT_EMOJI
 from zakk.db.engine.sql_engine import get_session_with_current_tenant
 from zakk.db.models import SlackChannelConfig
 from zakk.db.users import add_slack_user_if_not_exists
@@ -39,7 +39,7 @@ def send_msg_ack_to_user(details: SlackMessageInfo, client: WebClient) -> None:
         return
 
     update_emote_react(
-        emoji=DANSWER_REACT_EMOJI,
+        emoji=ZAKK_REACT_EMOJI,
         channel=details.channel_to_respond,
         message_ts=details.msg_to_respond,
         remove=False,
@@ -52,7 +52,7 @@ def schedule_feedback_reminder(
 ) -> str | None:
     logger = setup_logger(extra={SLACK_CHANNEL_ID: details.channel_to_respond})
 
-    if not DANSWER_BOT_FEEDBACK_REMINDER:
+    if not ZAKK_BOT_FEEDBACK_REMINDER:
         logger.info("Scheduled feedback reminder disabled...")
         return None
 
@@ -66,7 +66,7 @@ def schedule_feedback_reminder(
         return None
 
     now = datetime.datetime.now()
-    future = now + datetime.timedelta(minutes=DANSWER_BOT_FEEDBACK_REMINDER)
+    future = now + datetime.timedelta(minutes=ZAKK_BOT_FEEDBACK_REMINDER)
 
     try:
         response = client.chat_scheduleMessage(

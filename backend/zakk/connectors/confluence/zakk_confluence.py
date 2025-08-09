@@ -714,7 +714,7 @@ class ZakkConfluence:
                 #         'type': 'known',
                 #         'accountId': '712020:35e60fbb-d0f3-4c91-b8c1-f2dd1d69462d',
                 #         'accountType': 'atlassian',
-                #         'email': 'chris@danswer.ai',
+                #         'email': 'chris@zakk.ai',
                 #         'publicName': 'Chris Weaver',
                 #         'profilePicture': {
                 #             'path': '/wiki/aa-avatar/712020:35e60fbb-d0f3-4c91-b8c1-f2dd1d69462d',
@@ -729,7 +729,7 @@ class ZakkConfluence:
                 #             'personalSpace': ''
                 #         },
                 #         '_links': {
-                #             'self': 'https://danswerai.atlassian.net/wiki/rest/api/user?accountId=712020:35e60fbb-d0f3-4c91-b8c1-f2dd1d69462d'
+                #             'self': 'https://zakkai.atlassian.net/wiki/rest/api/user?accountId=712020:35e60fbb-d0f3-4c91-b8c1-f2dd1d69462d'
                 #         }
                 #     },
                 #     'title': 'Chris Weaver',

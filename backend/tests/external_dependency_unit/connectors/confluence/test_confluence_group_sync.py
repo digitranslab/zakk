@@ -19,7 +19,7 @@ from tests.daily.connectors.confluence.models import ExternalUserGroupSet
 
 _EXPECTED_CONFLUENCE_GROUPS = [
     ExternalUserGroupSet(
-        id="confluence-admins-danswerai",
+        id="confluence-admins-zakkai",
         user_emails={"chris@digi-trans.org", "yuhong@digi-trans.org"},
         gives_anyone_access=False,
     ),
@@ -29,10 +29,10 @@ _EXPECTED_CONFLUENCE_GROUPS = [
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
-        id="confluence-users-danswerai",
+        id="confluence-users-zakkai",
         user_emails={
             "chris@digi-trans.org",
-            "hagen@danswer.ai",
+            "hagen@zakk.ai",
             "founders@digi-trans.org",
             "pablo@digi-trans.org",
             "yuhong@digi-trans.org",
@@ -40,9 +40,9 @@ _EXPECTED_CONFLUENCE_GROUPS = [
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
-        id="jira-users-danswerai",
+        id="jira-users-zakkai",
         user_emails={
-            "hagen@danswer.ai",
+            "hagen@zakk.ai",
             "founders@digi-trans.org",
             "pablo@digi-trans.org",
             "chris@digi-trans.org",
@@ -50,18 +50,18 @@ _EXPECTED_CONFLUENCE_GROUPS = [
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
-        id="jira-admins-danswerai",
-        user_emails={"hagen@danswer.ai", "founders@digi-trans.org", "pablo@digi-trans.org"},
+        id="jira-admins-zakkai",
+        user_emails={"hagen@zakk.ai", "founders@digi-trans.org", "pablo@digi-trans.org"},
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
-        id="confluence-user-access-admins-danswerai",
-        user_emails={"hagen@danswer.ai"},
+        id="confluence-user-access-admins-zakkai",
+        user_emails={"hagen@zakk.ai"},
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
-        id="jira-user-access-admins-danswerai",
-        user_emails={"hagen@danswer.ai"},
+        id="jira-user-access-admins-zakkai",
+        user_emails={"hagen@zakk.ai"},
         gives_anyone_access=False,
     ),
     ExternalUserGroupSet(
@@ -73,7 +73,7 @@ _EXPECTED_CONFLUENCE_GROUPS = [
         id="All_Confluence_Users_Found_By_Zakk",
         user_emails={
             "chris@digi-trans.org",
-            "hagen@danswer.ai",
+            "hagen@zakk.ai",
             "founders@digi-trans.org",
             "pablo@digi-trans.org",
             "yuhong@digi-trans.org",

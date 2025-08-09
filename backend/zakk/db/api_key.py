@@ -10,8 +10,8 @@ from zakk.auth.api_key import ApiKeyDescriptor
 from zakk.auth.api_key import build_displayable_api_key
 from zakk.auth.api_key import generate_api_key
 from zakk.auth.api_key import hash_api_key
-from zakk.configs.constants import DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
-from zakk.configs.constants import DANSWER_API_KEY_PREFIX
+from zakk.configs.constants import ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN
+from zakk.configs.constants import ZAKK_API_KEY_PREFIX
 from zakk.configs.constants import UNNAMED_KEY_PLACEHOLDER
 from zakk.db.models import ApiKey
 from zakk.db.models import User
@@ -20,7 +20,7 @@ from shared_configs.contextvars import get_current_tenant_id
 
 
 def get_api_key_email_pattern() -> str:
-    return DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN
+    return ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN
 
 
 def is_api_key_email_address(email: str) -> bool:
@@ -61,7 +61,7 @@ def get_api_key_fake_email(
     name: str,
     unique_id: str,
 ) -> str:
-    return f"{DANSWER_API_KEY_PREFIX}{name}@{unique_id}{DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN}"
+    return f"{ZAKK_API_KEY_PREFIX}{name}@{unique_id}{ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN}"
 
 
 def insert_api_key(

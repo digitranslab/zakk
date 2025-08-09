@@ -20,7 +20,7 @@ from zakk.configs.app_configs import DISABLE_GENERATIVE_AI
 from zakk.configs.app_configs import WEB_DOMAIN
 from zakk.configs.constants import DocumentSource
 from zakk.configs.constants import SearchFeedbackType
-from zakk.configs.zakkbot_configs import DANSWER_BOT_NUM_DOCS_TO_DISPLAY
+from zakk.configs.zakkbot_configs import ZAKK_BOT_NUM_DOCS_TO_DISPLAY
 from zakk.context.search.models import SavedSearchDoc
 from zakk.db.chat import get_chat_session_by_message_id
 from zakk.db.engine.sql_engine import get_session_with_current_tenant
@@ -240,7 +240,7 @@ def get_restate_blocks(
 def _build_documents_blocks(
     documents: list[SavedSearchDoc],
     message_id: int | None,
-    num_docs_to_display: int = DANSWER_BOT_NUM_DOCS_TO_DISPLAY,
+    num_docs_to_display: int = ZAKK_BOT_NUM_DOCS_TO_DISPLAY,
 ) -> list[Block]:
     header_text = (
         "Retrieved Documents" if DISABLE_GENERATIVE_AI else "Reference Documents"
@@ -299,7 +299,7 @@ def _build_documents_blocks(
 
 def _build_sources_blocks(
     cited_documents: list[tuple[int, SavedSearchDoc]],
-    num_docs_to_display: int = DANSWER_BOT_NUM_DOCS_TO_DISPLAY,
+    num_docs_to_display: int = ZAKK_BOT_NUM_DOCS_TO_DISPLAY,
 ) -> list[Block]:
     if not cited_documents:
         return [

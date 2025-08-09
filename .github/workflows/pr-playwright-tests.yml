@@ -123,14 +123,14 @@ jobs:
           REQUIRE_EMAIL_VERIFICATION=false \
           DISABLE_TELEMETRY=true \
           IMAGE_TAG=test \
-          docker compose -f docker-compose.dev.yml -p danswer-stack up -d
+          docker compose -f docker-compose.dev.yml -p zakk-stack up -d
         id: start_docker
 
       - name: Wait for service to be ready
         run: |
           echo "Starting wait-for-service script..."
 
-          docker logs -f danswer-stack-api_server-1 &
+          docker logs -f zakk-stack-api_server-1 &
 
           start_time=$(date +%s)
           timeout=300  # 5 minutes in seconds
@@ -184,7 +184,7 @@ jobs:
         if: success() || failure()
         run: |
           cd deployment/docker_compose
-          docker compose -f docker-compose.dev.yml -p danswer-stack logs > docker-compose.log
+          docker compose -f docker-compose.dev.yml -p zakk-stack logs > docker-compose.log
           mv docker-compose.log ${{ github.workspace }}/docker-compose.log
 
       - name: Upload logs
@@ -197,7 +197,7 @@ jobs:
       - name: Stop Docker containers
         run: |
           cd deployment/docker_compose
-          docker compose -f docker-compose.dev.yml -p danswer-stack down -v
+          docker compose -f docker-compose.dev.yml -p zakk-stack down -v
 
 # NOTE: Chromatic UI diff testing is currently disabled.
 # We are using Playwright for local and CI testing without visual regression checks.

@@ -13,7 +13,7 @@ from zakk.chat.models import CitationInfo
 from zakk.chat.models import QADocsResponse
 from zakk.configs.constants import MessageType
 from zakk.configs.constants import SearchFeedbackType
-from zakk.configs.zakkbot_configs import DANSWER_FOLLOWUP_EMOJI
+from zakk.configs.zakkbot_configs import ZAKK_FOLLOWUP_EMOJI
 from zakk.connectors.slack.utils import expert_info_from_slack_id
 from zakk.context.search.models import SavedSearchDoc
 from zakk.db.chat import get_chat_message
@@ -463,7 +463,7 @@ def handle_followup_button(
     thread_ts = req.payload["container"].get("thread_ts", None)
 
     update_emote_react(
-        emoji=DANSWER_FOLLOWUP_EMOJI,
+        emoji=ZAKK_FOLLOWUP_EMOJI,
         channel=channel_id,
         message_ts=thread_ts,
         remove=False,
@@ -548,7 +548,7 @@ def handle_followup_resolved_button(
     clicker_name = get_clicker_name(req, client)
 
     update_emote_react(
-        emoji=DANSWER_FOLLOWUP_EMOJI,
+        emoji=ZAKK_FOLLOWUP_EMOJI,
         channel=channel_id,
         message_ts=thread_ts,
         remove=True,

@@ -4,7 +4,7 @@ import React, { memo } from "react";
 import { HeaderTitle } from "@/components/header/HeaderTitle";
 import { Logo } from "@/components/logo/Logo";
 import { SettingsContext } from "@/components/settings/SettingsProvider";
-import { NEXT_PUBLIC_DO_NOT_USE_TOGGLE_OFF_DANSWER_POWERED } from "@/lib/constants";
+import { NEXT_PUBLIC_DO_NOT_USE_TOGGLE_OFF_ZAKK_POWERED } from "@/lib/constants";
 import Link from "next/link";
 import { useContext } from "react";
 import { FiSidebar } from "react-icons/fi";
@@ -41,7 +41,7 @@ export const LogoComponent = memo(function LogoComponent({
             <HeaderTitle backgroundToggled={backgroundToggled}>
               {enterpriseSettings.application_name}
             </HeaderTitle>
-            {!NEXT_PUBLIC_DO_NOT_USE_TOGGLE_OFF_DANSWER_POWERED && (
+            {!NEXT_PUBLIC_DO_NOT_USE_TOGGLE_OFF_ZAKK_POWERED && (
               <p className="text-xs text-left text-subtle whitespace-nowrap overflow-hidden text-ellipsis">
                 Powered by Zakk
               </p>

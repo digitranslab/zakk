@@ -1,7 +1,7 @@
 FROM python:3.11.7-slim-bookworm
 
-LABEL com.danswer.maintainer="founders@digi-trans.org"
-LABEL com.danswer.description="This image is for the Zakk model server which runs all of the \
+LABEL com.zakk.maintainer="founders@digi-trans.org"
+LABEL com.zakk.description="This image is for the Zakk model server which runs all of the \
 AI models for Zakk. This container and all the code is MIT Licensed and free for all to use. \
 You can find it at https://hub.docker.com/r/zakk/zakk-model-server. For more details, \
 visit https://github.com/digitranslab/zakk."
@@ -9,7 +9,7 @@ visit https://github.com/digitranslab/zakk."
 # Default ZAKK_VERSION, typically overriden during builds by GitHub Actions.
 ARG ZAKK_VERSION=0.0.0-dev
 ENV ZAKK_VERSION=${ZAKK_VERSION} \
-    DANSWER_RUNNING_IN_DOCKER="true"
+    ZAKK_RUNNING_IN_DOCKER="true"
 
 RUN echo "ZAKK_VERSION: ${ZAKK_VERSION}"
 
@@ -22,19 +22,54 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY ./requirements/model_server.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir --upgrade \
-        --retries 5 \
-        --timeout 30 \
-        -r /tmp/requirements.txt && \
-    # Clean up pip cache immediately
-    rm -rf ~/.cache/pip
+# Use CPU-only requirements to dramatically reduce package sizes
+COPY ./requirements/model_server_cpu.txt /tmp/requirements.txt
 
-# Remove unnecessary packages and clean up
-RUN apt-get remove -y --allow-remove-essential perl-base && \ 
-    apt-get autoremove -y && \
+# Install packages in stages to manage disk space
+RUN pip install --no-cache-dir --upgrade pip && \
+    # Install base packages first
+    pip install --no-cache-dir \
+        --retries 3 \
+        --timeout 60 \
+        numpy==1.26.4 \
+        packaging \
+        pyyaml && \
+    # Clean immediately after base install
+    rm -rf ~/.cache/pip /tmp/pip-* && \
+    # Install PyTorch CPU-only (much smaller than GPU version)
+    pip install --no-cache-dir \
+        --index-url https://download.pytorch.org/whl/cpu \
+        --retries 3 \
+        --timeout 120 \
+        torch==2.6.0+cpu && \
+    # Clean immediately after torch
+    rm -rf ~/.cache/pip /tmp/pip-* && \
+    # Install remaining requirements
+    pip install --no-cache-dir \
+        --retries 3 \
+        --timeout 60 \
+        -r /tmp/requirements.txt && \
+    # Final cleanup
+    rm -rf ~/.cache/pip /tmp/pip-* /tmp/requirements.txt
+
+# Aggressive cleanup of unnecessary packages
+RUN apt-get remove -y --allow-remove-essential \
+        perl-base \
+        man-db \
+        manpages \
+        info \
+        wget \
+        curl && \
+    apt-get autoremove -y --purge && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf \
+        /var/lib/apt/lists/* \
+        /var/cache/apt/archives/* \
+        /usr/share/man/* \
+        /usr/share/doc/* \
+        /usr/share/locale/* \
+        /tmp/* \
+        /var/tmp/*
 
 # Copy the model download script
 COPY ./download_models.py /tmp/download_models.py

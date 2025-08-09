@@ -37,35 +37,58 @@ jobs:
 
       - name: Pre-build cleanup
         run: |
-          echo "=== Pre-build disk space ==="
+          echo "=== Initial disk space ==="
           df -h
-          free -h
           
-          echo "=== Aggressive system cleanup ==="
+          echo "=== Remove large unused software ==="
+          # Remove .NET, Android, and other large development tools
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /opt/hostedtoolcache/Java_Temurin-Hotspot
+          sudo rm -rf /opt/hostedtoolcache/Ruby
+          sudo rm -rf /opt/hostedtoolcache/go
+          sudo rm -rf /opt/hostedtoolcache/node
+          sudo rm -rf /opt/hostedtoolcache/Python
+          
+          echo "=== Remove unnecessary packages ==="
+          sudo apt-get remove -y --purge \
+            azure-cli \
+            hhvm \
+            google-cloud-sdk \
+            firefox \
+            google-chrome-stable \
+            microsoft-edge-stable \
+            mono-devel \
+            msbuild \
+            powershell \
+            dotnet-* \
+            llvm-* \
+            php* \
+            mysql-* \
+            postgresql-* || true
+          
+          echo "=== Clean package manager ==="
+          sudo apt-get autoremove -y --purge
+          sudo apt-get autoclean
           sudo apt-get clean
-          sudo apt-get autoremove -y
           sudo rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/cache/apt/archives/*
           
           echo "=== Aggressive Docker cleanup ==="
           docker system prune -af --volumes
           docker builder prune -af
           docker image prune -af
           
-          echo "=== Clear all caches ==="
-          rm -rf ~/.cache/pip
-          rm -rf ~/.cache/huggingface
-          rm -rf ~/.cache/npm
-          rm -rf ~/.cache/yarn
-          rm -rf ~/.cache/go
-          rm -rf ~/.cache/cargo
+          echo "=== Clear all caches and temp files ==="
+          sudo rm -rf ~/.cache /root/.cache /home/*/.cache
+          sudo rm -rf /tmp/* /var/tmp/*
           
-          echo "=== Clear temporary files ==="
-          sudo find /tmp -type f -atime +1 -delete 2>/dev/null || true
-          sudo find /var/tmp -type f -atime +1 -delete 2>/dev/null || true
-          
-          echo "=== Post-cleanup disk space ==="
+          echo "=== Final disk space ==="
           df -h
-          free -h
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -89,14 +112,11 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY_IMAGE }}:${{ github.ref_name }}-amd64
           build-args: |
-            DANSWER_VERSION=${{ github.ref_name }}
+            ZAKK_VERSION=${{ github.ref_name }}
           outputs: type=registry
           provenance: false
-          # Force no-cache to prevent disk space issues
+          # Disable all caching to save maximum disk space
           no-cache: true
-          # Minimal cache usage if needed
-          cache-from: type=gha
-          cache-to: type=gha,mode=min
 
       - name: Post-build cleanup
         run: |
@@ -122,35 +142,58 @@ jobs:
 
       - name: Pre-build cleanup
         run: |
-          echo "=== Pre-build disk space ==="
+          echo "=== Initial disk space ==="
           df -h
-          free -h
           
-          echo "=== Aggressive system cleanup ==="
+          echo "=== Remove large unused software ==="
+          # Remove .NET, Android, and other large development tools
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /opt/hostedtoolcache/Java_Temurin-Hotspot
+          sudo rm -rf /opt/hostedtoolcache/Ruby
+          sudo rm -rf /opt/hostedtoolcache/go
+          sudo rm -rf /opt/hostedtoolcache/node
+          sudo rm -rf /opt/hostedtoolcache/Python
+          
+          echo "=== Remove unnecessary packages ==="
+          sudo apt-get remove -y --purge \
+            azure-cli \
+            hhvm \
+            google-cloud-sdk \
+            firefox \
+            google-chrome-stable \
+            microsoft-edge-stable \
+            mono-devel \
+            msbuild \
+            powershell \
+            dotnet-* \
+            llvm-* \
+            php* \
+            mysql-* \
+            postgresql-* || true
+          
+          echo "=== Clean package manager ==="
+          sudo apt-get autoremove -y --purge
+          sudo apt-get autoclean
           sudo apt-get clean
-          sudo apt-get autoremove -y
           sudo rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/cache/apt/archives/*
           
           echo "=== Aggressive Docker cleanup ==="
           docker system prune -af --volumes
           docker builder prune -af
           docker image prune -af
           
-          echo "=== Clear all caches ==="
-          rm -rf ~/.cache/pip
-          rm -rf ~/.cache/huggingface
-          rm -rf ~/.cache/npm
-          rm -rf ~/.cache/yarn
-          rm -rf ~/.cache/go
-          rm -rf ~/.cache/cargo
+          echo "=== Clear all caches and temp files ==="
+          sudo rm -rf ~/.cache /root/.cache /home/*/.cache
+          sudo rm -rf /tmp/* /var/tmp/*
           
-          echo "=== Clear temporary files ==="
-          sudo find /tmp -type f -atime +1 -delete 2>/dev/null || true
-          sudo find /var/tmp -type f -atime +1 -delete 2>/dev/null || true
-          
-          echo "=== Post-cleanup disk space ==="
+          echo "=== Final disk space ==="
           df -h
-          free -h
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -174,14 +217,11 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY_IMAGE }}:${{ github.ref_name }}-arm64
           build-args: |
-            DANSWER_VERSION=${{ github.ref_name }}
+            ZAKK_VERSION=${{ github.ref_name }}
           outputs: type=registry
           provenance: false
-          # Force no-cache to prevent disk space issues
+          # Disable all caching to save maximum disk space
           no-cache: true
-          # Minimal cache usage if needed
-          cache-from: type=gha
-          cache-to: type=gha,mode=min
 
       - name: Post-build cleanup
         run: |

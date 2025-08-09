@@ -75,8 +75,8 @@ POSTGRES_UNKNOWN_APP_NAME = "unknown"
 
 SSL_CERT_FILE = "bundle.pem"
 # API Keys
-DANSWER_API_KEY_PREFIX = "API_KEY__"
-DANSWER_API_KEY_DUMMY_EMAIL_DOMAIN = "zakkapikey.ai"
+ZAKK_API_KEY_PREFIX = "API_KEY__"
+ZAKK_API_KEY_DUMMY_EMAIL_DOMAIN = "zakkapikey.ai"
 UNNAMED_KEY_PLACEHOLDER = "Unnamed"
 
 # Key-Value store keys
@@ -136,7 +136,7 @@ CELERY_PERMISSIONS_SYNC_LOCK_TIMEOUT = 3600  # 1 hour (in seconds)
 
 CELERY_EXTERNAL_GROUP_SYNC_LOCK_TIMEOUT = 300  # 5 min
 
-DANSWER_REDIS_FUNCTION_LOCK_PREFIX = "da_function_lock:"
+ZAKK_REDIS_FUNCTION_LOCK_PREFIX = "da_function_lock:"
 
 
 class DocumentSource(str, Enum):
